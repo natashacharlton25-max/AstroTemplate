@@ -1,0 +1,216 @@
+---
+// Moon Energy Search Component
+---
+
+<section class="section">
+  <div class="container">
+    <div class="max-w-4xl mx-auto">
+      <!-- Main Headline -->
+      <div class="text-center mb-12">
+        <h2 class="text-accent mb-4">Align every phase with</h2>
+        <h2 class="text-primary">peak performance</h2>
+      </div>
+      
+      <!-- Search Interface -->
+      <div class="glass p-8 max-w-2xl mx-auto mb-8">
+  <h3 class="text-2xl font-semibold mb-6 text-white">Search Moon Energy</h3>
+        <div class="relative">
+          <input
+            id="moonSearch"
+            type="text"
+            placeholder="e.g. manifest confidence"
+            class="w-full p-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:bg-white/30 transition-all duration-200"
+          />
+          <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
+            <svg class="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Search Results -->
+      <div id="searchResults" class="space-y-6 max-w-6xl mx-auto"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .glass {
+    background: rgba(24, 78, 119, 0.47);
+    backdrop-filter: blur(8.6px);
+    -webkit-backdrop-filter: blur(8.6px);
+    border: 1px solid rgba(24, 78, 119, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+  }
+  
+  .result-card {
+  @apply glass p-6 text-white;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  
+  .result-content h4 {
+  @apply text-xl font-semibold mb-3 text-white;
+  }
+  
+  .result-content p {
+    @apply mb-2 text-white/90;
+  }
+  
+  .result-dates {
+    @apply text-sm;
+  }
+  
+  .dates-list {
+    @apply list-none pl-0 mt-2 space-y-1;
+  }
+  
+  @media (max-width: 768px) {
+    .result-card {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>
+
+<script>
+  interface MoonGuidance {
+    phase: string;
+    sign: string;
+    house: string;
+    title: string;
+    manifesting: string;
+    guidance: string;
+    affirmation: string;
+  }
+  
+  // Sample data - in production this would come from the Excel file
+  const sampleData: MoonGuidance[] = [
+    {
+      phase: "Full Moon",
+      sign: "Aries",
+      house: "First House",
+      title: "Full Moon in Aries",
+      manifesting: "Confidence and Leadership",
+      guidance: "Channel your inner warrior energy to manifest bold new beginnings",
+      affirmation: "I am confident in my abilities and trust my instincts"
+    },
+    {
+      phase: "New Moon",
+      sign: "Taurus",
+      house: "Second House", 
+      title: "New Moon in Taurus",
+      manifesting: "Abundance and Security",
+      guidance: "Ground yourself in practical manifestation and material stability",
+      affirmation: "I attract abundance through steady, purposeful action"
+    },
+    {
+      phase: "First Quarter",
+      sign: "Leo",
+      house: "Fifth House",
+      title: "First Quarter in Leo",
+      manifesting: "Creative Expression",
+      guidance: "Express your authentic self boldly and embrace your creative power",
+      affirmation: "I shine my light brightly and inspire others through my creativity"
+    },
+    {
+      phase: "Full Moon",
+      sign: "Scorpio",
+      house: "Eighth House",
+      title: "Full Moon in Scorpio", 
+      manifesting: "Transformation and Healing",
+      guidance: "Release what no longer serves and embrace profound transformation",
+      affirmation: "I welcome transformation and trust the process of renewal"
+    }
+  ];
+  
+  function generateUpcomingDates(count: number = 5): string[] {
+    const dates: string[] = [];
+    const today = new Date();
+    
+    for (let i = 0; i < count; i++) {
+      const futureDate = new Date(today);
+      futureDate.setDate(today.getDate() + (i * 28) + Math.floor(Math.random() * 14));
+      dates.push(futureDate.toLocaleDateString('en-US', { 
+        month: 'long', 
+        day: 'numeric', 
+        year: 'numeric' 
+      }));
+    }
+    
+    return dates;
+  }
+  
+  function renderSearchResults(results: MoonGuidance[]) {
+    const resultsContainer = document.getElementById('searchResults');
+    if (!resultsContainer) return;
+    
+    if (results.length === 0) {
+      resultsContainer.innerHTML = '<p class="text-center text-primary">No matches found. Try a different search term.</p>';
+      return;
+    }
+    
+    resultsContainer.innerHTML = results.map(result => `
+      <div class="result-card">
+        <div class="result-content">
+          <h4>${result.title}</h4>
+          <p><strong>Phase:</strong> ${result.phase}</p>
+          <p><strong>Sign:</strong> ${result.sign}</p>
+          <p><strong>House:</strong> ${result.house}</p>
+          <p><strong>Manifesting:</strong> ${result.manifesting}</p>
+          <p><strong>Guidance:</strong> ${result.guidance}</p>
+          <p><strong>Affirmation:</strong> ${result.affirmation}</p>
+        </div>
+        <div class="result-dates">
+          <strong>Upcoming Dates:</strong>
+          <ul class="dates-list">
+            ${generateUpcomingDates(4).map(date => `<li>${date}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  function searchMoonGuidance(query: string): MoonGuidance[] {
+    if (!query.trim()) return [];
+    
+    const searchTerms = query.toLowerCase().split(' ');
+    
+    return sampleData.filter(item => {
+      const searchableText = [
+        item.phase, item.sign, item.house, item.title, 
+        item.manifesting, item.guidance, item.affirmation
+      ].join(' ').toLowerCase();
+      
+      return searchTerms.some(term => searchableText.includes(term));
+    });
+  }
+  
+  function initSearch() {
+    const searchInput = document.getElementById('moonSearch') as HTMLInputElement;
+    if (!searchInput) return;
+    
+    let searchTimeout: NodeJS.Timeout;
+    
+    searchInput.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value;
+      
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const results = searchMoonGuidance(query);
+        renderSearchResults(results);
+      }, 300);
+    });
+  }
+  
+  // Initialize search functionality
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearch);
+  } else {
+    initSearch();
+  }
+</script>

@@ -1,0 +1,77 @@
+---
+// Customer testimonial section
+---
+
+<section class="section bg-cream">
+  <div class="container">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Star Rating -->
+      <div class="mb-8">
+        <div class="text-6xl text-accent mb-4">★★★★★</div>
+      </div>
+      
+      <!-- Testimonial Content -->
+      <div class="mb-8">
+        <blockquote class="text-xl md:text-2xl text-primary leading-relaxed mb-6 font-light">
+          "Working with IC the Moon's phase-based plan gave me clear, actionable steps each week. 
+          In just one lunar cycle, I saw a 30% boost in focus and energy."
+        </blockquote>
+        
+        <!-- Customer Info -->
+        <div class="flex items-center justify-center space-x-4">
+          <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold text-lg">MT</span>
+          </div>
+          <div class="text-left">
+            <div class="font-semibold text-primary">Maya Thompson</div>
+            <div class="text-primary/70 text-sm">Product Manager</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  blockquote {
+    position: relative;
+  }
+  
+  blockquote::before,
+  blockquote::after {
+    content: '"';
+    font-size: 4rem;
+    color: var(--accent-pink);
+    position: absolute;
+    line-height: 1;
+    font-family: serif;
+  }
+  
+  blockquote::before {
+    top: -2rem;
+    left: -2rem;
+  }
+  
+  blockquote::after {
+    bottom: -2rem;
+    right: -2rem;
+    transform: rotate(180deg);
+  }
+  
+  @media (max-width: 768px) {
+    blockquote::before,
+    blockquote::after {
+      font-size: 2.5rem;
+    }
+    
+    blockquote::before {
+      top: -1rem;
+      left: -1rem;
+    }
+    
+    blockquote::after {
+      bottom: -1rem;
+      right: -1rem;
+    }
+  }
+</style>

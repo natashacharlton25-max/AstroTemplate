@@ -1,14 +1,22 @@
 {
-  "name": "my-astro-template",
+  "name": "icthemoon-astro",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "start": "astro dev",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.13.4"
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/vite": "^4.1.12",
+    "astro": "^5.13.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.4.17"
   }
 }

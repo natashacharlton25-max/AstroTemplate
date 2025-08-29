@@ -1,0 +1,171 @@
+---
+// Hero section with animated rotating text
+---
+
+<section class="hero-section min-h-screen flex items-center justify-center relative overflow-hidden">
+  <!-- Background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-cream via-cream to-gray-light/20"></div>
+  
+  <div class="container relative z-10">
+    <div class="max-w-6xl mx-auto text-left">
+      <!-- Animated Hero Text -->
+      <div class="hero-animation">
+        <div class="hero-line upgrade opacity-0">UPGRADE</div>
+        <div class="hero-line your opacity-0">YOUR</div>
+        <div class="rotating-text-container opacity-0">
+          <span class="rotating-word" id="rotatingWord"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    background-color: var(--background-cream);
+    position: relative;
+  }
+  
+  .hero-animation {
+    text-align: left;
+    padding-left: 2rem;
+  }
+  
+  .hero-line {
+    font-size: clamp(3rem, 12vw, 12rem);
+    font-weight: 800;
+    color: var(--primary-blue);
+    line-height: 1;
+    margin-bottom: 0.2em;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .hero-line.upgrade {
+    animation-delay: 0.2s;
+  }
+  
+  .hero-line.your {
+    animation-delay: 0.8s;
+  }
+  
+  .rotating-text-container {
+    position: relative;
+    display: inline-block;
+    font-size: clamp(3rem, 12vw, 12rem);
+    font-weight: 800;
+    height: 1.4em;
+    perspective: 1000px;
+    overflow: visible;
+    line-height: 1;
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 1.4s;
+    min-width: 300px;
+  }
+  
+  .rotating-word {
+    display: inline-block;
+    transform-origin: center bottom;
+    backface-visibility: hidden;
+    white-space: nowrap;
+    color: var(--accent-pink);
+    text-shadow: 0 0 20px rgba(235, 214, 219, 0.3);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-animation {
+      padding-left: 0;
+      text-align: center;
+    }
+    
+    .rotating-text-container {
+      min-width: 250px;
+    }
+  }
+</style>
+
+<script>
+  function initHeroAnimation() {
+    const words = [
+      "LIFE", "FOCUS", "POWER", "ENERGY", "ALIGNMENT", "CLARITY", "PURPOSE",
+      "RHYTHM", "GROWTH", "SOLUTIONS", "TRUTH", "LOVE", "HARMONY",
+      "JOURNEY", "CYCLE", "INTUITION", "EXPANSION", "INTENTION", "VIBRATION",
+      "LIFE"
+    ];
+    
+    const rotatingWord = document.getElementById('rotatingWord');
+    const container = document.querySelector('.rotating-text-container');
+    
+    if (!rotatingWord || !container) return;
+    
+    let index = 0;
+    let maxWidth = 0;
+    
+    function showNextWord() {
+      const isLast = (index === words.length - 1);
+      if (!rotatingWord) return;
+      rotatingWord.textContent = words[index];
+      
+      // Adjust container width based on word length
+      const wordWidth = rotatingWord.getBoundingClientRect().width;
+      if (wordWidth > maxWidth) {
+        maxWidth = wordWidth;
+        if (container) {
+          (container as HTMLElement).style.width = `${maxWidth + 40}px`;
+        }
+      }
+      
+      // Animation frames
+      const keyframes = isLast
+        ? [
+            { transform: 'rotateX(-90deg)', opacity: 0 },
+            { transform: 'rotateX(0deg)', opacity: 1 },
+            { transform: 'rotateX(0deg)', opacity: 1 }
+          ]
+        : [
+            { transform: 'rotateX(-90deg)', opacity: 0 },
+            { transform: 'rotateX(0deg)', opacity: 1 },
+            { transform: 'rotateX(0deg)', opacity: 1 },
+            { transform: 'rotateX(90deg)', opacity: 0 }
+          ];
+      
+      if (rotatingWord) {
+        const animation = rotatingWord.animate(keyframes, {
+          duration: 2500,
+          easing: 'ease-in-out',
+          fill: 'forwards'
+        });
+        
+        animation.onfinish = () => {
+          if (!isLast) {
+            index++;
+            setTimeout(showNextWord, 800);
+          }
+        };
+      }
+    }
+    
+    // Start animation after delay
+    setTimeout(showNextWord, 2000);
+  }
+  
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroAnimation);
+  } else {
+    initHeroAnimation();
+  }
+</script>

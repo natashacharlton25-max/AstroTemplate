@@ -1,16 +1,178 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import GlassmorphicNav from '../components/GlassmorphicNav.astro';
+import HeroSection from '../components/HeroSection.astro';
+import SearchSection from '../components/SearchSection.astro';
+import TestimonialSection from '../components/TestimonialSection.astro';
+import AnimatedFooter from '../components/AnimatedFooter.astro';
+import '../styles/global.css';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="IC the Moon - Transform Your Life Through Lunar Wisdom">
+  <!-- Glassmorphic Navigation -->
+  <GlassmorphicNav />
+
+  <main>
+    <!-- Hero Section -->
+    <HeroSection />
+    
+    <!-- Search and Main Content -->
+    <SearchSection />
+    
+    <!-- Value Proposition Section -->
+    <section class="section">
+      <div class="container">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-accent mb-6">Empower progress with lunar energy.</h2>
+            <ul class="space-y-4 text-lg">
+              <li class="flex items-start">
+                <span class="text-accent mr-3">•</span>
+                <span>Personalized lunar phase guidance</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-accent mr-3">•</span>
+                <span>Evidence-based manifestation strategies</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-accent mr-3">•</span>
+                <span>Weekly actionable insights</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-accent mr-3">•</span>
+                <span>Community support and resources</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-accent mr-3">•</span>
+                <span>Track your progress over lunar cycles</span>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Dropdown Navigation Component -->
+          <div class="text-center">
+            <div class="dropdown-container">
+              <button class="neumorphic-btn dropdown-trigger" id="exploreBtn">
+                Explore & Upgrade
+              </button>
+              
+              <div class="dropdown-menu" id="dropdownMenu">
+                <ul class="space-y-2">
+                  <li><a href="/projects#understanding-lunar-energy" class="dropdown-link">Understanding Lunar Energy</a></li>
+                  <li><a href="/the-full-moons" class="dropdown-link">The Full Moons</a></li>
+                  <li><a href="/about#ourstory" class="dropdown-link">Our Story</a></li>
+                  <li><a href="/resources" class="dropdown-link">Our Resources</a></li>
+                  <li><a href="https://insights.icthemoon.com/" target="_blank" class="dropdown-link">Articles & Insights</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Testimonial Section -->
+    <TestimonialSection />
+    
+    <!-- Coming Soon Section -->
+    <section class="section bg-gradient-to-br from-primary/5 to-accent/5">
+      <div class="container text-center">
+        <div class="max-w-3xl mx-auto">
+          <p class="text-lg text-accent mb-4">Elevate Your Everyday</p>
+          <h2 class="mb-6">
+            <span class="text-accent">coming</span> <span class="text-primary">soon</span>
+          </h2>
+          <p class="text-lg text-primary mb-8">
+            Be the first to elevate your next cycle—join our launch list for personal coaching.
+          </p>
+          <a href="/subscribe" class="neumorphic-btn">subscribe</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Inspirational Quote -->
+    <section class="section">
+      <div class="container text-center">
+        <div class="max-w-4xl mx-auto">
+          <blockquote class="text-3xl md:text-4xl font-light leading-relaxed">
+            "You <span class="text-accent font-medium">don't</span> have to 
+            <span class="text-accent font-medium">compromise on</span> your dreams, 
+            there is always a way through to <span class="text-accent font-medium">success.</span>"
+          </blockquote>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Contact CTA -->
+    <section class="section bg-cream">
+      <div class="container text-center">
+        <div class="max-w-3xl mx-auto">
+          <h3 class="text-accent mb-4">Have questions or <span class="text-primary">share your thoughts?</span></h3>
+          <p class="text-lg text-primary mb-8 leading-relaxed">
+            We'd love to hear from you! Reach out anytime for guidance, insights, 
+            or just to chat about how lunar energy can support your growth.
+          </p>
+          <a href="/contact" class="neumorphic-btn">contact us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Animated Footer -->
+  <AnimatedFooter />
+</Layout>
+
+<style>
+  .dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.5rem;
+    min-width: 300px;
+    background: var(--primary-blue);
+    border-radius: 25px;
+    box-shadow: 4px 4px 6px rgba(0,0,0,.2), -4px -4px 6px rgba(255,255,255,.7), 
+                inset 4px 4px 6px rgba(0,0,0,.4), inset -4px -4px 6px rgba(255,255,255,.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 50;
+    padding: 1rem 0;
+  }
+  
+  .dropdown-container:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  .dropdown-link {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-light);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+  }
+  
+  .dropdown-link:hover {
+    color: var(--accent-pink);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    .dropdown-menu {
+      min-width: 280px;
+      font-size: 0.8rem;
+    }
+  }
+</style>

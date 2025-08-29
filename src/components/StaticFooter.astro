@@ -1,0 +1,146 @@
+---
+// Simple Static Footer Component
+---
+
+<footer class="static-footer">
+  <div class="footer-container">
+    <!-- Logo Column -->
+    <div class="logo-section">
+      <img src="/images/Circle-logo.svg" alt="IC the Moon" class="footer-logo" />
+      <h3 class="footer-brand">IC the Moon</h3>
+    </div>
+    
+    <!-- Content Column -->
+    <div class="content-section">
+      <p class="footer-description">
+        Empowering personal growth through natural strategies and lunar wisdom.
+      </p>
+      
+      <div class="footer-links">
+        <a href="/about" class="footer-link">About</a>
+        <a href="/projects" class="footer-link">Projects</a>
+        <a href="/contact" class="footer-link">Contact</a>
+        <a href="https://insights.icthemoon.com" class="footer-link" target="_blank">Insights</a>
+      </div>
+      
+      <div class="footer-copyright">
+        <p>&copy; 2024 IC the Moon. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .static-footer {
+    background: var(--cream-bg, #fff8f0);
+    padding: 60px 40px 40px;
+    font-family: 'Poppins', sans-serif;
+    border-top: 1px solid rgba(24, 78, 119, 0.1);
+    position: relative;
+    z-index: 100;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+  }
+
+  .logo-section {
+    flex: 0 0 25%;
+    text-align: center;
+  }
+
+  .footer-logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  .footer-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-blue, #184e77);
+    margin: 0;
+  }
+
+  .content-section {
+    flex: 1;
+  }
+
+  .footer-description {
+    font-size: 1.1rem;
+    color: var(--brand-blue, #184e77);
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    max-width: 500px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+
+  .footer-link {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--brand-blue, #184e77);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--pink-accent, #e63961);
+    transition: width 0.3s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--pink-accent, #e63961);
+  }
+
+  .footer-link:hover::after {
+    width: 100%;
+  }
+
+  .footer-copyright {
+    font-size: 0.9rem;
+    color: var(--brand-blue, #184e77);
+    opacity: 0.7;
+  }
+
+  .footer-copyright p {
+    margin: 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .static-footer {
+      padding: 40px 20px 30px;
+    }
+    
+    .footer-container {
+      flex-direction: column;
+      text-align: center;
+      gap: 30px;
+    }
+    
+    .logo-section {
+      flex: none;
+    }
+    
+    .footer-links {
+      justify-content: center;
+    }
+  }
+</style>
