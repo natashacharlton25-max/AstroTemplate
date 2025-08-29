@@ -6,6 +6,7 @@ import SearchSection from '../components/SearchSection.astro';
 import TestimonialSection from '../components/TestimonialSection.astro';
 import AnimatedFooter from '../components/AnimatedFooter.astro';
 import '../styles/global.css';
+import DropdownMenu from '../components/DropdownMenu.astro';
 ---
 
 <Layout title="IC the Moon - Transform Your Life Through Lunar Wisdom">
@@ -49,27 +50,17 @@ import '../styles/global.css';
             </ul>
           </div>
           
-          <!-- Dropdown Navigation Component -->
-          <div class="text-center">
-            <div class="dropdown-container">
-              <button class="neumorphic-btn dropdown-trigger" id="exploreBtn">
-                Explore & Upgrade
-              </button>
-              
-              <div class="dropdown-menu" id="dropdownMenu">
-                <ul class="space-y-2">
-                  <li><a href="/projects#understanding-lunar-energy" class="dropdown-link">Understanding Lunar Energy</a></li>
-                  <li><a href="/the-full-moons" class="dropdown-link">The Full Moons</a></li>
-                  <li><a href="/about#ourstory" class="dropdown-link">Our Story</a></li>
-                  <li><a href="/resources" class="dropdown-link">Our Resources</a></li>
-                  <li><a href="https://insights.icthemoon.com/" target="_blank" class="dropdown-link">Articles & Insights</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+     <DropdownMenu
+  label="Explore & Upgrade"
+  items={[
+    { href: "/projects#understanding-lunar-energy", text: "Understanding Lunar Energy" },
+    { href: "/the-full-moons", text: "The Full Moons" },
+    { href: "/about#ourstory", text: "Our Story" },
+    { href: "/resources", text: "Our Resources" },
+    { href: "https://insights.icthemoon.com/", text: "Articles & Insights", external: true }
+  ]}
+/>
+
     
     <!-- Testimonial Section -->
     <TestimonialSection />
@@ -122,57 +113,12 @@ import '../styles/global.css';
   <AnimatedFooter />
 </Layout>
 
-<style>
-  .dropdown-container {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 0.5rem;
-    min-width: 300px;
-    background: var(--primary-blue);
-    border-radius: 25px;
-    box-shadow: 4px 4px 6px rgba(0,0,0,.2), -4px -4px 6px rgba(255,255,255,.7), 
-                inset 4px 4px 6px rgba(0,0,0,.4), inset -4px -4px 6px rgba(255,255,255,.2);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-50%) translateY(-10px);
-    transition: all 0.3s ease;
-    z-index: 50;
-    padding: 1rem 0;
-  }
-  
-  .dropdown-container:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-  }
-  
-  .dropdown-link {
-    display: block;
-    padding: 0.75rem 1.5rem;
-    color: var(--text-light);
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-  }
-  
-  .dropdown-link:hover {
-    color: var(--accent-pink);
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  @media (max-width: 768px) {
-    .dropdown-menu {
-      min-width: 280px;
-      font-size: 0.8rem;
-    }
-  }
-</style>
+<DropdownMenu
+  label="Navigation"
+  items={[
+    { href: "/about", text: "About" },
+    { href: "/services", text: "Services" },
+    { href: "/contact", text: "Contact" }
+  ]}
+/>
+

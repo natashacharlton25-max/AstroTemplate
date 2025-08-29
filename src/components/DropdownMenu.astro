@@ -1,0 +1,31 @@
+---
+/**
+ * Props:
+ * - label: text shown on the button
+ * - items: array of { href: string, text: string, external?: boolean }
+ */
+type DropdownItem = { href: string; text: string; external?: boolean };
+const { label = "Menu", items = [] }: { label?: string; items?: DropdownItem[] } = Astro.props;
+---
+
+<div class="dropdown-container">
+  <button class="neumorphic-btn dropdown-trigger">
+    {label}
+  </button>
+
+  <div class="dropdown-menu">
+    <ul class="space-y-2">
+      {items.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="dropdown-link"
+            {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          >
+            {item.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

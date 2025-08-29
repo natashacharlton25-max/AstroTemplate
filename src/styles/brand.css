@@ -1,0 +1,26 @@
+/* Brand variables */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Core Brand Colours */
+  --primary-blue: #184e77;
+  --accent-pink: #e63961;
+  --background-cream: #fffaf6;
+  --text-light: #fffaf6;
+
+  /* Extended Palette */
+  --primary-dark: #5025d1;
+  --primary: #673de6;
+  --primary-light: #ebe4ff;
+  --meteorite-dark: #2f1c6a;
+  --meteorite: #8c85ff;
+  --meteorite-light: #d5dfff;
+  --danger: #fc5185;
+  --success: #00b090;
+  --gray: #727586;
+  --gray-light: #f2f3f6;
+  --dark: #1d1e20;
+
+  /* Font */
+  --font-sans: 'Poppins', sans-serif;
+}

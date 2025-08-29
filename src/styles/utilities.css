@@ -1,0 +1,22 @@
+@tailwind utilities;
+
+/* Colour helpers */
+.text-primary { color: var(--primary-blue); }
+.text-accent  { color: var(--accent-pink); }
+.text-light   { color: var(--text-light); }
+
+.bg-primary   { background-color: var(--primary-blue); }
+.bg-accent    { background-color: var(--accent-pink); }
+.bg-cream     { background-color: var(--background-cream); }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-fade-in  { animation: fadeIn 0.8s ease-out forwards; }
+.animate-slide-in { animation: slideIn 0.6s ease-out forwards; }
