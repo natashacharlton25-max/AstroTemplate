@@ -162,15 +162,15 @@ function isActive(href: string): boolean {
 
 <nav class="gm-nav" aria-label="Main Navigation" data-nav data-expanded="true">
   <div class="gm-container">
-    <div class="gm-Logo-Text-section">
+    <div class="gm-logo-section">
       <a href="/" class="gm-brand">
         <img
           src="/images/Logo-Text.svg"
           alt="IC the Moon"
-          class="gm-Logo-Text"
+          class="gm-logo"
           onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
         />
-        <span class="gm-Logo-Text-text" style="display:none">IC</span>
+        <span class="gm-logo-text" style="display:none">IC</span>
       </a>
     </div>
 
@@ -330,7 +330,7 @@ function isActive(href: string): boolean {
     position: relative;
   }
 
-  .gm-Logo-Text-section {
+  .gm-logo-section {
     display: flex;
     align-items: center;
     z-index: 10;
@@ -347,13 +347,13 @@ function isActive(href: string): boolean {
     transform: scale(1.05);
   }
 
-  .gm-Logo-Text {
+  .gm-logo {
     height: 40px;
     width: auto;
     transition: height 0.4s ease;
   }
 
-  .gm-Logo-Text-text {
+  .gm-logo-text {
     font-weight: 700;
     color: var(--gm-text-primary);
     font-size: 1.25rem;
@@ -892,7 +892,7 @@ function isActive(href: string): boolean {
       padding: 0 24px;
     }
 
-    .gm-nav[data-collapsed="true"] .gm-Logo-Text {
+    .gm-nav[data-collapsed="true"] .gm-logo {
       height: 32px;
     }
 
@@ -918,7 +918,7 @@ function isActive(href: string): boolean {
       display: block;
     }
 
-    .gm-nav[data-collapsed="true"]:hover .gm-Logo-Text {
+    .gm-nav[data-collapsed="true"]:hover .gm-logo {
       height: 40px;
     }
 
@@ -948,7 +948,7 @@ function isActive(href: string): boolean {
       display: none;
     }
 
-    .gm-Logo-Text {
+    .gm-logo {
       height: 32px;
     }
 

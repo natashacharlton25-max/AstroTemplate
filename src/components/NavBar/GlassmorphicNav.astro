@@ -1,0 +1,142 @@
+---
+import { links } from './navItems';
+import { isActive } from './navFunctions';
+import './navStyles.css';
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="gm-nav" aria-label="Main Navigation" data-nav data-expanded="true">
+  <div class="gm-container">
+    <div class="gm-logo-section">
+      <a href="/" class="gm-brand">
+        <img
+          src="/images/Logo-Text.svg"
+          alt="IC the Moon"
+          class="gm-logo"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
+        />
+        <span class="gm-logo-text" style="display:none">IC</span>
+      </a>
+    </div>
+
+    <div class="gm-menu-section">
+      <ul class="gm-menu-list">
+        {links.map((l) => (
+          <li class="gm-menu-item" data-mega-menu={l.hasMegaMenu ? 'true' : undefined}>
+            <a
+              href={l.href}
+              class={`gm-menu-link ${isActive(l.href, currentPath) ? 'active' : ''} ${l.hasMegaMenu ? 'has-mega-menu' : ''}`}
+              target={l.external ? '_blank' : undefined}
+              rel={l.external ? 'noopener noreferrer' : undefined}
+            >
+              {l.label}
+              {l.hasMegaMenu && <span class="mega-menu-arrow">▼</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <button class="gm-mobile-toggle" aria-label="Toggle menu" aria-controls="gm-mobile-menu" aria-expanded="false" data-mobile-toggle>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+</nav>
+
+<div class="gm-mobile-menu" id="gm-mobile-menu" data-mobile-menu>
+  <div class="gm-mobile-panel">
+    <ul class="gm-mobile-list">
+      {links.map((l) => (
+        <li>
+          {l.hasMegaMenu && l.megaMenu ? (
+            <button 
+              class={`gm-mobile-link gm-mobile-mega-toggle ${isActive(l.href, currentPath) ? 'active' : ''}`}
+              data-mobile-mega-toggle={l.label}
+            >
+              {l.label}
+            </button>
+          ) : (
+            <a
+              href={l.href}
+              class={`gm-mobile-link ${isActive(l.href, currentPath) ? 'active' : ''}`}
+              target={l.external ? '_blank' : undefined}
+              rel={l.external ? 'noopener noreferrer' : undefined}
+            >
+              {l.label}
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+    
+    <div class="gm-mobile-mega-column" data-mobile-mega-column>
+      {links.filter(l => l.hasMegaMenu && l.megaMenu).map((l) => (
+        <div class="gm-mobile-mega-content" data-mobile-mega-content={l.label}>
+          <h3 class="gm-mobile-mega-header">{l.label}</h3>
+          {l.megaMenu!.sections.map((section) => (
+            <div class="gm-mobile-mega-section">
+              <h4 class="gm-mobile-mega-section-title">{section.title}</h4>
+              <div class="gm-mobile-mega-links">
+                {section.items.map((item) => (
+                  <a 
+                    href={item.href}
+                    class="gm-mobile-mega-link"
+                    target={item.href?.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    <span class="gm-mobile-mega-label">{item.title}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+{/* Mega menus outside nav structure for proper blur */}
+{links.filter(l => l.hasMegaMenu && l.megaMenu).map((l, index) => (
+  <div class="gm-mega-menu" data-mega-menu-id={`mega-${index}`}>
+    <div class="gm-mega-panel">
+      <div class="gm-mega-grid">
+        {l.megaMenu!.sections.map((section) => (
+          <div class="gm-mega-section">
+            <h3 class="gm-mega-title">{section.title}</h3>
+            <div class="gm-mega-items">
+              {section.items.map((item) => (
+                <a 
+                  href={item.href} 
+                  class="gm-mega-item"
+                  target={item.href?.startsWith('http') ? '_blank' : undefined}
+                  rel={item.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >
+                  {'image' in item && item.image && (
+                    <div class="gm-mega-image">
+                      <img src={item.image} alt={item.title} loading="lazy" />
+                    </div>
+                  )}
+                  <div class="gm-mega-content">
+                    <h4 class="gm-mega-item-title">{item.title}</h4>
+                    <p class="gm-mega-item-desc">{item.description}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+))}
+
+<div class="gm-backdrop" data-backdrop></div>
+
+<script>
+  import { initNavigation } from './navFunctions';
+  initNavigation();
+</script>

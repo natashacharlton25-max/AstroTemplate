@@ -1,21 +1,108 @@
-/* Brand variables */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+/* ==== IC THE MOON BRAND SYSTEM ==== */
+
+/* Google Fonts - customize as needed */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap'); */
 
 :root {
-  /* Brand colours */
-  --brand-bg:     #fffaf6; /* your background colour */
-  --brand-main-1: #e63961; /* accent colour */
-  --brand-main-2: #184e77; /* secondary colour */
+  /* ---- Brand Identity ---- */
+  --brand-name: "IC the Moon";
+  --brand-logo-path: "/images/Logo-Text.svg";
+  --brand-logo-fallback: "IC";
 
-  /* Derived glass colours */
-  --nav-bg-glass:    color-mix(in srgb, var(--brand-bg) 70%, transparent);
-  --nav-border-glass: color-mix(in srgb, var(--brand-bg) 40%, transparent);
+  /* ---- Core Brand Colors ---- */
+  --brand-primary: #e63961;    /* Red - main brand accent */
+  --brand-secondary: #184e77;  /* Blue - primary text & borders */
+  --brand-background: #fffaf6; /* Cream - page background */
+  --brand-text: #5c5b5b;       /* Gray - body text */
+  --brand-text-light: #ffffff; /* White - text on dark backgrounds */
 
-  /* Sizes */
-  --gm-nav-height: 70px;
-  --gm-mobile-pill-height: 60px;
+  /* ---- Typography ---- */
+  --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+  /* --font-heading: 'Playfair Display', serif; /* Uncomment for serif headings */
+  --font-nav: var(--font-body);
 
+  /* ---- Navigation System ---- */
+  --nav-height: 70px;
+  --nav-mobile-height: 60px;
+  --nav-border-radius: 35px;
+  --nav-mobile-border-radius: 30px;
+  --nav-text-primary: var(--brand-secondary);
+  --nav-text-accent: var(--brand-primary);
+  --nav-background: color-mix(in srgb, var(--brand-background) 70%, transparent);
+  --nav-border: color-mix(in srgb, var(--brand-background) 40%, transparent);
+  --nav-hover-bg: color-mix(in srgb, var(--brand-primary) 8%, transparent);
 
-  /* Font */
-  --font-sans: 'Poppins', sans-serif;
+  /* ---- Extended Palette ---- */
+  --brand-accent-1: #ffb703;   /* Orange accent */
+  --brand-accent-2: #fb8500;   /* Dark orange */
+  --brand-neutral-dark: #111319;
+  --brand-neutral-mid: #727586;
+  --brand-neutral-light: #f2f3f6;
 }
+
+/* ==== GLOBAL STYLES ==== */
+
+/* Base Typography */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--brand-background);
+  color: var(--brand-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--brand-secondary);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1.125rem; }
+
+/* Links */
+a {
+  color: var(--brand-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--brand-secondary);
+}
+
+/* Brand Utility Classes */
+.text-primary   { color: var(--brand-primary) !important; }
+.text-secondary { color: var(--brand-secondary) !important; }
+.text-light     { color: var(--brand-text-light) !important; }
+.text-muted     { color: var(--brand-text) !important; }
+
+.bg-primary     { background-color: var(--brand-primary) !important; }
+.bg-secondary   { background-color: var(--brand-secondary) !important; }
+.bg-background  { background-color: var(--brand-background) !important; }
+
+.border-primary   { border-color: var(--brand-primary) !important; }
+.border-secondary { border-color: var(--brand-secondary) !important; }
