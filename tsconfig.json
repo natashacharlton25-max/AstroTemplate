@@ -4,16 +4,19 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
+    "baseUrl": ".",
     "strict": true,
     "jsx": "preserve",
     "allowJs": true,
     "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true   // 👈 add this
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "include": [
     ".astro/types.d.ts",
     "src/**/*"
   ],
-  "exclude": ["dist"]
+  "exclude": ["dist", "node_modules"]
 }
 
