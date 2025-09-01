@@ -72,7 +72,7 @@ export function initNavigation() {
         activeMenu = null;
         setTimeout(() => {
           collapseNav();
-        }, 1500);
+        }, 800); // Slower, smoother timing
       } else {
         collapseNav();
       }
@@ -85,9 +85,8 @@ export function initNavigation() {
   }
 
   function collapseMobileStage1() {
-    const panel = document.querySelector('.gm-mobile-panel') as HTMLElement | null;
     const megaCol = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
-    panel?.classList.remove('expanded');
+    nav?.removeAttribute('data-mobile-mega-open');
     megaCol?.classList.remove('show');
     document.querySelectorAll('[data-mobile-mega-content]').forEach((el) => el.classList.remove('active'));
   }
@@ -176,9 +175,8 @@ export function initNavigation() {
 
   function scheduleMobileMegaCollapse() {
     setTimeout(() => {
-      const panel = document.querySelector('.gm-mobile-panel') as HTMLElement | null;
       const megaCol = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
-      panel?.classList.remove('expanded');
+      nav?.removeAttribute('data-mobile-mega-open');
       megaCol?.classList.remove('show');
       document.querySelectorAll('[data-mobile-mega-content]').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('[data-mobile-mega-toggle]').forEach(toggle => toggle.classList.remove('selected'));
@@ -191,8 +189,33 @@ export function initNavigation() {
 
   function closeMobileMenu() {
     if (!nav || !mobileMenu) return;
-    nav.removeAttribute('data-mobile-open');
-    mobileToggle?.setAttribute('aria-expanded', 'false');
+    
+    // Check if mega menu is currently open
+    const megaMenuOpen = nav.getAttribute('data-mobile-mega-open') === 'true';
+    
+    if (megaMenuOpen) {
+      // First collapse mega menu (width), then close mobile menu (height)
+      nav.removeAttribute('data-mobile-mega-open');
+      const mobileMegaColumn = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
+      mobileMegaColumn?.classList.remove('show');
+      document.querySelectorAll('[data-mobile-mega-content]').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.querySelectorAll('[data-mobile-mega-toggle]').forEach(toggle => {
+        toggle.classList.remove('selected');
+      });
+      
+      // Then close mobile menu after width transition completes
+      setTimeout(() => {
+        nav.removeAttribute('data-mobile-open');
+        mobileToggle?.setAttribute('aria-expanded', 'false');
+      }, 600); // Wait for width transition
+    } else {
+      // No mega menu open, close normally
+      nav.removeAttribute('data-mobile-open');
+      mobileToggle?.setAttribute('aria-expanded', 'false');
+    }
+    
     cancelHoverTimer();
     cancelStagedMobileCollapse();
   }
@@ -302,9 +325,10 @@ export function initNavigation() {
 
   init();
 
-  // Handle mega menu hover interactions
+  // Handle mega menu hover interactions with new container structure
   const menuItems = document.querySelectorAll('.gm-menu-item[data-mega-menu]');
   const megaMenus = document.querySelectorAll('.gm-mega-menu');
+  const megaContainer = document.querySelector('.gm-mega-menu-container');
   let activeMenu: HTMLElement | null = null;
   let menuTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -314,23 +338,22 @@ export function initNavigation() {
     const megaIndex = Array.from(megaMenus).indexOf(megaMenu);
     const navLink = menuItems[megaIndex]?.querySelector('.gm-menu-link');
     
-    if (activeMenu && activeMenu !== megaMenu) {
-      const prevIndex = Array.from(megaMenus).indexOf(activeMenu);
-      const prevNavLink = menuItems[prevIndex]?.querySelector('.gm-menu-link');
-      prevNavLink?.classList.remove('mega-active');
+    // Clear ALL previous active states first
+    megaMenus.forEach(menu => menu.classList.remove('show'));
+    menuItems.forEach(item => {
+      const link = item.querySelector('.gm-menu-link');
+      link?.classList.remove('mega-active');
+    });
+    
+    // Show the container first if not already shown
+    if (megaContainer && !megaContainer.classList.contains('show')) {
+      megaContainer.classList.add('show');
       
-      megaMenu.classList.add('show');
-      navLink?.classList.add('mega-active');
-      
-      const oldMenu = activeMenu;
-      setTimeout(() => {
-        oldMenu.classList.remove('show');
-      }, 150);
-      
-      activeMenu = megaMenu;
-      return;
+      // Let CSS handle the height animation with auto
+      megaContainer.style.height = '';
     }
     
+    // Show the new mega menu immediately (no delay)
     megaMenu.classList.add('show');
     navLink?.classList.add('mega-active');
     activeMenu = megaMenu;
@@ -339,22 +362,30 @@ export function initNavigation() {
   function hideMegaMenu(delay = 5000) {
     if (menuTimer) clearTimeout(menuTimer);
     
+    // Single-phase hide - back to CSS-only approach
     menuTimer = setTimeout(() => {
-      if (activeMenu) {
-        const megaIndex = Array.from(megaMenus).indexOf(activeMenu);
-        const navLink = menuItems[megaIndex]?.querySelector('.gm-menu-link');
-        navLink?.classList.remove('mega-active');
+      activeMenu = null;
+      
+      // Clear content states and container immediately
+      megaMenus.forEach(menu => menu.classList.remove('show'));
+      menuItems.forEach(item => {
+        const link = item.querySelector('.gm-menu-link');
+        link?.classList.remove('mega-active');
+      });
+      
+      // Remove container show class - CSS handles collapse
+      if (megaContainer) {
+        megaContainer.classList.remove('show');
+        megaContainer.style.height = '';
         
-        activeMenu.classList.remove('show');
-        activeMenu = null;
-        
+        // Then collapse nav to pill shape after container collapses
         setTimeout(() => {
           if (nav && !nav.matches(':hover') && window.scrollY > 50) {
             collapseNav();
           }
-        }, 2000);
+        }, 800);
       }
-    }, delay);
+    }, delay <= 300 ? 0 : delay);
   }
 
   function cancelHide() {
@@ -364,28 +395,58 @@ export function initNavigation() {
     }
   }
 
-  menuItems.forEach((item, index) => {
-    const megaMenu = megaMenus[index] as HTMLElement;
-    if (!megaMenu) return;
+  // Handle ALL nav menu items (both mega menu and regular)
+  const allMenuItems = document.querySelectorAll('.gm-menu-item');
+  
+  allMenuItems.forEach((item) => {
+    const hasMegaMenu = item.hasAttribute('data-mega-menu');
+    
+    if (hasMegaMenu) {
+      // Handle mega menu items
+      const index = Array.from(menuItems).indexOf(item);
+      const megaMenu = megaMenus[index] as HTMLElement;
+      if (!megaMenu) return;
 
-    item.addEventListener('mouseenter', () => {
-      if (!isDesktop() || nav?.getAttribute('data-expanded') !== 'true') return;
-      showMegaMenu(megaMenu);
-    });
+      item.addEventListener('mouseenter', () => {
+        if (!isDesktop() || nav?.getAttribute('data-expanded') !== 'true') return;
+        cancelHide(); // Cancel any pending hide timer
+        showMegaMenu(megaMenu);
+      });
 
-    item.addEventListener('mouseleave', () => {
-      if (!isDesktop()) return;
-      hideMegaMenu(1000);
-    });
+      item.addEventListener('mouseleave', () => {
+        if (!isDesktop()) return;
+        hideMegaMenu(1000);
+      });
+    } else {
+      // Handle regular nav items (no mega menu)
+      item.addEventListener('mouseenter', () => {
+        if (!isDesktop() || nav?.getAttribute('data-expanded') !== 'true') return;
+        // Immediately hide mega menu when hovering over regular nav items
+        hideMegaMenu(200); // Quick hide
+      });
+    }
+  });
 
-    megaMenu.addEventListener('mouseenter', () => {
+  // Handle mega menu container hover events
+  if (megaContainer) {
+    megaContainer.addEventListener('mouseenter', () => {
       cancelHide();
     });
 
-    megaMenu.addEventListener('mouseleave', () => {
+    megaContainer.addEventListener('mouseleave', () => {
       hideMegaMenu(1300);
     });
-  });
+  }
+
+  // Handle nav menu section hover to prevent glitches
+  const menuSection = document.querySelector('.gm-menu-section');
+  if (menuSection) {
+    menuSection.addEventListener('mouseleave', () => {
+      if (!isDesktop()) return;
+      // When leaving the entire menu section, hide mega menu quickly
+      hideMegaMenu(500);
+    });
+  }
 
   // Handle mobile two-column mega menus
   const mobileMegaToggles = document.querySelectorAll('[data-mobile-mega-toggle]');
@@ -408,12 +469,12 @@ export function initNavigation() {
       });
       
       if (!isCurrentlyActive && megaContent) {
-        mobilePanel?.classList.add('expanded');
+        nav?.setAttribute('data-mobile-mega-open', 'true');
         mobileMegaColumn?.classList.add('show');
         toggle.classList.add('selected');
         megaContent.classList.add('active');
       } else {
-        mobilePanel?.classList.remove('expanded');
+        nav?.removeAttribute('data-mobile-mega-open');
         mobileMegaColumn?.classList.remove('show');
       }
     });
@@ -421,7 +482,7 @@ export function initNavigation() {
 
   document.querySelectorAll('.gm-mobile-mega-link').forEach(link => {
     link.addEventListener('click', () => {
-      mobilePanel?.classList.remove('expanded');
+      nav?.removeAttribute('data-mobile-mega-open');
       mobileMegaColumn?.classList.remove('show');
       mobileMegaToggles.forEach(t => t.classList.remove('selected'));
       document.querySelectorAll('[data-mobile-mega-content]').forEach(content => {
