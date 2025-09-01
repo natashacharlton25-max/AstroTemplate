@@ -72,7 +72,7 @@ export function initNavigation() {
         activeMenu = null;
         setTimeout(() => {
           collapseNav();
-        }, 800); // Slower, smoother timing
+        }, 500); // Match improved CSS timing
       } else {
         collapseNav();
       }
@@ -348,12 +348,9 @@ export function initNavigation() {
     // Show the container first if not already shown
     if (megaContainer && !megaContainer.classList.contains('show')) {
       megaContainer.classList.add('show');
-      
-      // Let CSS handle the height animation with auto
-      megaContainer.style.height = '';
     }
     
-    // Show the new mega menu immediately (no delay)
+    // Show the new mega menu immediately (revert delay)
     megaMenu.classList.add('show');
     navLink?.classList.add('mega-active');
     activeMenu = megaMenu;
@@ -362,28 +359,27 @@ export function initNavigation() {
   function hideMegaMenu(delay = 5000) {
     if (menuTimer) clearTimeout(menuTimer);
     
-    // Single-phase hide - back to CSS-only approach
+    // Improved hide with better timing coordination
     menuTimer = setTimeout(() => {
       activeMenu = null;
       
-      // Clear content states and container immediately
+      // Clear content states first
       megaMenus.forEach(menu => menu.classList.remove('show'));
       menuItems.forEach(item => {
         const link = item.querySelector('.gm-menu-link');
         link?.classList.remove('mega-active');
       });
       
-      // Remove container show class - CSS handles collapse
+      // Remove container show class after content fades
       if (megaContainer) {
         megaContainer.classList.remove('show');
-        megaContainer.style.height = '';
         
         // Then collapse nav to pill shape after container collapses
         setTimeout(() => {
           if (nav && !nav.matches(':hover') && window.scrollY > 50) {
             collapseNav();
           }
-        }, 800);
+        }, 400); // Match CSS transition timing
       }
     }, delay <= 300 ? 0 : delay);
   }
