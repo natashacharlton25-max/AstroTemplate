@@ -1,10 +1,5 @@
 /* Use brand colors from global brand.css */
 
-:root {
-  --mega-anim-ms: 1400ms; /* adjust to taste: 1400–1600ms slower/smoother */
-  --mega-ease: cubic-bezier(0.16,1,0.3,1);
-}
-
 .gm-nav {
   position: fixed;
   top: 20px;
@@ -19,11 +14,7 @@
   border: 1px solid var(--nav-border);
   border-radius: var(--nav-border-radius);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition:
-    background      600ms var(--mega-ease),
-    backdrop-filter 600ms var(--mega-ease),
-    border-radius   600ms var(--mega-ease),
-    box-shadow      600ms var(--mega-ease);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   /* Enable smooth expansion */
 }
@@ -130,47 +121,30 @@
   transform: rotate(180deg);
 }
 
-/* OUTER CONTAINER — smooth height collapse via grid rows */
+/* Mega Menu Container - single container that resizes smoothly */
 .gm-mega-menu-container {
   position: relative;
   width: 100%;
-  display: grid;
-  grid-template-rows: 0fr; /* collapsed */
+  max-height: 0;
   overflow: hidden;
-  padding: 0 32px; /* side padding when hidden */
-  opacity: 0;
-  filter: blur(8px);
-  transition:
-    grid-template-rows var(--mega-anim-ms) var(--mega-ease),
-    opacity           var(--mega-anim-ms) var(--mega-ease),
-    filter            var(--mega-anim-ms) var(--mega-ease),
-    padding           var(--mega-anim-ms) var(--mega-ease);
-  will-change: grid-template-rows, opacity, filter, padding;
+  transition: max-height 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  padding: 0 32px; /* Restore original - only side padding */
+  opacity: 1;
 }
 
-/* Let the inner wrapper actually shrink inside the 0fr row */
-.gm-mega-menu-container > * { min-height: 0; }
-
+/* Individual mega menu sections - stacked with display-based approach */
 .gm-mega-menu {
-  position: relative;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(16px);
-  transition:
-    opacity   var(--mega-anim-ms) var(--mega-ease),
-    transform var(--mega-anim-ms) var(--mega-ease),
-    visibility 0s linear var(--mega-anim-ms); /* flips after fade completes */
-}
-
-/* Remove separate panel styling - mega menu is now part of navbar */
-.gm-mega-panel {
   position: relative;
   display: none;
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-} 
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+/* Remove separate panel styling - mega menu is now part of navbar */
+.gm-mega-panel {
+  /* Styles moved to .gm-mega-menu */
+}
 
 .gm-mega-panel::before {
   display: none;
@@ -269,20 +243,25 @@
   color: var(--nav-text-accent);
 }
 
+/* Show mega menu container on any hover */
 @media (min-width: 1024px) {
   .gm-nav[data-expanded="true"] .gm-mega-menu-container.show {
-    grid-template-rows: 1fr; /* expanded */
-    opacity: 1;
-    filter: blur(0);
-    padding: 32px;            /* add top/bottom smoothly when shown */
+    max-height: 800px; /* Back to working max-height approach */
+    padding: 32px; /* Add top/bottom padding only when shown */
     margin-top: 20px;
   }
   
-  .gm-nav[data-expanded="true"] .gm-mega-menu { display: block; } /* no display:none on desktop */
+  /* Show active mega menu with smooth fade in/out */
   .gm-nav[data-expanded="true"] .gm-mega-menu.show {
+    display: block;
     opacity: 1;
-    visibility: visible;
     transform: translateY(0);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Ensure non-active mega menus are completely hidden */
+  .gm-nav[data-expanded="true"] .gm-mega-menu:not(.show) {
+    display: none;
   }
 }
 
