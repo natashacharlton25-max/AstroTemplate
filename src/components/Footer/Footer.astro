@@ -1,0 +1,142 @@
+---
+// Import footer data and check for animation preference
+import { footerData } from './footerData.js';
+
+// Props to control features
+export interface Props {
+  enableAnimations?: boolean;
+  showLogo?: boolean;
+  showSocial?: boolean;
+  showContact?: boolean;
+}
+
+const { 
+  enableAnimations = true, 
+  showLogo = true, 
+  showSocial = true, 
+  showContact = true 
+} = Astro.props;
+---
+
+<footer class={`footer ${enableAnimations ? 'footer-animated' : ''}`}>
+  <div class="footer-container">
+    
+    <!-- Footer Header with Logo and Tagline -->
+    {showLogo && (
+      <div class="footer-header">
+        <a href="/" class="footer-logo">
+          <img src="/images/Logo.svg" alt={footerData.company.name} />
+          <span class="footer-logo-text">{footerData.company.name}</span>
+        </a>
+        <p class="footer-tagline">{footerData.company.tagline}</p>
+        <p class="footer-description">{footerData.company.description}</p>
+      </div>
+    )}
+
+    <!-- Footer Content Grid -->
+    <div class="footer-content">
+      
+      <!-- Company Links -->
+      <div class="footer-section">
+        <h3 class="footer-section-title">{footerData.links.company.title}</h3>
+        <div class="footer-links">
+          {footerData.links.company.items.map(link => (
+            <a href={link.url} class="footer-link">{link.name}</a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Products Links -->
+      <div class="footer-section">
+        <h3 class="footer-section-title">{footerData.links.products.title}</h3>
+        <div class="footer-links">
+          {footerData.links.products.items.map(link => (
+            <a href={link.url} class="footer-link">{link.name}</a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Resources Links -->
+      <div class="footer-section">
+        <h3 class="footer-section-title">{footerData.links.resources.title}</h3>
+        <div class="footer-links">
+          {footerData.links.resources.items.map(link => (
+            <a href={link.url} class="footer-link">{link.name}</a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      {showContact && (
+        <div class="footer-section">
+          <h3 class="footer-section-title">Contact</h3>
+          <div class="footer-contact">
+            <div class="footer-contact-item">
+              <span>📧</span>
+              <a href={`mailto:${footerData.contact.email}`}>{footerData.contact.email}</a>
+            </div>
+            <div class="footer-contact-item">
+              <span>📞</span>
+              <a href={`tel:${footerData.contact.phone}`}>{footerData.contact.phone}</a>
+            </div>
+            <div class="footer-contact-item">
+              <span>📍</span>
+              <span>
+                {footerData.contact.address.street}<br>
+                {footerData.contact.address.city}, {footerData.contact.address.state} {footerData.contact.address.zip}
+              </span>
+            </div>
+          </div>
+          
+          <!-- Social Media Links -->
+          {showSocial && (
+            <div class="footer-social">
+              {footerData.social.map(social => (
+                <a 
+                  href={social.url} 
+                  class="footer-social-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.name}
+                >
+                  {social.icon === 'twitter' && '𝕏'}
+                  {social.icon === 'linkedin' && '💼'}
+                  {social.icon === 'github' && '🐙'}
+                  {social.icon === 'instagram' && '📷'}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        <span>© {footerData.copyright.year} {footerData.company.name}.</span>
+        <span>{footerData.copyright.text}</span>
+      </div>
+      
+      <div class="footer-bottom-links">
+        {footerData.links.legal.items.map(link => (
+          <a href={link.url} class="footer-bottom-link">{link.name}</a>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- Import Styles -->
+<style>
+  @import './footerStyles.css';
+</style>
+
+<!-- Conditionally Import Animations -->
+{enableAnimations && (
+  <style>
+    @import './footerAnimations.css';
+  </style>
+)}

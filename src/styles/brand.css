@@ -40,6 +40,13 @@
   --brand-neutral-dark: #111319;
   --brand-neutral-mid: #727586;
   --brand-neutral-light: #f2f3f6;
+
+  /* ---- Navy Variations for Footer ---- */
+  --brand-navy: var(--brand-secondary);        /* Main navy blue */
+  --brand-navy-light: #2c5282;                /* Lighter navy */
+  --brand-navy-dark: #1a202c;                 /* Darker navy */
+  --brand-accent: var(--brand-primary);       /* Accent color for animations */
+  --brand-light: #60a5fa;                     /* Light blue for effects */
 }
 
 /* ==== GLOBAL STYLES ==== */

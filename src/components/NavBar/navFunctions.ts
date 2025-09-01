@@ -70,9 +70,10 @@ export function initNavigation() {
       if (activeMenu) {
         activeMenu.classList.remove('show');
         activeMenu = null;
+        // Wait for mega menu to finish collapsing, then nav collapses
         setTimeout(() => {
           collapseNav();
-        }, 800); // Slower, smoother timing
+        }, 2800); // Wait for full mega menu collapse, then nav collapses
       } else {
         collapseNav();
       }
@@ -350,7 +351,7 @@ export function initNavigation() {
       megaContainer.classList.add('show');
       
       // Let CSS handle the height animation with auto
-      megaContainer.style.height = '';
+      (megaContainer as HTMLElement).style.height = '';
     }
     
     // Show the new mega menu immediately (no delay)
@@ -373,17 +374,17 @@ export function initNavigation() {
         link?.classList.remove('mega-active');
       });
       
-      // Remove container show class - CSS handles collapse
+      // Staggered collapse like mobile: mega menu first, then nav container
       if (megaContainer) {
         megaContainer.classList.remove('show');
-        megaContainer.style.height = '';
+        (megaContainer as HTMLElement).style.height = '';
         
-        // Then collapse nav to pill shape after container collapses
+        // Wait for mega menu container to FINISH collapsing, then collapse nav
         setTimeout(() => {
           if (nav && !nav.matches(':hover') && window.scrollY > 50) {
             collapseNav();
           }
-        }, 800);
+        }, 2800); // Wait for full mega menu collapse (2.8s), then nav collapses
       }
     }, delay <= 300 ? 0 : delay);
   }
