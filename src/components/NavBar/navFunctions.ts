@@ -120,7 +120,8 @@ export function initNavigation() {
           collapseNav();
           cancelIdleTimer();
         }
-      } else if (!nav.matches(':hover')) {
+      } else {
+        // Always expand when not scrolled
         expandNav();
         scheduleCollapse();
       }
@@ -237,11 +238,10 @@ export function initNavigation() {
   function handleResize() {
     if (isDesktop()) {
       closeMobileMenu();
-      if (window.scrollY <= 50) {
-        expandNav();
+      // Always expand nav on desktop at page load
+      expandNav();
+      if (window.scrollY > 50) {
         scheduleCollapse();
-      } else {
-        collapseNav();
       }
     } else {
       nav?.removeAttribute('data-collapsed');
@@ -266,18 +266,16 @@ export function initNavigation() {
     nav.addEventListener('mouseenter', () => {
       if (isDesktop()) {
         cancelIdleTimer();
-        if (nav.getAttribute('data-collapsed') === 'true') {
-          expandNav();
-        }
+        expandNav(); // Always expand on hover
       }
     });
 
     nav.addEventListener('mouseleave', () => {
       if (isDesktop()) {
         if (activeMenu) {
-          hideMegaMenu(1000);
+          hideMegaMenu(800);
         } else {
-          scheduleCollapse(1000);
+          scheduleCollapse(800);
         }
       }
     });
