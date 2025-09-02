@@ -1,0 +1,75 @@
+/* Footer Reveal Effect Styles - For Layout.astro scroll reveal functionality */
+
+/* Style footer in scroll reveal to match nav bar */
+body.tight .footer {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Footer reveal container sizing - 3% narrower than scaled page */
+div.footer-reveal-container {
+  width: 82% !important; /* 85% scaled page minus 3% on both mobile and desktop */
+  margin: 0 auto !important;
+  max-width: none !important; /* Remove any width constraints */
+}
+
+/* More specific selector for footer reveal container */
+body.tight .footer-reveal-container .footer-container {
+  background: var(--nav-background) !important; /* Use glassmorphic nav background */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--nav-border) !important;
+  border-radius: var(--nav-border-radius) !important;
+  min-height: 210px !important; /* Perfect height for mobile */
+  padding: 32px !important;
+}
+
+@media (min-width: 768px) {
+  body.tight .footer-reveal-container .footer-container {
+    min-height: 280px !important; /* Taller for desktop */
+    padding: 48px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  body.tight .footer-reveal-container .footer-container {
+    min-height: 320px !important; /* Even taller for full-width view */
+    padding: 64px !important;
+  }
+}
+
+/* Increase logo size on desktop in footer reveal - more specific selectors */
+@media (min-width: 768px) {
+  .footer-reveal-container .footer-logo img {
+    width: auto !important;
+    height: 60px !important; /* Larger logo for desktop */
+  }
+  
+  .footer-reveal-container .footer-logo-text {
+    font-size: 1.5rem !important; /* Larger text for desktop */
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-reveal-container .footer-logo img {
+    height: 70px !important; /* Even larger for full-width */
+  }
+  
+  .footer-reveal-container .footer-logo-text {
+    font-size: 1.75rem !important; /* Even larger text */
+  }
+}
+
+/* Mobile footer compact styles */
+.footer-section-title-compact {
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--brand-secondary) !important;
+  text-align: center !important;
+  margin: 0 !important;
+}
+
+.footer-section-compact {
+  text-align: center !important;
+}

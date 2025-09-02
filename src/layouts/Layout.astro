@@ -1,6 +1,8 @@
 ---
 import '../styles/brand.css';
-import Footer from '../components/footer/Footer.astro';
+import '../components/Footer/footerRevealStyles.css';
+import Footer from '../components/Footer/Footer.astro';
+import BottomNav from '../components/BottomNav/BottomNav.astro';
 
 // Props for layout configuration
 export interface Props {
@@ -45,6 +47,9 @@ const {
             </div>
           </div>
         </div>
+        
+        <!-- Bottom Navigation -->
+        <BottomNav />
 
         <script client:load>
           let isAtBottom = false;
@@ -116,77 +121,6 @@ const {
             opacity: 1;
           }
           
-          /* Style footer in scroll reveal to match nav bar */
-          .footer {
-            background: transparent !important;
-            padding: 0 !important;
-            margin: 0 !important;
-          }
-          
-          /* Footer reveal container sizing - 3% narrower than scaled page */
-          div.footer-reveal-container {
-            width: 82% !important; /* 85% scaled page minus 3% on both mobile and desktop */
-            margin: 0 auto !important;
-            max-width: none !important; /* Remove any width constraints */
-          }
-          
-          .footer-container {
-            background: color-mix(in srgb, var(--brand-background) 85%, transparent) !important;
-            border: 1px solid var(--nav-border) !important;
-            border-radius: var(--nav-border-radius) !important;
-            min-height: 210px !important; /* Perfect height for mobile */
-            padding: 32px !important;
-          }
-          
-          @media (min-width: 768px) {
-            .footer-container {
-              min-height: 280px !important; /* Taller for desktop */
-              padding: 48px !important;
-            }
-          }
-          
-          @media (min-width: 1024px) {
-            .footer-container {
-              min-height: 320px !important; /* Even taller for full-width view */
-              padding: 64px !important;
-            }
-          }
-          
-          /* Increase logo size on desktop in footer reveal - more specific selectors */
-          @media (min-width: 768px) {
-            .footer-reveal-container .footer-logo img {
-              width: auto !important;
-              height: 60px !important; /* Larger logo for desktop */
-            }
-            
-            .footer-reveal-container .footer-logo-text {
-              font-size: 1.5rem !important; /* Larger text for desktop */
-            }
-          }
-          
-          @media (min-width: 1024px) {
-            .footer-reveal-container .footer-logo img {
-              height: 70px !important; /* Even larger for full-width */
-            }
-            
-            .footer-reveal-container .footer-logo-text {
-              font-size: 1.75rem !important; /* Even larger text */
-            }
-          }
-          
-          /* Mobile footer compact styles */
-          .footer-section-title-compact {
-            font-size: 0.875rem !important;
-            font-weight: 600 !important;
-            color: var(--brand-secondary) !important;
-            text-align: center !important;
-            margin: 0 !important;
-          }
-          
-          .footer-section-compact {
-            text-align: center !important;
-          }
-          
           /* Smooth transitions */
           .wrapper {
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
@@ -205,260 +139,15 @@ const {
             pointer-events: auto;
           }
 
-          /* Accessibility Sidebar Styles */
-          .accessibility-sidebar {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: var(--nav-background);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-left: 1px solid var(--nav-border);
-            z-index: 1001;
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-          }
-
-          .accessibility-sidebar::-webkit-scrollbar {
-            width: 0;
-            height: 0;
-            display: none;
-          }
-
-          .accessibility-sidebar.open {
-            right: 0;
-          }
-
-          .accessibility-sidebar-content {
-            padding: 20px;
-          }
-
-          .accessibility-sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--nav-border);
-          }
-
-          .accessibility-sidebar-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--nav-text-primary);
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-          }
-
-          .accessibility-sidebar-icon {
-            opacity: 0.8;
-          }
-
-          .accessibility-sidebar-close {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            background: transparent;
-            border: none;
-            color: var(--nav-text-primary);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-          }
-
-          .accessibility-sidebar-close:hover {
-            background: var(--nav-hover-bg);
-            color: var(--nav-text-accent);
-          }
-
-          .accessibility-section {
-            margin-bottom: 32px;
-          }
-
-          .accessibility-section:last-child {
-            margin-bottom: 0;
-          }
-
-          .accessibility-section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--nav-text-primary);
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-          }
-
-          .accessibility-control {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-          }
-
-          .accessibility-control:last-child {
-            border-bottom: none;
-          }
-
-          .accessibility-control-info {
-            flex: 1;
-          }
-
-          .accessibility-control-label {
-            display: block;
-            color: var(--nav-text-primary);
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 4px;
-          }
-
-          .accessibility-control-desc {
-            color: var(--nav-text-primary);
-            font-size: 0.75rem;
-            opacity: 0.7;
-          }
-
-          .accessibility-toggle {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 24px;
-            margin-left: 16px;
-          }
-
-          .accessibility-checkbox {
-            opacity: 0;
-            width: 0;
-            height: 0;
-          }
-
-          .accessibility-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
-            border-radius: 24px;
-            border: 1px solid var(--nav-border);
-          }
-
-          .accessibility-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 2px;
-            bottom: 2px;
-            background: var(--nav-text-primary);
-            transition: 0.3s;
-            border-radius: 50%;
-          }
-
-          .accessibility-checkbox:checked + .accessibility-slider {
-            background: var(--brand-primary);
-          }
-
-          .accessibility-checkbox:checked + .accessibility-slider:before {
-            transform: translateX(24px);
-          }
-
-          /* Search */
-          .accessibility-search {
-            position: relative;
-          }
-
-          .accessibility-search-input {
-            width: 100%;
-            padding: 12px 40px 12px 12px;
-            background: color-mix(in srgb, var(--brand-background) 90%, transparent);
-            border: 1px solid var(--nav-border);
-            border-radius: calc(var(--nav-border-radius) * 0.6);
-            color: var(--nav-text-primary);
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
-          }
-
-          .accessibility-search-input:focus {
-            outline: none;
-            border-color: var(--brand-primary);
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 20%, transparent);
-          }
-
-          .accessibility-search-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background: transparent;
-            border: none;
-            color: var(--nav-text-primary);
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-          }
-
-          .accessibility-search-btn:hover {
-            background: var(--nav-hover-bg);
-            color: var(--nav-text-accent);
-          }
-
-          /* Accessibility Backdrop */
-          .accessibility-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            pointer-events: none;
-          }
-
-          .accessibility-backdrop.open {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-          }
-
-          /* Mobile responsive */
-          @media (max-width: 768px) {
-            .accessibility-sidebar {
-              width: 100%;
-              right: -100%;
-            }
-            
-            .accessibility-sidebar.open {
-              right: 0;
-            }
-          }
         </style>
       </>
     ) : (
       <>
         <!-- Standard layout without reveal effect - NO FOOTER -->
         <slot />
+        
+        <!-- Bottom Navigation -->
+        <BottomNav />
       </>
     )}
   </body>

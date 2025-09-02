@@ -1,0 +1,747 @@
+---
+// Bottom Navigation Component
+---
+
+<!-- Settings Tab -->
+<div class="settings-tab" data-settings-tab>
+  <!-- Expanded Settings Menu -->
+  <div class="settings-expanded" data-settings-expanded>
+    <!-- Contact -->
+    <button class="settings-item" data-action="contact" aria-label="Contact">
+      <svg class="settings-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+      </svg>
+    </button>
+    
+    <!-- Home -->
+    <button class="settings-item" data-action="home" aria-label="Home">
+      <svg class="settings-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+    </button>
+    
+    <!-- Scroll to Top -->
+    <button class="settings-item" data-action="scroll-top" aria-label="Scroll to top">
+      <svg class="settings-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+      </svg>
+    </button>
+    
+    <!-- Search -->
+    <button class="settings-item" data-action="search" aria-label="Search">
+      <svg class="settings-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35"></path>
+      </svg>
+    </button>
+    
+    <!-- Accessibility -->
+    <button class="settings-item" data-action="accessibility" aria-label="Accessibility Settings">
+      <svg class="settings-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <circle cx="12" cy="8" r="2"></circle>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v6M8 18h8"></path>
+      </svg>
+    </button>
+    
+  </div>
+  
+  <!-- Plus Icon Tab -->
+  <button class="settings-toggle" data-settings-toggle aria-label="Navigation Menu">
+    <svg class="settings-plus" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+    </svg>
+  </button>
+</div>
+
+<!-- Overlay Screens -->
+<!-- Email/Contact Overlay -->
+<div class="overlay-screen" data-overlay-screen="email">
+  <div class="overlay-backdrop" data-overlay-backdrop="email"></div>
+  <div class="overlay-content" data-overlay-content="email">
+    <div class="overlay-header">
+      <div class="overlay-logo">
+        <img src="/images/Logo-Text.svg" alt="IC the Moon" class="overlay-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" />
+        <span class="overlay-logo-text" style="display:none">IC</span>
+      </div>
+      <button class="overlay-close" data-overlay-close="email" aria-label="Close">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="overlay-body">
+      <h2 class="overlay-title">Contact & Email</h2>
+      <p class="overlay-placeholder">Contact form and details will go here...</p>
+    </div>
+  </div>
+</div>
+
+<!-- Accessibility Overlay -->
+<div class="overlay-screen" data-overlay-screen="accessibility">
+  <div class="overlay-backdrop" data-overlay-backdrop="accessibility"></div>
+  <div class="overlay-content" data-overlay-content="accessibility">
+    <div class="overlay-header">
+      <div class="overlay-logo">
+        <img src="/images/Logo-Text.svg" alt="IC the Moon" class="overlay-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" />
+        <span class="overlay-logo-text" style="display:none">IC</span>
+      </div>
+      <button class="overlay-close" data-overlay-close="accessibility" aria-label="Close">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="overlay-body">
+      <h2 class="overlay-title">Accessibility Settings</h2>
+      <p class="overlay-placeholder">Accessibility controls will go here...</p>
+    </div>
+  </div>
+</div>
+
+<!-- Search Overlay -->
+<div class="overlay-screen" data-overlay-screen="search">
+  <div class="overlay-backdrop" data-overlay-backdrop="search"></div>
+  <div class="overlay-content" data-overlay-content="search">
+    <div class="overlay-header">
+      <div class="overlay-logo">
+        <img src="/images/Logo-Text.svg" alt="IC the Moon" class="overlay-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" />
+        <span class="overlay-logo-text" style="display:none">IC</span>
+      </div>
+      <button class="overlay-close" data-overlay-close="search" aria-label="Close">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="overlay-body">
+      <h2 class="overlay-title">Search</h2>
+      <p class="overlay-placeholder">Search functionality will go here...</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Settings Tab - Positioned 3/4 down page, partially off-screen */
+  .settings-tab {
+    position: fixed !important;
+    top: 85vh !important; /* Moved lower - 85% down the page */
+    right: -20px !important; /* Partially off-screen */
+    z-index: 999 !important;
+    display: block !important; /* Simple block layout */
+    pointer-events: auto !important;
+    /* Ensure visibility */
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  .settings-toggle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important; /* Match settings-item alignment */
+    width: 72px !important; /* Match settings-item width */
+    height: 48px !important; /* Reduced height for better fit */ /* Match settings-item height */
+    background: #fffaf6 !important; /* Cream background */
+    border: 1px solid rgba(184, 186, 190, 0.4) !important; /* Subtle border */
+    border-radius: 28px 0 0 28px !important; /* Match settings-item border-radius */
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer !important;
+    color: #184e77 !important; /* Blue text */
+    border-right: none !important; /* No right border since it's off-screen */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Ensure visibility */
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 20px 0 16px !important; /* Match settings-item padding */
+  }
+  
+  .settings-plus {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2.5 !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: inherit !important;
+  }
+  
+  .settings-toggle:hover,
+  .settings-toggle.active {
+    transform: translateX(-10px) !important; /* Pull into view slightly */
+    background: #e63961 !important; /* Red background */
+    color: #ffffff !important; /* White text */
+    box-shadow: -8px 0 24px rgba(230, 57, 97, 0.3) !important;
+  }
+  
+  .settings-toggle.active .settings-plus {
+    transform: rotate(45deg);
+  }
+  
+  .settings-plus {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Expanded Settings Menu - Positioned absolutely above the tab */
+  .settings-expanded {
+    position: absolute !important;
+    bottom: 64px !important; /* Match tab height (48px) + gap (16px) for equal spacing */
+    right: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important; /* More space between tabs */
+    opacity: 0 !important;
+    transform: translateY(20px) scale(0.9) !important;
+    transform-origin: bottom right !important; /* Ensure it expands from bottom-right corner */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    pointer-events: none !important;
+    /* Ensure it doesn't get cut off */
+    max-height: 400px !important;
+    overflow: visible !important;
+    z-index: 1001 !important; /* Higher z-index than the tab */
+  }
+  
+  .settings-expanded.show {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    transform-origin: bottom right !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Staggered animation for individual tabs when expanded - glide in from right */
+  .settings-expanded.show .settings-item {
+    opacity: 1 !important;
+    transform: translateX(0) scale(1) !important; /* Slide to normal position */
+  }
+  
+  /* Individual animation delays for staggered glide effect - bottom to top */
+  .settings-expanded.show .settings-item:nth-child(1) {
+    transition-delay: 0.45s !important; /* Contact - last to glide in (top) */
+  }
+  
+  .settings-expanded.show .settings-item:nth-child(2) {
+    transition-delay: 0.35s !important; /* Home */
+  }
+  
+  .settings-expanded.show .settings-item:nth-child(3) {
+    transition-delay: 0.25s !important; /* Scroll to top */
+  }
+  
+  .settings-expanded.show .settings-item:nth-child(4) {
+    transition-delay: 0.15s !important; /* Search */
+  }
+  
+  .settings-expanded.show .settings-item:nth-child(5) {
+    transition-delay: 0.05s !important; /* Accessibility - first to glide in (bottom) */
+  }
+  
+  /* Exit animation states - glide back to right */
+  .settings-expanded.exiting .settings-item {
+    opacity: 0 !important;
+    transform: translateX(50px) scale(0.9) !important; /* Glide back to right */
+  }
+  
+  /* Staggered disappear animation - reverse order (top to bottom) */
+  .settings-expanded.exiting .settings-item:nth-child(1) {
+    transition-delay: 0.05s !important; /* Contact - first to disappear (top) */
+  }
+  
+  .settings-expanded.exiting .settings-item:nth-child(2) {
+    transition-delay: 0.15s !important; /* Home */
+  }
+  
+  .settings-expanded.exiting .settings-item:nth-child(3) {
+    transition-delay: 0.25s !important; /* Scroll to top */
+  }
+  
+  .settings-expanded.exiting .settings-item:nth-child(4) {
+    transition-delay: 0.35s !important; /* Search */
+  }
+  
+  .settings-expanded.exiting .settings-item:nth-child(5) {
+    transition-delay: 0.45s !important; /* Accessibility - last to disappear (bottom) */
+  }
+  
+  .settings-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important; /* Align icons to the left */
+    width: 72px !important; /* Wider tabs */
+    height: 48px !important; /* Reduced height for better fit */
+    background: #fffaf6 !important;
+    border: 1px solid rgba(184, 186, 190, 0.4) !important;
+    border-radius: 28px 0 0 28px !important; /* Match tab shape but larger */
+    border-right: none !important;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Faster transitions for hover switching */
+    color: #184e77 !important;
+    position: relative !important;
+    padding: 0 20px 0 16px !important; /* Less left padding, more right padding */
+    /* Initial/hidden state - tabs start and return to right side */
+    opacity: 0 !important;
+    transform: translateX(50px) scale(0.9) !important;
+  }
+  
+  .settings-expanded.show .settings-item:hover {
+    transform: translateX(-12px) scale(1) !important; /* Maintain scale while translating */
+    background: #e63961 !important;
+    color: #ffffff !important;
+    box-shadow: -12px 0 24px rgba(230, 57, 97, 0.3) !important;
+    transition-delay: 0s !important; /* Remove delay for immediate hover response */
+  }
+  
+  .settings-icon {
+    width: 22px !important;
+    height: 22px !important;
+    stroke-width: 2.5 !important;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .settings-tab {
+      top: 70vh; /* Slightly higher on mobile */
+      right: -15px;
+    }
+    
+    .settings-toggle {
+      width: 60px; /* Slightly wider for mobile */
+      height: 40px; /* Reduced height for mobile */
+    }
+    
+    .settings-plus {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .settings-item {
+      width: 60px; /* Wider for mobile */
+      height: 40px; /* Reduced height for mobile */
+    }
+    
+    .settings-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  /* Overlay Screens */
+  .overlay-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .overlay-screen.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  /* Overlay Backdrop - Grey background for mobile only */
+  .overlay-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Grey background for mobile */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* Mobile: Rounded rectangle container with padding */
+  .overlay-content {
+    position: absolute;
+    top: 24px; /* Top padding */
+    left: 16px; /* Left padding */
+    right: 16px; /* Right padding */
+    bottom: 24px; /* Bottom padding */
+    background: var(--brand-background); /* Proper brand background color */
+    border: 1px solid var(--nav-border);
+    border-radius: var(--nav-border-radius) !important; /* Force all corners rounded */
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.4), 0 8px 32px -8px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    transform: translateX(100%); /* Start from right */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Same as tab animation */
+    overflow: hidden; /* Ensure children respect border-radius */
+  }
+  
+  .overlay-screen.show .overlay-content {
+    transform: translateX(0);
+  }
+  
+  /* Overlay Header - Pinned at top */
+  .overlay-header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: color-mix(in srgb, var(--brand-background) 90%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--nav-border);
+    z-index: 10;
+    /* Ensure top corners stay rounded */
+    border-top-left-radius: var(--nav-border-radius);
+    border-top-right-radius: var(--nav-border-radius);
+  }
+  
+  /* Logo in overlay header */
+  .overlay-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .overlay-logo-img {
+    height: 32px;
+    width: auto;
+  }
+  
+  .overlay-logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-primary); /* Brand primary for logo */
+  }
+  
+  /* Close button */
+  .overlay-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--nav-border);
+    border-radius: 12px;
+    color: var(--nav-text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .overlay-close:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-text-accent);
+    transform: scale(1.05);
+  }
+  
+  /* Overlay Body */
+  .overlay-body {
+    flex: 1;
+    padding: 32px 24px;
+    overflow-y: auto;
+  }
+  
+  .overlay-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--nav-text-primary);
+    margin: 0 0 24px 0;
+  }
+  
+  .overlay-placeholder {
+    color: var(--nav-text-primary);
+    opacity: 0.8;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  /* Desktop: Half-height overlay that glides from right, no background */
+  @media (min-width: 768px) {
+    .overlay-backdrop {
+      display: none; /* Remove grey background for desktop */
+    }
+    
+    .overlay-content {
+      top: 50%;
+      left: 32px; /* Left padding */
+      right: 32px; /* Right padding */  
+      bottom: auto;
+      width: auto;
+      height: 50%; /* Half height */
+      max-width: none;
+      background: var(--brand-background); /* Proper brand background color */
+      border: 1px solid var(--nav-border);
+      box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.4), 0 8px 32px -8px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+      transform: translateX(100%) translateY(-50%); /* Start from right, centered vertically */
+    }
+    
+    .overlay-screen.show .overlay-content {
+      transform: translateX(0) translateY(-50%); /* Slide to normal position from right */
+    }
+    
+    .overlay-header {
+      position: static;
+      background: transparent;
+      border-bottom: 1px solid color-mix(in srgb, var(--nav-border) 60%, transparent);
+      padding: 24px 32px 20px 32px;
+    }
+    
+    .overlay-logo-img {
+      height: 36px;
+    }
+    
+    .overlay-body {
+      padding: 20px 32px 32px 32px;
+    }
+    
+    .overlay-title {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .overlay-content {
+      left: 64px; /* More padding on larger screens */
+      right: 64px;
+    }
+    
+    .overlay-header {
+      padding: 32px 48px 24px 48px;
+    }
+    
+    .overlay-body {
+      padding: 24px 48px 48px 48px;
+    }
+    
+    .overlay-logo-img {
+      height: 40px;
+    }
+    
+    .overlay-title {
+      font-size: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  function initBottomNav() {
+    const settingsTab = document.querySelector('[data-settings-tab]');
+    const settingsToggle = document.querySelector('[data-settings-toggle]');
+    const settingsExpanded = document.querySelector('[data-settings-expanded]');
+    
+    if (!settingsTab) return;
+    
+    let isSettingsExpanded = false;
+    let hoverTimer = null;
+    
+    // Auto-collapse function with delay
+    const scheduleAutoCollapse = () => {
+      if (hoverTimer) clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => {
+        if (!isSettingsExpanded) {
+          // Add exit class for staggered exit animation
+          settingsExpanded?.classList.add('exiting');
+          setTimeout(() => {
+            settingsExpanded?.classList.remove('show');
+            settingsExpanded?.classList.remove('exiting');
+          }, 600);
+        }
+      }, 1800); // 1.8 second delay
+    };
+    
+    const cancelAutoCollapse = () => {
+      if (hoverTimer) {
+        clearTimeout(hoverTimer);
+        hoverTimer = null;
+      }
+    };
+    
+    // Overlay management functions
+    const openOverlay = (type) => {
+      const overlay = document.querySelector(`[data-overlay-screen="${type}"]`);
+      if (overlay) {
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Close settings menu when opening overlay
+        isSettingsExpanded = false;
+        settingsExpanded?.classList.remove('show');
+        settingsToggle?.classList.remove('active');
+        cancelAutoCollapse();
+      }
+    };
+    
+    const closeOverlay = (type) => {
+      const overlay = document.querySelector(`[data-overlay-screen="${type}"]`);
+      if (overlay) {
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    };
+    
+    const closeAllOverlays = () => {
+      document.querySelectorAll('.overlay-screen').forEach(overlay => {
+        overlay.classList.remove('show');
+      });
+      document.body.style.overflow = '';
+    };
+    
+    // Toggle settings menu
+    const toggleSettings = () => {
+      isSettingsExpanded = !isSettingsExpanded;
+      
+      if (isSettingsExpanded) {
+        settingsExpanded?.classList.add('show');
+        settingsToggle?.classList.add('active');
+      } else {
+        // Add exit class for staggered exit animation
+        settingsExpanded?.classList.add('exiting');
+        settingsToggle?.classList.remove('active');
+        
+        // Remove show class after a brief delay to allow exit animation
+        setTimeout(() => {
+          settingsExpanded?.classList.remove('show');
+          settingsExpanded?.classList.remove('exiting');
+        }, 600); // Wait for staggered animation to complete
+      }
+    };
+    
+    // Handle settings toggle click and hover
+    settingsToggle?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSettings();
+    });
+    
+    settingsToggle?.addEventListener('mouseenter', () => {
+      cancelAutoCollapse();
+      if (!isSettingsExpanded) {
+        settingsExpanded?.classList.add('show');
+      }
+    });
+    
+    settingsTab?.addEventListener('mouseenter', () => {
+      cancelAutoCollapse();
+    });
+    
+    settingsTab?.addEventListener('mouseleave', () => {
+      if (!isSettingsExpanded) {
+        scheduleAutoCollapse(); // Start 1.8 second timer
+      }
+    });
+    
+    // Close settings when clicking outside
+    document.addEventListener('click', (e) => {
+      if (isSettingsExpanded && !settingsTab.contains(e.target)) {
+        isSettingsExpanded = false;
+        settingsExpanded?.classList.remove('show');
+        settingsToggle?.classList.remove('active');
+      }
+    });
+    
+    // Handle button clicks
+    settingsTab.addEventListener('click', (e) => {
+      const button = e.target.closest('[data-action]');
+      if (!button) return;
+      
+      const action = button.dataset.action;
+      
+      switch (action) {
+        case 'home':
+          window.location.href = '/';
+          break;
+          
+        case 'scroll-top':
+          document.documentElement.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+          // Fallback for older browsers
+          if (window.scrollTo) {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+          break;
+          
+        case 'contact':
+          // Open email/contact overlay
+          openOverlay('email');
+          break;
+          
+        case 'search':
+          // Open search overlay
+          openOverlay('search');
+          break;
+          
+        case 'accessibility':
+          // Open accessibility overlay (screen instead of sidebar)
+          openOverlay('accessibility');
+          break;
+          
+      }
+    });
+    
+    // Show/hide scroll-to-top button based on scroll position
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      const scrollTopBtn = settingsTab.querySelector('[data-action="scroll-top"]');
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      if (scrollTopBtn) {
+        const btn = scrollTopBtn as HTMLElement;
+        if (scrollTop > 200) {
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
+        } else {
+          btn.style.opacity = '0.5';
+          btn.style.pointerEvents = 'none';
+        }
+      }
+      lastScrollTop = scrollTop;
+    };
+    
+    // Initial scroll check
+    handleScroll();
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Overlay event listeners
+    document.querySelectorAll('[data-overlay-close]').forEach(closeBtn => {
+      closeBtn.addEventListener('click', (e) => {
+        const type = closeBtn.getAttribute('data-overlay-close');
+        closeOverlay(type);
+      });
+    });
+    
+    // Close overlays when clicking backdrop
+    document.querySelectorAll('[data-overlay-backdrop]').forEach(backdrop => {
+      backdrop.addEventListener('click', (e) => {
+        const type = backdrop.getAttribute('data-overlay-backdrop');
+        closeOverlay(type);
+      });
+    });
+    
+    // Close overlays with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAllOverlays();
+      }
+    });
+  }
+  
+  // Initialize bottom nav
+  initBottomNav();
+</script>
