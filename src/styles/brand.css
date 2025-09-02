@@ -24,7 +24,7 @@
   --font-nav: var(--font-body);
 
   /* ---- Navigation System ---- */
-  --nav-height: 70px;
+  --nav-height: 45px;
   --nav-mobile-height: 60px;
   --nav-border-radius: 35px;
   --nav-mobile-border-radius: 30px;
