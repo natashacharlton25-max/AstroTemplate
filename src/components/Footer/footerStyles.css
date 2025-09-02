@@ -237,9 +237,7 @@
   }
   
   .footer-content {
-    grid-template-columns: 1fr 1fr; /* 2 columns on mobile */
-    gap: 20px 16px; /* row-gap column-gap */
-    text-align: left; /* Left align for better readability */
+    margin-bottom: 20px;
   }
   
   .footer-header {
@@ -264,19 +262,168 @@
     font-size: 0.8rem;
     line-height: 1.4;
   }
-  
-  .footer-section-title {
-    font-size: 0.9rem;
+
+  /* Mobile Footer Sections */
+  .footer-mobile-sections {
+    width: 100%;
+  }
+
+  .footer-mobile-column {
+    display: flex;
+    flex-direction: column;
+    text-align: center; /* Center align the content */
+  }
+
+  .footer-mobile-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--footer-section-title, var(--nav-text-accent));
     margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--footer-border, rgba(255, 255, 255, 0.1));
+    padding-bottom: 8px;
   }
-  
-  .footer-links {
-    gap: 6px; /* Tighter link spacing */
+
+  .footer-mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center; /* Center align the links */
   }
-  
-  .footer-link {
+
+  .footer-mobile-link {
+    color: var(--footer-link, var(--nav-text-primary));
+    text-decoration: none;
     font-size: 0.85rem;
-    padding: 2px 0;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    padding: 4px 0;
+    position: relative;
+  }
+
+  .footer-mobile-link:hover {
+    color: var(--footer-link-hover, var(--nav-text-accent));
+    opacity: 1;
+    transform: scale(1.05); /* Scale instead of translateX for centered items */
+  }
+
+  /* Mobile Contact Section - More Compact */
+  .footer-mobile-contact {
+    background: var(--footer-contact-bg, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--footer-border, rgba(255, 255, 255, 0.08));
+    border-radius: 16px;
+    padding: 16px; /* Reduced from 20px */
+    margin-top: 4px; /* Reduced from 8px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px; /* Reduced gap between email and social */
+  }
+
+  .footer-mobile-contact-compact {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footer-mobile-contact-email {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--footer-contact, var(--nav-text-primary));
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: var(--footer-contact-item-bg, rgba(255, 255, 255, 0.02));
+    border: 1px solid var(--footer-contact-item-border, rgba(255, 255, 255, 0.05));
+  }
+
+  .footer-mobile-contact-email:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    background: var(--footer-contact-item-hover-bg, rgba(255, 255, 255, 0.05));
+    border-color: var(--footer-contact-item-hover-border, var(--nav-text-accent));
+  }
+
+  .footer-mobile-contact-email svg {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .footer-mobile-contact-email:hover svg {
+    opacity: 1;
+  }
+
+  .footer-mobile-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .footer-mobile-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--footer-contact, var(--nav-text-primary));
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: var(--footer-contact-item-bg, rgba(255, 255, 255, 0.02));
+    border: 1px solid var(--footer-contact-item-border, rgba(255, 255, 255, 0.05));
+  }
+
+  .footer-mobile-contact-item:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    background: var(--footer-contact-item-hover-bg, rgba(255, 255, 255, 0.05));
+    border-color: var(--footer-contact-item-hover-border, var(--nav-text-accent));
+  }
+
+  .footer-mobile-contact-item svg {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .footer-mobile-contact-item:hover svg {
+    opacity: 1;
+  }
+
+  /* Mobile Social Links - More Compact */
+  .footer-mobile-social {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Reduced from 12px */
+    flex-wrap: wrap;
+  }
+
+  .footer-mobile-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px; /* Reduced from 44px */
+    height: 38px; /* Reduced from 44px */
+    background: var(--footer-social-bg, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--footer-social-border, rgba(255, 255, 255, 0.1));
+    border-radius: 12px;
+    color: var(--footer-social-text, var(--nav-text-primary));
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+  }
+
+  .footer-mobile-social-link:hover {
+    background: var(--footer-social-hover-bg, var(--nav-hover-bg));
+    border-color: var(--footer-social-hover-border, var(--nav-text-accent));
+    transform: translateY(-2px);
+    opacity: 1;
   }
   
   .footer-social {
@@ -308,27 +455,43 @@
   }
   
   .footer-container {
-    padding: 20px 16px; /* Even more compact */
+    padding: 18px 14px; /* More compact */
     border-radius: var(--footer-mobile-border-radius, 20px);
   }
   
-  .footer-content {
-    grid-template-columns: 1fr 1fr; /* Keep 2 columns even on small mobile */
-    gap: 16px 12px; /* Tighter column gap */
-  }
-  
   .footer-header {
-    margin-bottom: 16px;
-    padding-bottom: 12px;
+    margin-bottom: 14px; /* Reduced from 16px */
+    padding-bottom: 10px; /* Reduced from 12px */
   }
-  
-  .footer-section-title {
-    font-size: 0.85rem;
+
+  .footer-mobile-title {
+    font-size: 0.9rem;
     margin-bottom: 10px;
+    padding-bottom: 6px;
   }
-  
-  .footer-link {
+
+  .footer-mobile-link {
     font-size: 0.8rem;
+  }
+
+  .footer-mobile-contact {
+    padding: 14px 12px; /* More compact */
+    gap: 10px; /* Reduced gap */
+  }
+
+  .footer-mobile-contact-email {
+    font-size: 0.85rem;
+    padding: 6px 14px; /* Smaller padding */
+  }
+
+  .footer-mobile-contact-item {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+
+  .footer-mobile-social-link {
+    width: 36px; /* Smaller on very small screens */
+    height: 36px;
   }
   
   .footer-bottom {
