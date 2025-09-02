@@ -826,7 +826,7 @@
     if (!settingsTab) return;
     
     let isSettingsExpanded = false;
-    let hoverTimer = null;
+    let hoverTimer: ReturnType<typeof setTimeout> | null = null;
     
     // Auto-collapse function with delay
     const scheduleAutoCollapse = () => {
@@ -851,7 +851,7 @@
     };
     
     // Overlay management functions
-    const openOverlay = (type) => {
+    const openOverlay = (type: string) => {
       const overlay = document.querySelector(`[data-overlay-screen="${type}"]`);
       if (overlay) {
         overlay.classList.add('show');
@@ -865,7 +865,7 @@
       }
     };
     
-    const closeOverlay = (type) => {
+    const closeOverlay = (type: string) => {
       const overlay = document.querySelector(`[data-overlay-screen="${type}"]`);
       if (overlay) {
         overlay.classList.remove('show');
@@ -925,7 +925,7 @@
     
     // Close settings when clicking outside
     document.addEventListener('click', (e) => {
-      if (isSettingsExpanded && !settingsTab.contains(e.target)) {
+      if (isSettingsExpanded && !settingsTab.contains(e.target as Node)) {
         isSettingsExpanded = false;
         settingsExpanded?.classList.remove('show');
         settingsToggle?.classList.remove('active');
@@ -934,10 +934,10 @@
     
     // Handle button clicks
     settingsTab.addEventListener('click', (e) => {
-      const button = e.target.closest('[data-action]');
+      const button = e.target && (e.target as Element).closest('[data-action]');
       if (!button) return;
       
-      const action = button.dataset.action;
+      const action = (button as HTMLElement).dataset.action;
       
       switch (action) {
         case 'home':
@@ -1007,7 +1007,23 @@
     document.querySelectorAll('[data-overlay-close]').forEach(closeBtn => {
       closeBtn.addEventListener('click', (e) => {
         const type = closeBtn.getAttribute('data-overlay-close');
-        closeOverlay(type);
+        if (typeof type === 'string') {
+          if (typeof type === 'string') {
+            if (typeof type === 'string') {
+              if (typeof type === 'string') {
+                if (typeof type === 'string') {
+                  if (type !== null) {
+                    if (typeof type === 'string') {
+                      if (typeof type === 'string') {
+                        closeOverlay(type);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       });
     });
     
@@ -1015,7 +1031,9 @@
     document.querySelectorAll('[data-overlay-backdrop]').forEach(backdrop => {
       backdrop.addEventListener('click', (e) => {
         const type = backdrop.getAttribute('data-overlay-backdrop');
-        closeOverlay(type);
+        if (typeof type === 'string') {
+          closeOverlay(type);
+        }
       });
     });
     
@@ -1047,20 +1065,20 @@
     // Handle page-specific checkbox
     if (pageCheckbox && messageTextarea) {
       pageCheckbox.addEventListener('change', () => {
-        if (pageCheckbox.checked) {
+        if ((pageCheckbox as HTMLInputElement).checked) {
           // Add page information to message
-          const currentMessage = messageTextarea.value.trim();
+          const currentMessage = (messageTextarea as HTMLTextAreaElement).value.trim();
           const pageInfo = `\n\n--- Page Information ---\nPage: ${pageName}\nURL: ${window.location.href}\nUser Agent: ${navigator.userAgent}\nTimestamp: ${new Date().toISOString()}`;
           
           if (!currentMessage.includes('--- Page Information ---')) {
-            messageTextarea.value = currentMessage + pageInfo;
+            (messageTextarea as HTMLTextAreaElement).value = currentMessage + pageInfo;
           }
         } else {
           // Remove page information from message
-          const currentMessage = messageTextarea.value;
+          const currentMessage = (messageTextarea as HTMLTextAreaElement).value;
           const pageInfoIndex = currentMessage.indexOf('\n\n--- Page Information ---');
           if (pageInfoIndex > -1) {
-            messageTextarea.value = currentMessage.substring(0, pageInfoIndex);
+            (messageTextarea as HTMLTextAreaElement).value = currentMessage.substring(0, pageInfoIndex);
           }
         }
       });
@@ -1072,6 +1090,7 @@
         e.preventDefault();
         
         const submitBtn = contactForm.querySelector('.contact-submit-btn');
+        if (!submitBtn) return;
         const originalText = submitBtn.innerHTML;
         
         // Show loading state
@@ -1081,11 +1100,11 @@
           </svg>
           Sending...
         `;
-        submitBtn.disabled = true;
+        (submitBtn as HTMLButtonElement).disabled = true;
         
         try {
           // Get form data
-          const formData = new FormData(contactForm);
+          const formData = new FormData(contactForm as HTMLFormElement);
           
           // Here you would typically send the data to your backend
           // For now, we'll simulate a successful submission
@@ -1101,9 +1120,9 @@
           
           // Reset form after success
           setTimeout(() => {
-            contactForm.reset();
+            (contactForm as HTMLFormElement).reset();
             submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
+            (submitBtn as HTMLButtonElement).disabled = false;
             // Close the overlay after successful submission
             closeOverlay('email');
           }, 2000);
@@ -1121,7 +1140,7 @@
           
           setTimeout(() => {
             submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
+            (submitBtn as HTMLButtonElement).disabled = false;
           }, 3000);
         }
       });
