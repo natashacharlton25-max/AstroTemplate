@@ -1,0 +1,202 @@
+/* Overlay Screens Styles */
+
+.overlay-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.overlay-screen.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Overlay Backdrop */
+.overlay-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Mobile: Rounded rectangle container with padding */
+.overlay-content {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  right: 16px;
+  bottom: 24px;
+  background: var(--brand-background);
+  border: 1px solid var(--nav-border);
+  border-radius: var(--nav-border-radius) !important;
+  box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.4), 0 8px 32px -8px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+}
+
+.overlay-screen.show .overlay-content {
+  transform: translateX(0);
+}
+
+/* Overlay Header */
+.overlay-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: color-mix(in srgb, var(--brand-background) 90%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--nav-border);
+  z-index: 10;
+  border-top-left-radius: var(--nav-border-radius);
+  border-top-right-radius: var(--nav-border-radius);
+}
+
+/* Logo in overlay header */
+.overlay-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overlay-logo-img {
+  height: 32px;
+  width: auto;
+}
+
+.overlay-logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+}
+
+/* Close button */
+.overlay-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--nav-border);
+  border-radius: 12px;
+  color: var(--nav-text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.overlay-close:hover {
+  background: var(--nav-hover-bg);
+  color: var(--nav-text-accent);
+  transform: scale(1.05);
+}
+
+/* Overlay Body */
+.overlay-body {
+  flex: 1;
+  padding: 32px 24px;
+  overflow-y: auto;
+}
+
+.overlay-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--nav-text-primary);
+  margin: 0 0 24px 0;
+}
+
+.overlay-placeholder {
+  color: var(--nav-text-primary);
+  opacity: 0.8;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Desktop: Half-height overlay */
+@media (min-width: 768px) {
+  .overlay-backdrop {
+    display: none;
+  }
+  
+  .overlay-content {
+    top: 50%;
+    left: 32px;
+    right: 32px;  
+    bottom: auto;
+    width: auto;
+    height: 50%;
+    max-width: none;
+    background: var(--brand-background);
+    border: 1px solid var(--nav-border);
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.4), 0 8px 32px -8px rgba(0, 0, 0, 0.3);
+    transform: translateX(100%) translateY(-50%);
+  }
+  
+  .overlay-screen.show .overlay-content {
+    transform: translateX(0) translateY(-50%);
+  }
+  
+  .overlay-header {
+    position: static;
+    background: transparent;
+    border-bottom: 1px solid color-mix(in srgb, var(--nav-border) 60%, transparent);
+    padding: 24px 32px 20px 32px;
+  }
+  
+  .overlay-logo-img {
+    height: 36px;
+  }
+  
+  .overlay-body {
+    padding: 20px 32px 32px 32px;
+  }
+  
+  .overlay-title {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .overlay-content {
+    left: 64px;
+    right: 64px;
+  }
+  
+  .overlay-header {
+    padding: 32px 48px 24px 48px;
+  }
+  
+  .overlay-body {
+    padding: 24px 48px 48px 48px;
+  }
+  
+  .overlay-logo-img {
+    height: 40px;
+  }
+  
+  .overlay-title {
+    font-size: 2.25rem;
+  }
+}

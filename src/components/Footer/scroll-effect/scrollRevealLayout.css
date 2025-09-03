@@ -1,0 +1,63 @@
+/* Footer Scroll Reveal Layout Styles */
+
+/* Define reveal height as CSS custom property */
+:root {
+  --reveal-height: 50vh;
+}
+
+/* Scroll reveal effect styles with viewport-based transform */
+body.tight .wrapper {
+  transform: translateY(calc(-1 * var(--reveal-height))) scale(0.85);
+  cursor: pointer;
+  border-radius: var(--nav-border-radius);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Show message overlay when footer is revealed */
+body.tight .reveal-message {
+  opacity: 1;
+}
+
+/* Smooth transitions */
+.wrapper {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure proper layering */
+body.tight .fixed {
+  pointer-events: auto;
+}
+
+.fixed {
+  pointer-events: none;
+}
+
+body.tight .fixed * {
+  pointer-events: auto;
+}
+
+/* Reveal message styling */
+.reveal-message {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  opacity: 0;
+  transition: all 0.5s ease;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .reveal-message {
+    top: 2rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+}

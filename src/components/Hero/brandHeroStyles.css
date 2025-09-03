@@ -1,0 +1,22 @@
+/* Brand Hero Component Styles */
+
+.brand-text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #f1f1e8;
+  font-family: sans-serif;
+}
+
+.brand-text-container h1 {
+  font-size: 8rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.brand-text-container p {
+  font-size: 2rem;
+}

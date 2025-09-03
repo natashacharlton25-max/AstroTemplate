@@ -1,38 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import GlassmorphicNav from '../components/NavBar/GlassmorphicNav.astro';
+import BrandHero from '../components/Hero/BrandHero.astro';
 ---
 
 <Layout>
   <GlassmorphicNav />
   <main style="height:240vh; position: relative;">
-    <div class="brand-text-container">
-      <h1>Your Brand</h1>
-      <p>This is some text to demonstrate the blur effect.</p>
-    </div>
+    <BrandHero />
   </main>
-
-  <style>
-    /* Add some styling to position and make the text visible */
-    .brand-text-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: #fff; /* A contrasting color */
-      font-family: sans-serif;
-    }
-
-    .brand-text-container h1 {
-      font-size: 8rem; /* Make the text large to see the blur */
-      font-weight: bold;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a shadow to make it pop */
-      margin-bottom: 1rem;
-    }
-
-    .brand-text-container p {
-      font-size: 2rem;
-    }
-  </style>
 </Layout>

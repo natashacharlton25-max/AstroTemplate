@@ -142,6 +142,7 @@ const currentPath = Astro.url.pathname;
 
 <script>
   import { initNavigation } from './navFunctions';
-  initNavigation();
   
+  // Initialize navigation with async support
+  initNavigation().catch(console.error);
 </script>

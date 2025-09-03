@@ -1,0 +1,20 @@
+---
+export interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { 
+  title = "Your Brand",
+  subtitle = "This is some text to demonstrate the blur effect."
+} = Astro.props;
+---
+
+<div class="brand-text-container">
+  <h1>{title}</h1>
+  <p>{subtitle}</p>
+</div>
+
+<style>
+  @import './brandHeroStyles.css';
+</style>

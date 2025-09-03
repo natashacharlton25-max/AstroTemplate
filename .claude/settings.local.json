@@ -4,7 +4,8 @@
       "Bash(mkdir:*)",
       "Bash(npm run dev:*)",
       "Bash(npx astro:*)",
-      "Bash(git revert:*)"
+      "Bash(git revert:*)",
+      "Bash(move:*)"
     ],
     "deny": [],
     "ask": []

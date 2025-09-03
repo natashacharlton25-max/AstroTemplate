@@ -1,7 +1,7 @@
 ---
 import '../styles/brand.css';
-import '../components/Footer/footerRevealStyles.css';
-import Footer from '../components/Footer/Footer.astro';
+import '../components/Footer/scroll-effect/footerRevealStyles.css';
+import ScrollRevealLayout from '../components/Footer/scroll-effect/ScrollRevealLayout.astro';
 import BottomNav from '../components/BottomNav/BottomNav.astro';
 
 // Props for layout configuration
@@ -24,123 +24,9 @@ const {
   </head>
   <body class="min-h-screen overflow-x-hidden" style="min-height:100vh">
     {enableFooterReveal ? (
-      <>
-        <!-- Main Content Wrapper with scroll reveal -->
-        <div class="wrapper relative z-10 min-h-screen bg-white transition-all duration-700 ease-out origin-top">
-          <slot />
-          <!-- Add extra space at bottom to ensure proper scroll reveal -->
-          <div class="h-32 sm:h-40 lg:h-48"></div>
-        </div>
-        
-        <!-- Message overlay that appears when footer is revealed -->
-        <div class="reveal-message fixed top-4 sm:top-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full opacity-0 transition-all duration-500 pointer-events-none" style="z-index: 9999;">
-          <p class="text-xs sm:text-sm font-medium">Click anywhere to return to top ↑</p>
-        </div>
-        
-        <!-- Footer Section with reveal effect -->
-        <div class="fixed inset-0 z-0 flex items-end justify-center" style="background: linear-gradient(135deg, var(--brand-navy-dark), var(--brand-navy), var(--brand-navy-light))">
-          <!-- Placeholder for future animated background -->
-          <!-- TODO: Add animated background effect similar to https://codepen.io/mfritsch/pen/KdKoKQ -->
-          <div class="w-full px-8 py-8">
-            <div class="footer-reveal-container">
-              <Footer enableAnimations={true} />
-            </div>
-          </div>
-        </div>
-        
-        <!-- Bottom Navigation -->
-        <BottomNav />
-
-        <script client:load>
-          let isAtBottom = false;
-          let ticking = false;
-
-          function updateScrollState() {
-            const scrollHeight = document.documentElement.scrollHeight;
-            const scrollTop = document.documentElement.scrollTop;
-            const clientHeight = document.documentElement.clientHeight;
-            
-            // Calculate how much is left to scroll
-            const remainingScroll = scrollHeight - scrollTop - clientHeight;
-            
-            // Fixed distance from bottom to match desired reveal height
-            // Adjust this value to control how much footer shows underneath
-            const nearBottom = remainingScroll <= 400 && remainingScroll >= 0;
-            
-            if (nearBottom && !isAtBottom) {
-              isAtBottom = true;
-              document.body.classList.add('tight');
-            } else if (!nearBottom && isAtBottom) {
-              isAtBottom = false;
-              document.body.classList.remove('tight');
-            }
-            
-            ticking = false;
-          }
-
-          function requestTick() {
-            if (!ticking) {
-              requestAnimationFrame(updateScrollState);
-              ticking = true;
-            }
-          }
-
-          // Scroll event listener
-          window.addEventListener('scroll', requestTick);
-
-          // Click handler for scaled content to scroll back up
-          document.querySelector('.wrapper')?.addEventListener('click', () => {
-            if (isAtBottom) {
-              window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-              });
-            }
-          });
-
-          // Initial check
-          updateScrollState();
-        </script>
-
-        <style>
-          /* Define reveal height as CSS custom property */
-          :root {
-            --reveal-height: 50vh;
-          }
-          
-          /* Scroll reveal effect styles with viewport-based transform */
-          body.tight .wrapper {
-            transform: translateY(calc(-1 * var(--reveal-height))) scale(0.85);
-            cursor: pointer;
-            border-radius: var(--nav-border-radius);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-          }
-          
-          /* Show message overlay when footer is revealed */
-          body.tight .reveal-message {
-            opacity: 1;
-          }
-          
-          /* Smooth transitions */
-          .wrapper {
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-          }
-          
-          /* Ensure proper layering */
-          body.tight .fixed {
-            pointer-events: auto;
-          }
-          
-          .fixed {
-            pointer-events: none;
-          }
-          
-          body.tight .fixed * {
-            pointer-events: auto;
-          }
-
-        </style>
-      </>
+      <ScrollRevealLayout title={title}>
+        <slot />
+      </ScrollRevealLayout>
     ) : (
       <>
         <!-- Standard layout without reveal effect - NO FOOTER -->

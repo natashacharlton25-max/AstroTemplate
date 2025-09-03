@@ -17,11 +17,15 @@ export function isActive(href: string, currentPath: string): boolean {
   return false;
 }
 
-export function initNavigation() {
+export async function initNavigation() {
   const nav = document.querySelector('[data-nav]') as HTMLElement | null;
   const mobileToggle = nav?.querySelector('[data-mobile-toggle]') as HTMLElement | null;
   const mobileMenu = document.querySelector('[data-mobile-menu]') as HTMLElement | null;
   const backdrop = document.querySelector('[data-backdrop]') as HTMLElement | null;
+
+  // Initialize transition manager
+  const { TransitionManager } = await import('./transitions/transitionManager.js');
+  const transitionManager = nav ? new TransitionManager(nav) : null;
 
   const IDLE_DELAY = 7000;
   let idleTimer: ReturnType<typeof setTimeout> | null;
@@ -51,14 +55,40 @@ export function initNavigation() {
     }
   }
 
-  function collapseNav() {
+  function collapseNav(triggerType: 'scroll' | 'timer' | 'hover' = 'timer') {
     if (!nav || !isDesktop()) return;
+    
+    // Set appropriate transition class based on trigger
+    if (transitionManager) {
+      if (triggerType === 'scroll') {
+        transitionManager.useScrollTransition();
+      } else if (triggerType === 'hover') {
+        transitionManager.useHoverTransition();
+      } else {
+        transitionManager.useSmoothTransition();
+      }
+    }
+    
+    // Apply state change
     nav.setAttribute('data-collapsed', 'true');
     nav.removeAttribute('data-expanded');
   }
 
-  function expandNav() {
+  function expandNav(triggerType: 'scroll' | 'timer' | 'hover' = 'timer') {
     if (!nav || !isDesktop()) return;
+    
+    // Set appropriate transition class based on trigger
+    if (transitionManager) {
+      if (triggerType === 'scroll') {
+        transitionManager.useScrollTransition();
+      } else if (triggerType === 'hover') {
+        transitionManager.useHoverTransition();
+      } else {
+        transitionManager.useSmoothTransition();
+      }
+    }
+    
+    // Apply state change
     nav.removeAttribute('data-collapsed');
     nav.setAttribute('data-expanded', 'true');
   }
@@ -72,10 +102,10 @@ export function initNavigation() {
         activeMenu = null;
         // Wait for mega menu to finish collapsing, then nav collapses
         setTimeout(() => {
-          collapseNav();
-        }, 2800); // Wait for full mega menu collapse, then nav collapses
+          collapseNav('timer');
+        }, 1200); // 1.2s pause to match mega menu collapse timing
       } else {
-        collapseNav();
+        collapseNav('timer');
       }
     }, delay);
   }
@@ -118,11 +148,11 @@ export function initNavigation() {
             activeMenu.classList.remove('show');
             activeMenu = null;
           }
-          collapseNav();
+          collapseNav('scroll');
           cancelIdleTimer();
         }
       } else if (!nav.matches(':hover')) {
-        expandNav();
+        expandNav('timer');
         scheduleCollapse();
       }
     }
@@ -239,10 +269,10 @@ export function initNavigation() {
     if (isDesktop()) {
       closeMobileMenu();
       if (window.scrollY <= 50) {
-        expandNav();
+        expandNav('timer');
         scheduleCollapse();
       } else {
-        collapseNav();
+        collapseNav('timer');
       }
     } else {
       nav?.removeAttribute('data-collapsed');
@@ -268,7 +298,7 @@ export function initNavigation() {
       if (isDesktop()) {
         cancelIdleTimer();
         if (nav.getAttribute('data-collapsed') === 'true') {
-          expandNav();
+          expandNav('hover');
         }
       }
     });
@@ -319,7 +349,7 @@ export function initNavigation() {
     if (document.hidden) {
       closeMobileMenu();
       if (nav && isDesktop()) {
-        collapseNav();
+        collapseNav('timer');
       }
     }
   });
@@ -382,9 +412,9 @@ export function initNavigation() {
         // Wait for mega menu container to FINISH collapsing, then collapse nav
         setTimeout(() => {
           if (nav && !nav.matches(':hover') && window.scrollY > 50) {
-            collapseNav();
+            collapseNav('timer');
           }
-        }, 2800); // Wait for full mega menu collapse (2.8s), then nav collapses
+        }, 800); // Wait for mega menu collapse (0.8s), then nav collapses
       }
     }, delay <= 300 ? 0 : delay);
   }
@@ -398,6 +428,12 @@ export function initNavigation() {
 
   // Handle ALL nav menu items (both mega menu and regular)
   const allMenuItems = document.querySelectorAll('.gm-menu-item');
+  
+  // Set CSS custom properties for scalable staggered animations
+  allMenuItems.forEach((item, index) => {
+    (item as HTMLElement).style.setProperty('--item-index', index.toString());
+    console.log(`🔄 Set nav item ${index} with --item-index: ${index}`);
+  });
   
   allMenuItems.forEach((item) => {
     const hasMegaMenu = item.hasAttribute('data-mega-menu');
