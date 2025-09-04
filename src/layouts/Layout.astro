@@ -3,6 +3,8 @@ import '../styles/brand.css';
 import '../components/Footer/scroll-effect/footerRevealStyles.css';
 import ScrollRevealLayout from '../components/Footer/scroll-effect/ScrollRevealLayout.astro';
 import BottomNav from '../components/BottomNav/BottomNav.astro';
+import NavDesktop from '../components/NavBar/NavDesktop.astro';
+import NavMobile from '../components/NavBar/NavMobile.astro';
 
 // Props for layout configuration
 export interface Props {
@@ -23,6 +25,8 @@ const {
     <title>{title}</title>
   </head>
   <body class="min-h-screen overflow-x-hidden" style="min-height:100vh">
+    <NavDesktop />
+    <NavMobile />
     {enableFooterReveal ? (
       <ScrollRevealLayout title={title}>
         <slot />

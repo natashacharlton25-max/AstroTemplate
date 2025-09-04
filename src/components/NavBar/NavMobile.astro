@@ -1,0 +1,99 @@
+---
+import { links } from './navItems';
+import { isActive } from './navUtils';
+import './navStyles.css';
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="gm-nav" aria-label="Mobile Navigation" data-nav-mobile>
+  <div class="gm-container">
+    <div class="gm-nav-header">
+      <div class="gm-logo-section">
+        <a href="/" class="gm-brand">
+          <img
+            src="/images/Logo-Text.svg"
+            alt="IC the Moon"
+            class="gm-logo"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
+          />
+          <span class="gm-logo-text" style="display:none">IC</span>
+        </a>
+      </div>
+
+      <button class="gmm-mobile-toggle" aria-label="Toggle menu" aria-controls="gmm-mobile-menu" aria-expanded="false" data-mobile-toggle>
+        <span class="gmm-hamburger-line"></span>
+        <span class="gmm-hamburger-line"></span>
+        <span class="gmm-hamburger-line"></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu content directly in container -->
+    <div class="gmm-mobile-menu" id="gmm-mobile-menu" data-mobile-menu>
+      <div class="gmm-mobile-panel">
+        <ul class="gmm-mobile-list">
+          {links.map((l) => (
+            <li>
+              {l.hasMegaMenu && l.megaMenu ? (
+                <button 
+                  class={`gmm-mobile-link gmm-mobile-mega-toggle ${isActive(l.href, currentPath) ? 'active' : ''}`}
+                  data-mobile-mega-toggle={l.label}
+                >
+                  {l.label}
+                </button>
+              ) : (
+                <a
+                  href={l.href}
+                  class={`gmm-mobile-link ${isActive(l.href, currentPath) ? 'active' : ''}`}
+                  target={l.external ? '_blank' : undefined}
+                  rel={l.external ? 'noopener noreferrer' : undefined}
+                >
+                  {l.label}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+        
+        <div class="gmm-mobile-mega-column" data-mobile-mega-column>
+          {links.filter(l => l.hasMegaMenu && l.megaMenu).map((l) => (
+            <div class="gmm-mobile-mega-content" data-mobile-mega-content={l.label}>
+              <h3 class="gmm-mobile-mega-header">{l.label}</h3>
+              {l.megaMenu!.sections.map((section) => (
+                <div class="gmm-mobile-mega-section">
+                  <h4 class="gmm-mobile-mega-section-title">{section.title}</h4>
+                  <div class="gmm-mobile-mega-links">
+                    {section.items.map((item) => (
+                      <a 
+                        href={item.href}
+                        class="gmm-mobile-mega-link"
+                        target={item.href?.startsWith('http') ? '_blank' : undefined}
+                        rel={item.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      >
+                        <span class="gmm-mobile-mega-label">{item.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="gmm-backdrop" data-backdrop></div>
+
+<script>
+  import { initMobileNav } from './functions.mobile.ts';
+  
+  // Initialize the mobile navigation script.
+  // It contains internal checks to only run on the correct screen size.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileNav);
+  } else {
+    initMobileNav();
+  }
+</script>
