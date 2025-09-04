@@ -34,10 +34,9 @@ export async function initDesktopNav() {
     else if (triggerType === 'hover') transitionManager.useHoverTransition();
     else transitionManager.useSmoothTransition();
 
-    if (nav) {
-      nav.setAttribute('data-collapsed', 'true');
-      nav.removeAttribute('data-expanded');
-    }
+    nav.setAttribute('data-collapsed', 'true');
+    nav.removeAttribute('data-expanded');
+
   }
 
   function expandNav(triggerType: 'scroll' | 'timer' | 'hover' = 'timer') {

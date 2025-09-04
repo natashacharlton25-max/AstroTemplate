@@ -7,32 +7,28 @@
   right: 20px;
   z-index: 1000;
   min-height: var(--nav-height);
-  height: auto;
+  height: auto; /* Allow natural height expansion */
   background: var(--nav-background);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--nav-border);
   border-radius: var(--nav-border-radius);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  /* Enable smooth expansion */
+  overflow: visible; /* Allow content to show */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transitions for all changes */
 }
 
 .gm-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: var(--nav-height);
-  padding: 6px 32px 2px 32px;
+  /* Use consistent left/right padding to avoid logo horizontal movement during transitions */
+  padding: 6px 16px 6px 16px;
   position: relative;
-  flex-direction: column;
 }
 
 .gm-nav-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* Justification is now handled by more specific rules for desktop/mobile */
   width: 100%;
   padding: 2px 0;
 }
@@ -40,24 +36,30 @@
 .gm-logo-section {
   display: flex;
   align-items: center;
+  flex-shrink: 0; /* Don't let logo section get squeezed */
   z-index: 10;
 }
 
 .gm-brand {
   display: flex;
   align-items: center;
+  flex-shrink: 0; /* Don't let brand link get squeezed */
   text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease; /* Only animate hover scale, not position */
 }
 
 .gm-brand:hover {
-  transform: scale(1.05);
+  /* Disable hover transform temporarily to test logo sizing */
+  /* transform: scale(1.05); */
 }
 
 .gm-logo {
-  height: 40px;
-  width: auto;
-  transition: height 0.4s ease;
+  height: 40px !important;
+  width: auto !important;
+  flex-shrink: 0 !important; /* CRITICAL: Prevent flexbox from squashing logo width */
+  transition: none !important; /* NEVER animate logo size/position */
+  display: block !important; /* Always visible */
+  transform: none !important; /* No transforms on logo */
 }
 
 .gm-logo-text {
@@ -68,7 +70,10 @@
 }
 
 .gmd-menu-section {
-  display: block; /* Show by default for expanded state */
+  display: flex; /* Use flex for better layout control */
+  flex-wrap: wrap; /* Allow items to wrap to next line */
+  margin-left: auto; /* Pushes menu to the right, keeping logo position stable */
+  gap: 8px; /* Space between items */
 }
 
 .gmd-menu-list {
@@ -113,43 +118,22 @@
   position: relative;
 }
 
+/* DISABLED: Mega menu arrows - no longer needed */
 .gmd-mega-menu-arrow {
-  display: none;
+  display: none !important;
 }
 
-.gmd-menu-link.has-mega-menu:hover .gmd-mega-menu-arrow {
-  transform: rotate(180deg);
-}
-
-/* Mega Menu Container - Basic working setup */
+/* DISABLED: Mega Menu Container - Now using unified nav approach */
 .gmd-mega-menu-container {
-  position: relative;
-  width: 100%;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  background: var(--nav-background);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--nav-border);
-  border-top: none;
-  border-radius: 0 0 var(--nav-border-radius) var(--nav-border-radius);
-  transition: max-height 1s cubic-bezier(0.4, 0, 0.2, 1), 
-              opacity 1s cubic-bezier(0.4, 0, 0.2, 1),
-              padding 1s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0 32px 0 32px;
+  display: none !important; /* Completely disable mega menu */
 }
 
-/* Individual mega menu sections - basic setup */
+/* DISABLED: Individual mega menu sections */
 .gmd-mega-menu {
-  position: relative;
-  display: none;
+  display: none !important; /* Completely disable mega menu sections */
 }
 
-/* Remove separate panel styling - mega menu is now part of navbar */
-.gmd-mega-panel {
-  /* Styles moved to .gmd-mega-menu */
-}
+/* Note: separate panel styling consolidated into .gmd-mega-menu */
 
 .gmd-mega-panel::before {
   display: none;
@@ -159,8 +143,16 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s,
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+}
+
+/* When mega menu is shown, animate content in */
+.gmd-mega-menu.show .gmd-mega-grid {
   transform: translateY(0);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
 }
 
 .gmd-mega-section {
@@ -248,18 +240,90 @@
   color: var(--nav-text-accent);
 }
 
-/* Desktop mega menu functionality */
+/* Simple expandable nav content area - DESKTOP ONLY */
 @media (min-width: 1024px) {
-  
-  /* Basic mega menu functionality */
-  .gm-nav[data-expanded="true"] .gmd-mega-menu-container.show {
-    max-height: 500px;
-    opacity: 1;
-    padding: 16px 32px 16px 32px;
+  .gm-nav-expanded-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--nav-background);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--nav-border);
+    border-top: none;
+    border-radius: 0 0 var(--nav-border-radius) var(--nav-border-radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease, max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0 32px;
+    z-index: 999;
+    border: 2px solid red !important; /* DEBUG: See if mega menu area exists */
   }
-  
-  .gm-nav[data-expanded="true"] .gmd-mega-menu.show {
-    display: block;
+}
+
+@media (min-width: 1024px) {
+  /* Show expanded content on menu section hover - simplified approach */
+  .gmd-menu-section:hover .gm-nav-expanded-content,
+  .gm-nav-expanded-content:hover {
+    opacity: 1 !important;
+    max-height: 200px !important;
+    padding: 24px 32px !important;
+    transition: opacity 0.3s ease 0.1s, max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Grid layout for expanded content */
+  .gm-nav-expanded-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+  }
+
+  .gm-nav-expanded-section {
+    /* No separate background - content directly on nav */
+  }
+
+  .gm-nav-expanded-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nav-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .gm-nav-expanded-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .gm-nav-expanded-link {
+    font-size: 13px;
+    color: var(--nav-text-primary);
+    text-decoration: none;
+    opacity: 0.8;
+    padding: 4px 0;
+    border-radius: 4px;
+    transition: opacity 0.2s ease;
+  }
+
+  .gm-nav-expanded-link:hover {
+    opacity: 1;
+    color: var(--nav-text-accent);
+  }
+
+  .gm-nav-expanded-desc {
+    font-size: 11px;
+    opacity: 0.6;
+    font-weight: 400;
+  }
+}
+
+/* Hide expanded content on mobile */
+@media (max-width: 1023px) {
+  .gm-nav-expanded-content {
+    display: none !important;
   }
 }
 
@@ -650,6 +714,15 @@
     transform: translateY(0) !important;
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
+  
+  /* CRITICAL: Ensure logo is never affected by menu item animations during expand */
+  .gm-nav[data-expanded="true"] .gm-logo,
+  .gm-nav[data-expanded="true"] .gm-brand,
+  .gm-nav[data-expanded="true"] .gm-logo-section {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 
   .gm-nav[data-expanded="true"] .gmd-menu-item:nth-child(1) {
     transition-delay: 0.4s !important;
@@ -691,22 +764,50 @@
 
 /* Desktop collapsed state - use specific width for smooth transitions */
 @media (min-width: 1024px) {
-.gm-nav[data-collapsed="true"] {
-    width: 180px; /* Larger width for better logo visibility */
-    left: 20px; /* Position on left like expanded state */
-    right: auto;
+  /* Use width transitions on desktop so the pill expands/collapses without shifting position.
+     Keep left pinned and avoid toggling right; this prevents layout reflow and keeps the logo stable. */
+  .gm-nav {
+    right: auto; /* avoid over-constraining */
+    width: calc(100vw - 40px); /* default (expanded) width matching left/right padding */
+    transition: width 320ms cubic-bezier(0.22, 0.8, 0.2, 1);
+  }
+
+  /* When collapsed, shrink width but keep same height and styling */
+  .gm-nav[data-collapsed="true"] {
+    width: 265px; /* Optimal width for logo without excess space */
+    left: 20px; /* Keep pinned to left */
+    right: auto; /* Avoid over-constraining width */
     transform: none; /* Remove centering */
-    border-radius: var(--nav-mobile-border-radius);
+    border-radius: var(--nav-border-radius); /* Same border radius */
     background: var(--nav-background);
+    height: auto; /* Same height as expanded */
+    min-height: var(--nav-height); /* Same min-height as expanded */
+    overflow: visible; /* Allow normal overflow */
   }
 
-.gm-nav[data-collapsed="true"] .gm-container {
-    padding: 0 24px;
+  /* Hovering the collapsed pill expands it back to full width smoothly. */
+  .gm-nav[data-collapsed="true"]:hover {
+    width: calc(100vw - 40px);
   }
 
-.gm-nav[data-collapsed="true"] .gm-logo {
-    height: 40px;
+  .gm-nav[data-collapsed="true"] .gm-container {
+    padding: 6px 16px 6px 16px; /* Same padding as expanded nav */
+    display: flex;
+    align-items: center; /* Keep logo vertically centered */
+    justify-content: flex-start; /* Align logo to left like expanded nav */
+    min-height: var(--nav-height); /* Same height as expanded */
+    width: 100%; /* Full width */
+    box-sizing: border-box;
   }
+  
+  /* Logo section behaves same as expanded nav */
+  .gm-nav[data-collapsed="true"] .gm-logo-section {
+    display: flex;
+    align-items: center;
+    z-index: 10; /* Same as base rule */
+  }
+
+/* Logo height now handled by component-specific rules above */
 
 .gm-nav[data-collapsed="true"] .gmd-menu-section {
     /* Keep structure but let individual items control their opacity */
@@ -715,6 +816,21 @@
     transform: translateX(20px);
     transition: width 0.3s ease,
                 transform 0.4s ease 0.3s; /* Delay slide-in until width grows */
+  }
+
+  /* Logo stays exactly the same size and behavior as expanded nav */
+  .gm-nav[data-collapsed="true"] .gm-logo {
+    height: 40px !important; /* Same size as expanded */
+    width: auto !important; /* Same as expanded */
+    transition: none !important; /* No animations on logo itself */
+  }
+
+  /* Brand link behaves same as expanded nav */
+  .gm-nav[data-collapsed="true"] .gm-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    /* Allow normal hover behavior like expanded nav */
   }
 
   .gm-nav[data-collapsed="true"] .gmm-mobile-toggle {
@@ -730,6 +846,15 @@
     opacity: 0 !important;
     transform: translateY(-10px) !important;
     transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* CRITICAL: Ensure logo is never affected by menu item animations */
+  .gm-nav[data-collapsed="true"] .gm-logo,
+  .gm-nav[data-collapsed="true"] .gm-brand,
+  .gm-nav[data-collapsed="true"] .gm-logo-section {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 
   .gm-nav[data-collapsed="true"] .gmd-menu-item:nth-child(1) {
@@ -770,9 +895,7 @@
     display: block;
   }
 
-  .gm-nav[data-collapsed="true"]:hover .gm-logo {
-    height: 40px;
-  }
+  /* Logo height now handled by component-specific rules above */
 
   .gm-nav[data-collapsed="true"]:hover .gmm-mobile-toggle {
     display: none;
@@ -817,8 +940,14 @@
     display: none;
   }
 
-  .gm-logo {
-    height: 32px;
+  /* Desktop nav keeps consistent 40px logo in all states */
+  [data-nav-desktop] .gm-logo {
+    height: 40px !important;
+  }
+  
+  /* Mobile nav uses smaller 32px logo */
+  [data-nav-mobile] .gm-logo {
+    height: 32px !important;
   }
 
   .gmd-mega-menu {
@@ -887,58 +1016,43 @@
 /* Dynamic Transition Classes for Different Triggers */
 /* Higher specificity to override default .gm-nav transition */
 nav.gm-nav.transition-scroll {
-  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              border-radius 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              background 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 nav.gm-nav.transition-smooth {
-  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1),
-              left 1s cubic-bezier(0.4, 0, 0.2, 1),
-              right 1s cubic-bezier(0.4, 0, 0.2, 1),
-              border-radius 1s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 nav.gm-nav.transition-hover {
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              right 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              border-radius 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Apply same specific transitions to key child elements with higher specificity */
-nav.gm-nav.transition-scroll .gm-container,
-nav.gm-nav.transition-scroll .gm-logo {
-  transition: padding 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+/* Removed explicit transitions for .gm-container and .gm-logo within these classes.
+   Their properties (padding, height) are now consistent between collapsed and expanded states,
+   so they should not animate. The base .gm-logo has a height transition, but it's not needed
+   if the height is constant. */
+
+/* --- Component Visibility --- */
+/* Mobile-first: show mobile nav, hide desktop nav by default. Use high specificity to ensure override. */
+body nav[data-nav-desktop] {
+  display: none !important;
+}
+body nav[data-nav-mobile] {
+  display: block !important;
 }
 
-nav.gm-nav.transition-smooth .gm-container,
-nav.gm-nav.transition-smooth .gm-logo {
-  transition: padding 1s cubic-bezier(0.4, 0, 0.2, 1),
-              height 1s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-nav.gm-nav.transition-hover .gm-container,
-nav.gm-nav.transition-hover .gm-logo {
-  transition: padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              height 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* Hide mobile nav on desktop and vice-versa */
+/* On desktop screens (>= 1024px), swap visibility. */
 @media (min-width: 1024px) {
-  nav[data-nav-mobile] {
-    display: none !important;
-  }
+  body nav[data-nav-desktop] { display: block !important; }
+  body nav[data-nav-mobile] { display: none !important; }
 }
 
-@media (max-width: 1023px) {
-  nav[data-nav-desktop] {
-    display: none !important;
-  }
+/* Specific justification rules for desktop and mobile nav headers */
+[data-nav-desktop] .gm-nav-header {
+  justify-content: flex-start; /* Pins logo to the left */
+}
+
+[data-nav-mobile] .gm-nav-header {
+  justify-content: space-between; /* Keeps logo and hamburger toggle apart */
 }

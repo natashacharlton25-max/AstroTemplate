@@ -12,7 +12,7 @@ const currentPath = Astro.url.pathname;
       <div class="gm-logo-section">
         <a href="/" class="gm-brand">
           <img
-            src="/images/Logo-Text.svg"
+            src="/images/LogoBlue.png"
             alt="IC the Moon"
             class="gm-logo"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname;
       <div class="gmd-menu-section">
         <ul class="gmd-menu-list">
           {links.map((l) => (
-            <li class="gmd-menu-item" data-mega-menu={l.hasMegaMenu ? 'true' : undefined}>
+            <li class={`gmd-menu-item ${l.hasMegaMenu ? 'has-mega-menu' : ''}`} data-mega-menu={l.hasMegaMenu ? 'true' : undefined}>
               <a
                 href={l.href}
                 class={`gmd-menu-link ${isActive(l.href, currentPath) ? 'active' : ''} ${l.hasMegaMenu ? 'has-mega-menu' : ''}`}
@@ -32,16 +32,39 @@ const currentPath = Astro.url.pathname;
                 rel={l.external ? 'noopener noreferrer' : undefined}
               >
                 {l.label}
-                {l.hasMegaMenu && <span class="gmd-mega-menu-arrow">▼</span>}
               </a>
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+        
+        <!-- Dynamic expandable content from navItems data -->
+        <div class="gm-nav-expanded-content">
+          <div class="gm-nav-expanded-grid">
+            {links.filter(l => l.hasMegaMenu && l.megaMenu).map((l) => (
+              l.megaMenu!.sections.map((section) => (
+                <div class="gm-nav-expanded-section">
+                  <h3 class="gm-nav-expanded-title">{section.title}</h3>
+                  <div class="gm-nav-expanded-links">
+                    {section.items.map((item) => (
+                      <a 
+                        href={item.href} 
+                        class="gm-nav-expanded-link"
+                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                        rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      >
+                        {item.title}
+                        {item.description && <span class="gm-nav-expanded-desc"> - {item.description}</span>}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )).flat()}
+          </div>
+        </div>
   </div>
 
-  <!-- Desktop mega menu container with stacked content -->
+  <!-- DISABLED: Desktop mega menu container -->
   <div class="gmd-mega-menu-container" data-mega-container>
     {links.filter(l => l.hasMegaMenu && l.megaMenu).map((l, index) => (
       <div class="gmd-mega-menu" data-mega-menu-id={`mega-${index}`}>

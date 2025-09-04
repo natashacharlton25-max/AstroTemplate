@@ -33,7 +33,7 @@ export function initMobileNav() {
 
   function collapseMobileStage1() {
     const megaCol = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
-    nav?.removeAttribute('data-mobile-mega-open');
+    nav.removeAttribute('data-mobile-mega-open');
     megaCol?.classList.remove('show');
     document.querySelectorAll('[data-mobile-mega-content]').forEach((el) => el.classList.remove('active'));
   }
@@ -49,7 +49,7 @@ export function initMobileNav() {
   function openMobileMenu() {
     if (isDesktop()) return;
     nav.setAttribute('data-mobile-open', 'true');
-    mobileToggle?.setAttribute('aria-expanded', 'true');
+    mobileToggle.setAttribute('aria-expanded', 'true');
     scheduleAutoClose();
     cancelStagedMobileCollapse();
   }
@@ -97,19 +97,19 @@ export function initMobileNav() {
     const megaMenuOpen = nav.getAttribute('data-mobile-mega-open') === 'true';
 
     if (megaMenuOpen) {
-      nav?.removeAttribute('data-mobile-mega-open');
+      nav.removeAttribute('data-mobile-mega-open');
       const mobileMegaColumn = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
       mobileMegaColumn?.classList.remove('show');
       document.querySelectorAll('[data-mobile-mega-content]').forEach(content => content.classList.remove('active'));
       document.querySelectorAll('[data-mobile-mega-toggle]').forEach(toggle => toggle.classList.remove('selected'));
 
       setTimeout(() => {
-        nav?.removeAttribute('data-mobile-open');
-        mobileToggle?.setAttribute('aria-expanded', 'false');
+        nav.removeAttribute('data-mobile-open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
       }, 600);
     } else {
-      nav?.removeAttribute('data-mobile-open');
-      mobileToggle?.setAttribute('aria-expanded', 'false');
+      nav.removeAttribute('data-mobile-open');
+      mobileToggle.setAttribute('aria-expanded', 'false');
     }
 
     cancelHoverTimer();
@@ -117,7 +117,7 @@ export function initMobileNav() {
   }
 
   function toggleMobileMenu() {
-    if (nav && nav.getAttribute('data-mobile-open') === 'true') {
+    if (nav.getAttribute('data-mobile-open') === 'true') {
       closeMobileMenu();
     } else {
       openMobileMenu();
