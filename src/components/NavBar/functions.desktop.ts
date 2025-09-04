@@ -2,6 +2,9 @@ export async function initDesktopNav() {
   const nav = document.querySelector('[data-nav-desktop]') as HTMLElement | null;
   if (!nav) return;
 
+  // Non-null alias for TypeScript (guard above ensures nav exists)
+  const $nav = nav as HTMLElement;
+
   // Initialize transition manager - Per README, this is desktop-only
   const { TransitionManager } = await import('./transitions/transitionManager.js');
   const transitionManager = new TransitionManager(nav);
@@ -12,9 +15,13 @@ export async function initDesktopNav() {
   let menuTimer: ReturnType<typeof setTimeout> | null = null;
 
   // Scoped Elements
-  const menuItems = nav.querySelectorAll('.gmd-menu-item[data-mega-menu]');
-  const megaMenus = nav.querySelectorAll('.gmd-mega-menu');
-  const megaContainer = nav.querySelector('.gmd-mega-menu-container');
+  const menuItems = $nav.querySelectorAll('.gmd-menu-item[data-mega-menu]');
+  const megaMenus = $nav.querySelectorAll('.gmd-mega-menu');
+  const megaContainer = $nav.querySelector('.gmd-mega-menu-container');
+
+  const $menuItems = menuItems as NodeListOf<HTMLElement>;
+  const $megaMenus = megaMenus as NodeListOf<HTMLElement>;
+  const $megaContainer = megaContainer as HTMLElement | null;
 
   function isDesktop() {
     return window.matchMedia('(min-width: 1024px)').matches;
@@ -34,8 +41,8 @@ export async function initDesktopNav() {
     else if (triggerType === 'hover') transitionManager.useHoverTransition();
     else transitionManager.useSmoothTransition();
 
-    nav.setAttribute('data-collapsed', 'true');
-    nav.removeAttribute('data-expanded');
+  $nav.setAttribute('data-collapsed', 'true');
+  $nav.removeAttribute('data-expanded');
 
   }
 
@@ -46,8 +53,8 @@ export async function initDesktopNav() {
     else if (triggerType === 'hover') transitionManager.useHoverTransition();
     else transitionManager.useSmoothTransition();
 
-    nav.removeAttribute('data-collapsed');
-    nav.setAttribute('data-expanded', 'true');
+  $nav.removeAttribute('data-collapsed');
+  $nav.setAttribute('data-expanded', 'true');
   }
 
   function scheduleCollapse(delay = IDLE_DELAY) {
@@ -91,17 +98,17 @@ export async function initDesktopNav() {
     menuTimer = setTimeout(() => {
       activeMenu = null;
 
-      megaMenus.forEach(menu => menu.classList.remove('show'));
-      menuItems.forEach(item => {
+      $megaMenus.forEach(menu => menu.classList.remove('show'));
+      $menuItems.forEach(item => {
         item.querySelector('.gmd-menu-link')?.classList.remove('mega-active');
       });
 
-      if (megaContainer) {
-        megaContainer.classList.remove('show');
-        (megaContainer as HTMLElement).style.height = '';
+      if ($megaContainer) {
+        $megaContainer.classList.remove('show');
+        $megaContainer.style.height = '';
 
         setTimeout(() => {
-          if (!nav.matches(':hover') && window.scrollY > 50) {
+          if (!$nav.matches(':hover') && window.scrollY > 50) {
             collapseNav('timer');
           }
         }, 800);
@@ -121,7 +128,7 @@ export async function initDesktopNav() {
 
     const scrolled = window.scrollY > 50;
     if (scrolled) {
-      const isHoveringNav = nav.matches(':hover');
+  const isHoveringNav = $nav.matches(':hover');
       const isHoveringMegaMenu = activeMenu && activeMenu.matches(':hover');
 
       if (!isHoveringNav && !isHoveringMegaMenu) {
@@ -135,7 +142,7 @@ export async function initDesktopNav() {
         collapseNav('scroll');
         cancelIdleTimer();
       }
-    } else if (!nav.matches(':hover')) {
+  } else if (!$nav.matches(':hover')) {
       expandNav('timer');
       scheduleCollapse();
     }
@@ -150,8 +157,8 @@ export async function initDesktopNav() {
         collapseNav('timer');
       }
     } else {
-      nav.removeAttribute('data-collapsed');
-      nav.removeAttribute('data-expanded');
+      $nav.removeAttribute('data-collapsed');
+      $nav.removeAttribute('data-expanded');
     }
   }
 
@@ -166,16 +173,16 @@ export async function initDesktopNav() {
     }
   });
 
-  nav.addEventListener('mouseenter', () => {
+  $nav.addEventListener('mouseenter', () => {
     if (isDesktop()) {
       cancelIdleTimer();
-      if (nav.getAttribute('data-collapsed') === 'true') {
+      if ($nav.getAttribute('data-collapsed') === 'true') {
         expandNav('hover');
       }
     }
   });
 
-  nav.addEventListener('mouseleave', () => {
+  $nav.addEventListener('mouseleave', () => {
     if (isDesktop()) {
       if (activeMenu) {
         hideMegaMenu(1000);
@@ -185,7 +192,7 @@ export async function initDesktopNav() {
     }
   });
 
-  const allMenuItems = nav.querySelectorAll('.gmd-menu-item');
+  const allMenuItems = $nav.querySelectorAll('.gmd-menu-item');
   allMenuItems.forEach((item, index) => {
     (item as HTMLElement).style.setProperty('--item-index', index.toString());
   });
@@ -193,12 +200,12 @@ export async function initDesktopNav() {
   allMenuItems.forEach((item) => {
     const hasMegaMenu = item.hasAttribute('data-mega-menu');
     if (hasMegaMenu) {
-      const index = Array.from(menuItems).indexOf(item);
-      const megaMenu = megaMenus[index] as HTMLElement;
+  const index = Array.from($menuItems).indexOf(item as HTMLElement);
+  const megaMenu = $megaMenus[index] as HTMLElement;
       if (!megaMenu) return;
 
       item.addEventListener('mouseenter', () => {
-        if (!isDesktop() || nav.getAttribute('data-expanded') !== 'true') return;
+  if (!isDesktop() || $nav.getAttribute('data-expanded') !== 'true') return;
         cancelHide();
         showMegaMenu(megaMenu);
       });
@@ -208,18 +215,18 @@ export async function initDesktopNav() {
       });
     } else {
       item.addEventListener('mouseenter', () => {
-        if (!isDesktop() || nav.getAttribute('data-expanded') !== 'true') return;
+  if (!isDesktop() || $nav.getAttribute('data-expanded') !== 'true') return;
         hideMegaMenu(200);
       });
     }
   });
 
-  if (megaContainer) {
-    megaContainer.addEventListener('mouseenter', cancelHide);
-    megaContainer.addEventListener('mouseleave', () => hideMegaMenu(1300));
+  if ($megaContainer) {
+    $megaContainer.addEventListener('mouseenter', cancelHide);
+    $megaContainer.addEventListener('mouseleave', () => hideMegaMenu(1300));
   }
 
-  const menuSection = nav.querySelector('.gmd-menu-section');
+  const menuSection = $nav.querySelector('.gmd-menu-section');
   if (menuSection) {
     menuSection.addEventListener('mouseleave', () => {
       if (!isDesktop()) return;

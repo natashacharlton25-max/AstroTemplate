@@ -8,6 +8,12 @@ export function initMobileNav() {
     return;
   }
 
+  // Non-null aliases for TypeScript narrowing — these are guaranteed by the guard above.
+  const $nav = nav as HTMLElement;
+  const $mobileToggle = mobileToggle as HTMLElement;
+  const $mobileMenu = mobileMenu as HTMLElement;
+  const $backdrop = backdrop as HTMLElement;
+
   let hoverTimer: ReturnType<typeof setTimeout> | null;
   const STAGE1_DELAY = 3000;
   const STAGE2_DELAY = 2000;
@@ -33,8 +39,8 @@ export function initMobileNav() {
 
   function collapseMobileStage1() {
     const megaCol = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
-    nav.removeAttribute('data-mobile-mega-open');
-    megaCol?.classList.remove('show');
+  $nav.removeAttribute('data-mobile-mega-open');
+  megaCol?.classList.remove('show');
     document.querySelectorAll('[data-mobile-mega-content]').forEach((el) => el.classList.remove('active'));
   }
 
@@ -48,16 +54,16 @@ export function initMobileNav() {
 
   function openMobileMenu() {
     if (isDesktop()) return;
-    nav.setAttribute('data-mobile-open', 'true');
-    mobileToggle.setAttribute('aria-expanded', 'true');
+  $nav.setAttribute('data-mobile-open', 'true');
+  $mobileToggle.setAttribute('aria-expanded', 'true');
     scheduleAutoClose();
     cancelStagedMobileCollapse();
   }
 
   function scheduleAutoClose() {
     cancelHoverTimer();
-    const megaOpen = document.querySelector('[data-mobile-mega-column]')?.classList.contains('show');
-    const isHoveringMenu = mobileMenu?.matches(':hover');
+  const megaOpen = document.querySelector('[data-mobile-mega-column]')?.classList.contains('show');
+  const isHoveringMenu = $mobileMenu.matches(':hover');
 
     let delay = 3000;
     if (isHoveringMenu) {
@@ -67,7 +73,7 @@ export function initMobileNav() {
     }
 
     hoverTimer = setTimeout(() => {
-      if (nav?.getAttribute('data-mobile-open') === 'true') {
+      if ($nav.getAttribute('data-mobile-open') === 'true') {
         if (megaOpen) {
           scheduleMobileMegaCollapse();
         } else {
@@ -80,7 +86,7 @@ export function initMobileNav() {
   function scheduleMobileMegaCollapse() {
     setTimeout(() => {
       const megaCol = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
-      nav?.removeAttribute('data-mobile-mega-open');
+  $nav.removeAttribute('data-mobile-mega-open');
       megaCol?.classList.remove('show');
       document.querySelectorAll('[data-mobile-mega-content]').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('[data-mobile-mega-toggle]').forEach(toggle => toggle.classList.remove('selected'));
@@ -92,24 +98,24 @@ export function initMobileNav() {
   }
 
   function closeMobileMenu() {
-    if (isDesktop() || nav.getAttribute('data-mobile-open') !== 'true') return;
+    if (isDesktop() || $nav.getAttribute('data-mobile-open') !== 'true') return;
 
-    const megaMenuOpen = nav.getAttribute('data-mobile-mega-open') === 'true';
+    const megaMenuOpen = $nav.getAttribute('data-mobile-mega-open') === 'true';
 
     if (megaMenuOpen) {
-      nav.removeAttribute('data-mobile-mega-open');
+      $nav.removeAttribute('data-mobile-mega-open');
       const mobileMegaColumn = document.querySelector('[data-mobile-mega-column]') as HTMLElement | null;
       mobileMegaColumn?.classList.remove('show');
       document.querySelectorAll('[data-mobile-mega-content]').forEach(content => content.classList.remove('active'));
       document.querySelectorAll('[data-mobile-mega-toggle]').forEach(toggle => toggle.classList.remove('selected'));
 
       setTimeout(() => {
-        nav.removeAttribute('data-mobile-open');
-        mobileToggle.setAttribute('aria-expanded', 'false');
+        $nav.removeAttribute('data-mobile-open');
+        $mobileToggle.setAttribute('aria-expanded', 'false');
       }, 600);
     } else {
-      nav.removeAttribute('data-mobile-open');
-      mobileToggle.setAttribute('aria-expanded', 'false');
+      $nav.removeAttribute('data-mobile-open');
+      $mobileToggle.setAttribute('aria-expanded', 'false');
     }
 
     cancelHoverTimer();
@@ -117,7 +123,7 @@ export function initMobileNav() {
   }
 
   function toggleMobileMenu() {
-    if (nav.getAttribute('data-mobile-open') === 'true') {
+    if ($nav.getAttribute('data-mobile-open') === 'true') {
       closeMobileMenu();
     } else {
       openMobileMenu();
@@ -138,8 +144,8 @@ export function initMobileNav() {
 
   // --- Event Listeners ---
 
-  mobileToggle.addEventListener('click', toggleMobileMenu);
-  backdrop.addEventListener('click', closeMobileMenu);
+  $mobileToggle.addEventListener('click', toggleMobileMenu);
+  $backdrop.addEventListener('click', closeMobileMenu);
   document.addEventListener('keydown', handleKeydown);
   window.addEventListener('resize', handleResize);
 
@@ -149,7 +155,7 @@ export function initMobileNav() {
     }
   });
 
-  mobileMenu.addEventListener('mouseenter', () => {
+  $mobileMenu.addEventListener('mouseenter', () => {
     if (!isDesktop()) {
       isInteractingMobileMenu = true;
       cancelHoverTimer();
@@ -157,14 +163,14 @@ export function initMobileNav() {
     }
   });
 
-  mobileMenu.addEventListener('mouseleave', () => {
+  $mobileMenu.addEventListener('mouseleave', () => {
     if (!isDesktop()) {
       isInteractingMobileMenu = false;
       scheduleAutoClose();
     }
   });
 
-  mobileMenu.addEventListener('click', (e) => {
+  $mobileMenu.addEventListener('click', (e) => {
     const target = e.target as Element | null;
     if (target && target.closest('a')) {
       closeMobileMenu();
@@ -173,10 +179,10 @@ export function initMobileNav() {
 
   const pauseAutoClose = () => { if (!isDesktop()) { isInteractingMobileMenu = true; cancelHoverTimer(); cancelStagedMobileCollapse(); } };
   const resumeAutoClose = () => { if (!isDesktop()) { isInteractingMobileMenu = false; scheduleAutoClose(); } };
-  mobileMenu.addEventListener('wheel', pauseAutoClose, { passive: true });
-  mobileMenu.addEventListener('touchstart', pauseAutoClose, { passive: true });
-  mobileMenu.addEventListener('touchmove', pauseAutoClose, { passive: true });
-  mobileMenu.addEventListener('touchend', resumeAutoClose, { passive: true });
+  $mobileMenu.addEventListener('wheel', pauseAutoClose, { passive: true });
+  $mobileMenu.addEventListener('touchstart', pauseAutoClose, { passive: true });
+  $mobileMenu.addEventListener('touchmove', pauseAutoClose, { passive: true });
+  $mobileMenu.addEventListener('touchend', resumeAutoClose, { passive: true });
 
   // Mobile two-column mega menu logic
   const mobileMegaToggles = document.querySelectorAll('[data-mobile-mega-toggle]');
@@ -193,23 +199,23 @@ export function initMobileNav() {
       document.querySelectorAll('[data-mobile-mega-content]').forEach(content => content.classList.remove('active'));
 
       if (!isCurrentlyActive && megaContent) {
-        nav.setAttribute('data-mobile-mega-open', 'true');
-        mobileMegaColumn?.classList.add('show');
-        toggle.classList.add('selected');
-        megaContent.classList.add('active');
+  $nav.setAttribute('data-mobile-mega-open', 'true');
+  mobileMegaColumn?.classList.add('show');
+  toggle.classList.add('selected');
+  megaContent.classList.add('active');
       } else {
-        nav.removeAttribute('data-mobile-mega-open');
-        mobileMegaColumn?.classList.remove('show');
+  $nav.removeAttribute('data-mobile-mega-open');
+  mobileMegaColumn?.classList.remove('show');
       }
     });
   });
 
   document.querySelectorAll('.gmm-mobile-mega-link').forEach(link => {
     link.addEventListener('click', () => {
-      nav.removeAttribute('data-mobile-mega-open');
-      mobileMegaColumn?.classList.remove('show');
-      mobileMegaToggles.forEach(t => t.classList.remove('selected'));
-      document.querySelectorAll('[data-mobile-mega-content]').forEach(content => content.classList.remove('active'));
+  $nav.removeAttribute('data-mobile-mega-open');
+  mobileMegaColumn?.classList.remove('show');
+  mobileMegaToggles.forEach(t => t.classList.remove('selected'));
+  document.querySelectorAll('[data-mobile-mega-content]').forEach(content => content.classList.remove('active'));
     });
   });
 
