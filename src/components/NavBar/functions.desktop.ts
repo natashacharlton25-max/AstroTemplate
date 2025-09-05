@@ -379,7 +379,7 @@ function initDynamicMegaMenu(nav: HTMLElement) {
   
   // Close megamenu when clicking outside on touch devices
   document.addEventListener('click', (event) => {
-    if (currentActiveMegaMenu && !event.target.closest('.gm-nav')) {
+    if (currentActiveMegaMenu && !(event.target && (event.target as Element).closest('.gm-nav'))) {
       hideMegaMenu();
     }
   });

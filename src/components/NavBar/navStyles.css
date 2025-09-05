@@ -38,16 +38,9 @@
   align-items: center; /* Vertically center items */
   width: 100%;
   padding: 2px 0;
-<<<<<<< HEAD
-  gap: 16px; /* Space between logo and nav sections */
-=======
-  position: relative;
-  z-index: 10;
->>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
-}
-
-.gm-logo-section {
-  display: flex;
+gap: 16px; /* Space between logo and nav sections */
+position: relative;
+z-index: 10;
   align-items: center;
   flex-shrink: 0; /* Don't let logo section get squeezed */
   z-index: 10;
@@ -62,9 +55,7 @@
   transition: transform 0.3s ease; /* Only animate hover scale, not position */
 }
 
-.gm-brand:hover {
-  /* Hover effects disabled for debugging */
-}
+/* Hover effects for .gm-brand are currently disabled for debugging and the empty ruleset has been removed. */
 
 .gm-logo {
   height: 40px !important;
@@ -83,16 +74,10 @@
 }
 
 .gmd-menu-section {
-<<<<<<< HEAD
   display: flex;
   flex-wrap: wrap; /* Allow mega menu to wrap to a new line */
   justify-content: flex-end !important; /* Right-align nav links */
   justify-self: end; /* Align to right in grid */
-=======
-  display: flex; /* Use flex for better layout control */
-  flex-wrap: nowrap; /* Prevent wrapping for better alignment */
-  margin-left: auto; /* Pushes menu to the right, keeping logo position stable */
->>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
   gap: 8px; /* Space between items */
   align-items: center; /* Ensure vertical alignment */
   position: relative;
@@ -145,7 +130,6 @@
   align-items: center;
 }
 
-<<<<<<< HEAD
 /* This is a remnant from a previous implementation that was left in the markup.
    It is causing a layout break by rendering a large, unstyled list of all menu items.
    This rule explicitly hides it to fix the layout. */
@@ -156,8 +140,6 @@
 .gmd-mega-menu-arrow {
   display: none !important;
 }
-=======
->>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
 
 /* Mega Menu Container - Lives in flow to expand nav, controlled by JS */
 .gmd-mega-menu-container {
@@ -312,8 +294,6 @@
   color: var(--nav-text-accent);
 }
 
-<<<<<<< HEAD
-=======
 /* Absolutely Positioned Megamenu WITHIN Nav Container */
 @media (min-width: 1024px) {
   /* When megamenu is active, expand the nav container height */
@@ -385,9 +365,7 @@
     margin-top: 8px;
   }
 
-  .gm-megamenu-section {
-    /* No separate background - content directly on nav */
-  }
+  /* Removed empty .gm-megamenu-section ruleset to fix compile error */
 
   .gm-megamenu-title {
     font-size: 14px;
@@ -436,7 +414,6 @@
   }
 }
 
->>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
 /* Hide mega menu container when nav is collapsed */
 .gm-nav[data-collapsed="true"] .gmd-mega-menu-container {
   display: none !important;
