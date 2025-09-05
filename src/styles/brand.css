@@ -62,6 +62,7 @@ html {
   font-family: var(--font-body);
   line-height: 1.6;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -72,6 +73,10 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* Prevent pull-to-refresh and overscroll behavior on mobile/tablet only */
+  overscroll-behavior-x: none;
+  -webkit-overscroll-behavior-x: none;
 }
 
 /* Headings */

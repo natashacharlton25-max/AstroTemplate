@@ -18,6 +18,12 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transitions for all changes */
 }
 
+/* When megamenu is active, nav container expands naturally */
+.gm-nav:has(.gm-megamenu-container.active) {
+  overflow: visible;
+  border-radius: var(--nav-border-radius);
+}
+
 .gm-container {
   min-height: var(--nav-height);
   /* Use consistent left/right padding to avoid logo horizontal movement during transitions */
@@ -31,6 +37,8 @@
   /* Justification is now handled by more specific rules for desktop/mobile */
   width: 100%;
   padding: 2px 0;
+  position: relative;
+  z-index: 10;
 }
 
 .gm-logo-section {
@@ -71,14 +79,18 @@
 
 .gmd-menu-section {
   display: flex; /* Use flex for better layout control */
-  flex-wrap: wrap; /* Allow items to wrap to next line */
+  flex-wrap: nowrap; /* Prevent wrapping for better alignment */
   margin-left: auto; /* Pushes menu to the right, keeping logo position stable */
   gap: 8px; /* Space between items */
+  align-items: center; /* Ensure vertical alignment */
+  position: relative;
+  z-index: 10;
 }
 
 .gmd-menu-list {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
   margin: 0;
   padding: 0;
@@ -88,7 +100,8 @@
 .gmd-menu-link {
   display: flex;
   align-items: center;
-  padding: 6px 16px;
+  justify-content: center;
+  padding: 8px 16px;
   color: var(--nav-text-primary);
   text-decoration: none;
   font-size: 15px;
@@ -97,6 +110,7 @@
   transition: all 0.3s ease;
   position: relative;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .gmd-menu-link:hover {
@@ -116,12 +130,10 @@
 
 .gmd-menu-item {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
-/* DISABLED: Mega menu arrows - no longer needed */
-.gmd-mega-menu-arrow {
-  display: none !important;
-}
 
 /* DISABLED: Mega Menu Container - Now using unified nav approach */
 .gmd-mega-menu-container {
@@ -240,80 +252,115 @@
   color: var(--nav-text-accent);
 }
 
-/* Simple expandable nav content area - DESKTOP ONLY */
+/* Absolutely Positioned Megamenu WITHIN Nav Container */
 @media (min-width: 1024px) {
-  .gm-nav-expanded-content {
+  /* When megamenu is active, expand the nav container height */
+  .gm-nav.megamenu-active {
+    height: auto;
+    min-height: calc(var(--nav-height) + 400px);
+    transition: min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gm-megamenu-container {
     position: absolute;
-    top: 100%;
+    top: var(--nav-height);
     left: 0;
     right: 0;
+    height: 0;
     opacity: 0;
-    max-height: 0;
     overflow: hidden;
-    background: var(--nav-background);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--nav-border);
-    border-top: none;
-    border-radius: 0 0 var(--nav-border-radius) var(--nav-border-radius);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.3s ease, max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 0 32px;
-    z-index: 999;
-    border: 2px solid red !important; /* DEBUG: See if mega menu area exists */
+    padding: 0;
+    z-index: 1;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease 0.1s,
+                padding 0.4s ease;
+  }
+  
+  .gm-megamenu-container.active {
+    height: 350px;
+    opacity: 1;
+    padding: 24px 32px;
+    border-top: 1px solid rgba(24, 78, 119, 0.1);
+  }
+  
+  .gm-megamenu-panel {
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .gm-megamenu-panel.active {
+    display: block;
   }
 }
 
 @media (min-width: 1024px) {
-  /* Show expanded content on menu section hover - simplified approach */
-  .gmd-menu-section:hover .gm-nav-expanded-content,
+  /* Individual megamenu panels - hidden by default */
+  .gm-nav-megamenu {
+    display: none;
+  }
+  
+  /* Keep megamenu visible when hovering over expanded content */
   .gm-nav-expanded-content:hover {
-    opacity: 1 !important;
-    max-height: 200px !important;
-    padding: 24px 32px !important;
-    transition: opacity 0.3s ease 0.1s, max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 400px;
+    opacity: 1;
+    padding: 24px 32px;
+    border-top: 1px solid rgba(24, 78, 119, 0.1);
+    border-left: 1px solid var(--nav-border);
+    border-right: 1px solid var(--nav-border);
+    border-bottom: 1px solid var(--nav-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
+}
 
-  /* Grid layout for expanded content */
-  .gm-nav-expanded-grid {
+@media (min-width: 1024px) {
+  /* Grid layout for integrated megamenu */
+  .gm-megamenu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+    margin-top: 8px;
   }
 
-  .gm-nav-expanded-section {
+  .gm-megamenu-section {
     /* No separate background - content directly on nav */
   }
 
-  .gm-nav-expanded-title {
+  .gm-megamenu-title {
     font-size: 14px;
     font-weight: 600;
-    color: var(--nav-text-primary);
-    margin-bottom: 8px;
+    color: var(--nav-text-accent);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(24, 78, 119, 0.1);
   }
 
-  .gm-nav-expanded-links {
+  .gm-megamenu-links {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
 
-  .gm-nav-expanded-link {
+  .gm-megamenu-link {
     font-size: 13px;
     color: var(--nav-text-primary);
     text-decoration: none;
     opacity: 0.8;
-    padding: 4px 0;
-    border-radius: 4px;
-    transition: opacity 0.2s ease;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: block;
   }
 
-  .gm-nav-expanded-link:hover {
+  .gm-megamenu-link:hover {
     opacity: 1;
     color: var(--nav-text-accent);
+    background: var(--nav-hover-bg);
+    transform: translateX(4px);
   }
 
-  .gm-nav-expanded-desc {
+  .gm-megamenu-desc {
     font-size: 11px;
     opacity: 0.6;
     font-weight: 400;
@@ -519,7 +566,7 @@
 }
 
 .gmm-mobile-mega-column.show {
-  width: 416px;
+  width: calc(100% - 120px);
   margin-left: 4px;
   opacity: 1;
   padding-left: 20px;
@@ -954,9 +1001,6 @@
     display: none;
   }
 
-  .gmd-mega-menu-arrow {
-    display: none;
-  }
 }
 
 /* Mobile mega menu responsive */
