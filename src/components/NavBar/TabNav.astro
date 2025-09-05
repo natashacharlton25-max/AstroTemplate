@@ -1,0 +1,1001 @@
+---
+// Simple top-left hamburger navigation matching BottomNav pill design
+import { links } from './navItems';
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string, currentPath: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<nav class="nav-tab" id="navTab">
+  <!-- Expanded Menu -->
+  <div class="nav-expanded" id="navExpanded">
+    {links.map((link) => (
+      <div class="nav-item">
+        <a
+          href={link.href}
+          class={`nav-link ${isActive(link.href, currentPath) ? 'active' : ''}`}
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noopener noreferrer' : undefined}
+          data-has-megamenu={link.hasMegaMenu}
+          data-nav-label={link.label}
+        >
+          {link.label}
+        </a>
+      </div>
+    ))}
+  </div>
+  
+  <!-- Hamburger Toggle -->
+  <button class="nav-toggle" id="navToggle" aria-label="Navigation Menu">
+    <div class="nav-icon">
+      <span class="nav-line"></span>
+      <span class="nav-line"></span>
+      <span class="nav-line"></span>
+    </div>
+  </button>
+</nav>
+
+<style>
+  /* Top-Left Navigation Tab - using brand colors */
+  .nav-tab {
+    position: fixed !important;
+    top: 20px !important;
+    left: -20px !important;
+    z-index: 999 !important;
+    display: block !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .nav-toggle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    width: auto !important;
+    min-width: 120px !important;
+    height: 48px !important;
+    background: var(--brand-background) !important;
+    border: 1px solid color-mix(in srgb, var(--brand-secondary) 20%, transparent) !important;
+    border-radius: 0 28px 28px 0 !important;
+    box-shadow: 4px 0 16px rgba(24, 78, 119, 0.1) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer !important;
+    color: var(--brand-secondary) !important;
+    border-left: none !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 20px 0 32px !important;
+  }
+
+  .nav-icon {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 5px !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .nav-line {
+    width: 18px !important;
+    height: 2px !important;
+    background: currentColor !important;
+    border-radius: 2px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transform-origin: center !important;
+  }
+
+  /* Hover: skewed hamburger at 45 degrees */
+  .nav-toggle:hover .nav-line {
+    transform: rotate(45deg) !important;
+  }
+
+  .nav-toggle:hover {
+    background: var(--brand-primary) !important;
+    color: var(--brand-text-light) !important;
+    box-shadow: 8px 0 20px color-mix(in srgb, var(--brand-primary) 25%, transparent) !important;
+  }
+
+  /* Clicked/Locked: X transformation */
+  .nav-toggle.active {
+    background: var(--brand-primary) !important;
+    color: var(--brand-text-light) !important;
+    box-shadow: 8px 0 20px color-mix(in srgb, var(--brand-primary) 25%, transparent) !important;
+  }
+
+  .nav-toggle.active .nav-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg) !important;
+    transform-origin: center !important;
+  }
+
+  .nav-toggle.active .nav-line:nth-child(2) {
+    opacity: 0 !important;
+    transform: scaleX(0) !important;
+  }
+
+  .nav-toggle.active .nav-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg) !important;
+    transform-origin: center !important;
+  }
+
+  /* Expanded Navigation Menu */
+  .nav-expanded {
+    position: absolute !important;
+    top: 64px !important;
+    left: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    opacity: 0 !important;
+    transform: translateY(-10px) scale(0.98) !important;
+    transform-origin: top left !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    pointer-events: none !important;
+    max-height: 400px !important;
+    overflow: visible !important;
+    z-index: 1001 !important;
+  }
+
+  .nav-expanded.show {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    transform-origin: top left !important;
+    pointer-events: auto !important;
+  }
+
+  /* Dynamic staggered animation - controlled by JavaScript */
+  .nav-expanded.show .nav-item {
+    opacity: 1 !important;
+    transform: translateX(0) scale(1) !important;
+  }
+
+  .nav-expanded.exiting .nav-item {
+    opacity: 0 !important;
+    transform: translateX(-200px) scale(0.95) !important;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s;
+  }
+
+  .nav-item {
+    opacity: 0 !important;
+    transform: translateX(-200px) scale(0.95) !important;
+    transition: opacity 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  }
+
+  .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    width: auto !important;
+    min-width: 120px !important;
+    height: 48px !important;
+    background: var(--brand-background) !important;
+    border: 1px solid color-mix(in srgb, var(--brand-secondary) 20%, transparent) !important;
+    border-radius: 0 28px 28px 0 !important;
+    border-left: none !important;
+    box-shadow: 4px 0 16px color-mix(in srgb, var(--brand-secondary) 8%, transparent) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    color: var(--brand-secondary) !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    font-family: var(--font-nav) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    position: relative !important;
+    padding: 0 20px 0 32px !important;
+    white-space: nowrap !important;
+  }
+
+  .nav-expanded.show .nav-link:hover {
+    background: var(--brand-primary) !important;
+    color: var(--brand-text-light) !important;
+    box-shadow: 12px 0 24px color-mix(in srgb, var(--brand-primary) 30%, transparent) !important;
+    transition-delay: 0s !important;
+  }
+
+  .nav-link.active {
+    background: var(--brand-secondary) !important;
+    color: var(--brand-text-light) !important;
+    box-shadow: 4px 0 16px color-mix(in srgb, var(--brand-secondary) 30%, transparent) !important;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .nav-tab {
+      top: 10px;
+      left: -15px;
+    }
+    
+    .nav-toggle {
+      height: 40px !important;
+    }
+    
+    .nav-icon {
+      gap: 4px !important;
+      width: 18px !important;
+      height: 18px !important;
+    }
+
+    .nav-line {
+      width: 16px !important;
+    }
+    
+    .nav-toggle.active .nav-line:nth-child(1) {
+      transform: translateY(6px) rotate(45deg) !important;
+    }
+
+    .nav-toggle.active .nav-line:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg) !important;
+    }
+    
+    .nav-link {
+      height: 40px !important;
+      font-size: 12px !important;
+      padding: 0 16px 0 24px !important;
+    }
+  }
+</style>
+
+<script>
+  // Dynamic Navigation functionality
+  const navToggle = document.getElementById('navToggle');
+  const navExpanded = document.getElementById('navExpanded');
+  
+  let isLocked = false;
+  let isAnimating = false;
+  let hoverTimeout: ReturnType<typeof setTimeout> | null = null;
+  let maxWidth = 0;
+
+  // Initialize navigation sizing and timing
+  function initializeNavigation() {
+    const navItems = navExpanded?.querySelectorAll('.nav-item') || [];
+    const navLinks = navExpanded?.querySelectorAll('.nav-link') || [];
+    
+    // Calculate maximum width needed for any nav link
+    let calculatedMaxWidth = 120; // minimum width
+    
+    navLinks.forEach((link) => {
+      const htmlLink = link as HTMLElement;
+      // Create a temporary element to measure text width
+      const tempEl = document.createElement('span');
+      tempEl.style.visibility = 'hidden';
+      tempEl.style.position = 'absolute';
+      tempEl.style.whiteSpace = 'nowrap';
+      
+      // Responsive font sizing
+      const isMobile = window.innerWidth <= 768;
+      tempEl.style.fontSize = isMobile ? '12px' : '14px';
+      tempEl.style.fontWeight = '600';
+      tempEl.style.fontFamily = 'var(--font-nav, Poppins)';
+      tempEl.style.textTransform = 'uppercase';
+      tempEl.style.letterSpacing = '0.5px';
+      tempEl.textContent = htmlLink.textContent || '';
+      
+      document.body.appendChild(tempEl);
+      // Responsive padding - mobile uses 16px + 24px = 40px, desktop uses 32px + 20px = 52px
+      const padding = isMobile ? 40 : 52;
+      const textWidth = tempEl.offsetWidth + padding;
+      document.body.removeChild(tempEl);
+      
+      calculatedMaxWidth = Math.max(calculatedMaxWidth, textWidth);
+    });
+    
+    // Calculate safe maximum width (page text boundary + margin)
+    const pageContent = document.querySelector('main') || document.body;
+    const pageLeft = pageContent.getBoundingClientRect().left;
+    const safeMaxWidth = Math.min(calculatedMaxWidth + 20, pageLeft - 40); // 40px safety margin
+    
+    maxWidth = Math.max(safeMaxWidth, 120); // Never go below 120px
+    
+    // Apply dynamic widths to hamburger and nav links (pre-sized to match)
+    const style = document.createElement('style');
+    style.textContent = `
+      .nav-toggle {
+        width: ${maxWidth}px !important;
+      }
+      .nav-link {
+        width: ${maxWidth}px !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Set up staggered timing (no longer needed as hamburger is pre-sized)
+    setupStaggeredAnimations(navItems.length);
+  }
+
+  function setupStaggeredAnimations(itemCount: number) {
+    if (itemCount === 0) return;
+    
+    const baseDelay = 120; // 120ms base for smoother, more visible sequencing
+    const navItems = navExpanded?.querySelectorAll('.nav-item') || [];
+    
+    navItems.forEach((item, index) => {
+      const htmlItem = item as HTMLElement;
+      
+      // Entrance timing (top to bottom) - hamburger shows first (0ms), then items
+      const entranceDelay = (index + 1) * baseDelay;
+      
+      // Exit timing (bottom to top) - items disappear first, hamburger transforms last
+      const exitDelay = (itemCount - index) * baseDelay;
+      
+      // Set CSS custom properties for dynamic timing
+      htmlItem.style.setProperty('--entrance-delay', `${entranceDelay}ms`);
+      htmlItem.style.setProperty('--exit-delay', `${exitDelay}ms`);
+    });
+    
+    // Add dynamic timing styles for nav items only
+    const timingStyle = document.createElement('style');
+    timingStyle.textContent = `
+      .nav-expanded.show .nav-item {
+        transition-delay: var(--entrance-delay) !important;
+      }
+      .nav-expanded.exiting .nav-item {
+        transition-delay: var(--exit-delay) !important;
+      }
+    `;
+    document.head.appendChild(timingStyle);
+  }
+
+  function showNavMenu() {
+    if (isAnimating) return;
+    
+    isAnimating = true;
+    
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+    
+    navExpanded?.classList.remove('exiting');
+    navExpanded?.classList.add('show');
+    
+    // Calculate total animation time based on number of items
+    const navItems = navExpanded?.querySelectorAll('.nav-item') || [];
+    const totalTime = navItems.length * 120 + 200; // Base time for nav items
+    
+    setTimeout(() => {
+      isAnimating = false;
+      
+      // Start 3-second auto-hide timer if not locked
+      if (!isLocked) {
+        hoverTimeout = setTimeout(() => {
+          hideNavMenu();
+        }, 3000);
+      }
+    }, totalTime);
+  }
+
+  function hideNavMenu() {
+    if (isAnimating || isLocked) return;
+    
+    isAnimating = true;
+    
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+    
+    navExpanded?.classList.add('exiting');
+    
+    // Calculate total exit animation time  
+    const navItems = navExpanded?.querySelectorAll('.nav-item') || [];
+    const totalTime = navItems.length * 120 + 200; // Time for all items to disappear
+    
+    setTimeout(() => {
+      navExpanded?.classList.remove('show', 'exiting');
+      isAnimating = false;
+    }, totalTime);
+  }
+
+  // Hover to show menu
+  navToggle?.addEventListener('mouseenter', () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+    showNavMenu();
+  });
+
+  // Cancel any collapse timer when entering nav area
+  document.getElementById('navTab')?.addEventListener('mouseenter', () => {
+    if (!isLocked && hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+  });
+
+  // Keep menu open while hovering over any nav links
+  navExpanded?.addEventListener('mouseenter', () => {
+    if (!isLocked && hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+  });
+
+  // Handle mega menu interactions
+  const isMobile = () => window.innerWidth <= 768;
+  let megaMenuHoverTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  // Desktop hover behavior
+  navExpanded?.addEventListener('mouseenter', (e) => {
+    const target = e.target as HTMLElement;
+    const navLink = target.closest('.nav-link') as HTMLElement;
+    
+    if (navLink && !isMobile()) {
+      // Clear any existing timeout
+      if (megaMenuHoverTimeout) {
+        clearTimeout(megaMenuHoverTimeout);
+        megaMenuHoverTimeout = null;
+      }
+
+      if (navLink.dataset.hasMegamenu === 'true') {
+        // Open mega menu for items that have one
+        const navLabel = navLink.dataset.navLabel;
+        console.log('Hover on mega menu item:', navLabel);
+        const megaMenuContent = generateMegaMenuContent(navLabel);
+        console.log('Content generated, length:', megaMenuContent.length);
+        
+        if ((window as any).megaMenu && megaMenuContent) {
+          console.log('Opening mega menu');
+          (window as any).megaMenu.open(megaMenuContent, 'tabnav');
+        } else {
+          console.error('Failed to open mega menu - megaMenu available:', !!(window as any).megaMenu, 'content length:', megaMenuContent.length);
+        }
+      } else {
+        // Close mega menu immediately for items without mega menu
+        if ((window as any).megaMenu) {
+          (window as any).megaMenu.close();
+        }
+      }
+    }
+  }, true);
+
+  // Desktop hover leave behavior
+  navExpanded?.addEventListener('mouseleave', (e) => {
+    if (!isMobile()) {
+      megaMenuHoverTimeout = setTimeout(() => {
+        if ((window as any).megaMenu) {
+          (window as any).megaMenu.close();
+        }
+      }, 300);
+    }
+  });
+
+  // Listen for mega menu hover events to manage timers
+  document.addEventListener('megamenu:hover:enter', () => {
+    if (megaMenuHoverTimeout) {
+      clearTimeout(megaMenuHoverTimeout);
+      megaMenuHoverTimeout = null;
+    }
+  });
+
+  document.addEventListener('megamenu:hover:leave', () => {
+    if (!isMobile()) {
+      megaMenuHoverTimeout = setTimeout(() => {
+        if ((window as any).megaMenu) {
+          (window as any).megaMenu.close();
+        }
+      }, 300);
+    }
+  });
+
+  // Click behavior (mobile/tablet + desktop as backup)
+  navExpanded?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const navLink = target.closest('.nav-link') as HTMLElement;
+    
+    if (navLink && navLink.dataset.hasMegamenu === 'true') {
+      e.preventDefault();
+      
+      const navLabel = navLink.dataset.navLabel;
+      const megaMenuContent = generateMegaMenuContent(navLabel);
+      
+      if ((window as any).megaMenu && megaMenuContent) {
+        if (isMobile()) {
+          // Mobile: Always open/switch content, never close unless clicking same item
+          const currentLabel = (window as any).megaMenu.currentLabel;
+          if (currentLabel === navLabel && (window as any).megaMenu.isOpenFor('tabnav')) {
+            (window as any).megaMenu.close();
+          } else {
+            (window as any).megaMenu.open(megaMenuContent, 'tabnav');
+            (window as any).megaMenu.currentLabel = navLabel;
+          }
+        } else {
+          // Desktop: Toggle behavior as backup for click
+          if ((window as any).megaMenu.isOpenFor('tabnav')) {
+            (window as any).megaMenu.close();
+          } else {
+            (window as any).megaMenu.open(megaMenuContent, 'tabnav');
+          }
+        }
+      }
+    }
+  });
+
+  // Generate mega menu content based on nav item - v3.0 TEST
+  function generateMegaMenuContent(navLabel: string | undefined): string {
+    if (!navLabel) return '';
+    
+    console.log('Generating mega menu for:', navLabel);
+    
+    // Simple test content to verify it's working
+    return `
+      <div class="mega-menu-wrapper">
+        <div class="mega-menu-header">
+          <h2 class="mega-menu-title">🎯 NEW ${navLabel}</h2>
+          <p class="mega-menu-subtitle">3-Column Layout Test - ${new Date().toLocaleTimeString()}</p>
+        </div>
+        <div class="mega-menu-grid">
+          <div class="mega-menu-column">
+            <h4 class="mega-column-title">Column 1</h4>
+            <div class="mega-menu-items">
+              <a href="#" class="mega-menu-item">
+                <img src="/images/Placeholder.jpg" alt="Test" style="width: 48px !important; height: 48px !important; max-width: 48px !important; max-height: 48px !important; object-fit: cover !important; border-radius: 8px !important;">
+                <div class="mega-item-content">
+                  <span class="mega-item-title">Test Item 1</span>
+                  <span class="mega-item-desc">This is a test item</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="mega-menu-column">
+            <h4 class="mega-column-title">Column 2</h4>
+            <div class="mega-menu-items">
+              <a href="#" class="mega-menu-item">
+                <img src="/images/Placeholder.jpg" alt="Test">
+                <div class="mega-item-content">
+                  <span class="mega-item-title">Test Item 2</span>
+                  <span class="mega-item-desc">This is a test item</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="mega-menu-column">
+            <h4 class="mega-column-title">Column 3</h4>
+            <div class="mega-menu-items">
+              <a href="#" class="mega-menu-item">
+                <img src="/images/Placeholder.jpg" alt="Test">
+                <div class="mega-item-content">
+                  <span class="mega-item-title">Test Item 3</span>
+                  <span class="mega-item-desc">This is a test item</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    /* ORIGINAL CONTENT TEMPORARILY COMMENTED OUT
+    
+    const megaMenuContent = {
+      'Projects': `
+        <div class="mega-menu-wrapper">
+          <div class="mega-menu-header">
+            <h2 class="mega-menu-title">Our Projects</h2>
+            <p class="mega-menu-subtitle">Explore our latest work and creative solutions</p>
+          </div>
+          <div class="mega-menu-grid">
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Web Development</h4>
+              <div class="mega-menu-items">
+                <a href="/projects/enterprise" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Enterprise Solutions">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Enterprise Solutions</span>
+                    <span class="mega-item-desc">Large-scale business applications</span>
+                  </div>
+                </a>
+                <a href="/projects/ecommerce" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="E-commerce">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">E-commerce Platforms</span>
+                    <span class="mega-item-desc">Online stores & marketplaces</span>
+                  </div>
+                </a>
+                <a href="/projects/creative" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Creative Websites">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Creative Portfolios</span>
+                    <span class="mega-item-desc">Artist & designer websites</span>
+                  </div>
+                </a>
+                <a href="/projects/saas" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="SaaS">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">SaaS Platforms</span>
+                    <span class="mega-item-desc">Software as a service</span>
+                  </div>
+                </a>
+                <a href="/projects/mobile" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Mobile Apps">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Mobile Applications</span>
+                    <span class="mega-item-desc">iOS & Android apps</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Technologies</h4>
+              <div class="mega-menu-items">
+                <a href="/projects/react" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="React">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">React & Next.js</span>
+                    <span class="mega-item-desc">Modern frontend frameworks</span>
+                  </div>
+                </a>
+                <a href="/projects/nodejs" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Node.js">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Node.js APIs</span>
+                    <span class="mega-item-desc">Backend development</span>
+                  </div>
+                </a>
+                <a href="/projects/python" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Python">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Python & Django</span>
+                    <span class="mega-item-desc">Web frameworks & AI</span>
+                  </div>
+                </a>
+                <a href="/projects/cloud" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Cloud">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Cloud Solutions</span>
+                    <span class="mega-item-desc">AWS, Azure & GCP</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Industry Focus</h4>
+              <div class="mega-menu-items">
+                <a href="/projects/healthcare" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Healthcare">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Healthcare Systems</span>
+                    <span class="mega-item-desc">Medical & patient portals</span>
+                  </div>
+                </a>
+                <a href="/projects/fintech" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Fintech">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Financial Technology</span>
+                    <span class="mega-item-desc">Banking & payments</span>
+                  </div>
+                </a>
+                <a href="/projects/education" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Education">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Educational Platforms</span>
+                    <span class="mega-item-desc">Learning management systems</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      'Resources': `
+        <div class="mega-menu-wrapper">
+          <div class="mega-menu-header">
+            <h2 class="mega-menu-title">Resources</h2>
+            <p class="mega-menu-subtitle">Tools, guides, and materials to help you succeed</p>
+          </div>
+          <div class="mega-menu-grid">
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Documentation</h4>
+              <div class="mega-menu-items">
+                <a href="/resources/api" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="API">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">API Reference</span>
+                    <span class="mega-item-desc">Complete REST API documentation</span>
+                  </div>
+                </a>
+                <a href="/resources/guides" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Guides">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Developer Guides</span>
+                    <span class="mega-item-desc">Step-by-step implementation tutorials</span>
+                  </div>
+                </a>
+                <a href="/resources/changelog" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Changelog">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Changelog</span>
+                    <span class="mega-item-desc">Latest updates & improvements</span>
+                  </div>
+                </a>
+                <a href="/resources/roadmap" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Roadmap">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Product Roadmap</span>
+                    <span class="mega-item-desc">Upcoming features & releases</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Design & Assets</h4>
+              <div class="mega-menu-items">
+                <a href="/resources/design-system" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Design System">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Design System</span>
+                    <span class="mega-item-desc">UI components & guidelines</span>
+                  </div>
+                </a>
+                <a href="/resources/templates" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Templates">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Code Templates</span>
+                    <span class="mega-item-desc">Ready-to-use project starters</span>
+                  </div>
+                </a>
+                <a href="/resources/icons" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Icons">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Icon Library</span>
+                    <span class="mega-item-desc">Scalable vector icons</span>
+                  </div>
+                </a>
+                <a href="/resources/brand" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Brand">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Brand Assets</span>
+                    <span class="mega-item-desc">Logos, colors & typography</span>
+                  </div>
+                </a>
+                <a href="/resources/mockups" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Mockups">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Mockup Templates</span>
+                    <span class="mega-item-desc">Device & presentation mockups</span>
+                  </div>
+                </a>
+                <a href="/resources/illustrations" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Illustrations">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Illustrations</span>
+                    <span class="mega-item-desc">Custom drawn graphics</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Learning & Support</h4>
+              <div class="mega-menu-items">
+                <a href="/resources/tutorials" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Tutorials">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Video Tutorials</span>
+                    <span class="mega-item-desc">In-depth learning content</span>
+                  </div>
+                </a>
+                <a href="/resources/webinars" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Webinars">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Live Webinars</span>
+                    <span class="mega-item-desc">Interactive training sessions</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      'Luna': `
+        <div class="mega-menu-wrapper">
+          <div class="mega-menu-header">
+            <h2 class="mega-menu-title">Luna Platform</h2>
+            <p class="mega-menu-subtitle">AI-powered tools for modern businesses</p>
+          </div>
+          <div class="mega-menu-grid">
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Core AI Features</h4>
+              <div class="mega-menu-items">
+                <a href="/luna/assistant" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="AI Assistant">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">AI Assistant</span>
+                    <span class="mega-item-desc">Intelligent automation & workflows</span>
+                  </div>
+                </a>
+                <a href="/luna/analytics" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Analytics">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Smart Analytics</span>
+                    <span class="mega-item-desc">AI-powered data insights</span>
+                  </div>
+                </a>
+                <a href="/luna/predictions" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Predictions">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Predictive Models</span>
+                    <span class="mega-item-desc">Machine learning forecasts</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Business Tools</h4>
+              <div class="mega-menu-items">
+                <a href="/luna/workflow" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Workflow">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Workflow Builder</span>
+                    <span class="mega-item-desc">Custom automation flows</span>
+                  </div>
+                </a>
+                <a href="/luna/integrations" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Integrations">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">App Integrations</span>
+                    <span class="mega-item-desc">Connect your favorite tools</span>
+                  </div>
+                </a>
+                <a href="/luna/collaboration" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Team">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Team Collaboration</span>
+                    <span class="mega-item-desc">Real-time communication</span>
+                  </div>
+                </a>
+                <a href="/luna/reports" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Reports">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Custom Reports</span>
+                    <span class="mega-item-desc">Automated reporting</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Getting Started</h4>
+              <div class="mega-menu-items">
+                <a href="/luna/quickstart" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Quick Start">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Quick Start Guide</span>
+                    <span class="mega-item-desc">Get up and running in 5 minutes</span>
+                  </div>
+                </a>
+                <a href="/luna/pricing" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Pricing">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Pricing Plans</span>
+                    <span class="mega-item-desc">Find the right plan for you</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      'Insights': `
+        <div class="mega-menu-wrapper">
+          <div class="mega-menu-header">
+            <h2 class="mega-menu-title">Insights</h2>
+            <p class="mega-menu-subtitle">Latest trends, tips, and industry knowledge</p>
+          </div>
+          <div class="mega-menu-grid">
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Featured Articles</h4>
+              <div class="mega-menu-items">
+                <a href="https://insights.icthemoon.com/trends-2024" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Trends">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Web Development Trends 2024</span>
+                    <span class="mega-item-desc">Latest technologies & frameworks</span>
+                  </div>
+                </a>
+                <a href="https://insights.icthemoon.com/ai-future" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="AI">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">The Future of AI</span>
+                    <span class="mega-item-desc">How AI is reshaping development</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">Popular Topics</h4>
+              <div class="mega-menu-items">
+                <a href="https://insights.icthemoon.com/development" class="mega-menu-item">
+                  <img src="/images/Placeholder.jpg" alt="Development">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Development</span>
+                    <span class="mega-item-desc">Code & best practices</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-menu-column">
+              <h4 class="mega-column-title">External Links</h4>
+              <div class="mega-menu-items">
+                <a href="https://insights.icthemoon.com/" class="mega-menu-item" target="_blank" rel="noopener noreferrer">
+                  <img src="/images/Placeholder.jpg" alt="Blog">
+                  <div class="mega-item-content">
+                    <span class="mega-item-title">Visit Full Blog</span>
+                    <span class="mega-item-desc">Read all our insights</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    };
+    
+    // END COMMENT */
+  }
+
+  // Start hide timer when leaving nav area
+  document.getElementById('navTab')?.addEventListener('mouseleave', () => {
+    if (!isLocked) {
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
+      }
+      hoverTimeout = setTimeout(() => {
+        hideNavMenu();
+      }, 300);
+    }
+  });
+
+  // Click to lock/unlock
+  navToggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    
+    if (isLocked) {
+      // Unlock and hide
+      isLocked = false;
+      navToggle.classList.remove('active');
+      hideNavMenu();
+      
+      // Emit hamburger closed event for mobile mega menu
+      document.dispatchEvent(new CustomEvent('tabnav:hamburger:closed'));
+    } else {
+      // Lock open
+      isLocked = true;
+      navToggle.classList.add('active');
+      showNavMenu();
+    }
+  });
+
+  // Close when clicking outside (only if locked)
+  document.addEventListener('click', (e) => {
+    if (isLocked && !document.getElementById('navTab')?.contains(e.target as Node)) {
+      isLocked = false;
+      navToggle?.classList.remove('active');
+      hideNavMenu();
+      
+      // Emit hamburger closed event for mobile mega menu
+      document.dispatchEvent(new CustomEvent('tabnav:hamburger:closed'));
+    }
+  });
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeNavigation);
+  } else {
+    initializeNavigation();
+  }
+</script>

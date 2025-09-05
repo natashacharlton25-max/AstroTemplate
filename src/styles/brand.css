@@ -47,6 +47,21 @@
   --brand-navy-dark: #1a202c;                 /* Darker navy */
   --brand-accent: var(--brand-primary);       /* Accent color for animations */
   --brand-light: #60a5fa;                     /* Light blue for effects */
+
+  /* ---- Glassmorphic Design System ---- */
+  --glass-background: rgba(255, 252, 240, 0.28);
+  --glass-border: 1px solid rgba(255, 252, 240, 0.38);
+  --glass-border-radius: 16px;
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --glass-backdrop-blur: blur(11.4px);
+  
+  /* Glassmorphic variations */
+  --glass-light: rgba(255, 252, 240, 0.15);
+  --glass-medium: rgba(255, 252, 240, 0.28);
+  --glass-heavy: rgba(255, 252, 240, 0.45);
+  --glass-border-light: rgba(255, 252, 240, 0.2);
+  --glass-border-medium: rgba(255, 252, 240, 0.38);
+  --glass-border-heavy: rgba(255, 252, 240, 0.55);
 }
 
 /* ==== GLOBAL STYLES ==== */
@@ -118,3 +133,31 @@ a:hover {
 
 .border-primary   { border-color: var(--brand-primary) !important; }
 .border-secondary { border-color: var(--brand-secondary) !important; }
+
+/* Glassmorphic Utility Classes */
+.glass-light {
+  background: var(--glass-light) !important;
+  border: var(--glass-border-light) !important;
+  border-radius: var(--glass-border-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: var(--glass-backdrop-blur) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+}
+
+.glass-medium {
+  background: var(--glass-medium) !important;
+  border: var(--glass-border-medium) !important;
+  border-radius: var(--glass-border-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: var(--glass-backdrop-blur) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+}
+
+.glass-heavy {
+  background: var(--glass-heavy) !important;
+  border: var(--glass-border-heavy) !important;
+  border-radius: var(--glass-border-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: var(--glass-backdrop-blur) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+}
