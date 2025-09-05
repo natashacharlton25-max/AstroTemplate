@@ -24,6 +24,17 @@
   border-radius: var(--nav-border-radius);
 }
 
+/* Ensure megamenu active navbar has proper styling */
+.gm-nav.megamenu-active {
+  overflow: visible;
+  border-radius: var(--nav-border-radius);
+  background: var(--nav-background);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--nav-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
 .gm-container {
   min-height: var(--nav-height);
   /* Use consistent left/right padding to avoid logo horizontal movement during transitions */
@@ -52,7 +63,10 @@ z-index: 10;
   align-items: center;
   flex-shrink: 0; /* Don't let brand link get squeezed */
   text-decoration: none;
-  transition: transform 0.3s ease; /* Only animate hover scale, not position */
+  transition: none !important; /* Remove all transitions to prevent jerky behavior */
+  opacity: 1 !important; /* Force visibility */
+  transform: none !important; /* No transforms */
+  will-change: auto !important; /* Prevent GPU layer creation */
 }
 
 /* Hover effects for .gm-brand are currently disabled for debugging and the empty ruleset has been removed. */
@@ -64,6 +78,9 @@ z-index: 10;
   transition: none !important; /* NEVER animate logo size/position */
   display: block !important; /* Always visible */
   transform: none !important; /* No transforms on logo */
+  opacity: 1 !important; /* Force visibility */
+  visibility: visible !important; /* Ensure always visible */
+  will-change: auto !important; /* Prevent GPU layer creation */
 }
 
 .gm-logo-text {
@@ -296,11 +313,11 @@ z-index: 10;
 
 /* Absolutely Positioned Megamenu WITHIN Nav Container */
 @media (min-width: 1024px) {
-  /* When megamenu is active, expand the nav container height */
+  /* When megamenu is active, expand the nav container height dynamically */
   .gm-nav.megamenu-active {
     height: auto;
-    min-height: calc(var(--nav-height) + 400px);
-    transition: min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: var(--nav-height); /* Start with nav height */
+    transition: min-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .gm-megamenu-container {
@@ -309,30 +326,48 @@ z-index: 10;
     left: 0;
     right: 0;
     height: 0;
+    min-height: 0;
+    max-height: 0;
     opacity: 0;
     overflow: hidden;
     padding: 0;
     z-index: 1;
-    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.3s ease 0.1s,
-                padding 0.4s ease;
+    transform: translateY(-10px); /* Start slightly above for glide effect */
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s,
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: max-height, opacity, transform, padding;
   }
   
   .gm-megamenu-container.active {
-    height: 350px;
+    max-height: 600px; /* Allow for flexible content height */
+    min-height: 300px; /* Minimum height for consistency */
+    height: auto; /* Auto height for content-responsive sizing */
     opacity: 1;
     padding: 24px 32px;
+    transform: translateY(0); /* Glide into position */
     border-top: 1px solid rgba(24, 78, 119, 0.1);
   }
   
   .gm-megamenu-panel {
-    display: none;
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    right: 32px;
+    width: auto;
+    height: auto;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
   }
   
   .gm-megamenu-panel.active {
-    display: block;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
   }
 }
 
@@ -363,6 +398,45 @@ z-index: 10;
     gap: 24px;
     align-items: start;
     margin-top: 8px;
+    min-height: 250px; /* Minimum height for consistent appearance */
+  }
+}
+
+/* Responsive grid for different screen sizes */
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .gm-megamenu-grid {
+    gap: 20px;
+    min-height: 280px; /* Slightly taller for smaller screens */
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .gm-megamenu-grid {
+    gap: 26px;
+    min-height: 260px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .gm-megamenu-grid {
+    gap: 32px;
+    min-height: 240px; /* Shorter on very wide screens */
+  }
+}
+  
+  /* Smooth transitions for grid items during content switching */
+  .gm-megamenu-section {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .gm-megamenu-panel:not(.active) .gm-megamenu-section {
+    opacity: 0.7;
+    transform: translateY(5px);
+  }
+  
+  .gm-megamenu-panel.active .gm-megamenu-section {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* Removed empty .gm-megamenu-section ruleset to fix compile error */
@@ -405,13 +479,33 @@ z-index: 10;
     opacity: 0.6;
     font-weight: 400;
   }
-}
 
 /* Hide expanded content on mobile */
 @media (max-width: 1023px) {
   .gm-nav-expanded-content {
     display: none !important;
   }
+}
+
+/* ABSOLUTE logo protection - highest specificity to override everything */
+.gm-nav .gm-logo,
+.gm-nav .gm-brand,
+.gm-nav .gm-logo-section,
+.gm-nav[data-collapsed] .gm-logo,
+.gm-nav[data-collapsed] .gm-brand,
+.gm-nav[data-collapsed] .gm-logo-section,
+.gm-nav[data-expanded] .gm-logo,
+.gm-nav[data-expanded] .gm-brand,
+.gm-nav[data-expanded] .gm-logo-section,
+nav.gm-nav .gm-logo,
+nav.gm-nav .gm-brand,
+nav.gm-nav .gm-logo-section {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto !important;
+  animation: none !important;
 }
 
 /* Hide mega menu container when nav is collapsed */
@@ -810,6 +904,9 @@ z-index: 10;
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    visibility: visible !important;
+    display: flex !important;
+    will-change: auto !important;
   }
 
   .gm-nav[data-expanded="true"] .gmd-menu-item:nth-child(1) {
@@ -857,7 +954,7 @@ z-index: 10;
   .gm-nav {
     right: auto; /* avoid over-constraining */
     width: calc(100vw - 40px); /* default (expanded) width matching left/right padding */
-    transition: width 320ms cubic-bezier(0.22, 0.8, 0.2, 1);
+    transition: width 600ms cubic-bezier(0.22, 0.8, 0.2, 1); /* Slower transition to let menu items fade first */
   }
 
   /* When collapsed, shrink width but keep same height and styling */
@@ -902,8 +999,8 @@ z-index: 10;
     width: 0;
     overflow: hidden;
     transform: translateX(20px);
-    transition: width 0.3s ease,
-                transform 0.4s ease 0.3s; /* Delay slide-in until width grows */
+    transition: width 0.2s ease 0.4s, /* Delay width change until items fade */
+                transform 0.3s ease 0.5s; /* Delay slide until after width change */
   }
 
   /* Logo stays exactly the same size and behavior as expanded nav */
@@ -933,7 +1030,7 @@ z-index: 10;
   .gm-nav[data-collapsed="true"] .gmd-menu-item {
     opacity: 0 !important;
     transform: translateY(-10px) !important;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease; /* Faster fade to complete before width change */
   }
   
   /* CRITICAL: Ensure logo is never affected by menu item animations */
@@ -943,26 +1040,29 @@ z-index: 10;
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    visibility: visible !important;
+    display: flex !important;
+    will-change: auto !important;
   }
 
   .gm-nav[data-collapsed="true"] .gmd-menu-item:nth-child(1) {
-    transition-delay: 0.5s !important; /* Home fades last */
+    transition-delay: 0.2s !important; /* Home fades last, but faster */
   }
 
   .gm-nav[data-collapsed="true"] .gmd-menu-item:nth-child(2) {
-    transition-delay: 0.4s !important; /* About */
+    transition-delay: 0.15s !important; /* About */
   }
 
   .gm-nav[data-collapsed="true"] .gmd-menu-item:nth-child(3) {
-    transition-delay: 0.3s !important; /* Projects */
+    transition-delay: 0.1s !important; /* Projects */
   }
 
   .gm-nav[data-collapsed="true"] .gmd-menu-item:nth-child(4) {
-    transition-delay: 0.2s !important; /* Resources */
+    transition-delay: 0.05s !important; /* Resources */
   }
 
   .gm-nav[data-collapsed="true"] .gmd-menu-item:nth-child(5) {
-    transition-delay: 0.1s !important; /* Luna */
+    transition-delay: 0.02s !important; /* Luna */
   }
 
   .gm-nav[data-collapsed="true"] .gmd-menu-item:nth-child(6) {
@@ -1102,22 +1202,34 @@ z-index: 10;
 /* Dynamic Transition Classes for Different Triggers */
 /* Higher specificity to override default .gm-nav transition */
 nav.gm-nav.transition-scroll {
-  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important; /* Fast scroll transition after items fade */
 }
 
 nav.gm-nav.transition-smooth {
-  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Smooth transition */
 }
 
 nav.gm-nav.transition-hover {
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Hover transition */
 }
 
 /* Apply same specific transitions to key child elements with higher specificity */
-/* Removed explicit transitions for .gm-container and .gm-logo within these classes.
-   Their properties (padding, height) are now consistent between collapsed and expanded states,
-   so they should not animate. The base .gm-logo has a height transition, but it's not needed
-   if the height is constant. */
+/* Logo elements must be completely isolated from all transition effects */
+nav.gm-nav.transition-scroll .gm-logo,
+nav.gm-nav.transition-scroll .gm-brand,
+nav.gm-nav.transition-scroll .gm-logo-section,
+nav.gm-nav.transition-smooth .gm-logo,
+nav.gm-nav.transition-smooth .gm-brand,
+nav.gm-nav.transition-smooth .gm-logo-section,
+nav.gm-nav.transition-hover .gm-logo,
+nav.gm-nav.transition-hover .gm-brand,
+nav.gm-nav.transition-hover .gm-logo-section {
+  transition: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  will-change: auto !important;
+}
 
 /* --- Component Visibility --- */
 /* Mobile-first: show mobile nav, hide desktop nav by default. Use high specificity to ensure override. */
