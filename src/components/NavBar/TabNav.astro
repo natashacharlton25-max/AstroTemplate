@@ -17,11 +17,10 @@ function isActive(href: string, currentPath: string): boolean {
       <div class="nav-item">
         <a
           href={link.href}
-          class={`nav-link ${isActive(link.href, currentPath) ? 'active' : ''}`}
+          class={`nav-link ${isActive(link.href, currentPath) ? 'active' : ''} ${(['Projects', 'Resources', 'Luna'].includes(link.label)) ? 'has-card' : ''}`}
           target={link.external ? '_blank' : undefined}
           rel={link.external ? 'noopener noreferrer' : undefined}
-          data-has-megamenu={link.hasMegaMenu}
-          data-nav-label={link.label}
+          data-label={link.label}
         >
           {link.label}
         </a>
@@ -214,6 +213,30 @@ function isActive(href: string, currentPath: string): boolean {
     box-shadow: 4px 0 16px color-mix(in srgb, var(--brand-secondary) 30%, transparent) !important;
   }
 
+  /* All nav items need stable positioning */
+  .nav-item {
+    position: relative !important;
+    overflow: visible !important;
+    display: block !important;
+    /* Create a new stacking context for each nav item */
+  }
+
+  /* Sliding nav items with cards */
+  .nav-link.has-card {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    position: relative !important;
+    z-index: 1000 !important;
+  }
+
+  .nav-link.slide-out {
+    background: var(--brand-primary) !important;
+    color: var(--brand-text-light) !important;
+    box-shadow: 12px 0 24px color-mix(in srgb, var(--brand-primary) 30%, transparent) !important;
+    border-radius: 0 28px 28px 0 !important; /* Keep rounded right edge */
+    z-index: 1001 !important; /* Above other nav items */
+    /* Apply to any nav link with slide-out, not just has-card */
+  }
+
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .nav-tab {
@@ -247,6 +270,10 @@ function isActive(href: string, currentPath: string): boolean {
       height: 40px !important;
       font-size: 12px !important;
       padding: 0 16px 0 24px !important;
+    }
+
+    .nav-link.has-card.slide-out {
+      /* Keep mobile simple too */
     }
   }
 </style>
@@ -427,349 +454,6 @@ function isActive(href: string, currentPath: string): boolean {
     }
   });
 
-  // Handle mega menu interactions
-  const isMobile = () => window.innerWidth <= 768;
-  let megaMenuHoverTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  // Desktop hover behavior
-  navExpanded?.addEventListener('mouseenter', (e) => {
-    const target = e.target as HTMLElement;
-    const navLink = target.closest('.nav-link') as HTMLElement;
-    
-    if (navLink && !isMobile()) {
-      // Clear any existing timeout
-      if (megaMenuHoverTimeout) {
-        clearTimeout(megaMenuHoverTimeout);
-        megaMenuHoverTimeout = null;
-      }
-
-      if (navLink.dataset.hasMegamenu === 'true') {
-        // Open mega menu for items that have one
-        const navLabel = navLink.dataset.navLabel;
-        const megaMenuContent = generateMegaMenuContent(navLabel);
-        
-        if ((window as any).megaMenu && megaMenuContent) {
-          (window as any).megaMenu.open(megaMenuContent, 'tabnav');
-        }
-      } else {
-        // Close mega menu immediately for items without mega menu
-        if ((window as any).megaMenu) {
-          (window as any).megaMenu.close();
-        }
-      }
-    }
-  }, true);
-
-  // Desktop hover leave behavior
-  navExpanded?.addEventListener('mouseleave', (e) => {
-    if (!isMobile()) {
-      megaMenuHoverTimeout = setTimeout(() => {
-        if ((window as any).megaMenu) {
-          (window as any).megaMenu.close();
-        }
-      }, 300);
-    }
-  });
-
-  // Listen for mega menu hover events to manage timers
-  document.addEventListener('megamenu:hover:enter', () => {
-    if (megaMenuHoverTimeout) {
-      clearTimeout(megaMenuHoverTimeout);
-      megaMenuHoverTimeout = null;
-    }
-  });
-
-  document.addEventListener('megamenu:hover:leave', () => {
-    if (!isMobile()) {
-      megaMenuHoverTimeout = setTimeout(() => {
-        if ((window as any).megaMenu) {
-          (window as any).megaMenu.close();
-        }
-      }, 300);
-    }
-  });
-
-  // Click behavior (mobile/tablet + desktop as backup)
-  navExpanded?.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    const navLink = target.closest('.nav-link') as HTMLElement;
-    
-    if (navLink && navLink.dataset.hasMegamenu === 'true') {
-      e.preventDefault();
-      
-      const navLabel = navLink.dataset.navLabel;
-      const megaMenuContent = generateMegaMenuContent(navLabel);
-      
-      if ((window as any).megaMenu && megaMenuContent) {
-        if (isMobile()) {
-          // Mobile: Always open/switch content, never close unless clicking same item
-          const currentLabel = (window as any).megaMenu.currentLabel;
-          if (currentLabel === navLabel && (window as any).megaMenu.isOpenFor('tabnav')) {
-            (window as any).megaMenu.close();
-          } else {
-            (window as any).megaMenu.open(megaMenuContent, 'tabnav');
-            (window as any).megaMenu.currentLabel = navLabel;
-          }
-        } else {
-          // Desktop: Toggle behavior as backup for click
-          if ((window as any).megaMenu.isOpenFor('tabnav')) {
-            (window as any).megaMenu.close();
-          } else {
-            (window as any).megaMenu.open(megaMenuContent, 'tabnav');
-          }
-        }
-      }
-    }
-  });
-
-  function generateMegaMenuContent(navLabel: string | undefined): string {
-    if (!navLabel) return '';
-    
-    const megaMenuContent: Record<string, string> = {
-      'Projects': `
-        <div class="mega-menu-wrapper">
-          <div class="mega-menu-header">
-            <h2 class="mega-menu-title">Our Projects</h2>
-            <p class="mega-menu-subtitle">Explore our latest work and creative solutions</p>
-          </div>
-          <div class="mega-menu-grid">
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Web Development</h4>
-              <div class="mega-menu-items">
-                <a href="/projects/enterprise" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Enterprise Solutions">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Enterprise Solutions</span>
-                    <span class="mega-item-desc">Large-scale business applications</span>
-                  </div>
-                </a>
-                <a href="/projects/ecommerce" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="E-commerce">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">E-commerce Platforms</span>
-                    <span class="mega-item-desc">Online stores & marketplaces</span>
-                  </div>
-                </a>
-                <a href="/projects/creative" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Creative Websites">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Creative Portfolios</span>
-                    <span class="mega-item-desc">Artist & designer websites</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Technologies</h4>
-              <div class="mega-menu-items">
-                <a href="/projects/react" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="React">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">React & Next.js</span>
-                    <span class="mega-item-desc">Modern frontend frameworks</span>
-                  </div>
-                </a>
-                <a href="/projects/nodejs" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Node.js">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Node.js APIs</span>
-                    <span class="mega-item-desc">Backend development</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Industry Focus</h4>
-              <div class="mega-menu-items">
-                <a href="/projects/healthcare" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Healthcare">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Healthcare Systems</span>
-                    <span class="mega-item-desc">Medical & patient portals</span>
-                  </div>
-                </a>
-                <a href="/projects/fintech" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Fintech">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Financial Technology</span>
-                    <span class="mega-item-desc">Banking & payments</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'Resources': `
-        <div class="mega-menu-wrapper">
-          <div class="mega-menu-header">
-            <h2 class="mega-menu-title">Resources</h2>
-            <p class="mega-menu-subtitle">Tools, guides, and materials to help you succeed</p>
-          </div>
-          <div class="mega-menu-grid">
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Documentation</h4>
-              <div class="mega-menu-items">
-                <a href="/resources/api" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="API">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">API Reference</span>
-                    <span class="mega-item-desc">Complete REST API documentation</span>
-                  </div>
-                </a>
-                <a href="/resources/guides" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Guides">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Developer Guides</span>
-                    <span class="mega-item-desc">Step-by-step implementation tutorials</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Design & Assets</h4>
-              <div class="mega-menu-items">
-                <a href="/resources/design-system" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Design System">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Design System</span>
-                    <span class="mega-item-desc">UI components & guidelines</span>
-                  </div>
-                </a>
-                <a href="/resources/templates" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Templates">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Code Templates</span>
-                    <span class="mega-item-desc">Ready-to-use project starters</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Learning & Support</h4>
-              <div class="mega-menu-items">
-                <a href="/resources/tutorials" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Tutorials">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Video Tutorials</span>
-                    <span class="mega-item-desc">In-depth learning content</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'Luna': `
-        <div class="mega-menu-wrapper">
-          <div class="mega-menu-header">
-            <h2 class="mega-menu-title">Luna Platform</h2>
-            <p class="mega-menu-subtitle">AI-powered tools for modern businesses</p>
-          </div>
-          <div class="mega-menu-grid">
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Core AI Features</h4>
-              <div class="mega-menu-items">
-                <a href="/luna/assistant" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="AI Assistant">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">AI Assistant</span>
-                    <span class="mega-item-desc">Intelligent automation & workflows</span>
-                  </div>
-                </a>
-                <a href="/luna/analytics" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Analytics">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Smart Analytics</span>
-                    <span class="mega-item-desc">AI-powered data insights</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Business Tools</h4>
-              <div class="mega-menu-items">
-                <a href="/luna/workflow" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Workflow">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Workflow Builder</span>
-                    <span class="mega-item-desc">Custom automation flows</span>
-                  </div>
-                </a>
-                <a href="/luna/integrations" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Integrations">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">App Integrations</span>
-                    <span class="mega-item-desc">Connect your favorite tools</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Getting Started</h4>
-              <div class="mega-menu-items">
-                <a href="/luna/quickstart" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Quick Start">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Quick Start Guide</span>
-                    <span class="mega-item-desc">Get up and running in 5 minutes</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'Insights': `
-        <div class="mega-menu-wrapper">
-          <div class="mega-menu-header">
-            <h2 class="mega-menu-title">Insights</h2>
-            <p class="mega-menu-subtitle">Latest trends, tips, and industry knowledge</p>
-          </div>
-          <div class="mega-menu-grid">
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Featured Articles</h4>
-              <div class="mega-menu-items">
-                <a href="https://insights.icthemoon.com/trends-2024" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Trends">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Web Development Trends 2024</span>
-                    <span class="mega-item-desc">Latest technologies & frameworks</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">Popular Topics</h4>
-              <div class="mega-menu-items">
-                <a href="https://insights.icthemoon.com/development" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Development">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Development</span>
-                    <span class="mega-item-desc">Code & best practices</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="mega-menu-column">
-              <h4 class="mega-column-title">External Links</h4>
-              <div class="mega-menu-items">
-                <a href="https://insights.icthemoon.com/" class="mega-menu-item" target="_blank" rel="noopener noreferrer">
-                  <img src="/images/Placeholder.jpg" alt="Blog">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Visit Full Blog</span>
-                    <span class="mega-item-desc">Read all our insights</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      `
-    };
-
-    return megaMenuContent[navLabel] || '';
-  }
 
   // Start hide timer when leaving nav area
   document.getElementById('navTab')?.addEventListener('mouseleave', () => {
@@ -821,4 +505,121 @@ function isActive(href: string, currentPath: string): boolean {
   } else {
     initializeNavigation();
   }
+
+  // Simple floating card preview for specific nav items
+  const previewContent: Record<string, string> = {
+    'Projects': `
+      <div class="card-title">Our Projects</div>
+      <div class="card-description">Explore our latest work and solutions</div>
+      <div class="card-links">
+        <a href="/projects/enterprise" class="card-link">
+          <span class="card-link-icon">💼</span>
+          Enterprise Solutions
+        </a>
+        <a href="/projects/ecommerce" class="card-link">
+          <span class="card-link-icon">🛒</span>
+          E-commerce Platforms  
+        </a>
+        <a href="/projects/creative" class="card-link">
+          <span class="card-link-icon">🎨</span>
+          Creative Portfolios
+        </a>
+      </div>
+    `,
+    'Resources': `
+      <div class="card-title">Resources</div>
+      <div class="card-description">Tools and guides to help you succeed</div>
+      <div class="card-links">
+        <a href="/resources/api" class="card-link">
+          <span class="card-link-icon">📚</span>
+          API Documentation
+        </a>
+        <a href="/resources/guides" class="card-link">
+          <span class="card-link-icon">📖</span>
+          Developer Guides
+        </a>
+        <a href="/resources/templates" class="card-link">
+          <span class="card-link-icon">📋</span>
+          Code Templates
+        </a>
+      </div>
+    `,
+    'Luna': `
+      <div class="card-title">Luna Platform</div>
+      <div class="card-description">AI-powered tools for modern businesses</div>
+      <div class="card-links">
+        <a href="/luna/ai" class="card-link">
+          <span class="card-link-icon">🤖</span>
+          AI Assistant
+        </a>
+        <a href="/luna/analytics" class="card-link">
+          <span class="card-link-icon">📊</span>
+          Smart Analytics
+        </a>
+        <a href="/luna/workflow" class="card-link">
+          <span class="card-link-icon">⚡</span>
+          Workflow Builder
+        </a>
+      </div>
+    `
+  };
+
+  // Add hover and click events for sliding tab
+  navExpanded?.addEventListener('mouseenter', (e) => {
+    const target = e.target as HTMLElement;
+    const navLink = target.closest('.nav-link') as HTMLElement;
+    
+    if (navLink) {
+      const navLabel = navLink.textContent?.trim();
+      const content = navLabel && previewContent[navLabel];
+      
+      if (content && (window as any).slidingTab) {
+        // Remove slide-out from all nav links first
+        const allNavLinks = document.querySelectorAll('.nav-link');
+        allNavLinks.forEach(link => link.classList.remove('slide-out'));
+        
+        // Add slide-out class only to this nav link
+        navLink.classList.add('slide-out');
+        (window as any).slidingTab.show(content, navLabel);
+      }
+    }
+  }, true);
+
+  // Also trigger on click for mobile/touch devices
+  navExpanded?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const navLink = target.closest('.nav-link') as HTMLElement;
+    
+    if (navLink) {
+      const navLabel = navLink.textContent?.trim();
+      const content = navLabel && previewContent[navLabel];
+      
+      if (content && (window as any).slidingTab) {
+        // Prevent default navigation if we have preview content
+        const href = navLink.getAttribute('href');
+        if (href && (href.startsWith('/projects') || href.startsWith('/resources') || href.startsWith('/luna'))) {
+          e.preventDefault();
+          
+          // Remove slide-out from all nav links first
+          const allNavLinks = document.querySelectorAll('.nav-link');
+          allNavLinks.forEach(link => link.classList.remove('slide-out'));
+          
+          // Add slide-out class only to this nav link
+          navLink.classList.add('slide-out');
+          (window as any).slidingTab.show(content, navLabel);
+        }
+      }
+    }
+  });
+
+  // Hide sliding tab when leaving nav area  
+  document.getElementById('navTab')?.addEventListener('mouseleave', () => {
+    // Remove slide-out class from all nav links
+    const slideOutLinks = document.querySelectorAll('.nav-link.slide-out');
+    slideOutLinks.forEach(link => link.classList.remove('slide-out'));
+    
+    if ((window as any).slidingTab) {
+      (window as any).slidingTab.scheduleHide(300);
+    }
+  });
 </script>

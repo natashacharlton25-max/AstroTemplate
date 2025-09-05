@@ -4,7 +4,7 @@ import '../components/Footer/scroll-effect/footerRevealStyles.css';
 import ScrollRevealLayout from '../components/Footer/scroll-effect/ScrollRevealLayout.astro';
 import BottomNav from '../components/BottomNav/BottomNav.astro';
 import TabNav from '../components/NavBar/TabNav.astro';
-import MegaMenu from '../components/MegaMenu/MegaMenu.astro';
+import FloatingCard from '../components/FloatingCard/FloatingCard.astro';
 
 // Props for layout configuration
 export interface Props {
@@ -28,9 +28,10 @@ const {
     
     <!-- Top Navigation -->
     <TabNav />
+
+    <!-- Floating Card for navigation previews -->
+    <FloatingCard />
     
-    <!-- Unified Mega Menu -->
-    <MegaMenu />
 
     {enableFooterReveal ? (
       <ScrollRevealLayout title={title}>
