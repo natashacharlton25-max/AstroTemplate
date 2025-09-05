@@ -4,6 +4,9 @@ export async function initDesktopNav() {
 
   // Non-null alias for TypeScript (guard above ensures nav exists)
   const $nav = nav as HTMLElement;
+  
+  // Initialize dynamic megamenu functionality first
+  initDynamicMegaMenu($nav);
 
   // Initialize transition manager - Per README, this is desktop-only
   const { TransitionManager } = await import('./transitions/transitionManager.js');
@@ -128,21 +131,29 @@ export async function initDesktopNav() {
 
     const scrolled = window.scrollY > 50;
     if (scrolled) {
-  const isHoveringNav = $nav.matches(':hover');
-      const isHoveringMegaMenu = activeMenu && activeMenu.matches(':hover');
-
-      if (!isHoveringNav && !isHoveringMegaMenu) {
-        if (activeMenu) {
-          const megaIndex = Array.from(megaMenus).indexOf(activeMenu);
-          const navLink = menuItems[megaIndex]?.querySelector('.gmd-menu-link');
-          navLink?.classList.remove('mega-active');
-          activeMenu.classList.remove('show');
-          activeMenu = null;
-        }
-        collapseNav('scroll');
-        cancelIdleTimer();
+      // Fast collapse on any scroll - hide megamenu immediately
+      const megaMenuContainer = $nav.querySelector('.gm-megamenu-container');
+      if (megaMenuContainer) {
+        $nav.classList.remove('megamenu-active');
+        megaMenuContainer.classList.remove('active');
+        const megaMenuPanels = $nav.querySelectorAll('.gm-megamenu-panel');
+        megaMenuPanels.forEach(panel => {
+          panel.classList.remove('active');
+        });
       }
-  } else if (!$nav.matches(':hover')) {
+      
+      // Also handle old megamenu system if still present
+      if (activeMenu) {
+        const megaIndex = Array.from(megaMenus).indexOf(activeMenu);
+        const navLink = menuItems[megaIndex]?.querySelector('.gmd-menu-link');
+        navLink?.classList.remove('mega-active');
+        activeMenu.classList.remove('show');
+        activeMenu = null;
+      }
+      
+      collapseNav('scroll');
+      cancelIdleTimer();
+    } else if (!$nav.matches(':hover')) {
       expandNav('timer');
       scheduleCollapse();
     }
@@ -179,6 +190,30 @@ export async function initDesktopNav() {
       if ($nav.getAttribute('data-collapsed') === 'true') {
         expandNav('hover');
       }
+    }
+  });
+
+  // Prevent logo from navigating to home when nav is collapsed (just expand instead)
+  const logoLink = $nav.querySelector('.gm-brand');
+  if (logoLink) {
+    logoLink.addEventListener('click', (event) => {
+      if (isDesktop() && $nav.getAttribute('data-collapsed') === 'true') {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('Logo clicked - expanding nav instead of navigating');
+        expandNav('hover');
+      }
+    });
+  }
+
+  // Add comprehensive click prevention for collapsed nav
+  $nav.addEventListener('click', (event) => {
+    if (isDesktop() && $nav.getAttribute('data-collapsed') === 'true') {
+      // If clicking on nav when collapsed, prevent all default behaviors
+      event.preventDefault();
+      event.stopPropagation();
+      console.log('Nav clicked while collapsed - expanding');
+      expandNav('hover');
     }
   });
 
@@ -237,4 +272,115 @@ export async function initDesktopNav() {
   // Initial state setup
   handleResize();
   handleScroll();
+}
+
+function initDynamicMegaMenu(nav: HTMLElement) {
+  const menuLinks = nav.querySelectorAll('[data-megamenu-trigger]');
+  const megaMenuContainer = nav.querySelector('.gm-megamenu-container');
+  const megaMenuPanels = nav.querySelectorAll('.gm-megamenu-panel');
+  const navSection = nav.querySelector('.gmd-menu-section');
+  let currentActiveMegaMenu: Element | null = null;
+  let megaMenuTimer: ReturnType<typeof setTimeout> | null = null;
+  
+  function showMegaMenu(menuTrigger: string) {
+    if (!megaMenuContainer) return;
+    
+    // Hide all megamenu panels
+    megaMenuPanels.forEach(panel => {
+      panel.classList.remove('active');
+    });
+    
+    // Show the corresponding megamenu panel
+    const targetPanel = nav.querySelector(`[data-megamenu-for="${menuTrigger}"]`);
+    if (targetPanel) {
+      nav.classList.add('megamenu-active');
+      megaMenuContainer.classList.add('active');
+      targetPanel.classList.add('active');
+      currentActiveMegaMenu = targetPanel;
+    }
+  }
+  
+  function hideMegaMenu() {
+    if (!megaMenuContainer) return;
+    
+    nav.classList.remove('megamenu-active');
+    megaMenuContainer.classList.remove('active');
+    megaMenuPanels.forEach(panel => {
+      panel.classList.remove('active');
+    });
+    currentActiveMegaMenu = null;
+  }
+  
+  // Add scroll listener to hide megamenu on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50 && currentActiveMegaMenu) {
+      hideMegaMenu();
+    }
+  }, { passive: true });
+  
+  function clearMegaMenuTimer() {
+    if (megaMenuTimer) {
+      clearTimeout(megaMenuTimer);
+      megaMenuTimer = null;
+    }
+  }
+  
+  // Add hover and click listeners to nav links with megamenus
+  menuLinks.forEach(link => {
+    const menuTrigger = link.getAttribute('data-megamenu-trigger');
+    if (!menuTrigger) return;
+    
+    // Hover support for desktop
+    link.addEventListener('mouseenter', () => {
+      clearMegaMenuTimer();
+      showMegaMenu(menuTrigger);
+    });
+    
+    // Click support for touch devices (tablets/mobile)
+    link.addEventListener('click', (event) => {
+      // Only prevent default if megamenu is being toggled
+      const isCurrentlyActive = currentActiveMegaMenu && 
+        currentActiveMegaMenu.getAttribute('data-megamenu-for') === menuTrigger;
+      
+      if (isCurrentlyActive) {
+        // If clicking same item, hide megamenu
+        event.preventDefault();
+        hideMegaMenu();
+      } else {
+        // If clicking different item or no megamenu open, show it
+        event.preventDefault();
+        clearMegaMenuTimer();
+        showMegaMenu(menuTrigger);
+      }
+    });
+  });
+  
+  // Handle nav section mouse leave
+  if (navSection) {
+    navSection.addEventListener('mouseleave', () => {
+      megaMenuTimer = setTimeout(() => {
+        if (megaMenuContainer && !megaMenuContainer.matches(':hover')) {
+          hideMegaMenu();
+        }
+      }, 150);
+    });
+  }
+  
+  // Keep megamenu open when hovering over container
+  if (megaMenuContainer) {
+    megaMenuContainer.addEventListener('mouseenter', () => {
+      clearMegaMenuTimer();
+    });
+    
+    megaMenuContainer.addEventListener('mouseleave', () => {
+      hideMegaMenu();
+    });
+  }
+  
+  // Close megamenu when clicking outside on touch devices
+  document.addEventListener('click', (event) => {
+    if (currentActiveMegaMenu && !event.target.closest('.gm-nav')) {
+      hideMegaMenu();
+    }
+  });
 }

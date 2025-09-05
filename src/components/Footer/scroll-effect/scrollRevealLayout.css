@@ -5,6 +5,13 @@
   --reveal-height: 50vh;
 }
 
+/* Prevent overscroll and pull-to-refresh on mobile/tablet */
+html, body {
+  overscroll-behavior: none;
+  -webkit-overscroll-behavior: none;
+  touch-action: pan-y;
+}
+
 /* Scroll reveal effect styles with viewport-based transform */
 body.tight .wrapper {
   transform: translateY(calc(-1 * var(--reveal-height))) scale(0.85);
@@ -59,5 +66,14 @@ body.tight .fixed * {
     top: 2rem;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
+  }
+}
+
+/* Tablet-specific overscroll prevention - only on touch devices */
+@media (min-width: 768px) and (max-width: 1024px) and (pointer: coarse) {
+  html, body {
+    overscroll-behavior: none !important;
+    -webkit-overscroll-behavior: none !important;
+    touch-action: pan-y !important;
   }
 }

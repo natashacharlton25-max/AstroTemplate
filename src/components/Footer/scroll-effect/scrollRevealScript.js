@@ -37,8 +37,20 @@ export function initScrollReveal() {
   window.addEventListener('scroll', requestTick);
 
   // Click handler for scaled content to scroll back up
-  document.querySelector('.wrapper')?.addEventListener('click', () => {
+  document.querySelector('.wrapper')?.addEventListener('click', (event) => {
+    // Don't scroll if clicking on ANY navigation elements or interactive elements
+    if (event.target.closest('.gm-nav') || 
+        event.target.closest('nav') || 
+        event.target.closest('button') ||
+        event.target.closest('a') ||
+        event.target.closest('[data-nav-desktop]') ||
+        event.target.closest('[data-nav-mobile]')) {
+      console.log('Scroll prevented - clicked on nav element:', event.target);
+      return;
+    }
+    
     if (isAtBottom) {
+      console.log('Scrolling to top from footer reveal');
       window.scrollTo({
         top: 0,
         behavior: 'smooth'

@@ -18,6 +18,12 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transitions for all changes */
 }
 
+/* When megamenu is active, nav container expands naturally */
+.gm-nav:has(.gm-megamenu-container.active) {
+  overflow: visible;
+  border-radius: var(--nav-border-radius);
+}
+
 .gm-container {
   min-height: var(--nav-height);
   /* Use consistent left/right padding to avoid logo horizontal movement during transitions */
@@ -32,7 +38,12 @@
   align-items: center; /* Vertically center items */
   width: 100%;
   padding: 2px 0;
+<<<<<<< HEAD
   gap: 16px; /* Space between logo and nav sections */
+=======
+  position: relative;
+  z-index: 10;
+>>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
 }
 
 .gm-logo-section {
@@ -72,16 +83,26 @@
 }
 
 .gmd-menu-section {
+<<<<<<< HEAD
   display: flex;
   flex-wrap: wrap; /* Allow mega menu to wrap to a new line */
   justify-content: flex-end !important; /* Right-align nav links */
   justify-self: end; /* Align to right in grid */
+=======
+  display: flex; /* Use flex for better layout control */
+  flex-wrap: nowrap; /* Prevent wrapping for better alignment */
+  margin-left: auto; /* Pushes menu to the right, keeping logo position stable */
+>>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
   gap: 8px; /* Space between items */
+  align-items: center; /* Ensure vertical alignment */
+  position: relative;
+  z-index: 10;
 }
 
 .gmd-menu-list {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
   padding: 0;
   list-style: none;
@@ -90,7 +111,8 @@
 .gmd-menu-link {
   display: flex;
   align-items: center;
-  padding: 6px 16px;
+  justify-content: center;
+  padding: 8px 16px;
   color: var(--nav-text-primary);
   text-decoration: none;
   font-size: 15px;
@@ -99,6 +121,7 @@
   transition: all 0.3s ease;
   position: relative;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .gmd-menu-link:hover {
@@ -118,8 +141,11 @@
 
 .gmd-menu-item {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
+<<<<<<< HEAD
 /* This is a remnant from a previous implementation that was left in the markup.
    It is causing a layout break by rendering a large, unstyled list of all menu items.
    This rule explicitly hides it to fix the layout. */
@@ -130,6 +156,8 @@
 .gmd-mega-menu-arrow {
   display: none !important;
 }
+=======
+>>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
 
 /* Mega Menu Container - Lives in flow to expand nav, controlled by JS */
 .gmd-mega-menu-container {
@@ -284,6 +312,131 @@
   color: var(--nav-text-accent);
 }
 
+<<<<<<< HEAD
+=======
+/* Absolutely Positioned Megamenu WITHIN Nav Container */
+@media (min-width: 1024px) {
+  /* When megamenu is active, expand the nav container height */
+  .gm-nav.megamenu-active {
+    height: auto;
+    min-height: calc(var(--nav-height) + 400px);
+    transition: min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gm-megamenu-container {
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    z-index: 1;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease 0.1s,
+                padding 0.4s ease;
+  }
+  
+  .gm-megamenu-container.active {
+    height: 350px;
+    opacity: 1;
+    padding: 24px 32px;
+    border-top: 1px solid rgba(24, 78, 119, 0.1);
+  }
+  
+  .gm-megamenu-panel {
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .gm-megamenu-panel.active {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Individual megamenu panels - hidden by default */
+  .gm-nav-megamenu {
+    display: none;
+  }
+  
+  /* Keep megamenu visible when hovering over expanded content */
+  .gm-nav-expanded-content:hover {
+    max-height: 400px;
+    opacity: 1;
+    padding: 24px 32px;
+    border-top: 1px solid rgba(24, 78, 119, 0.1);
+    border-left: 1px solid var(--nav-border);
+    border-right: 1px solid var(--nav-border);
+    border-bottom: 1px solid var(--nav-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Grid layout for integrated megamenu */
+  .gm-megamenu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+    margin-top: 8px;
+  }
+
+  .gm-megamenu-section {
+    /* No separate background - content directly on nav */
+  }
+
+  .gm-megamenu-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nav-text-accent);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(24, 78, 119, 0.1);
+  }
+
+  .gm-megamenu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .gm-megamenu-link {
+    font-size: 13px;
+    color: var(--nav-text-primary);
+    text-decoration: none;
+    opacity: 0.8;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: block;
+  }
+
+  .gm-megamenu-link:hover {
+    opacity: 1;
+    color: var(--nav-text-accent);
+    background: var(--nav-hover-bg);
+    transform: translateX(4px);
+  }
+
+  .gm-megamenu-desc {
+    font-size: 11px;
+    opacity: 0.6;
+    font-weight: 400;
+  }
+}
+
+/* Hide expanded content on mobile */
+@media (max-width: 1023px) {
+  .gm-nav-expanded-content {
+    display: none !important;
+  }
+}
+
+>>>>>>> 8bcb64a94f9deb441f6fc8c35e641a7041f0749e
 /* Hide mega menu container when nav is collapsed */
 .gm-nav[data-collapsed="true"] .gmd-mega-menu-container {
   display: none !important;
@@ -476,7 +629,7 @@
 }
 
 .gmm-mobile-mega-column.show {
-  width: 416px;
+  width: calc(100% - 120px);
   margin-left: 4px;
   opacity: 1;
   padding-left: 20px;
@@ -913,9 +1066,6 @@
     display: none;
   }
 
-  .gmd-mega-menu-arrow {
-    display: none;
-  }
 }
 
 /* Mobile mega menu responsive */
