@@ -446,15 +446,10 @@ function isActive(href: string, currentPath: string): boolean {
       if (navLink.dataset.hasMegamenu === 'true') {
         // Open mega menu for items that have one
         const navLabel = navLink.dataset.navLabel;
-        console.log('Hover on mega menu item:', navLabel);
         const megaMenuContent = generateMegaMenuContent(navLabel);
-        console.log('Content generated, length:', megaMenuContent.length);
         
         if ((window as any).megaMenu && megaMenuContent) {
-          console.log('Opening mega menu');
           (window as any).megaMenu.open(megaMenuContent, 'tabnav');
-        } else {
-          console.error('Failed to open mega menu - megaMenu available:', !!(window as any).megaMenu, 'content length:', megaMenuContent.length);
         }
       } else {
         // Close mega menu immediately for items without mega menu
@@ -527,63 +522,10 @@ function isActive(href: string, currentPath: string): boolean {
     }
   });
 
-  // Generate mega menu content based on nav item - v3.0 TEST
   function generateMegaMenuContent(navLabel: string | undefined): string {
     if (!navLabel) return '';
     
-    console.log('Generating mega menu for:', navLabel);
-    
-    // Simple test content to verify it's working
-    return `
-      <div class="mega-menu-wrapper">
-        <div class="mega-menu-header">
-          <h2 class="mega-menu-title">🎯 NEW ${navLabel}</h2>
-          <p class="mega-menu-subtitle">3-Column Layout Test - ${new Date().toLocaleTimeString()}</p>
-        </div>
-        <div class="mega-menu-grid">
-          <div class="mega-menu-column">
-            <h4 class="mega-column-title">Column 1</h4>
-            <div class="mega-menu-items">
-              <a href="#" class="mega-menu-item">
-                <img src="/images/Placeholder.jpg" alt="Test" style="width: 48px !important; height: 48px !important; max-width: 48px !important; max-height: 48px !important; object-fit: cover !important; border-radius: 8px !important;">
-                <div class="mega-item-content">
-                  <span class="mega-item-title">Test Item 1</span>
-                  <span class="mega-item-desc">This is a test item</span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="mega-menu-column">
-            <h4 class="mega-column-title">Column 2</h4>
-            <div class="mega-menu-items">
-              <a href="#" class="mega-menu-item">
-                <img src="/images/Placeholder.jpg" alt="Test">
-                <div class="mega-item-content">
-                  <span class="mega-item-title">Test Item 2</span>
-                  <span class="mega-item-desc">This is a test item</span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="mega-menu-column">
-            <h4 class="mega-column-title">Column 3</h4>
-            <div class="mega-menu-items">
-              <a href="#" class="mega-menu-item">
-                <img src="/images/Placeholder.jpg" alt="Test">
-                <div class="mega-item-content">
-                  <span class="mega-item-title">Test Item 3</span>
-                  <span class="mega-item-desc">This is a test item</span>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-
-    /* ORIGINAL CONTENT TEMPORARILY COMMENTED OUT
-    
-    const megaMenuContent = {
+    const megaMenuContent: Record<string, string> = {
       'Projects': `
         <div class="mega-menu-wrapper">
           <div class="mega-menu-header">
@@ -615,20 +557,6 @@ function isActive(href: string, currentPath: string): boolean {
                     <span class="mega-item-desc">Artist & designer websites</span>
                   </div>
                 </a>
-                <a href="/projects/saas" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="SaaS">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">SaaS Platforms</span>
-                    <span class="mega-item-desc">Software as a service</span>
-                  </div>
-                </a>
-                <a href="/projects/mobile" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Mobile Apps">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Mobile Applications</span>
-                    <span class="mega-item-desc">iOS & Android apps</span>
-                  </div>
-                </a>
               </div>
             </div>
             <div class="mega-menu-column">
@@ -648,20 +576,6 @@ function isActive(href: string, currentPath: string): boolean {
                     <span class="mega-item-desc">Backend development</span>
                   </div>
                 </a>
-                <a href="/projects/python" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Python">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Python & Django</span>
-                    <span class="mega-item-desc">Web frameworks & AI</span>
-                  </div>
-                </a>
-                <a href="/projects/cloud" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Cloud">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Cloud Solutions</span>
-                    <span class="mega-item-desc">AWS, Azure & GCP</span>
-                  </div>
-                </a>
               </div>
             </div>
             <div class="mega-menu-column">
@@ -679,13 +593,6 @@ function isActive(href: string, currentPath: string): boolean {
                   <div class="mega-item-content">
                     <span class="mega-item-title">Financial Technology</span>
                     <span class="mega-item-desc">Banking & payments</span>
-                  </div>
-                </a>
-                <a href="/projects/education" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Education">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Educational Platforms</span>
-                    <span class="mega-item-desc">Learning management systems</span>
                   </div>
                 </a>
               </div>
@@ -717,20 +624,6 @@ function isActive(href: string, currentPath: string): boolean {
                     <span class="mega-item-desc">Step-by-step implementation tutorials</span>
                   </div>
                 </a>
-                <a href="/resources/changelog" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Changelog">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Changelog</span>
-                    <span class="mega-item-desc">Latest updates & improvements</span>
-                  </div>
-                </a>
-                <a href="/resources/roadmap" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Roadmap">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Product Roadmap</span>
-                    <span class="mega-item-desc">Upcoming features & releases</span>
-                  </div>
-                </a>
               </div>
             </div>
             <div class="mega-menu-column">
@@ -750,34 +643,6 @@ function isActive(href: string, currentPath: string): boolean {
                     <span class="mega-item-desc">Ready-to-use project starters</span>
                   </div>
                 </a>
-                <a href="/resources/icons" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Icons">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Icon Library</span>
-                    <span class="mega-item-desc">Scalable vector icons</span>
-                  </div>
-                </a>
-                <a href="/resources/brand" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Brand">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Brand Assets</span>
-                    <span class="mega-item-desc">Logos, colors & typography</span>
-                  </div>
-                </a>
-                <a href="/resources/mockups" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Mockups">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Mockup Templates</span>
-                    <span class="mega-item-desc">Device & presentation mockups</span>
-                  </div>
-                </a>
-                <a href="/resources/illustrations" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Illustrations">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Illustrations</span>
-                    <span class="mega-item-desc">Custom drawn graphics</span>
-                  </div>
-                </a>
               </div>
             </div>
             <div class="mega-menu-column">
@@ -788,13 +653,6 @@ function isActive(href: string, currentPath: string): boolean {
                   <div class="mega-item-content">
                     <span class="mega-item-title">Video Tutorials</span>
                     <span class="mega-item-desc">In-depth learning content</span>
-                  </div>
-                </a>
-                <a href="/resources/webinars" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Webinars">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Live Webinars</span>
-                    <span class="mega-item-desc">Interactive training sessions</span>
                   </div>
                 </a>
               </div>
@@ -826,13 +684,6 @@ function isActive(href: string, currentPath: string): boolean {
                     <span class="mega-item-desc">AI-powered data insights</span>
                   </div>
                 </a>
-                <a href="/luna/predictions" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Predictions">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Predictive Models</span>
-                    <span class="mega-item-desc">Machine learning forecasts</span>
-                  </div>
-                </a>
               </div>
             </div>
             <div class="mega-menu-column">
@@ -852,20 +703,6 @@ function isActive(href: string, currentPath: string): boolean {
                     <span class="mega-item-desc">Connect your favorite tools</span>
                   </div>
                 </a>
-                <a href="/luna/collaboration" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Team">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Team Collaboration</span>
-                    <span class="mega-item-desc">Real-time communication</span>
-                  </div>
-                </a>
-                <a href="/luna/reports" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Reports">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Custom Reports</span>
-                    <span class="mega-item-desc">Automated reporting</span>
-                  </div>
-                </a>
               </div>
             </div>
             <div class="mega-menu-column">
@@ -876,13 +713,6 @@ function isActive(href: string, currentPath: string): boolean {
                   <div class="mega-item-content">
                     <span class="mega-item-title">Quick Start Guide</span>
                     <span class="mega-item-desc">Get up and running in 5 minutes</span>
-                  </div>
-                </a>
-                <a href="/luna/pricing" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="Pricing">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">Pricing Plans</span>
-                    <span class="mega-item-desc">Find the right plan for you</span>
                   </div>
                 </a>
               </div>
@@ -905,13 +735,6 @@ function isActive(href: string, currentPath: string): boolean {
                   <div class="mega-item-content">
                     <span class="mega-item-title">Web Development Trends 2024</span>
                     <span class="mega-item-desc">Latest technologies & frameworks</span>
-                  </div>
-                </a>
-                <a href="https://insights.icthemoon.com/ai-future" class="mega-menu-item">
-                  <img src="/images/Placeholder.jpg" alt="AI">
-                  <div class="mega-item-content">
-                    <span class="mega-item-title">The Future of AI</span>
-                    <span class="mega-item-desc">How AI is reshaping development</span>
                   </div>
                 </a>
               </div>
@@ -944,8 +767,8 @@ function isActive(href: string, currentPath: string): boolean {
         </div>
       `
     };
-    
-    // END COMMENT */
+
+    return megaMenuContent[navLabel] || '';
   }
 
   // Start hide timer when leaving nav area

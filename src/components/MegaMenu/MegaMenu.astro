@@ -97,8 +97,10 @@
 
   /* Mega Menu Aesthetic Styling - v2.1 IMAGE SIZE FIX */
   .mega-menu-wrapper {
-    max-width: 100%;
-    margin: 0 auto;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    display: block !important;
   }
 
   .mega-menu-header {
@@ -124,17 +126,21 @@
   }
 
   .mega-menu-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    align-items: start;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2.5rem !important;
+    align-items: start !important;
+    width: 100% !important;
   }
 
   .mega-menu-column {
-    background: color-mix(in srgb, var(--brand-background) 60%, transparent);
-    border: 1px solid color-mix(in srgb, var(--brand-secondary) 8%, transparent);
-    border-radius: 16px;
-    padding: 1.5rem;
+    background: color-mix(in srgb, var(--brand-background) 60%, transparent) !important;
+    border: 1px solid color-mix(in srgb, var(--brand-secondary) 8%, transparent) !important;
+    border-radius: 16px !important;
+    padding: 1.5rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .mega-column-title {
@@ -216,8 +222,8 @@
     }
 
     .mega-menu-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
     }
 
     .mega-menu-column {
@@ -253,8 +259,8 @@
   /* Tablet adjustments */
   @media (min-width: 769px) and (max-width: 1024px) {
     .mega-menu-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 2rem !important;
     }
 
     .mega-menu-column:nth-child(3) {
@@ -265,8 +271,8 @@
   /* Small tablet adjustments */
   @media (min-width: 600px) and (max-width: 768px) {
     .mega-menu-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.75rem;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 1.75rem !important;
     }
 
     .mega-menu-column:nth-child(3) {
