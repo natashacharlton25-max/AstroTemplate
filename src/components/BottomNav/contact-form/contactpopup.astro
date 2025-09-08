@@ -9,9 +9,6 @@
     <div class="popup-header">
       <div class="header-content">
         <h2>Let's discuss something <span class="highlight">cool</span> together</h2>
-        <button id="closePopup" class="close-btn" aria-label="Close">
-          ✕
-        </button>
       </div>
       <div class="contact-info">
         <div class="contact-item">
@@ -38,7 +35,10 @@
 
     <!-- Form Section -->
     <div class="popup-form-section">
-      <div class="contact-form">
+      <button id="closePopup" class="close-btn" aria-label="Close">
+        ✕
+      </button>
+      <div class="contact-form" id="contactForm">
         <div class="form-section">
           <h3>I want to chat about...</h3>
           <div class="topic-buttons">
@@ -92,11 +92,22 @@
           </div>
 
           <button id="submitContact" class="submit-btn" disabled>
-            <svg class="inline-block w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-            </svg>
             Send Message
           </button>
+        </div>
+      </div>
+
+      <!-- Success Message Section (hidden by default) -->
+      <div class="success-message" id="successMessage" style="display: none;">
+        <div class="success-content">
+          <div class="success-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h3>Message Sent!</h3>
+          <p>Thanks for reaching out! We'll get back to you soon.</p>
+          <button class="close-success-btn" onclick="closeContactPopup()">Close</button>
         </div>
       </div>
     </div>
@@ -164,7 +175,6 @@
   display: block;
   margin-bottom: 30px;
   position: relative;
-  padding-right: 50px;
 }
 
 .popup-header h2 {
@@ -184,7 +194,7 @@
 .close-btn {
   background: none;
   border: none;
-  color: #fffaf6;
+  color: #184e77;
   font-size: 24px;
   cursor: pointer;
   padding: 8px;
@@ -202,7 +212,7 @@
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(24, 78, 119, 0.1);
   transform: scale(1.1);
 }
 
@@ -231,6 +241,7 @@
   padding: 32px 32px 40px 32px;
   background: #fffaf6;
   overflow-y: auto;
+  position: relative;
 }
 
 .contact-form {
@@ -328,9 +339,9 @@
 /* Submit Button */
 .submit-btn {
   padding: 10px 20px;
-  background: linear-gradient(135deg, #e63961 0%, #d63456 100%) !important;
+  background: linear-gradient(135deg, #184e77 0%, #2a5f8a 100%) !important;
   color: #fffaf6 !important;
-  border: 2px solid #184e77 !important;
+  border: none !important;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -351,16 +362,77 @@
 .submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(24, 78, 119, 0.4);
-  background: linear-gradient(135deg, #f04670 0%, #e63961 100%) !important;
-  border-color: #1e5f8c !important;
+  background: linear-gradient(135deg, #1e5f8c 0%, #184e77 100%) !important;
 }
 
 .submit-btn:disabled {
-  opacity: 0.6 !important;
+  opacity: 1 !important;
   cursor: not-allowed !important;
-  background: #cccccc !important;
+  background: #fffaf6 !important;
+  color: #e63961 !important;
+  border: 2px solid #e63961 !important;
   box-shadow: none !important;
-  border-color: #999999 !important;
+}
+
+/* Success Message */
+.success-message {
+  padding: 32px;
+  background: #fffaf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+
+.success-content {
+  text-align: center;
+  max-width: 300px;
+}
+
+.success-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, #e63961 0%, #d63456 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fffaf6;
+}
+
+.success-content h3 {
+  color: #184e77;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.success-content p {
+  color: #5c5b5b;
+  font-size: 16px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.close-success-btn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #184e77 0%, #2a5f8a 100%);
+  color: #fffaf6;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.close-success-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(24, 78, 119, 0.4);
 }
 
 /* Mobile Responsive */
@@ -398,7 +470,6 @@
 
   .header-content {
     margin-bottom: 20px;
-    padding-right: 45px;
   }
 
   .close-btn {
@@ -502,8 +573,9 @@ class ContactPopup {
       }
     });
     
-    // Expose global function to open popup
+    // Expose global functions
     (window as any).openContactPopup = () => this.openPopup();
+    (window as any).closeContactPopup = () => this.closePopup();
   }
 
   openPopup(): void {
@@ -520,6 +592,24 @@ class ContactPopup {
   closePopup(): void {
     this.popup?.classList.remove('show');
     document.body.style.overflow = ''; // Restore scroll
+    
+    // Reset to form view when closing
+    setTimeout(() => {
+      this.resetToFormView();
+    }, 300); // Wait for popup close animation
+  }
+
+  resetToFormView(): void {
+    const contactForm = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+    
+    if (contactForm && successMessage) {
+      contactForm.style.display = 'flex';
+      successMessage.style.display = 'none';
+    }
+    
+    // Reset form data
+    this.resetForm();
   }
 
   isOpen(): boolean {
@@ -577,12 +667,18 @@ class ContactPopup {
     // Log the data (replace with actual submission logic)
     console.log('Contact form submitted:', submissionData);
 
-    // Show success message
-    alert('Message sent! We\'ll get back to you soon.');
+    // Show success message instead of alert
+    this.showSuccessMessage();
+  }
 
-    // Reset form and close
-    this.resetForm();
-    this.closePopup();
+  showSuccessMessage(): void {
+    const contactForm = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+    
+    if (contactForm && successMessage) {
+      contactForm.style.display = 'none';
+      successMessage.style.display = 'flex';
+    }
   }
 
   resetForm(): void {

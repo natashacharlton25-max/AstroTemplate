@@ -10,6 +10,9 @@
   --brand-logo-path: "/images/LogoPlaceholder.png";
   --brand-logo-fallback: "IC";
 
+  /* ---- Contact Configuration ---- */
+  --contact-email: "natashacharlton25@googlemail.com";
+
   /* ---- Core Brand Colors ---- */
   --brand-primary: #e63961;    /* Red - main brand accent */
   --brand-secondary: #184e77;  /* Blue - primary text & borders */
