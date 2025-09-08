@@ -7,6 +7,9 @@
   <div class="popup-container">
     <!-- Header -->
     <div class="popup-header">
+      <button id="closePopup" class="close-btn mobile-close-btn" aria-label="Close">
+        ✕
+      </button>
       <div class="header-content">
         <h2>Let's discuss something <span class="highlight">cool</span> together</h2>
       </div>
@@ -35,7 +38,7 @@
 
     <!-- Form Section -->
     <div class="popup-form-section">
-      <button id="closePopup" class="close-btn" aria-label="Close">
+      <button id="closePopupDesktop" class="close-btn desktop-close-btn" aria-label="Close">
         ✕
       </button>
       <div class="contact-form" id="contactForm">
@@ -214,6 +217,25 @@
 .close-btn:hover {
   background: rgba(24, 78, 119, 0.1);
   transform: scale(1.1);
+}
+
+.mobile-close-btn {
+  display: none;
+  color: #fffaf6;
+}
+
+.mobile-close-btn:hover {
+  background: rgba(255, 250, 246, 0.2);
+}
+
+@media (min-width: 769px) {
+  .desktop-close-btn {
+    display: flex;
+  }
+  
+  .mobile-close-btn {
+    display: none;
+  }
 }
 
 .contact-info {
@@ -472,12 +494,22 @@
     margin-bottom: 20px;
   }
 
-  .close-btn {
+  .desktop-close-btn {
+    display: none;
+  }
+  
+  .mobile-close-btn {
+    display: flex;
     top: 12px;
     right: 12px;
     width: 36px;
     height: 36px;
     font-size: 20px;
+    color: #fffaf6;
+  }
+  
+  .mobile-close-btn:hover {
+    background: rgba(255, 250, 246, 0.2);
   }
 }
 
@@ -538,8 +570,10 @@ class ContactPopup {
   }
 
   init(): void {
-    // Close button event
+    // Close button events (both mobile and desktop)
     this.closeBtn?.addEventListener('click', () => this.closePopup());
+    const desktopCloseBtn = document.getElementById('closePopupDesktop');
+    desktopCloseBtn?.addEventListener('click', () => this.closePopup());
     
     // Backdrop click to close
     this.popup?.addEventListener('click', (e: Event) => {
