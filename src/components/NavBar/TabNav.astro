@@ -17,7 +17,7 @@ function isActive(href: string, currentPath: string): boolean {
       <div class="nav-item">
         <a
           href={link.href}
-          class={`nav-link ${isActive(link.href, currentPath) ? 'active' : ''} ${(['Projects', 'Resources', 'Luna'].includes(link.label)) ? 'has-card' : ''}`}
+          class={`nav-link ${isActive(link.href, currentPath) ? 'active' : ''}`}
           target={link.external ? '_blank' : undefined}
           rel={link.external ? 'noopener noreferrer' : undefined}
           data-label={link.label}
@@ -221,21 +221,6 @@ function isActive(href: string, currentPath: string): boolean {
     /* Create a new stacking context for each nav item */
   }
 
-  /* Sliding nav items with cards */
-  .nav-link.has-card {
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-    position: relative !important;
-    z-index: 1000 !important;
-  }
-
-  .nav-link.slide-out {
-    background: var(--brand-primary) !important;
-    color: var(--brand-text-light) !important;
-    box-shadow: 12px 0 24px color-mix(in srgb, var(--brand-primary) 30%, transparent) !important;
-    border-radius: 0 28px 28px 0 !important; /* Keep rounded right edge */
-    z-index: 1001 !important; /* Above other nav items */
-    /* Apply to any nav link with slide-out, not just has-card */
-  }
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
@@ -272,9 +257,6 @@ function isActive(href: string, currentPath: string): boolean {
       padding: 0 16px 0 24px !important;
     }
 
-    .nav-link.has-card.slide-out {
-      /* Keep mobile simple too */
-    }
   }
 </style>
 
@@ -477,8 +459,6 @@ function isActive(href: string, currentPath: string): boolean {
       navToggle.classList.remove('active');
       hideNavMenu();
       
-      // Emit hamburger closed event for mobile mega menu
-      document.dispatchEvent(new CustomEvent('tabnav:hamburger:closed'));
     } else {
       // Lock open
       isLocked = true;
@@ -494,8 +474,6 @@ function isActive(href: string, currentPath: string): boolean {
       navToggle?.classList.remove('active');
       hideNavMenu();
       
-      // Emit hamburger closed event for mobile mega menu
-      document.dispatchEvent(new CustomEvent('tabnav:hamburger:closed'));
     }
   });
 
@@ -506,120 +484,5 @@ function isActive(href: string, currentPath: string): boolean {
     initializeNavigation();
   }
 
-  // Simple floating card preview for specific nav items
-  const previewContent: Record<string, string> = {
-    'Projects': `
-      <div class="card-title">Our Projects</div>
-      <div class="card-description">Explore our latest work and solutions</div>
-      <div class="card-links">
-        <a href="/projects/enterprise" class="card-link">
-          <span class="card-link-icon">💼</span>
-          Enterprise Solutions
-        </a>
-        <a href="/projects/ecommerce" class="card-link">
-          <span class="card-link-icon">🛒</span>
-          E-commerce Platforms  
-        </a>
-        <a href="/projects/creative" class="card-link">
-          <span class="card-link-icon">🎨</span>
-          Creative Portfolios
-        </a>
-      </div>
-    `,
-    'Resources': `
-      <div class="card-title">Resources</div>
-      <div class="card-description">Tools and guides to help you succeed</div>
-      <div class="card-links">
-        <a href="/resources/api" class="card-link">
-          <span class="card-link-icon">📚</span>
-          API Documentation
-        </a>
-        <a href="/resources/guides" class="card-link">
-          <span class="card-link-icon">📖</span>
-          Developer Guides
-        </a>
-        <a href="/resources/templates" class="card-link">
-          <span class="card-link-icon">📋</span>
-          Code Templates
-        </a>
-      </div>
-    `,
-    'Luna': `
-      <div class="card-title">Luna Platform</div>
-      <div class="card-description">AI-powered tools for modern businesses</div>
-      <div class="card-links">
-        <a href="/luna/ai" class="card-link">
-          <span class="card-link-icon">🤖</span>
-          AI Assistant
-        </a>
-        <a href="/luna/analytics" class="card-link">
-          <span class="card-link-icon">📊</span>
-          Smart Analytics
-        </a>
-        <a href="/luna/workflow" class="card-link">
-          <span class="card-link-icon">⚡</span>
-          Workflow Builder
-        </a>
-      </div>
-    `
-  };
 
-  // Add hover and click events for sliding tab
-  navExpanded?.addEventListener('mouseenter', (e) => {
-    const target = e.target as HTMLElement;
-    const navLink = target.closest('.nav-link') as HTMLElement;
-    
-    if (navLink) {
-      const navLabel = navLink.textContent?.trim();
-      const content = navLabel && previewContent[navLabel];
-      
-      if (content && (window as any).slidingTab) {
-        // Remove slide-out from all nav links first
-        const allNavLinks = document.querySelectorAll('.nav-link');
-        allNavLinks.forEach(link => link.classList.remove('slide-out'));
-        
-        // Add slide-out class only to this nav link
-        navLink.classList.add('slide-out');
-        (window as any).slidingTab.show(content, navLabel);
-      }
-    }
-  }, true);
-
-  // Also trigger on click for mobile/touch devices
-  navExpanded?.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    const navLink = target.closest('.nav-link') as HTMLElement;
-    
-    if (navLink) {
-      const navLabel = navLink.textContent?.trim();
-      const content = navLabel && previewContent[navLabel];
-      
-      if (content && (window as any).slidingTab) {
-        // Prevent default navigation if we have preview content
-        const href = navLink.getAttribute('href');
-        if (href && (href.startsWith('/projects') || href.startsWith('/resources') || href.startsWith('/luna'))) {
-          e.preventDefault();
-          
-          // Remove slide-out from all nav links first
-          const allNavLinks = document.querySelectorAll('.nav-link');
-          allNavLinks.forEach(link => link.classList.remove('slide-out'));
-          
-          // Add slide-out class only to this nav link
-          navLink.classList.add('slide-out');
-          (window as any).slidingTab.show(content, navLabel);
-        }
-      }
-    }
-  });
-
-  // Hide sliding tab when leaving nav area  
-  document.getElementById('navTab')?.addEventListener('mouseleave', () => {
-    // Remove slide-out class from all nav links
-    const slideOutLinks = document.querySelectorAll('.nav-link.slide-out');
-    slideOutLinks.forEach(link => link.classList.remove('slide-out'));
-    
-    if ((window as any).slidingTab) {
-      (window as any).slidingTab.scheduleHide(300);
-    }
-  });
 </script>

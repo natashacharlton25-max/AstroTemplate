@@ -7,9 +7,9 @@ body.tight .footer {
   margin: 0 !important;
 }
 
-/* Footer reveal container sizing - 3% narrower than scaled page */
+/* Footer reveal container sizing - reduced width to avoid nav tab overlap */
 div.footer-reveal-container {
-  width: 82% !important; /* 85% scaled page minus 3% on both mobile and desktop */
+  width: 72% !important; /* Further reduced to provide clear spacing from nav tabs */
   margin: 0 auto !important;
   max-width: none !important; /* Remove any width constraints */
 }
