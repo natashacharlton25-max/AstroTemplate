@@ -52,7 +52,15 @@ export function initOverlayManager() {
         break;
         
       case 'contact':
-        openOverlay('email');
+        // Use the contact popup instead of overlay
+        if (window.openContactPopup) {
+          window.openContactPopup();
+          // Close settings menu when opening popup
+          const settingsExpanded = document.querySelector('[data-settings-expanded]');
+          const settingsToggle = document.querySelector('[data-settings-toggle]');
+          settingsExpanded?.classList.remove('show');
+          settingsToggle?.classList.remove('active');
+        }
         break;
         
       case 'search':

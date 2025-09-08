@@ -15,7 +15,7 @@
   --brand-secondary: #184e77;  /* Blue - primary text & borders */
   --brand-background: #fffaf6; /* Cream - page background */
   --brand-text: #5c5b5b;       /* Gray - body text */
-  --brand-text-light: #ffffff; /* White - text on dark backgrounds */
+  --brand-text-light: #ebdddd; /* White - text on dark backgrounds */
 
   /* ---- Typography ---- */
   --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
@@ -39,7 +39,7 @@
   --brand-accent-2: #fb8500;   /* Dark orange */
   --brand-neutral-dark: #111319;
   --brand-neutral-mid: #727586;
-  --brand-neutral-light: #f2f3f6;
+  --brand-neutral-light: #e7e8eb;
 
   /* ---- Navy Variations for Footer ---- */
   --brand-navy: var(--brand-secondary);        /* Main navy blue */
