@@ -10,6 +10,9 @@ function isActive(href: string, currentPath: string): boolean {
 }
 ---
 
+<!-- Mobile Nav Background Overlay -->
+<div class="nav-background-overlay" id="navBackgroundOverlay"></div>
+
 <nav class="nav-tab" id="navTab">
   <!-- Expanded Menu -->
   <div class="nav-expanded" id="navExpanded">
@@ -39,6 +42,37 @@ function isActive(href: string, currentPath: string): boolean {
 </nav>
 
 <style>
+  /* Mobile Nav Background Overlay */
+  .nav-background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 250, 246, 0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    display: none;
+  }
+  
+  .nav-background-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Only show overlay on mobile/tablet */
+  @media (max-width: 1024px) {
+    .nav-background-overlay {
+      display: block;
+    }
+  }
+
   /* Top-Left Navigation Tab - using brand colors */
   .nav-tab {
     position: fixed !important;
@@ -373,6 +407,12 @@ function isActive(href: string, currentPath: string): boolean {
     navExpanded?.classList.remove('exiting');
     navExpanded?.classList.add('show');
     
+    // Show background overlay on mobile
+    const overlay = document.getElementById('navBackgroundOverlay');
+    if (overlay) {
+      overlay.classList.add('show');
+    }
+    
     // Calculate total animation time based on number of items
     const navItems = navExpanded?.querySelectorAll('.nav-item') || [];
     const totalTime = navItems.length * 120 + 200; // Base time for nav items
@@ -407,6 +447,13 @@ function isActive(href: string, currentPath: string): boolean {
     
     setTimeout(() => {
       navExpanded?.classList.remove('show', 'exiting');
+      
+      // Hide background overlay
+      const overlay = document.getElementById('navBackgroundOverlay');
+      if (overlay) {
+        overlay.classList.remove('show');
+      }
+      
       isAnimating = false;
     }, totalTime);
   }
@@ -473,7 +520,15 @@ function isActive(href: string, currentPath: string): boolean {
       isLocked = false;
       navToggle?.classList.remove('active');
       hideNavMenu();
-      
+    }
+  });
+
+  // Close when clicking on overlay
+  document.getElementById('navBackgroundOverlay')?.addEventListener('click', () => {
+    if (isLocked) {
+      isLocked = false;
+      navToggle?.classList.remove('active');
+      hideNavMenu();
     }
   });
 

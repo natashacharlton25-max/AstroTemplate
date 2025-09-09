@@ -1,9 +1,188 @@
 import type { APIRoute } from 'astro';
+import fs from 'node:fs';
+import path from 'node:path';
+import { glob } from 'glob';
 
 export const prerender = false;
 
-// This would typically come from a database or CMS
-const searchData = [
+// Dynamic content discovery
+async function getSearchableContent() {
+  const searchData = [];
+  
+  try {
+    // 1. Scan for Astro pages (excluding API routes and search-results)
+    const pageFiles = await glob('src/pages/**/*.astro');
+    
+    for (const filePath of pageFiles) {
+      // Skip API routes and special pages
+      if (filePath.includes('/api/') || filePath.includes('search-results')) continue;
+      
+      try {
+        const fullPath = path.resolve(filePath);
+        const content = await fs.promises.readFile(fullPath, 'utf-8');
+        const fileName = path.basename(filePath, '.astro');
+        
+        // Extract frontmatter (basic parsing)
+        const frontmatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---/);
+        let title = fileName.charAt(0).toUpperCase() + fileName.slice(1);
+        let description = '';
+        let tags: string[] = [];
+        
+        if (frontmatterMatch) {
+          const frontmatter = frontmatterMatch[1];
+          
+          // Extract title
+          const titleMatch = frontmatter.match(/title:\s*['"]([^'"]+)['"]/);
+          if (titleMatch) title = titleMatch[1];
+          
+          // Extract description
+          const descMatch = frontmatter.match(/description:\s*['"]([^'"]+)['"]/);
+          if (descMatch) description = descMatch[1];
+          
+          // Extract tags
+          const tagsMatch = frontmatter.match(/tags:\s*\[(.*?)\]/);
+          if (tagsMatch) {
+            tags = tagsMatch[1].split(',').map(tag => tag.trim().replace(/['"]/g, ''));
+          }
+        }
+        
+        // Extract text content (remove HTML tags and Astro syntax)
+        const textContent = content
+          .replace(/---[\s\S]*?---/, '') // Remove frontmatter
+          .replace(/<[^>]*>/g, ' ') // Remove HTML tags
+          .replace(/\{[^}]*\}/g, ' ') // Remove Astro expressions
+          .replace(/\s+/g, ' ') // Normalize whitespace
+          .trim();
+        
+        // Generate URL from file path
+        let url = filePath
+          .replace(/^src[\/\\]pages[\/\\]/, '') // Remove src/pages/ or src\pages\
+          .replace(/\.astro$/, '') // Remove .astro extension
+          .replace(/[\/\\]index$/, '') // Remove /index or \index
+          .replace(/\\/g, '/'); // Normalize path separators
+        
+        // Ensure URL starts with /
+        if (!url.startsWith('/')) {
+          url = '/' + url;
+        }
+        
+        // Handle root index
+        if (url === '/index' || url === '/') {
+          url = '/';
+        }
+        
+        searchData.push({
+          title,
+          description: description || `Learn more about ${title.toLowerCase()}`,
+          content: textContent.substring(0, 500), // First 500 chars
+          category: 'pages',
+          url,
+          date: 'Updated recently',
+          tags: tags.length > 0 ? tags : [fileName, 'page'],
+          type: 'page'
+        });
+        
+      } catch (error) {
+        console.warn(`Could not process page: ${filePath}`, error);
+      }
+    }
+    
+    // 2. Scan for Markdown content (if you have any blog posts)
+    const mdFiles = await glob('src/content/**/*.md');
+    for (const filePath of mdFiles) {
+      try {
+        const fullPath = path.resolve(filePath);
+        const content = await fs.promises.readFile(fullPath, 'utf-8');
+        
+        // Extract frontmatter
+        const frontmatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---/);
+        let title = path.basename(filePath, '.md');
+        let description = '';
+        let tags: string[] = [];
+        let publishDate = 'Recently';
+        
+        if (frontmatterMatch) {
+          const frontmatter = frontmatterMatch[1];
+          
+          const titleMatch = frontmatter.match(/title:\s*['"]([^'"]+)['"]/);
+          if (titleMatch) title = titleMatch[1];
+          
+          const descMatch = frontmatter.match(/description:\s*['"]([^'"]+)['"]/);
+          if (descMatch) description = descMatch[1];
+          
+          const dateMatch = frontmatter.match(/date:\s*['"]?([^'"]+)['"]?/);
+          if (dateMatch) publishDate = dateMatch[1];
+          
+          const tagsMatch = frontmatter.match(/tags:\s*\[(.*?)\]/);
+          if (tagsMatch) {
+            tags = tagsMatch[1].split(',').map(tag => tag.trim().replace(/['"]/g, ''));
+          }
+        }
+        
+        // Extract markdown content
+        const textContent = content
+          .replace(/---[\s\S]*?---/, '') // Remove frontmatter
+          .replace(/[#*`]/g, '') // Remove markdown formatting
+          .replace(/\s+/g, ' ')
+          .trim();
+        
+        const url = path.basename(filePath, '.md');
+        
+        searchData.push({
+          title,
+          description: description || textContent.substring(0, 150),
+          content: textContent.substring(0, 500),
+          category: 'blog',
+          url,
+          date: publishDate,
+          tags: tags.length > 0 ? tags : ['blog', 'post'],
+          type: 'blog'
+        });
+        
+      } catch (error) {
+        console.warn(`Could not process markdown: ${filePath}`, error);
+      }
+    }
+    
+    // 3. Add manual high-value pages that might not be easily parsed
+    const manualPages = [
+      {
+        title: 'Search Results',
+        description: 'Find anything on our website with powerful search functionality',
+        content: 'search results find discover explore website content',
+        category: 'pages',
+        url: '/search-results',
+        date: 'Updated recently',
+        tags: ['search', 'results', 'find', 'discover'],
+        type: 'page'
+      }
+    ];
+    
+    searchData.push(...manualPages);
+    
+  } catch (error) {
+    console.error('Error scanning content:', error);
+  }
+  
+  return searchData;
+}
+
+// Cache the results for better performance (optional)
+let searchDataCache: any[] = [];
+let lastCacheTime = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+async function getCachedSearchData() {
+  const now = Date.now();
+  if (!searchDataCache.length || now - lastCacheTime > CACHE_DURATION) {
+    searchDataCache = await getSearchableContent();
+    lastCacheTime = now;
+  }
+  return searchDataCache;
+}
+
+// Legacy fallback data in case dynamic discovery fails
+const fallbackData = [
   // Pages
   {
     title: 'About Us',
@@ -46,29 +225,29 @@ const searchData = [
   {
     title: 'Getting Started Guide',
     description: 'Everything you need to know to begin your journey with our platform.',
-    content: 'getting started guide tutorial beginner introduction',
+    content: 'getting started guide tutorial beginner introduction blog post',
     category: 'blog',
-    url: '/blog/getting-started',
+    url: 'getting-started',
     date: '3 days ago',
-    tags: ['getting started', 'guide', 'tutorial', 'beginner']
+    tags: ['getting started', 'guide', 'tutorial', 'beginner', 'blog']
   },
   {
     title: 'Industry Best Practices',
     description: 'Proven strategies and methodologies for success in your industry.',
-    content: 'best practices strategies methodologies industry success',
+    content: 'best practices strategies methodologies industry success blog post',
     category: 'blog',
-    url: '/blog/best-practices',
+    url: 'best-practices',
     date: '1 week ago',
-    tags: ['best practices', 'strategies', 'industry', 'success']
+    tags: ['best practices', 'strategies', 'industry', 'success', 'blog']
   },
   {
     title: 'Success Story Case Study',
     description: 'Real-world example of how we helped a client achieve outstanding results.',
-    content: 'success story case study client results achievement',
+    content: 'success story case study client results achievement blog post',
     category: 'blog',
-    url: '/blog/case-study',
+    url: 'case-study',
     date: '2 weeks ago',
-    tags: ['success story', 'case study', 'client', 'results']
+    tags: ['success story', 'case study', 'client', 'results', 'blog']
   },
 
   // Projects
@@ -77,7 +256,7 @@ const searchData = [
     description: 'Modern, scalable e-commerce solution built with cutting-edge technology.',
     content: 'ecommerce platform modern scalable technology solution',
     category: 'projects',
-    url: '/projects/ecommerce-platform',
+    url: 'ecommerce-platform',
     date: '1 week ago',
     tags: ['ecommerce', 'platform', 'scalable', 'technology']
   },
@@ -86,7 +265,7 @@ const searchData = [
     description: 'Cross-platform mobile application with seamless user experience.',
     content: 'mobile app development cross platform user experience',
     category: 'projects',
-    url: '/projects/mobile-app',
+    url: 'mobile-app',
     date: '2 weeks ago',
     tags: ['mobile', 'app', 'development', 'cross platform']
   },
@@ -95,7 +274,7 @@ const searchData = [
     description: 'Complete brand overhaul including logo, guidelines, and marketing materials.',
     content: 'brand identity redesign logo guidelines marketing materials',
     category: 'projects',
-    url: '/projects/brand-redesign',
+    url: 'brand-redesign',
     date: '3 weeks ago',
     tags: ['brand', 'identity', 'redesign', 'logo', 'marketing']
   },
@@ -104,7 +283,7 @@ const searchData = [
     description: 'Performance optimization and SEO improvements for better user engagement.',
     content: 'website optimization performance SEO user engagement',
     category: 'projects',
-    url: '/projects/website-optimization',
+    url: 'website-optimization',
     date: '1 month ago',
     tags: ['website', 'optimization', 'performance', 'SEO']
   },
@@ -115,7 +294,7 @@ const searchData = [
     description: 'Collection of high-quality design templates for various business needs.',
     content: 'free design templates business high quality collection',
     category: 'resources',
-    url: '/resources/design-templates',
+    url: 'design-templates',
     date: '1 week ago',
     tags: ['templates', 'design', 'business', 'free']
   },
@@ -124,7 +303,7 @@ const searchData = [
     description: 'Comprehensive toolkit with templates and guides for business planning.',
     content: 'business planning toolkit templates guides comprehensive',
     category: 'resources',
-    url: '/resources/business-toolkit',
+    url: 'business-toolkit',
     date: '2 weeks ago',
     tags: ['business', 'planning', 'toolkit', 'templates', 'guides']
   },
@@ -133,7 +312,7 @@ const searchData = [
     description: 'Step-by-step checklist to improve your website\'s search engine optimization.',
     content: 'SEO checklist guide step by step search engine optimization',
     category: 'resources',
-    url: '/resources/seo-checklist',
+    url: 'seo-checklist',
     date: '3 weeks ago',
     tags: ['SEO', 'checklist', 'guide', 'search engine', 'optimization']
   },
@@ -142,7 +321,7 @@ const searchData = [
     description: 'Ready-to-use social media templates and graphics for your campaigns.',
     content: 'social media assets templates graphics campaigns ready to use',
     category: 'resources',
-    url: '/resources/social-media-assets',
+    url: 'social-media-assets',
     date: '1 month ago',
     tags: ['social media', 'assets', 'templates', 'graphics', 'campaigns']
   }
@@ -167,6 +346,23 @@ export const GET: APIRoute = async ({ url }) => {
           headers: { 'Content-Type': 'application/json' } 
         }
       );
+    }
+
+    // Get dynamic content with fallback
+    let searchData;
+    try {
+      const dynamicData = await getCachedSearchData();
+      
+      // If we have limited dynamic content, combine it with fallback data
+      if (dynamicData.length < 5) {
+        console.log(`Found ${dynamicData.length} dynamic pages, supplementing with fallback data`);
+        searchData = [...dynamicData, ...fallbackData];
+      } else {
+        searchData = dynamicData;
+      }
+    } catch (error) {
+      console.error('Error getting dynamic content, using fallback:', error);
+      searchData = fallbackData;
     }
 
     // Filter results

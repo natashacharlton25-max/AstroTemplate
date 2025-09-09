@@ -146,8 +146,14 @@ class SearchPopup {
       const data = await response.json();
       
       if (response.ok) {
-        // Update UI with API results
-        this.showSearchResults(data.results, query, false, data.total);
+        // If there are results, redirect to results page
+        if (data.results && data.results.length > 0) {
+          this.redirectToResultsPage(query, this.currentCategory);
+          return;
+        } else {
+          // Show no results in popup
+          this.showNoResultsInPopup(query);
+        }
       } else {
         throw new Error(data.error || 'Search failed');
       }
@@ -156,7 +162,14 @@ class SearchPopup {
       console.error('Search error:', error);
       // Fallback to local search
       const results = this.filterResults(query, this.currentCategory);
-      this.showSearchResults(results, query);
+      
+      if (results && results.length > 0) {
+        // If there are results, redirect to results page
+        this.redirectToResultsPage(query, this.currentCategory);
+      } else {
+        // Show no results in popup
+        this.showNoResultsInPopup(query);
+      }
     }
   }
 
@@ -226,6 +239,55 @@ class SearchPopup {
     }
   }
 
+  redirectToResultsPage(query, category = 'all') {
+    // Close the popup first
+    this.closePopup();
+    
+    // Navigate to the search results page
+    const url = `/search-results?q=${encodeURIComponent(query)}&category=${encodeURIComponent(category)}`;
+    window.location.href = url;
+  }
+
+  showNoResultsInPopup(query) {
+    // Hide default content
+    if (this.defaultContent) {
+      this.defaultContent.style.display = 'none';
+    }
+    
+    // Show search results section
+    if (this.searchResults) {
+      this.searchResults.style.display = 'block';
+    }
+    
+    // Update results title and count
+    if (this.resultsTitle) {
+      this.resultsTitle.textContent = `Results for "${query}"`;
+    }
+    
+    if (this.resultsCount) {
+      this.resultsCount.textContent = '0 results';
+    }
+    
+    // Show no results message
+    if (this.resultsContainer) {
+      this.resultsContainer.innerHTML = `
+        <div class="no-results">
+          <h3>No results found</h3>
+          <p>Try different keywords or check a different category.</p>
+          <div class="no-results-suggestions">
+            <p><strong>Suggestions:</strong></p>
+            <ul>
+              <li>Check your spelling</li>
+              <li>Try more general keywords</li>
+              <li>Use different search terms</li>
+              <li>Browse our popular content below</li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+  }
+
   renderLoadingState() {
     if (!this.resultsContainer) return;
     
@@ -269,7 +331,8 @@ class SearchPopup {
     
     terms.forEach(term => {
       if (term.length > 2) { // Only highlight terms longer than 2 characters
-        const regex = new RegExp(`(${term})`, 'gi');
+        // Use word boundary to highlight complete words that start with the search term
+        const regex = new RegExp(`\\b(\\w*${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\w*)`, 'gi');
         highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
       }
     });

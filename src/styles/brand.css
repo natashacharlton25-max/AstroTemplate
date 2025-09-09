@@ -19,6 +19,9 @@
   --brand-background: #fffaf6; /* Cream - page background */
   --brand-text: #5c5b5b;       /* Gray - body text */
   --brand-text-light: #ebdddd; /* White - text on dark backgrounds */
+  
+  /* ---- Highlight Colors ---- */
+  --brand-highlight-bg: rgba(230, 57, 97, 0.2);  /* Primary color with transparency */
 
   /* ---- Typography ---- */
   --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
@@ -124,6 +127,15 @@ a:hover {
   color: var(--brand-secondary);
 }
 
+/* Highlight/Mark Element */
+mark, .highlight {
+  background-color: var(--brand-highlight-bg);
+  color: var(--brand-primary);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
 /* Brand Utility Classes */
 .text-primary   { color: var(--brand-primary) !important; }
 .text-secondary { color: var(--brand-secondary) !important; }
@@ -163,4 +175,95 @@ a:hover {
   box-shadow: var(--glass-shadow) !important;
   backdrop-filter: var(--glass-backdrop-blur) !important;
   -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+}
+
+/* ==== COMPONENT-SPECIFIC OVERRIDES ==== */
+
+/* Search Result Links */
+/* Apply this class to anchor tags on the search results page for custom styling. */
+.search-result-link {
+  color: var(--brand-text); /* Sets default color to gray */
+}
+
+.search-result-link:hover {
+  color: var(--brand-primary); /* Sets hover color to red */
+}
+
+/* Search Results Styling */
+.results-container {
+  display: grid;
+  gap: 40px !important;
+}
+
+/* Enhanced visual separation for search results */
+a.result-item,
+a.result-item:link,
+a.result-item:visited {
+  border: 2px solid rgba(24, 78, 119, 0.15) !important;
+  border-radius: 20px !important;
+  padding: 32px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  position: relative !important;
+  margin-bottom: 8px !important;
+}
+
+
+a.result-item:hover {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 8px 32px rgba(230, 57, 97, 0.15) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Search result content styling */
+.result-title {
+  color: var(--brand-secondary) !important;
+  font-family: var(--font-heading) !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+  line-height: 1.3 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.result-description {
+  color: var(--brand-text) !important;
+  font-family: var(--font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  margin-bottom: 20px !important;
+}
+
+.result-meta {
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+  font-size: 12px !important;
+  margin-top: 16px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid rgba(24, 78, 119, 0.1) !important;
+}
+
+.result-type {
+  color: var(--brand-text) !important;
+  background: rgba(24, 78, 119, 0.08) !important;
+  padding: 4px 12px !important;
+  border-radius: 12px !important;
+  font-weight: 500 !important;
+  text-transform: capitalize !important;
+}
+
+.result-url,
+a.result-item .result-url,
+.results-container .result-url,
+span.result-url,
+.result-meta .result-url {
+  color: var(--brand-primary) !important;
+  font-size: 12px !important;
+  text-decoration: none !important;
+  opacity: 0.9 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.2px !important;
+  font-weight: 600 !important;
+  font-family: var(--font-body) !important;
 }
