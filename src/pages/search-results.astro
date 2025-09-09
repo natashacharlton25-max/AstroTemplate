@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-async function performSearch(query, category = 'all') {
+async function performSearch(query: string, category = 'all') {
   const loadingState = document.getElementById('loadingState');
   const resultsContainer = document.getElementById('resultsContainer');
   const noResultsState = document.getElementById('noResultsState');
@@ -551,7 +551,13 @@ async function performSearch(query, category = 'all') {
   }
 }
 
-function displayResults(results) {
+/**
+ * @param {Array<{title: string, description: string, url: string, type?: string}>} results
+ */
+/**
+ * @param {Array<{title: string, description: string, url: string, type?: string}>} results
+ */
+function displayResults(results: Array<{title: string, description: string, url: string, type?: string}>) {
   const container = document.getElementById('resultsContainer');
   
   if (!container) {
@@ -583,7 +589,7 @@ function showNoResults() {
   if (searchCount) searchCount.textContent = '0 results';
 }
 
-function highlightSearchTerm(text) {
+function highlightSearchTerm(text: string) {
   const urlParams = new URLSearchParams(window.location.search);
   const query = urlParams.get('q');
   
