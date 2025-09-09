@@ -680,7 +680,7 @@ class ContactPopup {
     }
   }
 
-  handleSubmit(): void {
+  async handleSubmit(): Promise<void> {
     // Validate form
     if (!this.selectedTopic || !this.formData.name.trim() || 
         !this.formData.email.trim() || !this.formData.message.trim()) {
@@ -688,21 +688,49 @@ class ContactPopup {
       return;
     }
 
-    // Prepare submission data
-    const submissionData = {
-      topic: this.selectedTopic,
-      name: this.formData.name.trim(),
-      email: this.formData.email.trim(),
-      message: this.formData.message.trim(),
-      timestamp: new Date().toISOString(),
-      page: window.location.pathname
-    };
+    // Disable submit button and show loading state
+    if (this.submitBtn) {
+      this.submitBtn.disabled = true;
+      this.submitBtn.textContent = 'Sending...';
+    }
 
-    // Log the data (replace with actual submission logic)
-    console.log('Contact form submitted:', submissionData);
+    try {
+      // Prepare submission data
+      const submissionData = {
+        topic: this.selectedTopic,
+        name: this.formData.name.trim(),
+        email: this.formData.email.trim(),
+        message: this.formData.message.trim(),
+      };
 
-    // Show success message instead of alert
-    this.showSuccessMessage();
+      // Send email via API
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // Show success message
+        this.showSuccessMessage();
+      } else {
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message. Please try again or contact us directly at hello@icthemoon.com');
+      
+      // Re-enable submit button
+      if (this.submitBtn) {
+        this.submitBtn.disabled = false;
+        this.submitBtn.textContent = 'Send Message';
+      }
+    }
   }
 
   showSuccessMessage(): void {
@@ -712,6 +740,12 @@ class ContactPopup {
     if (contactForm && successMessage) {
       contactForm.style.display = 'none';
       successMessage.style.display = 'flex';
+    }
+
+    // Reset submit button state
+    if (this.submitBtn) {
+      this.submitBtn.disabled = true;
+      this.submitBtn.textContent = 'Send Message';
     }
   }
 

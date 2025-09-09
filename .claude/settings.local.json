@@ -77,7 +77,8 @@
       "Read(/C:\\Users\\natas\\my-astro-template\\src\\components\\NavBar/**)",
       "Read(/C:\\Users\\natas\\my-astro-template\\src\\components\\NavBar/**)",
       "Read(/C:\\Users\\natas\\my-astro-template\\src\\components\\NavBar/**)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

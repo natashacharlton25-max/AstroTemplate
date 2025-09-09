@@ -1,0 +1,209 @@
+---
+// SearchPopup.astro
+---
+
+<!-- Search Popup Overlay (hidden by default) -->
+<div id="searchPopup" class="search-popup-overlay">
+  <div class="search-popup-container">
+    <!-- Header with Search Bar -->
+    <div class="search-header">
+      <div class="search-input-container">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"></path>
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search anything..."
+          class="search-input"
+          autocomplete="off"
+        />
+        <button id="clearSearch" class="clear-search-btn" style="display: none;">
+          ✕
+        </button>
+      </div>
+      <button id="closeSearchPopup" class="close-search-btn" aria-label="Close">
+        ✕
+      </button>
+    </div>
+
+    <!-- Search Content -->
+    <div class="search-content">
+      <!-- Search Categories -->
+      <div class="search-categories">
+        <h3>Search in:</h3>
+        <div class="category-buttons">
+          <button class="category-btn active" data-category="all">
+            All Website
+          </button>
+          <button class="category-btn" data-category="pages">
+            Pages
+          </button>
+          <button class="category-btn" data-category="blog">
+            Blog
+          </button>
+          <button class="category-btn" data-category="projects">
+            Projects
+          </button>
+          <button class="category-btn" data-category="resources">
+            Resources
+          </button>
+        </div>
+      </div>
+
+      <!-- Popular Keywords -->
+      <div class="popular-keywords">
+        <h3>Popular keywords:</h3>
+        <div class="keyword-tags">
+          <button class="keyword-tag" data-keyword="about">about</button>
+          <button class="keyword-tag" data-keyword="services">services</button>
+          <button class="keyword-tag" data-keyword="portfolio">portfolio</button>
+          <button class="keyword-tag" data-keyword="contact">contact</button>
+          <button class="keyword-tag" data-keyword="projects">projects</button>
+          <button class="keyword-tag" data-keyword="experience">experience</button>
+          <button class="keyword-tag" data-keyword="skills">skills</button>
+          <button class="keyword-tag" data-keyword="testimonials">testimonials</button>
+          <button class="keyword-tag" data-keyword="blog">blog</button>
+          <button class="keyword-tag" data-keyword="resources">resources</button>
+        </div>
+      </div>
+
+      <!-- Search Results Area -->
+      <div id="searchResults" class="search-results" style="display: none;">
+        <div class="results-header">
+          <h3 id="resultsTitle">Search Results</h3>
+          <span id="resultsCount" class="results-count"></span>
+        </div>
+        <div id="resultsContainer" class="results-container">
+          <!-- Results will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Content Sections (shown when no search) -->
+      <div id="defaultContent" class="default-content">
+        <!-- Latest Posts -->
+        <div class="content-section">
+          <h3>Latest Posts</h3>
+          <div class="post-grid">
+            <a href="/blog/getting-started" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Getting Started Guide" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Getting Started Guide</h4>
+                <p>Everything you need to know to begin your journey</p>
+                <span class="post-date">3 days ago</span>
+              </div>
+            </a>
+            
+            <a href="/blog/best-practices" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Best Practices" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Industry Best Practices</h4>
+                <p>Proven strategies for success in your field</p>
+                <span class="post-date">1 week ago</span>
+              </div>
+            </a>
+            
+            <a href="/blog/case-study" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Case Study" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Success Story Case Study</h4>
+                <p>Real-world example of outstanding results</p>
+                <span class="post-date">2 weeks ago</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Popular Posts -->
+        <div class="content-section">
+          <h3>Popular Posts</h3>
+          <div class="post-grid">
+            <a href="/about" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="About Us" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>About Our Company</h4>
+                <p>Learn about our mission, values, and story</p>
+                <span class="post-meta">12.5k views</span>
+              </div>
+            </a>
+            
+            <a href="/services" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Our Services" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Our Services Overview</h4>
+                <p>Discover what we can do for your business</p>
+                <span class="post-meta">8.2k views</span>
+              </div>
+            </a>
+            
+            <a href="/portfolio" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Portfolio" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Portfolio Showcase</h4>
+                <p>See our best work and successful projects</p>
+                <span class="post-meta">6.8k views</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Suggested Posts -->
+        <div class="content-section">
+          <h3>Suggested for You</h3>
+          <div class="post-grid">
+            <a href="/contact" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Contact Us" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Get In Touch</h4>
+                <p>Ready to start your project? Let's talk</p>
+                <span class="post-meta">Recommended</span>
+              </div>
+            </a>
+            
+            <a href="/testimonials" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Testimonials" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Client Testimonials</h4>
+                <p>See what our customers say about us</p>
+                <span class="post-meta">For you</span>
+              </div>
+            </a>
+            
+            <a href="/resources" class="post-card">
+              <div class="post-image">
+                <img src="/images/Placeholder.jpg" alt="Resources" loading="lazy" />
+              </div>
+              <div class="post-content">
+                <h4>Free Resources</h4>
+                <p>Download helpful guides and templates</p>
+                <span class="post-meta">Trending</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import './search-popup.css';
+</style>
+
+<script src="./search-popup.js"></script>

@@ -1,6 +1,7 @@
 ---
 // Bottom Navigation Component
 import ContactPopup from './contact-form/contactpopup.astro';
+import SearchPopup from '../Search/SearchPopup.astro';
 ---
 
 <!-- Settings Tab -->
@@ -58,6 +59,9 @@ import ContactPopup from './contact-form/contactpopup.astro';
 <!-- Contact Popup -->
 <ContactPopup />
 
+<!-- Search Popup -->
+<SearchPopup />
+
 <!-- Accessibility Overlay -->
 <div class="overlay-screen" data-overlay-screen="accessibility">
   <div class="overlay-backdrop" data-overlay-backdrop="accessibility"></div>
@@ -80,27 +84,6 @@ import ContactPopup from './contact-form/contactpopup.astro';
   </div>
 </div>
 
-<!-- Search Overlay -->
-<div class="overlay-screen" data-overlay-screen="search">
-  <div class="overlay-backdrop" data-overlay-backdrop="search"></div>
-  <div class="overlay-content" data-overlay-content="search">
-    <div class="overlay-header">
-      <div class="overlay-logo">
-        <img src="/images/LogoPlaceholder.png" alt="IC the Moon" class="overlay-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" />
-        <span class="overlay-logo-text" style="display:none">IC</span>
-      </div>
-      <button class="overlay-close" data-overlay-close="search" aria-label="Close">
-        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-    <div class="overlay-body">
-      <h2 class="overlay-title">Search</h2>
-      <p class="overlay-placeholder">Search functionality will go here...</p>
-    </div>
-  </div>
-</div>
 
 <style>
   @import './navigation/settingsNavStyles.css';
