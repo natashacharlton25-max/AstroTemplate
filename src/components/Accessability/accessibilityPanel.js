@@ -4,8 +4,6 @@ class AccessibilityPanel {
   constructor() {
     console.log('AccessibilityPanel initializing...');
     
-    this.panel = document.getElementById('accessibilityPanel');
-    this.closeBtn = document.getElementById('closeAccessibilityPanel');
     this.plainTextToggle = document.getElementById('plainTextToggle');
     this.plainTextCustomization = document.getElementById('plainTextCustomization');
     this.liveRegion = document.getElementById('accessibilityLiveRegion');
@@ -33,18 +31,6 @@ class AccessibilityPanel {
     this.syncUIWithSettings();
     this.applySettings();
     
-    // Close button events (both mobile and desktop)
-    this.closeBtn?.addEventListener('click', () => this.closePanel());
-    const desktopCloseBtn = document.getElementById('closeAccessibilityPanelDesktop');
-    desktopCloseBtn?.addEventListener('click', () => this.closePanel());
-    
-    // Backdrop click to close
-    this.panel?.addEventListener('click', (e) => {
-      if (e.target === this.panel) {
-        this.closePanel();
-      }
-    });
-    
     // Setting change events
     document.querySelectorAll('[data-setting]').forEach(control => {
       if (control.type === 'checkbox') {
@@ -71,10 +57,6 @@ class AccessibilityPanel {
     const shareTipsBtn = document.getElementById('shareAccessibilityTips');
     shareTipsBtn?.addEventListener('click', () => this.shareAccessibilityTips());
     
-    // Dark mode toggle button (if it exists)
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    darkModeToggle?.addEventListener('click', () => this.toggleDarkMode());
-    
     // Preset card events
     document.querySelectorAll('[data-preset]').forEach(card => {
       card.addEventListener('click', (e) => this.applyPreset(e.target.closest('[data-preset]').dataset.preset));
@@ -83,8 +65,8 @@ class AccessibilityPanel {
     // Listen for system theme changes
     this.setupSystemThemeListener();
     
-    // Expose global function to open panel
-    window.openAccessibilityPanel = () => this.openPanel();
+    // Expose global functions for other components
+    window.accessibilityPanelInstance = this;
     
     console.log('AccessibilityPanel initialized with settings:', this.settings);
   }
@@ -98,13 +80,16 @@ class AccessibilityPanel {
       this.settings.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     
-    this.applyDarkMode();
+    // Don't apply dark mode here - it's already applied by critical CSS
+    // Just update the UI state to match what's already applied
+    this.updateDarkModeToggleState();
   }
 
   setupSystemThemeListener() {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const highContrastQuery = window.matchMedia('(prefers-contrast: high)');
     
-    mediaQuery.addEventListener('change', (e) => {
+    darkModeQuery.addEventListener('change', (e) => {
       // Only auto-switch if user hasn't manually set a preference
       const savedDarkMode = localStorage.getItem('accessibility-darkMode');
       if (savedDarkMode === null) {
@@ -113,6 +98,26 @@ class AccessibilityPanel {
         this.announceToScreenReader(`Automatically switched to ${e.matches ? 'dark' : 'light'} mode`);
       }
     });
+    
+    // Handle high contrast preference changes
+    highContrastQuery.addEventListener('change', (e) => {
+      this.handleHighContrastChange(e.matches);
+    });
+    
+    // Initial high contrast setup
+    if (highContrastQuery.matches) {
+      this.handleHighContrastChange(true);
+    }
+  }
+  
+  handleHighContrastChange(isHighContrast) {
+    if (isHighContrast) {
+      document.body.classList.add('accessibility-high-contrast');
+      this.announceToScreenReader('High contrast mode detected and applied');
+    } else {
+      document.body.classList.remove('accessibility-high-contrast');
+      this.announceToScreenReader('High contrast mode disabled');
+    }
   }
 
   toggleDarkMode() {
@@ -132,14 +137,18 @@ class AccessibilityPanel {
     }
     
     this.updateDarkModeToggleState();
+    
+    // Notify bottom nav to update icon
+    if (window.updateBottomNavDarkModeIcon) {
+      window.updateBottomNavDarkModeIcon();
+    }
   }
 
   updateDarkModeToggleState() {
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (darkModeToggle) {
-      darkModeToggle.setAttribute('aria-pressed', this.settings.darkMode.toString());
-      darkModeToggle.setAttribute('aria-label', 
-        `Switch to ${this.settings.darkMode ? 'light' : 'dark'} mode`);
+    // Update the dark mode checkbox in the panel
+    const darkModeCheckbox = document.getElementById('darkMode');
+    if (darkModeCheckbox) {
+      darkModeCheckbox.checked = this.settings.darkMode;
     }
   }
 
@@ -159,12 +168,6 @@ class AccessibilityPanel {
   }
 
   handleKeyDown(e) {
-    // Escape key to close panel
-    if (e.key === 'Escape' && this.isOpen()) {
-      this.closePanel();
-      return;
-    }
-    
     // T key to toggle plain text mode (only if not in input field)
     if (e.key === 't' || e.key === 'T') {
       const target = e.target;
@@ -220,9 +223,12 @@ class AccessibilityPanel {
       if (lineSpacingValue) lineSpacingValue.textContent = `${this.settings.lineSpacing}%`;
     }
     
-    // Sync font family select
+    // Sync font family selects (both in plain text customization and general)
     const fontFamilySelect = document.getElementById('fontFamily');
     if (fontFamilySelect) fontFamilySelect.value = this.settings.fontFamily;
+    
+    const fontFamilyGeneralSelect = document.getElementById('fontFamilyGeneral');
+    if (fontFamilyGeneralSelect) fontFamilyGeneralSelect.value = this.settings.fontFamily;
     
     // Sync background color radio buttons and add dark mode options
     this.updateBackgroundColorOptions();
@@ -308,9 +314,23 @@ class AccessibilityPanel {
     document.body.classList.remove('font-default', 'font-atkinson', 'font-opendyslexic');
     document.body.classList.add(`font-${this.settings.fontFamily}`);
     
-    // Apply background class
+    // Apply background class (this is now handled by applyBackgroundColor method)
+    // document.body.classList.remove('bg-white', 'bg-cream', 'bg-blue', 'bg-pink', 'bg-dark', 'bg-gray');
+    // document.body.classList.add(`bg-${this.settings.backgroundColor}`);
+  }
+
+  applyBackgroundColor() {
+    // Remove all background color classes
     document.body.classList.remove('bg-white', 'bg-cream', 'bg-blue', 'bg-pink', 'bg-dark', 'bg-gray');
-    document.body.classList.add(`bg-${this.settings.backgroundColor}`);
+    
+    // Apply the selected background color class
+    if (this.settings.backgroundColor && this.settings.backgroundColor !== 'default') {
+      document.body.classList.add(`bg-${this.settings.backgroundColor}`);
+    }
+    
+    // Also apply font class for consistency
+    document.body.classList.remove('font-default', 'font-atkinson', 'font-opendyslexic');
+    document.body.classList.add(`font-${this.settings.fontFamily}`);
   }
 
   getBackgroundColorsForTheme() {
@@ -367,21 +387,24 @@ class AccessibilityPanel {
     // Apply dark mode
     this.applyDarkMode();
     
-    // Apply keyboard helpers
+    // Apply background color (works independently of plain text mode)
+    this.applyBackgroundColor();
+    
+    // Sync keyboard helpers (critical CSS may have already applied this)
     if (this.settings.keyboardHelpers) {
       document.body.classList.add('accessibility-keyboard-helpers');
     } else {
       document.body.classList.remove('accessibility-keyboard-helpers');
     }
     
-    // Apply screen reader helpers
+    // Sync screen reader helpers (critical CSS may have already applied this)
     if (this.settings.screenReaderHelpers) {
       document.body.classList.add('accessibility-screen-reader-helpers');
     } else {
       document.body.classList.remove('accessibility-screen-reader-helpers');
     }
     
-    // Apply plain text mode
+    // Sync plain text mode (critical CSS may have already applied this)
     if (this.settings.plainTextMode) {
       document.body.classList.add('accessibility-plain-text-mode');
       this.applyPlainTextSettings();
@@ -523,28 +546,6 @@ Visit our accessibility statement for more information!`;
   }
 
   // Remaining methods from original class...
-  openPanel() {
-    console.log('Opening accessibility panel...', this.panel);
-    this.panel?.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    
-    // Focus the close button for keyboard navigation
-    setTimeout(() => {
-      this.closeBtn?.focus();
-    }, 100);
-    
-    this.announceToScreenReader('Accessibility options panel opened');
-  }
-
-  closePanel() {
-    this.panel?.classList.remove('show');
-    document.body.style.overflow = '';
-    this.announceToScreenReader('Accessibility options panel closed');
-  }
-
-  isOpen() {
-    return this.panel?.classList.contains('show') ?? false;
-  }
 
   handleRangeChange(control) {
     const setting = control.dataset.setting;
@@ -568,7 +569,15 @@ Visit our accessibility statement for more information!`;
     if (setting === 'backgroundColor' && control.checked) {
       this.settings[setting] = control.value;
       localStorage.setItem(`accessibility-${setting}`, control.value);
-      this.applyPlainTextSettings();
+      
+      // Apply background color immediately (works with or without plain text mode)
+      this.applyBackgroundColor();
+      
+      // Also update plain text settings if plain text mode is active
+      if (this.settings.plainTextMode) {
+        this.applyPlainTextSettings();
+      }
+      
       this.announceToScreenReader(`Background color changed to ${control.value}`);
     }
   }
