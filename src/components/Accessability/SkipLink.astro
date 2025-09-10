@@ -1,0 +1,32 @@
+---
+// Skip Link Component - First element in <body> on every page
+---
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px 12px;
+    text-decoration: none;
+    z-index: 9999;
+    border-radius: 0 0 4px 4px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: top 0.2s ease-in-out;
+  }
+
+  .skip-link:focus {
+    top: 0;
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
+
+  .skip-link:hover:focus {
+    background: #333;
+  }
+</style>

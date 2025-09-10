@@ -76,7 +76,15 @@ export function initOverlayManager() {
         break;
         
       case 'accessibility':
-        openOverlay('accessibility');
+        // Use the accessibility panel
+        if (window.openAccessibilityPanel) {
+          window.openAccessibilityPanel();
+          // Close settings menu when opening panel
+          const settingsExpanded = document.querySelector('[data-settings-expanded]');
+          const settingsToggle = document.querySelector('[data-settings-toggle]');
+          settingsExpanded?.classList.remove('show');
+          settingsToggle?.classList.remove('active');
+        }
         break;
     }
   };
@@ -93,7 +101,7 @@ export function initOverlayManager() {
     });
   }
   
-  // Overlay event listeners
+  // Overlay event listeners (for any remaining overlays)
   document.querySelectorAll('[data-overlay-close]').forEach(closeBtn => {
     closeBtn.addEventListener('click', (e) => {
       const type = closeBtn.getAttribute('data-overlay-close');

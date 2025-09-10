@@ -2,6 +2,7 @@
 // Bottom Navigation Component
 import ContactPopup from './contact-form/contactpopup.astro';
 import SearchPopup from '../Search/SearchPopup.astro';
+import AccessibilityPanel from '../Accessability/AccessabilityPanel.astro';
 ---
 
 <!-- Settings Tab -->
@@ -38,7 +39,7 @@ import SearchPopup from '../Search/SearchPopup.astro';
     </button>
     
     <!-- Accessibility -->
-    <button class="settings-item" data-action="accessibility" aria-label="Accessibility Settings">
+    <button class="settings-item" data-action="accessibility" aria-label="Accessibility Options">
       <svg class="settings-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="10"></circle>
         <circle cx="12" cy="8" r="2"></circle>
@@ -62,27 +63,8 @@ import SearchPopup from '../Search/SearchPopup.astro';
 <!-- Search Popup -->
 <SearchPopup />
 
-<!-- Accessibility Overlay -->
-<div class="overlay-screen" data-overlay-screen="accessibility">
-  <div class="overlay-backdrop" data-overlay-backdrop="accessibility"></div>
-  <div class="overlay-content" data-overlay-content="accessibility">
-    <div class="overlay-header">
-      <div class="overlay-logo">
-        <img src="/images/LogoPlaceholder.png" alt="IC the Moon" class="overlay-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" />
-        <span class="overlay-logo-text" style="display:none">IC</span>
-      </div>
-      <button class="overlay-close" data-overlay-close="accessibility" aria-label="Close">
-        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-    <div class="overlay-body">
-      <h2 class="overlay-title">Accessibility Settings</h2>
-      <p class="overlay-placeholder">Accessibility controls will go here...</p>
-    </div>
-  </div>
-</div>
+<!-- Accessibility Panel -->
+<AccessibilityPanel />
 
 
 <style>
