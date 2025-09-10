@@ -2,7 +2,7 @@
 // Bottom Navigation Component
 import ContactPopup from './contact-form/contactpopup.astro';
 import SearchPopup from '../Search/SearchPopup.astro';
-import AccessibilityPanel from '../Accessability/AccessabilityPanel.astro';
+import AccessabilityPanel from '../Accessability/AccessabilityPanel.astro';
 ---
 
 <!-- Settings Tab -->
@@ -40,11 +40,7 @@ import AccessibilityPanel from '../Accessability/AccessabilityPanel.astro';
     
     <!-- Accessibility -->
     <button class="settings-item" data-action="accessibility" aria-label="Accessibility Options">
-      <svg class="settings-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"></circle>
-        <circle cx="12" cy="8" r="2"></circle>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v6M8 18h8"></path>
-      </svg>
+      <i class="settings-icon fas fa-universal-access"></i>
     </button>
     
   </div>
@@ -64,12 +60,28 @@ import AccessibilityPanel from '../Accessability/AccessabilityPanel.astro';
 <SearchPopup />
 
 <!-- Accessibility Panel -->
-<AccessibilityPanel />
+<AccessabilityPanel />
 
+<!-- FontAwesome CDN for accessibility icon -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
 
 <style>
   @import './navigation/settingsNavStyles.css';
   @import './overlays/overlayStyles.css';
+  
+  /* Style FontAwesome icon to match SVG icons */
+  .settings-icon.fas {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 </style>
 
 <script>

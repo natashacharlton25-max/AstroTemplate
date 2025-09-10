@@ -1,4 +1,4 @@
-// src/components/Accessibility/accessibilityPanel.js
+// Enhanced AccessibilityPanel with Dark Mode Support
 
 class AccessibilityPanel {
   constructor() {
@@ -10,17 +10,12 @@ class AccessibilityPanel {
     this.plainTextCustomization = document.getElementById('plainTextCustomization');
     this.liveRegion = document.getElementById('accessibilityLiveRegion');
     
-    console.log('AccessibilityPanel elements:', { 
-      panel: this.panel, 
-      closeBtn: this.closeBtn, 
-      plainTextToggle: this.plainTextToggle 
-    });
-    
-    // Load settings from localStorage
+    // Load settings from localStorage (including dark mode)
     this.settings = {
       keyboardHelpers: localStorage.getItem('accessibility-keyboardHelpers') === 'true',
       screenReaderHelpers: localStorage.getItem('accessibility-screenReaderHelpers') === 'true',
       plainTextMode: localStorage.getItem('accessibility-plainTextMode') === 'true',
+      darkMode: localStorage.getItem('accessibility-darkMode') === 'true',
       fontSize: parseInt(localStorage.getItem('accessibility-fontSize') || '100'),
       lineSpacing: parseInt(localStorage.getItem('accessibility-lineSpacing') || '160'),
       fontFamily: localStorage.getItem('accessibility-fontFamily') || 'default',
@@ -31,12 +26,17 @@ class AccessibilityPanel {
   }
 
   init() {
+    // Initialize dark mode first
+    this.initializeDarkMode();
+    
     // Initialize UI based on current settings
     this.syncUIWithSettings();
     this.applySettings();
     
-    // Close button event
+    // Close button events (both mobile and desktop)
     this.closeBtn?.addEventListener('click', () => this.closePanel());
+    const desktopCloseBtn = document.getElementById('closeAccessibilityPanelDesktop');
+    desktopCloseBtn?.addEventListener('click', () => this.closePanel());
     
     // Backdrop click to close
     this.panel?.addEventListener('click', (e) => {
@@ -71,12 +71,458 @@ class AccessibilityPanel {
     const shareTipsBtn = document.getElementById('shareAccessibilityTips');
     shareTipsBtn?.addEventListener('click', () => this.shareAccessibilityTips());
     
+    // Dark mode toggle button (if it exists)
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    darkModeToggle?.addEventListener('click', () => this.toggleDarkMode());
+    
+    // Preset card events
+    document.querySelectorAll('[data-preset]').forEach(card => {
+      card.addEventListener('click', (e) => this.applyPreset(e.target.closest('[data-preset]').dataset.preset));
+    });
+    
+    // Listen for system theme changes
+    this.setupSystemThemeListener();
+    
     // Expose global function to open panel
     window.openAccessibilityPanel = () => this.openPanel();
     
     console.log('AccessibilityPanel initialized with settings:', this.settings);
   }
 
+  initializeDarkMode() {
+    // Check if user has a saved preference
+    const savedDarkMode = localStorage.getItem('accessibility-darkMode');
+    
+    if (savedDarkMode === null) {
+      // No saved preference, use system preference
+      this.settings.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    
+    this.applyDarkMode();
+  }
+
+  setupSystemThemeListener() {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    mediaQuery.addEventListener('change', (e) => {
+      // Only auto-switch if user hasn't manually set a preference
+      const savedDarkMode = localStorage.getItem('accessibility-darkMode');
+      if (savedDarkMode === null) {
+        this.settings.darkMode = e.matches;
+        this.applyDarkMode();
+        this.announceToScreenReader(`Automatically switched to ${e.matches ? 'dark' : 'light'} mode`);
+      }
+    });
+  }
+
+  toggleDarkMode() {
+    this.settings.darkMode = !this.settings.darkMode;
+    localStorage.setItem('accessibility-darkMode', this.settings.darkMode.toString());
+    
+    this.applyDarkMode();
+    this.updateDarkModeToggleState();
+    this.announceToScreenReader(`Switched to ${this.settings.darkMode ? 'dark' : 'light'} mode`);
+  }
+
+  applyDarkMode() {
+    if (this.settings.darkMode) {
+      document.body.classList.add('accessibility-dark-mode');
+    } else {
+      document.body.classList.remove('accessibility-dark-mode');
+    }
+    
+    this.updateDarkModeToggleState();
+  }
+
+  updateDarkModeToggleState() {
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+      darkModeToggle.setAttribute('aria-pressed', this.settings.darkMode.toString());
+      darkModeToggle.setAttribute('aria-label', 
+        `Switch to ${this.settings.darkMode ? 'light' : 'dark'} mode`);
+    }
+  }
+
+  handleCheckboxChange(control) {
+    const setting = control.dataset.setting;
+    
+    if (setting === 'keyboardHelpers' || setting === 'screenReaderHelpers') {
+      this.settings[setting] = control.checked;
+      localStorage.setItem(`accessibility-${setting}`, control.checked.toString());
+      this.applySettings();
+      
+      const featureName = setting === 'keyboardHelpers' ? 'Keyboard helpers' : 'Screen reader helpers';
+      this.announceToScreenReader(`${featureName} ${control.checked ? 'enabled' : 'disabled'}`);
+    } else if (setting === 'darkMode') {
+      this.toggleDarkMode();
+    }
+  }
+
+  handleKeyDown(e) {
+    // Escape key to close panel
+    if (e.key === 'Escape' && this.isOpen()) {
+      this.closePanel();
+      return;
+    }
+    
+    // T key to toggle plain text mode (only if not in input field)
+    if (e.key === 't' || e.key === 'T') {
+      const target = e.target;
+      if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+        e.preventDefault();
+        this.togglePlainTextMode();
+      }
+    }
+    
+    // D key to toggle dark mode (only if not in input field)
+    if (e.key === 'd' || e.key === 'D') {
+      const target = e.target;
+      if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+        e.preventDefault();
+        this.toggleDarkMode();
+      }
+    }
+  }
+
+  syncUIWithSettings() {
+    // Sync checkboxes
+    const keyboardCheckbox = document.getElementById('keyboardHelpers');
+    if (keyboardCheckbox) keyboardCheckbox.checked = this.settings.keyboardHelpers;
+    
+    const screenReaderCheckbox = document.getElementById('screenReaderHelpers');
+    if (screenReaderCheckbox) screenReaderCheckbox.checked = this.settings.screenReaderHelpers;
+    
+    const darkModeCheckbox = document.getElementById('darkMode');
+    if (darkModeCheckbox) darkModeCheckbox.checked = this.settings.darkMode;
+    
+    // Sync plain text toggle
+    if (this.plainTextToggle) {
+      this.plainTextToggle.setAttribute('aria-pressed', this.settings.plainTextMode.toString());
+    }
+    
+    // Sync plain text customization visibility
+    if (this.plainTextCustomization) {
+      this.plainTextCustomization.style.display = this.settings.plainTextMode ? 'block' : 'none';
+    }
+    
+    // Sync range sliders
+    const fontSizeSlider = document.getElementById('fontSize');
+    if (fontSizeSlider) {
+      fontSizeSlider.value = this.settings.fontSize.toString();
+      const fontSizeValue = document.getElementById('fontSizeValue');
+      if (fontSizeValue) fontSizeValue.textContent = `${this.settings.fontSize}%`;
+    }
+    
+    const lineSpacingSlider = document.getElementById('lineSpacing');
+    if (lineSpacingSlider) {
+      lineSpacingSlider.value = this.settings.lineSpacing.toString();
+      const lineSpacingValue = document.getElementById('lineSpacingValue');
+      if (lineSpacingValue) lineSpacingValue.textContent = `${this.settings.lineSpacing}%`;
+    }
+    
+    // Sync font family select
+    const fontFamilySelect = document.getElementById('fontFamily');
+    if (fontFamilySelect) fontFamilySelect.value = this.settings.fontFamily;
+    
+    // Sync background color radio buttons and add dark mode options
+    this.updateBackgroundColorOptions();
+    
+    // Update dark mode toggle state
+    this.updateDarkModeToggleState();
+  }
+
+  updateBackgroundColorOptions() {
+    const backgroundRadios = document.querySelectorAll('input[name="backgroundColor"]');
+    
+    // Add dark mode specific background options if in dark mode
+    if (this.settings.darkMode) {
+      this.addDarkModeBackgroundOptions();
+    }
+    
+    backgroundRadios.forEach(radio => {
+      radio.checked = radio.value === this.settings.backgroundColor;
+    });
+  }
+
+  addDarkModeBackgroundOptions() {
+    // Check if dark mode options already exist
+    const existingDarkOption = document.querySelector('input[value="dark"]');
+    if (existingDarkOption) return;
+    
+    const colorOptions = document.querySelector('.color-options');
+    if (!colorOptions) return;
+    
+    // Add dark background option
+    const darkOption = this.createColorOption('dark', '#1a1a1a', 'Dark');
+    const grayOption = this.createColorOption('gray', '#2a2a2a', 'Gray');
+    
+    colorOptions.appendChild(darkOption);
+    colorOptions.appendChild(grayOption);
+  }
+
+  createColorOption(value, color, label) {
+    const option = document.createElement('label');
+    option.className = 'color-option';
+    
+    option.innerHTML = `
+      <input type="radio" name="backgroundColor" value="${value}" data-setting="backgroundColor">
+      <span class="color-swatch" style="background: ${color};"></span>
+      <span class="color-label">${label}</span>
+    `;
+    
+    // Add event listener
+    const radio = option.querySelector('input');
+    radio.addEventListener('change', () => this.handleRadioChange(radio));
+    
+    return option;
+  }
+
+  applyPlainTextSettings() {
+    if (!this.settings.plainTextMode) return;
+    
+    let style = document.getElementById('accessibility-plain-text-styles');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'accessibility-plain-text-styles';
+      document.head.appendChild(style);
+    }
+    
+    // Get appropriate background colors based on current theme
+    const backgroundColors = this.getBackgroundColorsForTheme();
+    
+    style.textContent = `
+      .accessibility-plain-text-mode {
+        font-size: ${this.settings.fontSize}% !important;
+        line-height: ${this.settings.lineSpacing / 100} !important;
+      }
+      
+      .accessibility-plain-text-mode * {
+        font-size: inherit !important;
+        line-height: inherit !important;
+      }
+      
+      ${backgroundColors}
+    `;
+    
+    // Apply font class
+    document.body.classList.remove('font-default', 'font-atkinson', 'font-opendyslexic');
+    document.body.classList.add(`font-${this.settings.fontFamily}`);
+    
+    // Apply background class
+    document.body.classList.remove('bg-white', 'bg-cream', 'bg-blue', 'bg-pink', 'bg-dark', 'bg-gray');
+    document.body.classList.add(`bg-${this.settings.backgroundColor}`);
+  }
+
+  getBackgroundColorsForTheme() {
+    if (this.settings.darkMode) {
+      return `
+        .accessibility-plain-text-mode.bg-white { 
+          background: #1a1a1a !important; 
+          color: #e5e5e5 !important; 
+        }
+        .accessibility-plain-text-mode.bg-cream { 
+          background: #2a2520 !important; 
+          color: #e5dcc0 !important; 
+        }
+        .accessibility-plain-text-mode.bg-blue { 
+          background: #0d1a2a !important; 
+          color: #b3d9ff !important; 
+        }
+        .accessibility-plain-text-mode.bg-pink { 
+          background: #2a1a25 !important; 
+          color: #ffb3d9 !important; 
+        }
+        .accessibility-plain-text-mode.bg-dark { 
+          background: #0f0f0f !important; 
+          color: #e5e5e5 !important; 
+        }
+        .accessibility-plain-text-mode.bg-gray { 
+          background: #2a2a2a !important; 
+          color: #d0d0d0 !important; 
+        }
+      `;
+    } else {
+      return `
+        .accessibility-plain-text-mode.bg-white { 
+          background: #ffffff !important; 
+          color: #000000 !important; 
+        }
+        .accessibility-plain-text-mode.bg-cream { 
+          background: #f5f5dc !important; 
+          color: #000000 !important; 
+        }
+        .accessibility-plain-text-mode.bg-blue { 
+          background: #e6f3ff !important; 
+          color: #000033 !important; 
+        }
+        .accessibility-plain-text-mode.bg-pink { 
+          background: #ffe6f0 !important; 
+          color: #330022 !important; 
+        }
+      `;
+    }
+  }
+
+  applySettings() {
+    // Apply dark mode
+    this.applyDarkMode();
+    
+    // Apply keyboard helpers
+    if (this.settings.keyboardHelpers) {
+      document.body.classList.add('accessibility-keyboard-helpers');
+    } else {
+      document.body.classList.remove('accessibility-keyboard-helpers');
+    }
+    
+    // Apply screen reader helpers
+    if (this.settings.screenReaderHelpers) {
+      document.body.classList.add('accessibility-screen-reader-helpers');
+    } else {
+      document.body.classList.remove('accessibility-screen-reader-helpers');
+    }
+    
+    // Apply plain text mode
+    if (this.settings.plainTextMode) {
+      document.body.classList.add('accessibility-plain-text-mode');
+      this.applyPlainTextSettings();
+    } else {
+      document.body.classList.remove('accessibility-plain-text-mode');
+      this.removePlainTextSettings();
+    }
+  }
+
+  resetAllSettings() {
+    // Confirm with user
+    if (!confirm('Are you sure you want to reset all accessibility settings to default?')) {
+      return;
+    }
+    
+    // Clear localStorage
+    Object.keys(this.settings).forEach(key => {
+      localStorage.removeItem(`accessibility-${key}`);
+    });
+    
+    // Reset settings object
+    this.settings = {
+      keyboardHelpers: false,
+      screenReaderHelpers: false,
+      plainTextMode: false,
+      darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches, // Reset to system preference
+      fontSize: 100,
+      lineSpacing: 160,
+      fontFamily: 'default',
+      backgroundColor: 'white'
+    };
+    
+    // Sync UI and apply
+    this.syncUIWithSettings();
+    this.applySettings();
+    
+    this.announceToScreenReader('All accessibility settings have been reset to default');
+  }
+
+  applyPreset(presetName) {
+    let presetSettings = {};
+    
+    switch (presetName) {
+      case 'default':
+        presetSettings = {
+          keyboardHelpers: false,
+          screenReaderHelpers: false,
+          plainTextMode: false,
+          darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
+          fontSize: 100,
+          lineSpacing: 160,
+          fontFamily: 'default',
+          backgroundColor: 'white'
+        };
+        break;
+        
+      case 'vision':
+        presetSettings = {
+          keyboardHelpers: true,
+          screenReaderHelpers: true,
+          plainTextMode: true,
+          darkMode: true,
+          fontSize: 150,
+          lineSpacing: 200,
+          fontFamily: 'atkinson',
+          backgroundColor: 'dark'
+        };
+        break;
+        
+      case 'motor':
+        presetSettings = {
+          keyboardHelpers: true,
+          screenReaderHelpers: false,
+          plainTextMode: false,
+          darkMode: this.settings.darkMode, // Keep current
+          fontSize: 125,
+          lineSpacing: 180,
+          fontFamily: 'default',
+          backgroundColor: this.settings.backgroundColor // Keep current
+        };
+        break;
+        
+      case 'cognitive':
+        presetSettings = {
+          keyboardHelpers: true,
+          screenReaderHelpers: true,
+          plainTextMode: true,
+          darkMode: this.settings.darkMode, // Keep current
+          fontSize: 125,
+          lineSpacing: 200,
+          fontFamily: 'default',
+          backgroundColor: 'cream'
+        };
+        break;
+        
+      default:
+        return;
+    }
+    
+    // Apply preset settings
+    Object.keys(presetSettings).forEach(key => {
+      this.settings[key] = presetSettings[key];
+      localStorage.setItem(`accessibility-${key}`, presetSettings[key].toString());
+    });
+    
+    // Update UI and apply settings
+    this.syncUIWithSettings();
+    this.applySettings();
+    
+    this.announceToScreenReader(`Applied ${presetName} accessibility preset`);
+  }
+
+  shareAccessibilityTips() {
+    const tips = `Accessibility Tips for Better Web Browsing:
+
+🔍 Use browser zoom: Ctrl/Cmd + Plus/Minus
+⌨️ Navigate with Tab key and arrow keys
+🎧 Try screen readers like NVDA (free) or VoiceOver (Mac)
+🎨 Adjust system display settings for high contrast
+📖 Use reader mode in your browser for cleaner text
+🌙 Toggle dark mode: Press 'D' or use system settings
+💬 Look for accessibility options in website settings
+
+Visit our accessibility statement for more information!`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Web Accessibility Tips',
+        text: tips
+      }).catch(console.error);
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(tips).then(() => {
+        alert('Accessibility tips copied to clipboard!');
+      }).catch(() => {
+        alert('Unable to share tips. Please check our accessibility statement for more information.');
+      });
+    }
+  }
+
+  // Remaining methods from original class...
   openPanel() {
     console.log('Opening accessibility panel...', this.panel);
     this.panel?.classList.add('show');
@@ -98,18 +544,6 @@ class AccessibilityPanel {
 
   isOpen() {
     return this.panel?.classList.contains('show') ?? false;
-  }
-
-  handleCheckboxChange(control) {
-    const setting = control.dataset.setting;
-    if (setting === 'keyboardHelpers' || setting === 'screenReaderHelpers') {
-      this.settings[setting] = control.checked;
-      localStorage.setItem(`accessibility-${setting}`, control.checked.toString());
-      this.applySettings();
-      
-      const featureName = setting === 'keyboardHelpers' ? 'Keyboard helpers' : 'Screen reader helpers';
-      this.announceToScreenReader(`${featureName} ${control.checked ? 'enabled' : 'disabled'}`);
-    }
   }
 
   handleRangeChange(control) {
@@ -153,23 +587,8 @@ class AccessibilityPanel {
     const setting = control.dataset.setting;
     if (setting === 'plainTextMode') {
       this.togglePlainTextMode();
-    }
-  }
-
-  handleKeyDown(e) {
-    // Escape key to close panel
-    if (e.key === 'Escape' && this.isOpen()) {
-      this.closePanel();
-      return;
-    }
-    
-    // T key to toggle plain text mode (only if not in input field)
-    if (e.key === 't' || e.key === 'T') {
-      const target = e.target;
-      if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
-        e.preventDefault();
-        this.togglePlainTextMode();
-      }
+    } else if (setting === 'darkMode') {
+      this.toggleDarkMode();
     }
   }
 
@@ -191,106 +610,6 @@ class AccessibilityPanel {
     this.announceToScreenReader(`Plain text mode ${this.settings.plainTextMode ? 'enabled' : 'disabled'}`);
   }
 
-  syncUIWithSettings() {
-    // Sync checkboxes
-    const keyboardCheckbox = document.getElementById('keyboardHelpers');
-    if (keyboardCheckbox) keyboardCheckbox.checked = this.settings.keyboardHelpers;
-    
-    const screenReaderCheckbox = document.getElementById('screenReaderHelpers');
-    if (screenReaderCheckbox) screenReaderCheckbox.checked = this.settings.screenReaderHelpers;
-    
-    // Sync plain text toggle
-    if (this.plainTextToggle) {
-      this.plainTextToggle.setAttribute('aria-pressed', this.settings.plainTextMode.toString());
-    }
-    
-    // Sync plain text customization visibility
-    if (this.plainTextCustomization) {
-      this.plainTextCustomization.style.display = this.settings.plainTextMode ? 'block' : 'none';
-    }
-    
-    // Sync range sliders
-    const fontSizeSlider = document.getElementById('fontSize');
-    if (fontSizeSlider) {
-      fontSizeSlider.value = this.settings.fontSize.toString();
-      const fontSizeValue = document.getElementById('fontSizeValue');
-      if (fontSizeValue) fontSizeValue.textContent = `${this.settings.fontSize}%`;
-    }
-    
-    const lineSpacingSlider = document.getElementById('lineSpacing');
-    if (lineSpacingSlider) {
-      lineSpacingSlider.value = this.settings.lineSpacing.toString();
-      const lineSpacingValue = document.getElementById('lineSpacingValue');
-      if (lineSpacingValue) lineSpacingValue.textContent = `${this.settings.lineSpacing}%`;
-    }
-    
-    // Sync font family select
-    const fontFamilySelect = document.getElementById('fontFamily');
-    if (fontFamilySelect) fontFamilySelect.value = this.settings.fontFamily;
-    
-    // Sync background color radio buttons
-    const backgroundRadios = document.querySelectorAll('input[name="backgroundColor"]');
-    backgroundRadios.forEach(radio => {
-      radio.checked = radio.value === this.settings.backgroundColor;
-    });
-  }
-
-  applySettings() {
-    // Apply keyboard helpers
-    if (this.settings.keyboardHelpers) {
-      document.body.classList.add('accessibility-keyboard-helpers');
-    } else {
-      document.body.classList.remove('accessibility-keyboard-helpers');
-    }
-    
-    // Apply screen reader helpers
-    if (this.settings.screenReaderHelpers) {
-      document.body.classList.add('accessibility-screen-reader-helpers');
-    } else {
-      document.body.classList.remove('accessibility-screen-reader-helpers');
-    }
-    
-    // Apply plain text mode
-    if (this.settings.plainTextMode) {
-      document.body.classList.add('accessibility-plain-text-mode');
-      this.applyPlainTextSettings();
-    } else {
-      document.body.classList.remove('accessibility-plain-text-mode');
-      this.removePlainTextSettings();
-    }
-  }
-
-  applyPlainTextSettings() {
-    if (!this.settings.plainTextMode) return;
-    
-    let style = document.getElementById('accessibility-plain-text-styles');
-    if (!style) {
-      style = document.createElement('style');
-      style.id = 'accessibility-plain-text-styles';
-      document.head.appendChild(style);
-    }
-    
-    style.textContent = `
-      .accessibility-plain-text-mode {
-        font-size: ${this.settings.fontSize}% !important;
-        line-height: ${this.settings.lineSpacing / 100} !important;
-      }
-      
-      .accessibility-plain-text-mode * {
-        font-size: inherit !important;
-        line-height: inherit !important;
-      }
-    `;
-    
-    // Apply font class
-    document.body.classList.remove('font-default', 'font-atkinson', 'font-opendyslexic');
-    document.body.classList.add(`font-${this.settings.fontFamily}`);
-    
-    // Apply background class
-    document.body.classList.remove('bg-white', 'bg-cream', 'bg-blue', 'bg-pink');
-    document.body.classList.add(`bg-${this.settings.backgroundColor}`);
-  }
-
   removePlainTextSettings() {
     const style = document.getElementById('accessibility-plain-text-styles');
     if (style) {
@@ -299,7 +618,7 @@ class AccessibilityPanel {
     
     // Remove classes
     document.body.classList.remove('font-default', 'font-atkinson', 'font-opendyslexic');
-    document.body.classList.remove('bg-white', 'bg-cream', 'bg-blue', 'bg-pink');
+    document.body.classList.remove('bg-white', 'bg-cream', 'bg-blue', 'bg-pink', 'bg-dark', 'bg-gray');
   }
 
   announceToScreenReader(message) {
@@ -310,62 +629,6 @@ class AccessibilityPanel {
       setTimeout(() => {
         if (this.liveRegion) this.liveRegion.textContent = '';
       }, 1000);
-    }
-  }
-
-  resetAllSettings() {
-    // Confirm with user
-    if (!confirm('Are you sure you want to reset all accessibility settings to default?')) {
-      return;
-    }
-    
-    // Clear localStorage
-    Object.keys(this.settings).forEach(key => {
-      localStorage.removeItem(`accessibility-${key}`);
-    });
-    
-    // Reset settings object
-    this.settings = {
-      keyboardHelpers: false,
-      screenReaderHelpers: false,
-      plainTextMode: false,
-      fontSize: 100,
-      lineSpacing: 160,
-      fontFamily: 'default',
-      backgroundColor: 'white'
-    };
-    
-    // Sync UI and apply
-    this.syncUIWithSettings();
-    this.applySettings();
-    
-    this.announceToScreenReader('All accessibility settings have been reset to default');
-  }
-
-  shareAccessibilityTips() {
-    const tips = `Accessibility Tips for Better Web Browsing:
-
-🔍 Use browser zoom: Ctrl/Cmd + Plus/Minus
-⌨️ Navigate with Tab key and arrow keys
-🎧 Try screen readers like NVDA (free) or VoiceOver (Mac)
-🎨 Adjust system display settings for high contrast
-📖 Use reader mode in your browser for cleaner text
-💬 Look for accessibility options in website settings
-
-Visit our accessibility statement for more information!`;
-
-    if (navigator.share) {
-      navigator.share({
-        title: 'Web Accessibility Tips',
-        text: tips
-      }).catch(console.error);
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(tips).then(() => {
-        alert('Accessibility tips copied to clipboard!');
-      }).catch(() => {
-        alert('Unable to share tips. Please check our accessibility statement for more information.');
-      });
     }
   }
 }
