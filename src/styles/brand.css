@@ -14,11 +14,12 @@
   --contact-email: "natashacharlton25@googlemail.com";
 
   /* ---- Core Brand Colors ---- */
-  --brand-primary: #e63961;    /* Red - main brand accent */
-  --brand-secondary: #184e77;  /* Blue - primary text & borders */
-  --brand-background: #fffaf6; /* Cream - page background */
-  --brand-text: #5c5b5b;       /* Gray - body text */
-  --brand-text-light: #ebdddd; /* White - text on dark backgrounds */
+  /* Import from variables.css - these are the source colors */
+  --brand-primary: var(--color-primary);    /* Red - main brand accent */
+  --brand-secondary: var(--color-secondary);  /* Blue - primary text & borders */
+  --brand-background: var(--color-background); /* Cream - page background */
+  --brand-text: var(--color-text-primary);       /* Gray - body text */
+  --brand-text-light: var(--color-text-light); /* White - text on dark backgrounds */
   
   /* ---- Highlight Colors ---- */
   --brand-highlight-bg: rgba(230, 57, 97, 0.2);  /* Primary color with transparency */
