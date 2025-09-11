@@ -308,14 +308,33 @@
 <script>
   // Search Popup JavaScript - Inline version
 
+  // Extend Window object to declare openSearchPopup
+  // @ts-ignore
+  // window.openSearchPopup will be assigned below
+
   class SearchPopup {
+    popup: HTMLElement | null;
+    searchInput: HTMLInputElement | null;
+    closeBtn: HTMLElement | null;
+    clearBtn: HTMLElement | null;
+    categoryBtns: NodeListOf<HTMLButtonElement>;
+    keywordTags: NodeListOf<HTMLButtonElement>;
+    searchResults: HTMLElement | null;
+    defaultContent: HTMLElement | null;
+    resultsContainer: HTMLElement | null;
+    resultsTitle: HTMLElement | null;
+    resultsCount: HTMLElement | null;
+    currentCategory: string;
+    searchTimeout: ReturnType<typeof setTimeout> | null;
+    sampleData: any[];
+
     constructor() {
       this.popup = document.getElementById('searchPopup');
-      this.searchInput = document.getElementById('searchInput');
+      this.searchInput = document.getElementById('searchInput') as HTMLInputElement;
       this.closeBtn = document.getElementById('closeSearchPopup');
       this.clearBtn = document.getElementById('clearSearch');
-      this.categoryBtns = document.querySelectorAll('.category-btn');
-      this.keywordTags = document.querySelectorAll('.keyword-tag');
+      this.categoryBtns = document.querySelectorAll('.category-btn') as NodeListOf<HTMLButtonElement>;
+      this.keywordTags = document.querySelectorAll('.keyword-tag') as NodeListOf<HTMLButtonElement>;
       this.searchResults = document.getElementById('searchResults');
       this.defaultContent = document.getElementById('defaultContent');
       this.resultsContainer = document.getElementById('resultsContainer');
@@ -348,10 +367,18 @@
       });
       
       // Search input events
-      this.searchInput?.addEventListener('input', (e) => this.handleSearch(e.target.value));
+      this.searchInput?.addEventListener('input', (e) => {
+        const target = e.target;
+        if (target && target instanceof HTMLInputElement) {
+          this.handleSearch(target.value);
+        }
+      });
       this.searchInput?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-          this.performSearch(e.target.value);
+          const target = e.target as HTMLInputElement | null;
+          if (target) {
+            this.performSearch(target.value);
+          }
         }
       });
       
@@ -400,7 +427,7 @@
       return this.popup?.classList.contains('show');
     }
 
-    selectCategory(btn) {
+    selectCategory(btn: HTMLButtonElement) {
       // Remove active from all buttons
       this.categoryBtns.forEach(b => b.classList.remove('active'));
       
@@ -408,7 +435,7 @@
       btn.classList.add('active');
       
       // Store selected category
-      this.currentCategory = btn.getAttribute('data-category');
+      this.currentCategory = btn.getAttribute('data-category') ?? 'all';
       
       // Re-search if there's a current search term
       const searchTerm = this.searchInput?.value?.trim();
@@ -417,16 +444,16 @@
       }
     }
 
-    searchKeyword(tag) {
+    searchKeyword(tag: HTMLButtonElement) {
       const keyword = tag.getAttribute('data-keyword');
       if (this.searchInput) {
-        this.searchInput.value = keyword;
-        this.performSearch(keyword);
+        this.searchInput.value = keyword ?? '';
+        this.performSearch(keyword ?? '');
         this.updateClearButton();
       }
     }
 
-    handleSearch(query) {
+    handleSearch(query: string) {
       // Clear previous timeout
       if (this.searchTimeout) {
         clearTimeout(this.searchTimeout);
@@ -445,7 +472,7 @@
       }, 300);
     }
 
-    async performSearch(query) {
+    async performSearch(query: string) {
       if (!query) {
         this.showDefaultContent();
         return;
@@ -487,7 +514,7 @@
       }
     }
 
-    filterResults(query, category) {
+    filterResults(query: string, category: string) {
       const searchTerms = query.toLowerCase().split(' ');
       
       return this.sampleData.filter(item => {
@@ -508,7 +535,20 @@
       });
     }
 
-    showSearchResults(results, query, isLoading = false, total = null) {
+    showSearchResults(
+      results: Array<{
+        title: string;
+        description: string;
+        content: string;
+        category: string;
+        url: string;
+        date: string;
+        tags: string[];
+      }>,
+      query: string,
+      isLoading = false,
+      total = null
+    ) {
       // Hide default content
       if (this.defaultContent) {
         this.defaultContent.style.display = 'none';
@@ -553,7 +593,7 @@
       }
     }
 
-    redirectToResultsPage(query, category = 'all') {
+    redirectToResultsPage(query: string, category: string = 'all') {
       // Close the popup first
       this.closePopup();
       
@@ -562,7 +602,7 @@
       window.location.href = url;
     }
 
-    showNoResultsInPopup(query) {
+    showNoResultsInPopup(query: string) {
       // Hide default content
       if (this.defaultContent) {
         this.defaultContent.style.display = 'none';
@@ -613,7 +653,15 @@
       `;
     }
 
-    renderResults(results) {
+    renderResults(results: Array<{
+      title: string;
+      description: string;
+      content: string;
+      category: string;
+      url: string;
+      date: string;
+      tags: string[];
+    }>) {
       if (!this.resultsContainer) return;
       
       if (results.length === 0) {
@@ -625,7 +673,15 @@
         return;
       }
       
-      this.resultsContainer.innerHTML = results.map(result => `
+      this.resultsContainer.innerHTML = results.map((result: {
+        title: string;
+        description: string;
+        content: string;
+        category: string;
+        url: string;
+        date: string;
+        tags: string[];
+      }) => `
         <a href="${result.url}" class="result-item">
           <h4 class="result-title">${this.highlightSearchTerms(result.title, this.searchInput?.value || '')}</h4>
           <p class="result-description">${this.highlightSearchTerms(result.description, this.searchInput?.value || '')}</p>
@@ -637,7 +693,7 @@
       `).join('');
     }
 
-    highlightSearchTerms(text, searchTerm) {
+    highlightSearchTerms(text: string, searchTerm: string) {
       if (!searchTerm) return text;
       
       const terms = searchTerm.toLowerCase().split(' ');
@@ -654,7 +710,7 @@
       return highlightedText;
     }
 
-    getCategoryIcon(category) {
+    getCategoryIcon(category: string) {
       return ''; // No icons, just return empty string
     }
 
@@ -825,7 +881,7 @@
   }
 
   // Ensure single initialization
-  let searchPopupInstance = null;
+  let searchPopupInstance: SearchPopup | null = null;
 
   // Initialize search popup when DOM is ready
   function initSearchPopup() {
