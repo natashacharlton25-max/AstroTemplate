@@ -36,28 +36,23 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Content Section -->
-      <div class="accessibility-content">
-        <!-- Quick Setup Section -->
-        <div class="quick-setup-section">
-          <h3>Quick Setup</h3>
-          <p class="section-description">Choose a preset configuration to get started instantly</p>
-          
-          <div class="preset-buttons">
-            <!-- Default Preset -->
-            <button class="preset-btn default-preset" data-preset="default">
-              <div class="preset-icon">
+    <div class="accessibility-container">
+      <!-- Feature Overview -->
+      <section class="features-overview">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon visual">
                 <svg fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                 </svg>
               </div>
-              <span class="preset-label">Default</span>
-            </button>
-
-            <!-- Vision Preset -->
-            <button class="preset-btn vision-preset" data-preset="vision">
-              <div class="preset-icon">
+            <h3 class="feature-title">Visual Assistance</h3>
+            <p class="feature-description">High contrast, font size adjustment, and color customization</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon motor">
                 <svg fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                 </svg>
