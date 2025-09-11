@@ -84,6 +84,8 @@ export function initOverlayManager() {
           const settingsToggle = document.querySelector('[data-settings-toggle]');
           settingsExpanded?.classList.remove('show');
           settingsToggle?.classList.remove('active');
+        } else {
+          console.warn('Accessibility Panel not available yet');
         }
         break;
     }

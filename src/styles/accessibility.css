@@ -1,0 +1,316 @@
+/* ==== ACCESSIBILITY FOUNDATION CSS ==== */
+/* Implementation of Claude.md accessibility requirements */
+
+/* ---- WCAG Contrast Requirements ---- */
+:root {
+  /* Accessibility-compliant text colors */
+  --text-primary: #1a1a1a;     /* Contrast ratio > 4.5:1 on white */
+  --text-secondary: #4a4a4a;   /* Contrast ratio > 4.5:1 on light backgrounds */
+  --link-color: #0066cc;       /* Contrast ratio > 4.5:1 */
+  --focus-outline: #005fcc;    /* High contrast focus indicator */
+  
+  /* Responsive typography base */
+  --base-font-size: 1rem;
+  --line-height-base: 1.6;
+  --font-family-base: system-ui, -apple-system, sans-serif;
+}
+
+/* ---- Responsive Typography ---- */
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--base-font-size);
+  line-height: var(--line-height-base);
+}
+
+/* Ensure text scales properly */
+@media (max-width: 768px) {
+  :root {
+    --base-font-size: 0.875rem;
+  }
+}
+
+/* ---- Enhanced Focus Indicators ---- */
+*:focus {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 2px;
+}
+
+/* Remove outline for mouse users, keep for keyboard users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 2px;
+}
+
+/* ---- Reduced Motion Support ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Reduce parallax effects */
+  [data-scroll-speed] {
+    transform: none !important;
+  }
+}
+
+/* ---- High Contrast Mode Support ---- */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #000000;
+    --link-color: #0000ff;
+    --focus-outline: #000000;
+  }
+  
+  /* Ensure borders and backgrounds are more defined */
+  button, input, select, textarea {
+    border: 2px solid currentColor;
+  }
+}
+
+/* ---- Screen Reader Only Class ---- */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ---- Keyboard Helpers (when enabled) ---- */
+.keyboard-helpers-enabled {
+  /* Enhanced focus indicators when keyboard helpers are active */
+}
+
+.keyboard-helpers-enabled *:focus {
+  outline: 3px solid var(--focus-outline);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(0, 95, 204, 0.1);
+}
+
+.keyboard-helpers-enabled button:focus,
+.keyboard-helpers-enabled a:focus,
+.keyboard-helpers-enabled [tabindex]:focus {
+  background-color: rgba(0, 95, 204, 0.1);
+}
+
+/* ---- Screen Reader Helpers (when enabled) ---- */
+.screen-reader-helpers-enabled {
+  /* Additional ARIA support when screen reader helpers are active */
+}
+
+/* ---- Plain Text Mode Styles ---- */
+.plain-text-mode {
+  /* Hide decorative content */
+}
+
+.plain-text-mode img:not([alt]),
+.plain-text-mode svg:not([role="img"]),
+.plain-text-mode video,
+.plain-text-mode iframe,
+.plain-text-mode canvas,
+.plain-text-mode .decorative {
+  display: none !important;
+}
+
+.plain-text-mode * {
+  max-width: none !important;
+  float: none !important;
+  text-align: left !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+.plain-text-mode main {
+  max-width: 65ch;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--plain-text-bg, #ffffff);
+  color: var(--plain-text-color, #000000);
+}
+
+/* Convert complex layouts to simple stacking */
+.plain-text-mode .grid,
+.plain-text-mode .flex,
+.plain-text-mode [class*="grid-"],
+.plain-text-mode [class*="flex-"] {
+  display: block !important;
+}
+
+/* Convert buttons to text links */
+.plain-text-mode button {
+  background: none !important;
+  border: none !important;
+  color: var(--link-color) !important;
+  text-decoration: underline !important;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+  display: inline;
+}
+
+.plain-text-mode button:hover,
+.plain-text-mode button:focus {
+  background: none !important;
+  text-decoration: none !important;
+}
+
+/* ---- Plain Text Mode Color Themes ---- */
+.plain-text-mode.bg-white { 
+  --plain-text-bg: #ffffff; 
+  --plain-text-color: #000000; 
+}
+
+.plain-text-mode.bg-cream { 
+  --plain-text-bg: #f5f5dc; 
+  --plain-text-color: #000000; 
+}
+
+.plain-text-mode.bg-blue { 
+  --plain-text-bg: #e6f3ff; 
+  --plain-text-color: #000033; 
+}
+
+.plain-text-mode.bg-pink { 
+  --plain-text-bg: #ffe6f0; 
+  --plain-text-color: #330022; 
+}
+
+/* ---- Plain Text Mode Font Options ---- */
+.plain-text-mode.font-atkinson { 
+  font-family: 'Atkinson Hyperlegible', sans-serif; 
+}
+
+.plain-text-mode.font-opendyslexic { 
+  font-family: 'OpenDyslexic', sans-serif; 
+}
+
+/* ---- Plain Text Mode Typography Scaling ---- */
+.plain-text-mode {
+  font-size: calc(var(--plain-text-font-size, 100) * 1%);
+  line-height: calc(var(--plain-text-line-spacing, 160) * 1%);
+}
+
+/* Ensure plain text scaling applies to all elements in plain text mode */
+.plain-text-mode *:not(.accessibility-popup-container):not(.accessibility-popup-container *) {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* ---- Link and Interactive Element Improvements ---- */
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:focus {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 2px;
+  text-decoration: none;
+}
+
+/* ---- Form Accessibility Improvements ---- */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+input, select, textarea {
+  border: 1px solid #666;
+  padding: 0.5rem;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 2px;
+  border-color: var(--focus-outline);
+}
+
+/* ---- Button Accessibility ---- */
+button {
+  cursor: pointer;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button:focus {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 2px;
+}
+
+/* ---- Table Accessibility ---- */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #666;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+/* ---- Image Accessibility ---- */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure decorative images are properly marked */
+img:not([alt]) {
+  /* Flag for review - all images should have alt attributes */
+}
+
+img[alt=""] {
+  /* Decorative images - properly marked */
+}
+
+/* ---- Print Accessibility ---- */
+@media print {
+  .skip-link,
+  .accessibility-trigger,
+  .accessibility-panel,
+  nav,
+  .bottom-nav {
+    display: none !important;
+  }
+  
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+  
+  a[href^="#"]::after {
+    content: "";
+  }
+}
