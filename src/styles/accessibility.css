@@ -16,124 +16,12 @@
 }
 
 /* ---- DARK MODE STYLES ---- */
-
-/* Dark mode root variables */
-body.accessibility-dark-mode,
-html.accessibility-dark-mode {
-  --bg-primary: #1a1e26;
-  --bg-secondary: #252a35;
-  --text-primary: #e2e8f0;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --border-color: #374151;
-  --link-color: #60a5fa;
-  --link-hover: #93c5fd;
-}
-
-/* Global dark mode styles with higher specificity */
+/* Main dark mode body background override - maximum priority */
 html.accessibility-dark-mode,
 html.accessibility-dark-mode body,
 body.accessibility-dark-mode {
-  background-color: var(--bg-primary) !important;
-  background: var(--bg-primary) !important;
-  color: var(--text-primary) !important;
-}
-
-/* Extra specific targeting for stubborn background overrides */
-html.accessibility-dark-mode *,
-body.accessibility-dark-mode *,
-.accessibility-dark-mode,
-.accessibility-dark-mode * {
-  background-color: transparent;
-}
-
-/* But restore the root backgrounds */
-html.accessibility-dark-mode,
-html.accessibility-dark-mode body,
-body.accessibility-dark-mode,
-body.accessibility-dark-mode:before,
-body.accessibility-dark-mode:after {
-  background-color: var(--bg-primary) !important;
-  background: var(--bg-primary) !important;
-}
-
-/* Dark mode for main content areas */
-body.accessibility-dark-mode main,
-body.accessibility-dark-mode section,
-body.accessibility-dark-mode article,
-body.accessibility-dark-mode div {
-  background-color: transparent;
-  color: inherit;
-}
-
-/* Dark mode for text elements */
-body.accessibility-dark-mode h1,
-body.accessibility-dark-mode h2,
-body.accessibility-dark-mode h3,
-body.accessibility-dark-mode h4,
-body.accessibility-dark-mode h5,
-body.accessibility-dark-mode h6 {
-  color: var(--text-primary) !important;
-}
-
-body.accessibility-dark-mode p,
-body.accessibility-dark-mode span,
-body.accessibility-dark-mode div {
-  color: var(--text-primary);
-}
-
-/* Dark mode for brand hero specifically */
-body.accessibility-dark-mode .brand-text-container {
-  color: var(--text-primary) !important;
-}
-
-body.accessibility-dark-mode .brand-text-container h1 {
-  color: var(--text-primary) !important;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
-}
-
-body.accessibility-dark-mode .brand-text-container p {
-  color: var(--text-secondary) !important;
-}
-
-/* Dark mode for links */
-body.accessibility-dark-mode a {
-  color: var(--link-color) !important;
-}
-
-body.accessibility-dark-mode a:hover {
-  color: var(--link-hover) !important;
-}
-
-/* Dark mode for buttons */
-body.accessibility-dark-mode button:not(.preset-card):not(.settings-toggle):not(.settings-item) {
-  background-color: var(--bg-secondary) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-color) !important;
-}
-
-/* Dark mode for forms */
-body.accessibility-dark-mode input,
-body.accessibility-dark-mode textarea,
-body.accessibility-dark-mode select {
-  background-color: var(--bg-secondary) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-color) !important;
-}
-
-/* Dark mode for navigation elements */
-body.accessibility-dark-mode nav {
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-}
-
-/* Dark mode for cards and panels */
-body.accessibility-dark-mode .card,
-body.accessibility-dark-mode .panel,
-body.accessibility-dark-mode .container {
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  border-color: var(--border-color);
+  background-color: #1a1e26 !important;
+  background: #1a1e26 !important;
 }
 
 /* ---- Responsive Typography ---- */

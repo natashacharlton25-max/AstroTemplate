@@ -70,6 +70,56 @@
   --glass-border-heavy: rgba(255, 252, 240, 0.55);
 }
 
+/* ---- DARK MODE OVERRIDES ---- */
+/* Dark mode variables that override the light theme */
+body.accessibility-dark-mode,
+html.accessibility-dark-mode,
+.accessibility-dark-mode {
+  /* Override brand colors for dark mode */
+  --brand-background: #1a1e26;
+  --brand-text: #e2e8f0;
+  --brand-text-light: #f1f5f9;
+  --brand-secondary: #cbd5e1;
+  --brand-primary: #f87171;
+  
+  /* Dark mode specific colors */
+  --brand-neutral-dark: #f1f5f9;
+  --brand-neutral-mid: #cbd5e1;
+  --brand-neutral-light: #374151;
+  
+  /* Navigation overrides for dark mode */
+  --nav-background: rgba(37, 42, 53, 0.9);
+  --nav-border: rgba(59, 69, 85, 0.4);
+  --nav-text-primary: #cbd5e1;
+  --nav-hover-bg: rgba(248, 113, 113, 0.1);
+  
+  /* Glassmorphic overrides for dark mode */
+  --glass-background: rgba(37, 42, 53, 0.8);
+  --glass-light: rgba(37, 42, 53, 0.6);
+  --glass-medium: rgba(37, 42, 53, 0.8);
+  --glass-heavy: rgba(37, 42, 53, 0.95);
+  --glass-border: 1px solid rgba(59, 69, 85, 0.4);
+  --glass-border-light: rgba(59, 69, 85, 0.2);
+  --glass-border-medium: rgba(59, 69, 85, 0.4);
+  --glass-border-heavy: rgba(59, 69, 85, 0.6);
+}
+
+/* Ensure body background changes in dark mode with maximum specificity */
+html.accessibility-dark-mode,
+html.accessibility-dark-mode body,
+body.accessibility-dark-mode,
+.accessibility-dark-mode,
+.accessibility-dark-mode body {
+  background-color: var(--brand-background) !important;
+  background: var(--brand-background) !important;
+}
+
+/* Additional fallback with direct color value */
+body.accessibility-dark-mode {
+  background-color: #1a1e26 !important;
+  background: #1a1e26 !important;
+}
+
 /* ==== GLOBAL STYLES ==== */
 
 /* Base Typography */
@@ -266,4 +316,12 @@ span.result-url,
   letter-spacing: 1.2px !important;
   font-weight: 600 !important;
   font-family: var(--font-body) !important;
+}
+
+/* CRITICAL: Dark mode body background override - must be at end of file */
+html.accessibility-dark-mode,
+html.accessibility-dark-mode body,
+body.accessibility-dark-mode {
+  background-color: #1a1e26 !important;
+  background: #1a1e26 !important;
 }

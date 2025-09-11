@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 250, 246, 0.95);
+  background: color-mix(in srgb, var(--brand-background) 95%, transparent);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@
 
 /* Popup Container - Matching Contact Popup */
 .popup-container {
-  background: #fffaf6;
+  background: var(--brand-background);
   border-radius: 24px;
   max-width: 1400px;
   width: 100%;
