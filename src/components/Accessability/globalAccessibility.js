@@ -1,0 +1,183 @@
+// Global Accessibility Settings Handler
+// This ensures accessibility settings work across all pages, not just the accessibility page
+
+class GlobalAccessibility {
+  constructor() {
+    this.settings = {
+      keyboardHelpers: localStorage.getItem('accessibility-keyboardHelpers') === 'true',
+      screenReaderHelpers: localStorage.getItem('accessibility-screenReaderHelpers') === 'true',
+      plainTextMode: localStorage.getItem('accessibility-plainTextMode') === 'true',
+      darkMode: localStorage.getItem('accessibility-darkMode') === 'true',
+      fontSize: parseInt(localStorage.getItem('accessibility-fontSize') || '100'),
+      lineSpacing: parseInt(localStorage.getItem('accessibility-lineSpacing') || '160'),
+      fontFamily: localStorage.getItem('accessibility-fontFamily') || 'default',
+      backgroundColor: localStorage.getItem('accessibility-backgroundColor') || 'white'
+    };
+    
+    this.init();
+  }
+
+  init() {
+    // Apply all settings on page load
+    this.applySettings();
+    
+    // Listen for storage changes (settings changed on other tabs/pages)
+    window.addEventListener('storage', (e) => {
+      if (e.key && e.key.startsWith('accessibility-')) {
+        this.reloadSettings();
+        this.applySettings();
+      }
+    });
+    
+    // Global keyboard shortcuts
+    document.addEventListener('keydown', (e) => this.handleGlobalKeyDown(e));
+    
+    // Expose global dark mode toggle for bottom nav
+    window.toggleGlobalDarkMode = () => this.toggleDarkMode();
+    window.globalAccessibility = this;
+  }
+
+  reloadSettings() {
+    this.settings = {
+      keyboardHelpers: localStorage.getItem('accessibility-keyboardHelpers') === 'true',
+      screenReaderHelpers: localStorage.getItem('accessibility-screenReaderHelpers') === 'true',
+      plainTextMode: localStorage.getItem('accessibility-plainTextMode') === 'true',
+      darkMode: localStorage.getItem('accessibility-darkMode') === 'true',
+      fontSize: parseInt(localStorage.getItem('accessibility-fontSize') || '100'),
+      lineSpacing: parseInt(localStorage.getItem('accessibility-lineSpacing') || '160'),
+      fontFamily: localStorage.getItem('accessibility-fontFamily') || 'default',
+      backgroundColor: localStorage.getItem('accessibility-backgroundColor') || 'white'
+    };
+  }
+
+  applySettings() {
+    // Apply dark mode
+    if (this.settings.darkMode) {
+      document.documentElement.classList.add('accessibility-dark-mode');
+      document.body.classList.add('accessibility-dark-mode');
+    } else {
+      document.documentElement.classList.remove('accessibility-dark-mode');
+      document.body.classList.remove('accessibility-dark-mode');
+    }
+    
+    // Apply keyboard helpers
+    if (this.settings.keyboardHelpers) {
+      document.documentElement.classList.add('accessibility-keyboard-helpers');
+      document.body.classList.add('accessibility-keyboard-helpers');
+    } else {
+      document.documentElement.classList.remove('accessibility-keyboard-helpers');
+      document.body.classList.remove('accessibility-keyboard-helpers');
+    }
+    
+    // Apply screen reader helpers
+    if (this.settings.screenReaderHelpers) {
+      document.documentElement.classList.add('accessibility-screen-reader-helpers');
+      document.body.classList.add('accessibility-screen-reader-helpers');
+    } else {
+      document.documentElement.classList.remove('accessibility-screen-reader-helpers');
+      document.body.classList.remove('accessibility-screen-reader-helpers');
+    }
+    
+    // Apply plain text mode
+    if (this.settings.plainTextMode) {
+      document.documentElement.classList.add('accessibility-plain-text-mode');
+      document.body.classList.add('accessibility-plain-text-mode');
+      this.applyPlainTextSettings();
+    } else {
+      document.documentElement.classList.remove('accessibility-plain-text-mode');
+      document.body.classList.remove('accessibility-plain-text-mode');
+      this.removePlainTextSettings();
+    }
+    
+    // Apply font family
+    document.body.classList.remove('font-default', 'font-atkinson', 'font-opendyslexic');
+    if (this.settings.fontFamily && this.settings.fontFamily !== 'default') {
+      document.body.classList.add(`font-${this.settings.fontFamily}`);
+    }
+    
+    // Apply background color
+    document.body.classList.remove('bg-white', 'bg-cream', 'bg-blue', 'bg-pink', 'bg-dark', 'bg-gray');
+    if (this.settings.backgroundColor && this.settings.backgroundColor !== 'white' && this.settings.backgroundColor !== 'default') {
+      document.body.classList.add(`bg-${this.settings.backgroundColor}`);
+    }
+    
+    // Update bottom nav dark mode icon if it exists
+    this.updateBottomNavDarkModeIcon();
+  }
+
+  applyPlainTextSettings() {
+    if (!this.settings.plainTextMode) return;
+    
+    // Use CSS custom properties to set the values
+    document.documentElement.style.setProperty('--plain-text-font-size', this.settings.fontSize.toString());
+    document.documentElement.style.setProperty('--plain-text-line-spacing', this.settings.lineSpacing.toString());
+  }
+
+  removePlainTextSettings() {
+    // Remove CSS custom properties
+    document.documentElement.style.removeProperty('--plain-text-font-size');
+    document.documentElement.style.removeProperty('--plain-text-line-spacing');
+  }
+
+  toggleDarkMode() {
+    this.settings.darkMode = !this.settings.darkMode;
+    localStorage.setItem('accessibility-darkMode', this.settings.darkMode.toString());
+    this.applySettings();
+    
+    // Trigger storage event for other tabs
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'accessibility-darkMode',
+      newValue: this.settings.darkMode.toString(),
+      url: window.location.href
+    }));
+  }
+
+  togglePlainTextMode() {
+    this.settings.plainTextMode = !this.settings.plainTextMode;
+    localStorage.setItem('accessibility-plainTextMode', this.settings.plainTextMode.toString());
+    this.applySettings();
+    
+    // Trigger storage event for other tabs
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'accessibility-plainTextMode',
+      newValue: this.settings.plainTextMode.toString(),
+      url: window.location.href
+    }));
+  }
+
+  handleGlobalKeyDown(e) {
+    // D key to toggle dark mode (only if not in input field)
+    if (e.key === 'd' || e.key === 'D') {
+      const target = e.target;
+      if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+        e.preventDefault();
+        this.toggleDarkMode();
+      }
+    }
+    
+    // T key to toggle plain text mode (only if not in input field)
+    if (e.key === 't' || e.key === 'T') {
+      const target = e.target;
+      if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+        e.preventDefault();
+        this.togglePlainTextMode();
+      }
+    }
+  }
+
+  updateBottomNavDarkModeIcon() {
+    // Update bottom nav dark mode icon if the function exists
+    if (window.updateBottomNavDarkModeIcon) {
+      window.updateBottomNavDarkModeIcon();
+    }
+  }
+}
+
+// Initialize global accessibility when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    new GlobalAccessibility();
+  });
+} else {
+  new GlobalAccessibility();
+}

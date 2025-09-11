@@ -197,7 +197,7 @@ body {
 }
 
 /* Ensure plain text scaling applies to all elements in plain text mode */
-.plain-text-mode *:not(.accessibility-popup-container):not(.accessibility-popup-container *) {
+.plain-text-mode *:not(.accessibility-controls):not(.accessibility-controls *) {
   font-size: inherit !important;
   line-height: inherit !important;
 }

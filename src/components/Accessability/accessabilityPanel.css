@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: center;
   z-index: 10000;
-  padding: 20px;
+  padding: 80px 20px 100px 20px;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
@@ -31,15 +31,16 @@
 .popup-container {
   background: #fffaf6;
   border-radius: 24px;
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   display: grid;
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: 450px 1fr;
   transform: translateY(30px) scale(0.95);
   transition: all 0.4s ease;
+  margin: 0 auto;
 }
 
 @media (max-width: 768px) {
@@ -150,31 +151,72 @@
 
 /* Form Section - Matching Contact Popup */
 .popup-form-section {
-  padding: 20px 32px 40px 32px;
+  padding: 32px 40px 40px 40px;
   background: #fffaf6;
   overflow-y: auto;
   position: relative;
-  max-height: calc(90vh - 40px);
+  max-height: calc(85vh - 40px);
 }
 
 .accessibility-panel-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
   min-height: min-content;
+  max-width: none;
 }
 
 /* Preset Cards */
 .preset-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 20px;
+  gap: 16px;
+  margin-top: 24px;
 }
 
-@media (max-width: 1200px) {
+/* Desktop enhancements for larger screens */
+@media (min-width: 1200px) {
+  .popup-container {
+    max-width: 1600px;
+    grid-template-columns: 500px 1fr;
+  }
+  
+  .popup-form-section {
+    padding: 40px 48px 48px 48px;
+  }
+  
+  .accessibility-panel-content {
+    gap: 40px;
+  }
+  
   .preset-cards {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 28px;
+  }
+  
+  .accessibility-section {
+    padding: 32px 0;
+  }
+  
+  .accessibility-controls {
+    gap: 28px;
+  }
+  
+  .control-item {
+    padding: 24px;
+    gap: 24px;
+    border-radius: 16px;
+  }
+  
+  .plain-text-controls {
+    gap: 28px;
+  }
+  
+  .plain-text-customization {
+    padding: 28px;
+    margin-top: 24px;
+    border-radius: 16px;
   }
 }
 
@@ -261,7 +303,7 @@
 
 /* Sections */
 .accessibility-section {
-  padding: 24px 0;
+  padding: 28px 0;
   border-bottom: 1px solid rgba(24, 78, 119, 0.1);
 }
 
@@ -279,8 +321,8 @@
 
 .section-description {
   color: #5c5b5b;
-  font-size: 14px;
-  margin: 0 0 20px 0;
+  font-size: 15px;
+  margin: 0 0 24px 0;
   opacity: 0.8;
   line-height: 1.5;
 }
@@ -289,18 +331,18 @@
 .accessibility-controls {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .control-item {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
-  padding: 16px;
+  gap: 20px;
+  padding: 20px;
   background: rgba(24, 78, 119, 0.03);
   border: 1px solid rgba(24, 78, 119, 0.1);
-  border-radius: 12px;
+  border-radius: 14px;
   transition: all 0.2s ease;
 }
 
@@ -387,7 +429,7 @@
 .plain-text-controls {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .plain-text-main {
@@ -448,9 +490,9 @@
 .plain-text-customization {
   background: rgba(24, 78, 119, 0.03);
   border: 1px solid rgba(24, 78, 119, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 16px;
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 20px;
 }
 
 .customization-group {
@@ -691,6 +733,8 @@
   .popup-container {
     border-radius: 20px;
     max-height: 95vh;
+    max-width: 1200px;
+    grid-template-columns: 1fr;
   }
 
   .popup-header {
@@ -704,6 +748,39 @@
 
   .popup-form-section {
     padding: 20px 20px 24px 20px;
+  }
+  
+  .accessibility-panel-content {
+    gap: 20px;
+  }
+  
+  .accessibility-section {
+    padding: 20px 0;
+  }
+  
+  .section-description {
+    font-size: 14px;
+    margin: 0 0 20px 0;
+  }
+  
+  .accessibility-controls {
+    gap: 20px;
+  }
+  
+  .control-item {
+    gap: 16px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .plain-text-controls {
+    gap: 20px;
+  }
+  
+  .plain-text-customization {
+    padding: 20px;
+    margin-top: 16px;
+    border-radius: 12px;
   }
 
   .preset-cards {
