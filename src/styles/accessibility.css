@@ -15,6 +15,15 @@
   --font-family-base: system-ui, -apple-system, sans-serif;
 }
 
+/* ---- DARK MODE STYLES ---- */
+/* Main dark mode body background override - maximum priority */
+html.accessibility-dark-mode,
+html.accessibility-dark-mode body,
+body.accessibility-dark-mode {
+  background-color: #1a1e26 !important;
+  background: #1a1e26 !important;
+}
+
 /* ---- Responsive Typography ---- */
 body {
   font-family: var(--font-family-base);
@@ -197,7 +206,7 @@ body {
 }
 
 /* Ensure plain text scaling applies to all elements in plain text mode */
-.plain-text-mode *:not(.accessibility-popup-container):not(.accessibility-popup-container *) {
+.plain-text-mode *:not(.accessibility-controls):not(.accessibility-controls *) {
   font-size: inherit !important;
   line-height: inherit !important;
 }

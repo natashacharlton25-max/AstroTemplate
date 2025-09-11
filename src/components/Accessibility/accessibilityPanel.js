@@ -1,8 +1,10 @@
 // Enhanced AccessibilityPanel with Dark Mode Support
 
+const DEBUG_ACCESSIBILITY_PANEL = false;
+
 class AccessibilityPanel {
   constructor() {
-    console.log('AccessibilityPanel initializing...');
+    if (DEBUG_ACCESSIBILITY_PANEL) console.log('AccessibilityPanel initializing...');
     
     this.plainTextToggle = document.getElementById('plainTextToggle');
     this.plainTextCustomization = document.getElementById('plainTextCustomization');
@@ -67,8 +69,8 @@ class AccessibilityPanel {
     
     // Expose global functions for other components
     window.accessibilityPanelInstance = this;
-    
-    console.log('AccessibilityPanel initialized with settings:', this.settings);
+
+    if (DEBUG_ACCESSIBILITY_PANEL) console.log('AccessibilityPanel initialized with settings:', this.settings);
   }
 
   initializeDarkMode() {
@@ -131,8 +133,10 @@ class AccessibilityPanel {
 
   applyDarkMode() {
     if (this.settings.darkMode) {
+      document.documentElement.classList.add('accessibility-dark-mode');
       document.body.classList.add('accessibility-dark-mode');
     } else {
+      document.documentElement.classList.remove('accessibility-dark-mode');
       document.body.classList.remove('accessibility-dark-mode');
     }
     
@@ -392,25 +396,36 @@ class AccessibilityPanel {
     
     // Sync keyboard helpers (critical CSS may have already applied this)
     if (this.settings.keyboardHelpers) {
+      document.documentElement.classList.add('accessibility-keyboard-helpers');
       document.body.classList.add('accessibility-keyboard-helpers');
     } else {
+      document.documentElement.classList.remove('accessibility-keyboard-helpers');
       document.body.classList.remove('accessibility-keyboard-helpers');
     }
     
     // Sync screen reader helpers (critical CSS may have already applied this)
     if (this.settings.screenReaderHelpers) {
+      document.documentElement.classList.add('accessibility-screen-reader-helpers');
       document.body.classList.add('accessibility-screen-reader-helpers');
     } else {
+      document.documentElement.classList.remove('accessibility-screen-reader-helpers');
       document.body.classList.remove('accessibility-screen-reader-helpers');
     }
     
     // Sync plain text mode (critical CSS may have already applied this)
     if (this.settings.plainTextMode) {
+      document.documentElement.classList.add('accessibility-plain-text-mode');
       document.body.classList.add('accessibility-plain-text-mode');
       this.applyPlainTextSettings();
     } else {
+      document.documentElement.classList.remove('accessibility-plain-text-mode');
       document.body.classList.remove('accessibility-plain-text-mode');
       this.removePlainTextSettings();
+    }
+    
+    // Sync with global accessibility if it exists
+    if (window.globalAccessibility) {
+      window.globalAccessibility.reloadSettings();
     }
   }
 

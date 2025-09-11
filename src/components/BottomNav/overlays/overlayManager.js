@@ -103,9 +103,18 @@ export function initOverlayManager() {
         break;
         
       case 'dark-mode':
-        // Toggle dark mode via accessibility system
-        if (window.accessibilityPanelInstance && window.accessibilityPanelInstance.toggleDarkMode) {
-          window.accessibilityPanelInstance.toggleDarkMode();
+        // Toggle dark mode via global accessibility system
+        if (window.toggleGlobalDarkMode) {
+          window.toggleGlobalDarkMode();
+          // Update the icon state
+          updateDarkModeIcon();
+          // Close settings menu after action
+          const settingsExpanded = document.querySelector('[data-settings-expanded]');
+          const settingsToggle = document.querySelector('[data-settings-toggle]');
+          settingsExpanded?.classList.remove('show');
+          settingsToggle?.classList.remove('active');
+        } else if (window.globalAccessibility) {
+          window.globalAccessibility.toggleDarkMode();
           // Update the icon state
           updateDarkModeIcon();
           // Close settings menu after action
@@ -114,7 +123,7 @@ export function initOverlayManager() {
           settingsExpanded?.classList.remove('show');
           settingsToggle?.classList.remove('active');
         } else {
-          console.warn('Accessibility Panel not available yet');
+          console.warn('Global Accessibility not available yet');
         }
         break;
         

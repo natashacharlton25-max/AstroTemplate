@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import fs from 'node:fs';
 import path from 'node:path';
 import { glob } from 'glob';
+import precomputedSearchData from '../../search-index.json' assert { type: 'json' };
 
 export const prerender = false;
 
@@ -181,6 +182,19 @@ async function getCachedSearchData() {
   return searchDataCache;
 }
 
+// Use precomputed data in production, falling back to dynamic discovery in development
+async function getSearchData() {
+  if (import.meta.env.DEV) {
+    return await getCachedSearchData();
+  }
+
+  if ((precomputedSearchData as any[]).length) {
+    return precomputedSearchData as any[];
+  }
+
+  return await getCachedSearchData();
+}
+
 // Legacy fallback data in case dynamic discovery fails
 const fallbackData = [
   // Pages
@@ -348,20 +362,20 @@ export const GET: APIRoute = async ({ url }) => {
       );
     }
 
-    // Get dynamic content with fallback
+    // Get search content using precomputed data when available
     let searchData;
     try {
-      const dynamicData = await getCachedSearchData();
-      
-      // If we have limited dynamic content, combine it with fallback data
-      if (dynamicData.length < 5) {
+      const dynamicData = await getSearchData();
+
+      // During development, supplement with fallback data if discovery is limited
+      if (import.meta.env.DEV && dynamicData.length < 5) {
         console.log(`Found ${dynamicData.length} dynamic pages, supplementing with fallback data`);
         searchData = [...dynamicData, ...fallbackData];
       } else {
         searchData = dynamicData;
       }
     } catch (error) {
-      console.error('Error getting dynamic content, using fallback:', error);
+      console.error('Error getting search content, using fallback:', error);
       searchData = fallbackData;
     }
 
@@ -391,14 +405,14 @@ export const GET: APIRoute = async ({ url }) => {
       const aScore = searchTerms.reduce((score, term) => {
         if (a.title.toLowerCase().includes(term)) score += 10;
         if (a.description.toLowerCase().includes(term)) score += 5;
-        if (a.tags.some(tag => tag.toLowerCase().includes(term))) score += 3;
+        if (a.tags.some((tag: string) => tag.toLowerCase().includes(term))) score += 3;
         return score;
       }, 0);
       
       const bScore = searchTerms.reduce((score, term) => {
         if (b.title.toLowerCase().includes(term)) score += 10;
         if (b.description.toLowerCase().includes(term)) score += 5;
-        if (b.tags.some(tag => tag.toLowerCase().includes(term))) score += 3;
+        if (b.tags.some((tag: string) => tag.toLowerCase().includes(term))) score += 3;
         return score;
       }, 0);
       

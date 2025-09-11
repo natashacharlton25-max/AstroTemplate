@@ -20,7 +20,9 @@
   "exclude": [
     "dist",
     "node_modules",
-    "src/components/BottomNav/contact-form/Contact-Popup.astro"
+    "src/components/BottomNav/contact-form/Contact-Popup.astro",
+    "src/pages/accessibility-fixed.astro",
+    "src/pages/accessibility-new.astro"
   ]
 }
 

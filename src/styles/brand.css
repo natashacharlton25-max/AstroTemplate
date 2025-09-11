@@ -14,11 +14,12 @@
   --contact-email: "natashacharlton25@googlemail.com";
 
   /* ---- Core Brand Colors ---- */
-  --brand-primary: #e63961;    /* Red - main brand accent */
-  --brand-secondary: #184e77;  /* Blue - primary text & borders */
-  --brand-background: #fffaf6; /* Cream - page background */
-  --brand-text: #5c5b5b;       /* Gray - body text */
-  --brand-text-light: #ebdddd; /* White - text on dark backgrounds */
+  /* Import from variables.css - these are the source colors */
+  --brand-primary: var(--color-primary);    /* Red - main brand accent */
+  --brand-secondary: var(--color-secondary);  /* Blue - primary text & borders */
+  --brand-background: var(--color-background); /* Cream - page background */
+  --brand-text: var(--color-text-primary);       /* Gray - body text */
+  --brand-text-light: var(--color-text-light); /* White - text on dark backgrounds */
   
   /* ---- Highlight Colors ---- */
   --brand-highlight-bg: rgba(230, 57, 97, 0.2);  /* Primary color with transparency */
@@ -68,6 +69,134 @@
   --glass-border-light: rgba(255, 252, 240, 0.2);
   --glass-border-medium: rgba(255, 252, 240, 0.38);
   --glass-border-heavy: rgba(255, 252, 240, 0.55);
+
+  /* Accessibility Hero Section */
+  --accessibility-hero-bg: var(--brand-background);
+  --accessibility-hero-icon-gradient: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  --accessibility-hero-text-gradient: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  --accessibility-hero-primary: var(--brand-secondary);
+  --accessibility-hero-secondary: var(--brand-secondary);
+  --accessibility-hero-text: var(--brand-text);
+  --accessibility-hero-pattern-primary: var(--brand-primary);
+  --accessibility-hero-pattern-secondary: var(--brand-secondary);
+  --accessibility-hero-gradient: linear-gradient(
+    135deg,
+    var(--brand-background) 0%,
+    color-mix(in srgb, var(--brand-background) 95%, var(--brand-primary) 5%) 50%,
+    var(--brand-background) 100%
+  );
+  
+  /* Accessibility Feature Colors - Brand Aligned */
+  --accessibility-visual-gradient: linear-gradient(135deg, var(--brand-secondary), var(--brand-primary));
+  --accessibility-motor-gradient: linear-gradient(135deg, var(--brand-accent-1), var(--brand-accent-2));
+  --accessibility-cognitive-gradient: linear-gradient(135deg, var(--brand-primary), var(--brand-accent-1));
+  --accessibility-default-gradient: linear-gradient(135deg, var(--brand-neutral-mid), var(--brand-neutral-light));
+  
+  /* Accessibility Section Backgrounds */
+  --accessibility-section-bg: linear-gradient(135deg, 
+    color-mix(in srgb, var(--brand-background) 98%, var(--brand-primary) 2%),
+    color-mix(in srgb, var(--brand-background) 98%, var(--brand-secondary) 2%)
+  );
+  --accessibility-section-accent: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
+  
+  /* Accessibility Card System */
+  --accessibility-card-bg: var(--brand-background);
+  --accessibility-card-text: var(--brand-text);
+  --accessibility-card-border: color-mix(in srgb, var(--brand-secondary) 15%, transparent);
+  --accessibility-card-shadow: var(--shadow-md);
+  --accessibility-card-shadow-hover: var(--shadow-lg);
+  --accessibility-card-accent: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+  
+  /* Accessibility Feature Tags */
+  --accessibility-tag-bg: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  --accessibility-tag-text: var(--brand-primary);
+  --accessibility-tag-border: color-mix(in srgb, var(--brand-primary) 20%, transparent);
+  
+  /* Accessibility Preset Colors */
+  --preset-default-color: var(--brand-neutral-mid);
+  --preset-default-bg: var(--accessibility-default-gradient);
+  --preset-vision-color: var(--brand-secondary);
+  --preset-vision-bg: var(--accessibility-visual-gradient);
+  --preset-motor-color: var(--brand-accent-2);
+  --preset-motor-bg: var(--accessibility-motor-gradient);
+  --preset-cognitive-color: var(--brand-primary);
+  --preset-cognitive-bg: var(--accessibility-cognitive-gradient);
+}
+
+/* ---- DARK MODE OVERRIDES ---- */
+/* Dark mode variables that override the light theme */
+body.accessibility-dark-mode,
+html.accessibility-dark-mode,
+.accessibility-dark-mode {
+  /* Override brand colors for dark mode */
+  --brand-background: #1a1e26;
+  --brand-text: #e2e8f0;
+  --brand-text-light: #f1f5f9;
+  --brand-secondary: #cbd5e1;
+  --brand-primary: #f87171;
+  
+  /* Dark mode specific colors */
+  --brand-neutral-dark: #f1f5f9;
+  --brand-neutral-mid: #cbd5e1;
+  --brand-neutral-light: #374151;
+  
+  /* Navigation overrides for dark mode */
+  --nav-background: rgba(37, 42, 53, 0.9);
+  --nav-border: rgba(59, 69, 85, 0.4);
+  --nav-text-primary: #cbd5e1;
+  --nav-hover-bg: rgba(248, 113, 113, 0.1);
+  
+  /* Glassmorphic overrides for dark mode */
+  --glass-background: rgba(37, 42, 53, 0.8);
+  --glass-light: rgba(37, 42, 53, 0.6);
+  --glass-medium: rgba(37, 42, 53, 0.8);
+  --glass-heavy: rgba(37, 42, 53, 0.95);
+  --glass-border: 1px solid rgba(59, 69, 85, 0.4);
+  --glass-border-light: rgba(59, 69, 85, 0.2);
+  --glass-border-medium: rgba(59, 69, 85, 0.4);
+  --glass-border-heavy: rgba(59, 69, 85, 0.6);
+  
+  /* Accessibility Dark Mode Overrides */
+  --accessibility-hero-primary: color-mix(in srgb, var(--brand-primary) 80%, black);
+  --accessibility-hero-secondary: color-mix(in srgb, var(--brand-secondary) 60%, black);
+  --accessibility-hero-text: var(--brand-text-light);
+  --accessibility-hero-bg: linear-gradient(135deg, #1e293b, #374151);
+  
+  --accessibility-default-gradient: linear-gradient(45deg, #374151, #475569);
+  --accessibility-visual-gradient: linear-gradient(45deg, #1e40af, #3b82f6);
+  --accessibility-motor-gradient: linear-gradient(45deg, #7c3aed, #a855f7);
+  --accessibility-cognitive-gradient: linear-gradient(45deg, #dc2626, #ef4444);
+  
+  --accessibility-card-bg: rgba(37, 42, 53, 0.9);
+  --accessibility-card-border: rgba(59, 69, 85, 0.4);
+  --accessibility-card-text: var(--brand-text);
+  --accessibility-card-shadow: var(--shadow-dark);
+  --accessibility-card-shadow-hover: var(--shadow-dark-lg);
+  
+  --accessibility-tag-bg: color-mix(in srgb, var(--brand-primary) 20%, transparent);
+  --accessibility-tag-text: var(--brand-primary);
+  --accessibility-tag-border: color-mix(in srgb, var(--brand-primary) 30%, transparent);
+  
+  --preset-default-color: var(--brand-text);
+  --preset-vision-color: #60a5fa;
+  --preset-motor-color: #c084fc;
+  --preset-cognitive-color: var(--brand-primary);
+}
+
+/* Ensure body background changes in dark mode with maximum specificity */
+html.accessibility-dark-mode,
+html.accessibility-dark-mode body,
+body.accessibility-dark-mode,
+.accessibility-dark-mode,
+.accessibility-dark-mode body {
+  background-color: var(--brand-background) !important;
+  background: var(--brand-background) !important;
+}
+
+/* Additional fallback with direct color value */
+body.accessibility-dark-mode {
+  background-color: #1a1e26 !important;
+  background: #1a1e26 !important;
 }
 
 /* ==== GLOBAL STYLES ==== */
@@ -266,4 +395,12 @@ span.result-url,
   letter-spacing: 1.2px !important;
   font-weight: 600 !important;
   font-family: var(--font-body) !important;
+}
+
+/* CRITICAL: Dark mode body background override - must be at end of file */
+html.accessibility-dark-mode,
+html.accessibility-dark-mode body,
+body.accessibility-dark-mode {
+  background-color: #1a1e26 !important;
+  background: #1a1e26 !important;
 }

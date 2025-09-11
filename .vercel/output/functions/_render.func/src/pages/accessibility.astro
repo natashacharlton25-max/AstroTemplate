@@ -1,0 +1,575 @@
+---
+// Update the import path if Layout.astro is located elsewhere, for example:
+import Layout from '../../layouts/Layout.astro';
+// Or ensure that '../layouts/Layout.astro' exists and is spelled correctly.
+---
+
+<Layout title="Accessibility Settings" enableFooterReveal={false}>
+  <main class="accessibility-page">
+    <div class="accessibility-container">
+      <!-- Header -->
+      <div class="page-header">
+        <div class="header-content">
+          <h1>Make our site <span class="highlight">accessible</span> for everyone</h1>
+          <p class="header-description">Customize your browsing experience with our comprehensive accessibility tools</p>
+        </div>
+        <div class="accessibility-info">
+          <div class="accessibility-item">
+            <svg class="accessibility-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+            <span>Visual assistance</span>
+          </div>
+          <div class="accessibility-item">
+            <svg class="accessibility-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z"></path>
+            </svg>
+            <span>Keyboard navigation</span>
+          </div>
+          <div class="accessibility-item">
+            <svg class="accessibility-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <span>Reading assistance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="page-content">
+        <div class="accessibility-panel-content">
+        
+        <!-- Quick Setup Section -->
+        <section class="accessibility-section">
+          <h2 class="section-title">Quick Setup</h2>
+          <p class="section-description">Choose a preset to get started quickly</p>
+          
+          <div class="preset-cards">
+            <!-- Default Preset -->
+            <button class="preset-card" data-preset="default" aria-label="Apply default settings">
+              <div class="preset-icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+                </svg>
+              </div>
+              <div class="preset-content">
+                <h3 class="preset-title">Default</h3>
+                <p class="preset-description">Standard settings for most users</p>
+              </div>
+            </button>
+
+            <!-- Vision Preset -->
+            <button class="preset-card" data-preset="vision" aria-label="Apply vision assistance settings">
+              <div class="preset-icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </div>
+              <div class="preset-content">
+                <h3 class="preset-title">Vision Assistance</h3>
+                <p class="preset-description">High contrast and larger text</p>
+              </div>
+            </button>
+
+            <!-- Motor Preset -->
+            <button class="preset-card" data-preset="motor" aria-label="Apply motor assistance settings">
+              <div class="preset-icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM7 3H5a2 2 0 00-2 2v12a4 4 0 004 4h2a2 2 0 002-2V5a2 2 0 00-2-2zM17 9v6"></path>
+                </svg>
+              </div>
+              <div class="preset-content">
+                <h3 class="preset-title">Motor Assistance</h3>
+                <p class="preset-description">Enhanced keyboard navigation</p>
+              </div>
+            </button>
+
+            <!-- Cognitive Preset -->
+            <button class="preset-card" data-preset="cognitive" aria-label="Apply cognitive assistance settings">
+              <div class="preset-icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+              </div>
+              <div class="preset-content">
+                <h3 class="preset-title">Cognitive Support</h3>
+                <p class="preset-description">Simplified interface and clear reading</p>
+              </div>
+            </button>
+          </div>
+        </section>
+        
+        <!-- Visual Preferences Section -->
+        <section class="accessibility-section">
+          <h2 class="section-title">Visual Preferences</h2>
+          <p class="section-description">Adjust the appearance to your comfort</p>
+          
+          <div class="accessibility-controls">
+            <!-- Dark Mode Toggle -->
+            <div class="control-item">
+              <div class="control-info">
+                <label for="darkMode" class="control-label">Dark Mode</label>
+                <p class="control-description">Reduce eye strain with a dark color scheme</p>
+              </div>
+              <label class="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  id="darkMode"
+                  data-setting="darkMode"
+                  aria-describedby="dark-mode-desc">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Site Assists Section -->
+        <section class="accessibility-section">
+          <h2 class="section-title">Site Assists</h2>
+          <p class="section-description">Optional enhancements that work alongside your existing tools</p>
+          
+          <div class="accessibility-controls">
+            <!-- Keyboard Helpers -->
+            <div class="control-item">
+              <div class="control-info">
+                <label for="keyboardHelpers" class="control-label">Keyboard Helpers</label>
+                <p class="control-description">Enhanced focus indicators and arrow-key navigation</p>
+              </div>
+              <label class="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  id="keyboardHelpers"
+                  data-setting="keyboardHelpers"
+                  aria-describedby="keyboard-help-desc">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Screen Reader Helpers -->
+            <div class="control-item">
+              <div class="control-info">
+                <label for="screenReaderHelpers" class="control-label">Screen Reader Helpers</label>
+                <p class="control-description">Additional announcements and navigation hints</p>
+              </div>
+              <label class="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  id="screenReaderHelpers"
+                  data-setting="screenReaderHelpers"
+                  aria-describedby="screen-reader-help-desc">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Plain Text Reading Mode -->
+        <section class="accessibility-section">
+          <h2 class="section-title">Reading Mode</h2>
+          <p class="section-description">Simplified layout for focused reading</p>
+          
+          <div class="plain-text-controls">
+            <!-- Plain Text Mode Toggle -->
+            <div class="plain-text-main">
+              <button 
+                id="plainTextToggle"
+                class="plain-text-btn"
+                data-setting="plainTextMode"
+                aria-pressed="false">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span>Toggle Plain Text Mode</span>
+              </button>
+              <p class="keyboard-shortcut">Press <kbd>T</kbd> to toggle</p>
+            </div>
+
+            <!-- Plain Text Customization (shown when mode is active) -->
+            <div id="plainTextCustomization" class="plain-text-customization" style="display: none;">
+              
+              <!-- Font Size -->
+              <div class="customization-group">
+                <label for="fontSize" class="customization-label">
+                  Font Size: <span id="fontSizeValue">100%</span>
+                </label>
+                <input 
+                  type="range" 
+                  id="fontSize" 
+                  min="75" 
+                  max="200" 
+                  value="100" 
+                  step="25"
+                  class="range-slider"
+                  data-setting="fontSize">
+                <div class="range-labels">
+                  <span>75%</span>
+                  <span>100%</span>
+                  <span>125%</span>
+                  <span>150%</span>
+                  <span>200%</span>
+                </div>
+              </div>
+
+              <!-- Line Spacing -->
+              <div class="customization-group">
+                <label for="lineSpacing" class="customization-label">
+                  Line Spacing: <span id="lineSpacingValue">160%</span>
+                </label>
+                <input 
+                  type="range" 
+                  id="lineSpacing" 
+                  min="120" 
+                  max="300" 
+                  value="160" 
+                  step="20"
+                  class="range-slider"
+                  data-setting="lineSpacing">
+                <div class="range-labels">
+                  <span>120%</span>
+                  <span>200%</span>
+                  <span>300%</span>
+                </div>
+              </div>
+
+              <!-- Font Family -->
+              <div class="customization-group">
+                <label for="fontFamily" class="customization-label">Reading Font</label>
+                <select id="fontFamily" class="font-select" data-setting="fontFamily">
+                  <option value="default">Default Font</option>
+                  <option value="atkinson">Atkinson Hyperlegible</option>
+                  <option value="opendyslexic">OpenDyslexic</option>
+                </select>
+              </div>
+
+              <!-- Background Color -->
+              <div class="customization-group">
+                <label class="customization-label">Background Color</label>
+                <div class="color-options">
+                  <label class="color-option">
+                    <input type="radio" name="backgroundColor" value="white" data-setting="backgroundColor" checked>
+                    <span class="color-swatch" style="background: #ffffff; border: 2px solid #e0e0e0;"></span>
+                    <span class="color-label">White</span>
+                  </label>
+                  <label class="color-option">
+                    <input type="radio" name="backgroundColor" value="cream" data-setting="backgroundColor">
+                    <span class="color-swatch" style="background: #f5f5dc;"></span>
+                    <span class="color-label">Cream</span>
+                  </label>
+                  <label class="color-option">
+                    <input type="radio" name="backgroundColor" value="blue" data-setting="backgroundColor">
+                    <span class="color-swatch" style="background: #e6f3ff;"></span>
+                    <span class="color-label">Blue</span>
+                  </label>
+                  <label class="color-option">
+                    <input type="radio" name="backgroundColor" value="pink" data-setting="backgroundColor">
+                    <span class="color-swatch" style="background: #ffe6f0;"></span>
+                    <span class="color-label">Pink</span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Visual Customization Section -->
+        <section class="accessibility-section">
+          <h2 class="section-title">Visual Customization</h2>
+          <p class="section-description">Customize colors and fonts for better readability</p>
+          
+          <div class="accessibility-controls">
+            
+            <!-- Font Family -->
+            <div class="control-item">
+              <div class="control-info">
+                <label for="fontFamilyGeneral" class="control-label">Reading Font</label>
+                <p class="control-description">Choose a font that's easier to read</p>
+              </div>
+              <select id="fontFamilyGeneral" class="font-select" data-setting="fontFamily">
+                <option value="default">Default Font</option>
+                <option value="atkinson">Atkinson Hyperlegible</option>
+                <option value="opendyslexic">OpenDyslexic</option>
+              </select>
+            </div>
+
+            <!-- Background Color -->
+            <div class="control-item">
+              <div class="control-info">
+                <label class="control-label">Background Color</label>
+                <p class="control-description">Choose a background color that's comfortable for your eyes</p>
+              </div>
+              <div class="color-options">
+                <label class="color-option">
+                  <input type="radio" name="backgroundColor" value="white" data-setting="backgroundColor" checked>
+                  <span class="color-swatch" style="background: #ffffff; border: 2px solid #e0e0e0;"></span>
+                  <span class="color-label">White</span>
+                </label>
+                <label class="color-option">
+                  <input type="radio" name="backgroundColor" value="cream" data-setting="backgroundColor">
+                  <span class="color-swatch" style="background: #f5f5dc;"></span>
+                  <span class="color-label">Cream</span>
+                </label>
+                <label class="color-option">
+                  <input type="radio" name="backgroundColor" value="blue" data-setting="backgroundColor">
+                  <span class="color-swatch" style="background: #e6f3ff;"></span>
+                  <span class="color-label">Blue</span>
+                </label>
+                <label class="color-option">
+                  <input type="radio" name="backgroundColor" value="pink" data-setting="backgroundColor">
+                  <span class="color-swatch" style="background: #ffe6f0;"></span>
+                  <span class="color-label">Pink</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Feedback Section -->
+        <section class="accessibility-section">
+          <h2 class="section-title">Help Us Improve</h2>
+          <p class="section-description">Your feedback helps us make our website better for everyone</p>
+          
+          <div class="feedback-actions">
+            <a 
+              href="mailto:hello@icthemoon.com?subject=Accessibility%20Feature%20Request" 
+              class="feedback-link"
+              target="_blank"
+              rel="noopener noreferrer">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+              </svg>
+              Request an Accessibility Feature
+            </a>
+            
+            <button 
+              id="shareAccessibilityTips" 
+              class="feedback-link feedback-button"
+              type="button">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+              </svg>
+              Share Accessibility Tips
+            </button>
+          </div>
+        </section>
+
+          
+          <!-- Footer -->
+          <div class="accessibility-footer">
+            <p class="footer-note">
+              These settings are saved locally and work alongside your existing assistive technologies.
+              <br><strong>Keyboard shortcuts:</strong> Press <kbd>D</kbd> for dark mode, <kbd>T</kbd> for reading mode.
+            </p>
+            <div class="footer-links">
+              <a href="/accessibility-statement" class="footer-link">Accessibility Statement</a>
+              <span class="footer-separator">•</span>
+              <button id="resetAccessibilitySettings" class="footer-link footer-button" type="button">
+                Reset All Settings
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Live region for announcements (only active when screen reader helpers enabled) -->
+  <div 
+    id="accessibilityLiveRegion" 
+    class="sr-only" 
+    aria-live="polite" 
+    aria-atomic="true">
+  </div>
+
+  <!-- Critical CSS to prevent FOUC (Flash of Unstyled Content) -->
+  <script>
+    // Apply critical accessibility styles immediately to prevent visual jumping
+    (function() {
+      // Check saved dark mode setting
+      const savedDarkMode = localStorage.getItem('accessibility-darkMode');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const shouldUseDarkMode = savedDarkMode === 'true' || (savedDarkMode === null && prefersDark);
+      
+      if (shouldUseDarkMode) {
+        document.body.classList.add('accessibility-dark-mode');
+      }
+      
+      // Check saved plain text mode
+      const savedPlainText = localStorage.getItem('accessibility-plainTextMode');
+      if (savedPlainText === 'true') {
+        document.body.classList.add('accessibility-plain-text-mode');
+      }
+      
+      // Check saved keyboard helpers
+      const savedKeyboardHelpers = localStorage.getItem('accessibility-keyboardHelpers');
+      if (savedKeyboardHelpers === 'true') {
+        document.body.classList.add('accessibility-keyboard-helpers');
+      }
+      
+      // Check saved screen reader helpers
+      const savedScreenReaderHelpers = localStorage.getItem('accessibility-screenReaderHelpers');
+      if (savedScreenReaderHelpers === 'true') {
+        document.body.classList.add('accessibility-screen-reader-helpers');
+      }
+      
+      // Check high contrast preference
+      if (window.matchMedia('(prefers-contrast: high)').matches) {
+        document.body.classList.add('accessibility-high-contrast');
+      }
+    })();
+  </script>
+</Layout>
+
+<style>
+  /* Import existing panel styles first */
+  @import '../components/Accessability/accessabilityPanel.css';
+
+  /* Page-specific styles for accessibility page */
+  .accessibility-page {
+    min-height: 100vh;
+    background: var(--brand-background, #fffaf6);
+    padding: 0;
+    margin: 0;
+  }
+
+  .accessibility-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--brand-background, #fffaf6);
+  }
+
+  /* Header Section */
+  .page-header {
+    background: linear-gradient(135deg, #184e77 0%, #2a5f8a 100%);
+    color: #fffaf6;
+    padding: 60px 32px 40px 32px;
+    text-align: center;
+  }
+
+  .header-content {
+    margin-bottom: 40px;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 16px 0;
+    font-family: 'Poppins', sans-serif;
+    color: #fffaf6;
+  }
+
+  .highlight {
+    color: #e63961;
+  }
+
+  .header-description {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .accessibility-info {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .accessibility-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .accessibility-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  /* Content Section */
+  .page-content {
+    padding: 40px 32px 60px 32px;
+    background: #fffaf6;
+  }
+
+  /* Override popup styles for page layout */
+  .accessibility-panel-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 40px 20px 30px 20px;
+    }
+
+    .page-header h1 {
+      font-size: 1.875rem;
+    }
+
+    .header-description {
+      font-size: 1rem;
+    }
+
+    .accessibility-info {
+      gap: 20px;
+    }
+
+    .page-content {
+      padding: 30px 20px 50px 20px;
+    }
+
+    .accessibility-info {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .accessibility-item {
+      flex-direction: row;
+      justify-content: center;
+      gap: 12px;
+    }
+  }
+
+  /* Dark mode styles for the page */
+  body.accessibility-dark-mode .accessibility-page {
+    background: #1a1e26;
+  }
+
+  body.accessibility-dark-mode .accessibility-container {
+    background: #1a1e26;
+  }
+
+  body.accessibility-dark-mode .page-content {
+    background: #1a1e26;
+  }
+
+  body.accessibility-dark-mode .page-header {
+    background: linear-gradient(135deg, #0f1419 0%, #1a1e26 100%);
+  }
+
+  /* Screen reader only class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script src="../components/Accessability/accessibilityPanel.js"></script>
