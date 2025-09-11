@@ -136,14 +136,59 @@
     --color-text-light: #a0a0a0;
     --color-white: #000000;
     --color-black: #ffffff;
+    
+    /* Adjust gray scale for dark mode */
+    --color-gray-50: #1f2937;
+    --color-gray-100: #374151;
+    --color-gray-200: #4b5563;
+    --color-gray-300: #6b7280;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #d1d5db;
+    --color-gray-600: #e5e7eb;
+    --color-gray-700: #f3f4f6;
+    --color-gray-800: #f9fafb;
+    --color-gray-900: #ffffff;
   }
 }
 
-/* Optional: Manual dark mode toggle */
+/* Manual dark mode toggle */
 [data-theme="dark"] {
   --color-background: #1a1a1a;
   --color-text-primary: #e5e5e5;
   --color-text-light: #a0a0a0;
   --color-white: #000000;
   --color-black: #ffffff;
+  
+  /* Adjust gray scale for dark mode */
+  --color-gray-50: #1f2937;
+  --color-gray-100: #374151;
+  --color-gray-200: #4b5563;
+  --color-gray-300: #6b7280;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #d1d5db;
+  --color-gray-600: #e5e7eb;
+  --color-gray-700: #f3f4f6;
+  --color-gray-800: #f9fafb;
+  --color-gray-900: #ffffff;
+}
+
+/* Accessibility dark mode class support */
+.accessibility-dark-mode {
+  --color-background: #1a1a1a;
+  --color-text-primary: #e5e5e5;
+  --color-text-light: #a0a0a0;
+  --color-white: #000000;
+  --color-black: #ffffff;
+  
+  /* Adjust gray scale for dark mode */
+  --color-gray-50: #1f2937;
+  --color-gray-100: #374151;
+  --color-gray-200: #4b5563;
+  --color-gray-300: #6b7280;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #d1d5db;
+  --color-gray-600: #e5e7eb;
+  --color-gray-700: #f3f4f6;
+  --color-gray-800: #f9fafb;
+  --color-gray-900: #ffffff;
 }
