@@ -227,297 +227,332 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-<script src="../components/Accessability/accessibilityPanel.js"></script>
-
-<style>
-              <label class="toggle-switch">
-                <input 
-                  type="checkbox" 
-                  id="keyboardHelpers"
-                  data-setting="keyboardHelpers"
-                  aria-describedby="keyboard-help-desc">
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-
-            <!-- Screen Reader Helpers -->
-            <div class="control-item">
-              <div class="control-info">
-                <label for="screenReaderHelpers" class="control-label">Screen Reader Helpers</label>
-                <p class="control-description">Additional announcements and navigation hints</p>
-              </div>
-              <label class="toggle-switch">
-                <input 
-                  type="checkbox" 
-                  id="screenReaderHelpers"
-                  data-setting="screenReaderHelpers"
-                  aria-describedby="screen-reader-help-desc">
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-          </div>
-        </section>
-
-        <!-- Plain Text Reading Mode -->
-        <section class="accessibility-section">
-          <h2 class="section-title">Reading Mode</h2>
-          <p class="section-description">Simplified layout for focused reading</p>
-          
-          <div class="plain-text-controls">
-            <!-- Plain Text Mode Toggle -->
-            <div class="plain-text-main">
-              <button 
-                id="plainTextToggle"
-                class="plain-text-btn"
-                data-setting="plainTextMode"
-                aria-pressed="false">
-                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
-                <span>Toggle Plain Text Mode</span>
-              </button>
-              <p class="keyboard-shortcut">Press <kbd>T</kbd> to toggle</p>
-            </div>
-
-            <!-- Plain Text Customization (shown when mode is active) -->
-            <div id="plainTextCustomization" class="plain-text-customization" style="display: none;">
-              
-              <!-- Font Size -->
-              <div class="customization-group">
-                <label for="fontSize" class="customization-label">
-                  Font Size: <span id="fontSizeValue">100%</span>
-                </label>
-                <input 
-                  type="range" 
-                  id="fontSize" 
-                  min="75" 
-                  max="200" 
-                  value="100" 
-                  step="25"
-                  class="range-slider"
-                  data-setting="fontSize">
-                <div class="range-labels">
-                  <span>75%</span>
-                  <span>100%</span>
-                  <span>125%</span>
-                  <span>150%</span>
-                  <span>200%</span>
-                </div>
-              </div>
-
-              <!-- Line Spacing -->
-              <div class="customization-group">
-                <label for="lineSpacing" class="customization-label">
-                  Line Spacing: <span id="lineSpacingValue">160%</span>
-                </label>
-                <input 
-                  type="range" 
-                  id="lineSpacing" 
-                  min="120" 
-                  max="300" 
-                  value="160" 
-                  step="20"
-                  class="range-slider"
-                  data-setting="lineSpacing">
-                <div class="range-labels">
-                  <span>120%</span>
-                  <span>200%</span>
-                  <span>300%</span>
-                </div>
-              </div>
-
-              <!-- Font Family -->
-              <div class="customization-group">
-                <label for="fontFamily" class="customization-label">Reading Font</label>
-                <select id="fontFamily" class="font-select" data-setting="fontFamily">
-                  <option value="default">Default Font</option>
-                  <option value="atkinson">Atkinson Hyperlegible</option>
-                  <option value="opendyslexic">OpenDyslexic</option>
-                </select>
-              </div>
-
-              <!-- Background Color -->
-              <div class="customization-group">
-                <label class="customization-label">Background Color</label>
-                <div class="color-options">
-                  <label class="color-option">
-                    <input type="radio" name="backgroundColor" value="white" data-setting="backgroundColor" checked>
-                    <span class="color-swatch" style="background: #ffffff; border: 2px solid #e0e0e0;"></span>
-                    <span class="color-label">White</span>
-                  </label>
-                  <label class="color-option">
-                    <input type="radio" name="backgroundColor" value="cream" data-setting="backgroundColor">
-                    <span class="color-swatch" style="background: #f5f5dc;"></span>
-                    <span class="color-label">Cream</span>
-                  </label>
-                  <label class="color-option">
-                    <input type="radio" name="backgroundColor" value="blue" data-setting="backgroundColor">
-                    <span class="color-swatch" style="background: #e6f3ff;"></span>
-                    <span class="color-label">Blue</span>
-                  </label>
-                  <label class="color-option">
-                    <input type="radio" name="backgroundColor" value="pink" data-setting="backgroundColor">
-                    <span class="color-swatch" style="background: #ffe6f0;"></span>
-                    <span class="color-label">Pink</span>
-                  </label>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        <!-- Visual Customization Section -->
-        <section class="accessibility-section">
-          <h2 class="section-title">Visual Customization</h2>
-          <p class="section-description">Customize colors and fonts for better readability</p>
-          
-          <div class="accessibility-controls">
-            
-            <!-- Font Family -->
-            <div class="control-item">
-              <div class="control-info">
-                <label for="fontFamilyGeneral" class="control-label">Reading Font</label>
-                <p class="control-description">Choose a font that's easier to read</p>
-              </div>
-              <select id="fontFamilyGeneral" class="font-select" data-setting="fontFamily">
-                <option value="default">Default Font</option>
-                <option value="atkinson">Atkinson Hyperlegible</option>
-                <option value="opendyslexic">OpenDyslexic</option>
-              </select>
-            </div>
-
-            <!-- Background Color -->
-            <div class="control-item">
-              <div class="control-info">
-                <label class="control-label">Background Color</label>
-                <p class="control-description">Choose a background color that's comfortable for your eyes</p>
-              </div>
-              <div class="color-options">
-                <label class="color-option">
-                  <input type="radio" name="backgroundColor" value="white" data-setting="backgroundColor" checked>
-                  <span class="color-swatch" style="background: #ffffff; border: 2px solid #e0e0e0;"></span>
-                  <span class="color-label">White</span>
-                </label>
-                <label class="color-option">
-                  <input type="radio" name="backgroundColor" value="cream" data-setting="backgroundColor">
-                  <span class="color-swatch" style="background: #f5f5dc;"></span>
-                  <span class="color-label">Cream</span>
-                </label>
-                <label class="color-option">
-                  <input type="radio" name="backgroundColor" value="blue" data-setting="backgroundColor">
-                  <span class="color-swatch" style="background: #e6f3ff;"></span>
-                  <span class="color-label">Blue</span>
-                </label>
-                <label class="color-option">
-                  <input type="radio" name="backgroundColor" value="pink" data-setting="backgroundColor">
-                  <span class="color-swatch" style="background: #ffe6f0;"></span>
-                  <span class="color-label">Pink</span>
-                </label>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- Feedback Section -->
-        <section class="accessibility-section">
-          <h2 class="section-title">Help Us Improve</h2>
-          <p class="section-description">Your feedback helps us make our website better for everyone</p>
-          
-          <div class="feedback-actions">
-            <a 
-              href="mailto:hello@icthemoon.com?subject=Accessibility%20Feature%20Request" 
-              class="feedback-link"
-              target="_blank"
-              rel="noopener noreferrer">
-              <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
-              </svg>
-              Request an Accessibility Feature
-            </a>
-            
-            <button 
-              id="shareAccessibilityTips" 
-              class="feedback-link feedback-button"
-              type="button">
-              <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
-              </svg>
-              Share Accessibility Tips
-            </button>
-          </div>
-        </section>
-
-          
-          <!-- Footer -->
-          <div class="accessibility-footer">
-            <p class="footer-note">
-              These settings are saved locally and work alongside your existing assistive technologies.
-              <br><strong>Keyboard shortcuts:</strong> Press <kbd>D</kbd> for dark mode, <kbd>T</kbd> for reading mode.
-            </p>
-            <div class="footer-links">
-              <a href="/accessibility-statement" class="footer-link">Accessibility Statement</a>
-              <span class="footer-separator">•</span>
-              <button id="resetAccessibilitySettings" class="footer-link footer-button" type="button">
-                Reset All Settings
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Live region for announcements (only active when screen reader helpers enabled) -->
-  <div 
-    id="accessibilityLiveRegion" 
-    class="sr-only" 
-    aria-live="polite" 
-    aria-atomic="true">
-  </div>
-
-  <!-- Critical CSS to prevent FOUC (Flash of Unstyled Content) -->
-  <script>
-    // Apply critical accessibility styles immediately to prevent visual jumping
-    (function() {
-      // Check saved dark mode setting
-      const savedDarkMode = localStorage.getItem('accessibility-darkMode');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const shouldUseDarkMode = savedDarkMode === 'true' || (savedDarkMode === null && prefersDark);
-      
-      if (shouldUseDarkMode) {
-        document.body.classList.add('accessibility-dark-mode');
-      }
-      
-      // Check saved plain text mode
-      const savedPlainText = localStorage.getItem('accessibility-plainTextMode');
-      if (savedPlainText === 'true') {
-        document.body.classList.add('accessibility-plain-text-mode');
-      }
-      
-      // Check saved keyboard helpers
-      const savedKeyboardHelpers = localStorage.getItem('accessibility-keyboardHelpers');
-      if (savedKeyboardHelpers === 'true') {
-        document.body.classList.add('accessibility-keyboard-helpers');
-      }
-      
-      // Check saved screen reader helpers
-      const savedScreenReaderHelpers = localStorage.getItem('accessibility-screenReaderHelpers');
-      if (savedScreenReaderHelpers === 'true') {
-        document.body.classList.add('accessibility-screen-reader-helpers');
-      }
-      
-      // Check high contrast preference
-      if (window.matchMedia('(prefers-contrast: high)').matches) {
-        document.body.classList.add('accessibility-high-contrast');
-      }
-    })();
-  </script>
+<script src="../components/Accessibility/accessibilityPanel.js"></script>
 </Layout>
 
 <style>
-  /* Import existing panel styles first */
+  /* Popup-style accessibility panel based on search and contact popup designs */
+  .accessibility-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+
+  .accessibility-popup {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .popup-header {
+    background: linear-gradient(135deg, var(--brand-primary, #2C5F41) 0%, var(--brand-accent, #F87171) 100%);
+    padding: 1.5rem 2rem;
+    position: relative;
+  }
+
+  .popup-title {
+    color: white;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .popup-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0.5rem 0 0 0;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
+
+  .popup-content {
+    padding: 2rem;
+    max-height: calc(90vh - 120px);
+    overflow-y: auto;
+  }
+
+  .accessibility-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    color: var(--brand-primary, #2C5F41);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-description {
+    color: #666;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .control-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  .control-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .control-info {
+    flex: 1;
+  }
+
+  .control-label {
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.25rem 0;
+    display: block;
+    font-size: 1rem;
+  }
+
+  .control-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .toggle-switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ddd;
+    transition: 0.3s;
+    border-radius: 28px;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  input:checked + .toggle-slider {
+    background: var(--brand-primary, #2C5F41);
+  }
+
+  input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+  }
+
+  .range-control {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .range-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    margin: 1rem 0;
+    appearance: none;
+  }
+
+  .range-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--brand-primary, #2C5F41);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .theme-grid, .color-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .theme-option, .color-option {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .theme-option:hover, .color-option:hover {
+    border-color: var(--brand-primary, #2C5F41);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .theme-option.active, .color-option:has(input:checked) {
+    border-color: var(--brand-primary, #2C5F41);
+    background: rgba(44, 95, 65, 0.05);
+  }
+
+  .color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0 auto 0.5rem;
+    display: block;
+  }
+
+  .font-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 1rem;
+    min-width: 200px;
+  }
+
+  .plain-text-btn {
+    background: linear-gradient(135deg, var(--brand-primary, #2C5F41) 0%, var(--brand-accent, #F87171) 100%);
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .plain-text-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  kbd {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .accessibility-popup {
+      margin: 1rem;
+      max-height: calc(100vh - 2rem);
+    }
+    
+    .popup-header {
+      padding: 1rem 1.5rem;
+    }
+    
+    .popup-title {
+      font-size: 1.5rem;
+    }
+    
+    .popup-content {
+      padding: 1.5rem;
+    }
+    
+    .control-item {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+  }
+
+  /* Import existing styles */
   @import '../components/Accessibility/accessibilityPanel.css';
 
   /* Enhanced Visual Design for Accessibility Page */
