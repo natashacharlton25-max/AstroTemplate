@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ==== ACCESSIBILITY FOUNDATION CSS ==== */
 /* Implementation of Claude.md accessibility requirements */
 
@@ -49,402 +48,11 @@ body {
 /* ---- Reduced Motion Support ---- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-=======
-/* Global Accessibility Styles - Applied to All Pages */
-
-/* Keyboard Navigation Helpers */
-body.accessibility-keyboard-helpers *:focus {
-  outline: 3px solid #e63961 !important;
-  outline-offset: 2px !important;
-}
-
-body.accessibility-keyboard-helpers button:focus,
-body.accessibility-keyboard-helpers a:focus,
-body.accessibility-keyboard-helpers input:focus,
-body.accessibility-keyboard-helpers select:focus,
-body.accessibility-keyboard-helpers textarea:focus {
-  box-shadow: 0 0 0 3px rgba(230, 57, 97, 0.3) !important;
-}
-
-/* Screen Reader Helpers */
-body.accessibility-screen-reader-helpers .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Enhanced skip links for screen readers */
-body.accessibility-screen-reader-helpers .skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: #000;
-  color: #fff;
-  padding: 8px;
-  z-index: 100000;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
-body.accessibility-screen-reader-helpers .skip-link:focus {
-  top: 6px;
-}
-
-/* Global Dark Mode Styles - WCAG 2.1 AA Compliant */
-body.accessibility-dark-mode {
-  background-color: #1a1e26 !important;
-  color: #e6e6e6 !important;
-}
-
-/* Dark mode for common elements */
-body.accessibility-dark-mode h1,
-body.accessibility-dark-mode h2,
-body.accessibility-dark-mode h3,
-body.accessibility-dark-mode h4,
-body.accessibility-dark-mode h5,
-body.accessibility-dark-mode h6 {
-  color: #66b2ff !important; /* 4.5:1 contrast ratio */
-}
-
-body.accessibility-dark-mode p,
-body.accessibility-dark-mode span,
-body.accessibility-dark-mode div,
-body.accessibility-dark-mode li {
-  color: #e6e6e6 !important; /* 4.5:1 contrast ratio */
-}
-
-body.accessibility-dark-mode a {
-  color: #66b2ff !important;
-}
-
-body.accessibility-dark-mode a:hover {
-  color: #99ccff !important;
-}
-
-body.accessibility-dark-mode input,
-body.accessibility-dark-mode textarea,
-body.accessibility-dark-mode select {
-  background-color: #2a2e36 !important;
-  color: #e6e6e6 !important;
-  border-color: rgba(102, 178, 255, 0.3) !important;
-}
-
-body.accessibility-dark-mode button {
-  background-color: #2a2e36 !important;
-  color: #e6e6e6 !important;
-  border-color: rgba(102, 178, 255, 0.3) !important;
-}
-
-body.accessibility-dark-mode button:hover {
-  background-color: #343842 !important;
-  border-color: rgba(102, 178, 255, 0.6) !important;
-}
-
-/* Dark mode for cards and containers */
-body.accessibility-dark-mode .card,
-body.accessibility-dark-mode .container,
-body.accessibility-dark-mode .panel,
-body.accessibility-dark-mode section {
-  background-color: #2a2e36 !important;
-  border-color: rgba(102, 178, 255, 0.2) !important;
-}
-
-/* Plain Text Mode - Global Application */
-body.accessibility-plain-text-mode {
-  font-family: var(--plain-text-font-family, 'Arial', sans-serif) !important;
-}
-
-body.accessibility-plain-text-mode * {
-  font-size: var(--plain-text-font-size, 100%) !important;
-  line-height: var(--plain-text-line-height, 1.6) !important;
-  text-decoration: none !important;
-  text-shadow: none !important;
-  box-shadow: none !important;
-  background-image: none !important;
-}
-
-body.accessibility-plain-text-mode h1,
-body.accessibility-plain-text-mode h2,
-body.accessibility-plain-text-mode h3,
-body.accessibility-plain-text-mode h4,
-body.accessibility-plain-text-mode h5,
-body.accessibility-plain-text-mode h6 {
-  font-weight: bold !important;
-  margin: 1em 0 0.5em 0 !important;
-}
-
-body.accessibility-plain-text-mode p,
-body.accessibility-plain-text-mode li {
-  margin-bottom: 1em !important;
-}
-
-body.accessibility-plain-text-mode img {
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-/* Font Family Classes */
-body.font-default {
-  --plain-text-font-family: 'Arial', sans-serif;
-}
-
-body.font-atkinson {
-  --plain-text-font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
-}
-
-body.font-opendyslexic {
-  --plain-text-font-family: 'OpenDyslexic', Arial, sans-serif;
-}
-
-/* Background Color Classes - Work independently and with plain text mode */
-
-/* Light mode background colors */
-body.bg-white {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
-
-body.bg-cream {
-  background-color: #f5f5dc !important;
-  color: #000000 !important;
-}
-
-body.bg-blue {
-  background-color: #e6f3ff !important;
-  color: #000033 !important;
-}
-
-body.bg-pink {
-  background-color: #ffe6f0 !important;
-  color: #330022 !important;
-}
-
-/* Dark mode background colors */
-body.accessibility-dark-mode.bg-white {
-  background-color: #1a1a1a !important;
-  color: #e5e5e5 !important;
-}
-
-body.accessibility-dark-mode.bg-cream {
-  background-color: #2a2520 !important;
-  color: #e5dcc0 !important;
-}
-
-body.accessibility-dark-mode.bg-blue {
-  background-color: #0d1a2a !important;
-  color: #b3d9ff !important;
-}
-
-body.accessibility-dark-mode.bg-pink {
-  background-color: #2a1a25 !important;
-  color: #ffb3d9 !important;
-}
-
-body.accessibility-dark-mode.bg-dark {
-  background-color: #0f0f0f !important;
-  color: #e5e5e5 !important;
-}
-
-body.accessibility-dark-mode.bg-gray {
-  background-color: #2a2a2a !important;
-  color: #d0d0d0 !important;
-}
-
-/* Background colors also apply to main containers and sections */
-body.bg-white main,
-body.bg-white section,
-body.bg-white .container {
-  background-color: inherit !important;
-  color: inherit !important;
-}
-
-body.bg-cream main,
-body.bg-cream section, 
-body.bg-cream .container {
-  background-color: inherit !important;
-  color: inherit !important;
-}
-
-body.bg-blue main,
-body.bg-blue section,
-body.bg-blue .container {
-  background-color: inherit !important;
-  color: inherit !important;
-}
-
-body.bg-pink main,
-body.bg-pink section,
-body.bg-pink .container {
-  background-color: inherit !important;
-  color: inherit !important;
-}
-
-body.bg-dark main,
-body.bg-dark section,
-body.bg-dark .container {
-  background-color: inherit !important;
-  color: inherit !important;
-}
-
-body.bg-gray main,
-body.bg-gray section,
-body.bg-gray .container {
-  background-color: inherit !important;
-  color: inherit !important;
-}
-
-/* Plain text mode specific background colors (for backwards compatibility) */
-body.accessibility-plain-text-mode.bg-white {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
-
-body.accessibility-plain-text-mode.bg-cream {
-  background-color: #f5f5dc !important;
-  color: #000000 !important;
-}
-
-body.accessibility-plain-text-mode.bg-blue {
-  background-color: #e6f3ff !important;
-  color: #000033 !important;
-}
-
-body.accessibility-plain-text-mode.bg-pink {
-  background-color: #ffe6f0 !important;
-  color: #330022 !important;
-}
-
-/* Dark mode + plain text background colors */
-body.accessibility-dark-mode.accessibility-plain-text-mode.bg-white {
-  background-color: #1a1a1a !important;
-  color: #e5e5e5 !important;
-}
-
-body.accessibility-dark-mode.accessibility-plain-text-mode.bg-cream {
-  background-color: #2a2520 !important;
-  color: #e5dcc0 !important;
-}
-
-body.accessibility-dark-mode.accessibility-plain-text-mode.bg-blue {
-  background-color: #0d1a2a !important;
-  color: #b3d9ff !important;
-}
-
-body.accessibility-dark-mode.accessibility-plain-text-mode.bg-pink {
-  background-color: #2a1a25 !important;
-  color: #ffb3d9 !important;
-}
-
-body.accessibility-dark-mode.accessibility-plain-text-mode.bg-dark {
-  background-color: #0f0f0f !important;
-  color: #e5e5e5 !important;
-}
-
-body.accessibility-dark-mode.accessibility-plain-text-mode.bg-gray {
-  background-color: #2a2a2a !important;
-  color: #d0d0d0 !important;
-}
-
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-  body.accessibility-high-contrast,
-  body.accessibility-high-contrast * {
-    text-shadow: none !important;
-    box-shadow: none !important;
-    filter: none !important;
-  }
-  
-  body.accessibility-high-contrast {
-    background: #ffffff !important;
-    color: #000000 !important;
-  }
-  
-  body.accessibility-high-contrast h1,
-  body.accessibility-high-contrast h2,
-  body.accessibility-high-contrast h3,
-  body.accessibility-high-contrast h4,
-  body.accessibility-high-contrast h5,
-  body.accessibility-high-contrast h6 {
-    color: #000000 !important;
-    font-weight: 800 !important;
-  }
-  
-  body.accessibility-high-contrast a {
-    color: #0066cc !important;
-    text-decoration: underline !important;
-  }
-  
-  body.accessibility-high-contrast button,
-  body.accessibility-high-contrast input,
-  body.accessibility-high-contrast select,
-  body.accessibility-high-contrast textarea {
-    background: #ffffff !important;
-    color: #000000 !important;
-    border: 3px solid #000000 !important;
-  }
-  
-  body.accessibility-high-contrast button:hover,
-  body.accessibility-high-contrast button:focus {
-    background: #f0f0f0 !important;
-    box-shadow: 0 0 0 3px #0066cc !important;
-  }
-  
-  /* Dark mode high contrast */
-  body.accessibility-dark-mode.accessibility-high-contrast {
-    background: #000000 !important;
-    color: #ffffff !important;
-  }
-  
-  body.accessibility-dark-mode.accessibility-high-contrast h1,
-  body.accessibility-dark-mode.accessibility-high-contrast h2,
-  body.accessibility-dark-mode.accessibility-high-contrast h3,
-  body.accessibility-dark-mode.accessibility-high-contrast h4,
-  body.accessibility-dark-mode.accessibility-high-contrast h5,
-  body.accessibility-dark-mode.accessibility-high-contrast h6 {
-    color: #ffffff !important;
-    font-weight: 800 !important;
-    text-shadow: 2px 2px 4px #000000 !important;
-  }
-  
-  body.accessibility-dark-mode.accessibility-high-contrast a {
-    color: #66b2ff !important;
-    text-decoration: underline !important;
-  }
-  
-  body.accessibility-dark-mode.accessibility-high-contrast button,
-  body.accessibility-dark-mode.accessibility-high-contrast input,
-  body.accessibility-dark-mode.accessibility-high-contrast select,
-  body.accessibility-dark-mode.accessibility-high-contrast textarea {
-    background: #000000 !important;
-    color: #ffffff !important;
-    border: 3px solid #ffffff !important;
-  }
-  
-  body.accessibility-dark-mode.accessibility-high-contrast button:hover,
-  body.accessibility-dark-mode.accessibility-high-contrast button:focus {
-    background: #1a1a1a !important;
-    box-shadow: 0 0 0 3px #66b2ff !important;
-  }
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  body.accessibility-keyboard-helpers *,
-  body.accessibility-dark-mode *,
-  body.accessibility-plain-text-mode * {
->>>>>>> 97fff13d06cd050b7f458c6263d377d552f4199a
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-<<<<<<< HEAD
   
   /* Reduce parallax effects */
   [data-scroll-speed] {
@@ -481,9 +89,7 @@ body.accessibility-dark-mode.accessibility-plain-text-mode.bg-gray {
 }
 
 /* ---- Keyboard Helpers (when enabled) ---- */
-.keyboard-helpers-enabled {
-  /* Enhanced focus indicators when keyboard helpers are active */
-}
+/* Enhanced focus indicators when keyboard helpers are active */
 
 .keyboard-helpers-enabled *:focus {
   outline: 3px solid var(--focus-outline);
@@ -498,14 +104,10 @@ body.accessibility-dark-mode.accessibility-plain-text-mode.bg-gray {
 }
 
 /* ---- Screen Reader Helpers (when enabled) ---- */
-.screen-reader-helpers-enabled {
-  /* Additional ARIA support when screen reader helpers are active */
-}
+/* .screen-reader-helpers-enabled removed: empty ruleset */
 
 /* ---- Plain Text Mode Styles ---- */
-.plain-text-mode {
-  /* Hide decorative content */
-}
+/* Removed empty ruleset for .plain-text-mode */
 
 .plain-text-mode img:not([alt]),
 .plain-text-mode svg:not([role="img"]),
@@ -679,13 +281,9 @@ img {
 }
 
 /* Ensure decorative images are properly marked */
-img:not([alt]) {
-  /* Flag for review - all images should have alt attributes */
-}
+/* Removed empty ruleset for img:not([alt]) - all images should have alt attributes */
 
-img[alt=""] {
-  /* Decorative images - properly marked */
-}
+/* Decorative images - properly marked: img[alt=""] selector removed to avoid empty ruleset */
 
 /* ---- Print Accessibility ---- */
 @media print {
@@ -705,24 +303,4 @@ img[alt=""] {
   a[href^="#"]::after {
     content: "";
   }
-=======
-}
-
-/* Focus management for keyboard navigation */
-body.accessibility-keyboard-helpers [tabindex="-1"]:focus {
-  outline: 0;
-}
-
-/* Enhanced link visibility */
-body.accessibility-keyboard-helpers a:focus,
-body.accessibility-screen-reader-helpers a:focus {
-  background-color: #fffbee !important;
-  outline: 3px solid #e63961 !important;
-  outline-offset: 2px !important;
-}
-
-body.accessibility-dark-mode.accessibility-keyboard-helpers a:focus,
-body.accessibility-dark-mode.accessibility-screen-reader-helpers a:focus {
-  background-color: #2a2e36 !important;
->>>>>>> 97fff13d06cd050b7f458c6263d377d552f4199a
 }
