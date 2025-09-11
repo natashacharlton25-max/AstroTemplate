@@ -1,8 +1,10 @@
 // Enhanced AccessibilityPanel with Dark Mode Support
 
+const DEBUG_ACCESSIBILITY_PANEL = false;
+
 class AccessibilityPanel {
   constructor() {
-    console.log('AccessibilityPanel initializing...');
+    if (DEBUG_ACCESSIBILITY_PANEL) console.log('AccessibilityPanel initializing...');
     
     this.plainTextToggle = document.getElementById('plainTextToggle');
     this.plainTextCustomization = document.getElementById('plainTextCustomization');
@@ -67,8 +69,8 @@ class AccessibilityPanel {
     
     // Expose global functions for other components
     window.accessibilityPanelInstance = this;
-    
-    console.log('AccessibilityPanel initialized with settings:', this.settings);
+
+    if (DEBUG_ACCESSIBILITY_PANEL) console.log('AccessibilityPanel initialized with settings:', this.settings);
   }
 
   initializeDarkMode() {
