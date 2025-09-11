@@ -130,9 +130,9 @@ html.accessibility-dark-mode,
 .accessibility-dark-mode {
   /* Override brand colors for dark mode */
   --brand-background: #1a1e26;
-  --brand-text: #e2e8f0;
-  --brand-text-light: #f1f5f9;
-  --brand-secondary: #cbd5e1;
+  --brand-text: #fffaf6;
+  --brand-text-light: #ffffff;
+  --brand-secondary: #f0ebe6;
   --brand-primary: #f87171;
   
   /* Dark mode specific colors */
@@ -145,6 +145,7 @@ html.accessibility-dark-mode,
   --nav-border: rgba(59, 69, 85, 0.4);
   --nav-text-primary: #cbd5e1;
   --nav-hover-bg: rgba(248, 113, 113, 0.1);
+  --nav-active-bg: #184e77; /* Dark blue for active nav items in dark mode */
   
   /* Glassmorphic overrides for dark mode */
   --glass-background: rgba(37, 42, 53, 0.8);
@@ -403,4 +404,12 @@ html.accessibility-dark-mode body,
 body.accessibility-dark-mode {
   background-color: #1a1e26 !important;
   background: #1a1e26 !important;
+}
+
+/* Dark mode navigation overrides - use dark blue for active state */
+body.accessibility-dark-mode .nav-link.active,
+html.accessibility-dark-mode .nav-link.active,
+.accessibility-dark-mode .nav-link.active {
+  background: var(--nav-active-bg) !important;
+  color: var(--brand-text-light) !important;
 }

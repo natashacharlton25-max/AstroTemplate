@@ -21,21 +21,21 @@ body.tight .footer-reveal-container .footer-container {
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: var(--nav-border-radius) !important;
-  min-height: 210px !important; /* Perfect height for mobile */
-  padding: 32px !important;
+  min-height: 160px !important; /* Reduced from 210px for compactness */
+  padding: 20px !important; /* Reduced from 32px */
 }
 
 @media (min-width: 768px) {
   body.tight .footer-reveal-container .footer-container {
-    min-height: 280px !important; /* Taller for desktop */
-    padding: 48px !important;
+    min-height: 200px !important; /* Reduced from 280px */
+    padding: 24px !important; /* Reduced from 48px */
   }
 }
 
 @media (min-width: 1024px) {
   body.tight .footer-reveal-container .footer-container {
-    min-height: 320px !important; /* Even taller for full-width view */
-    padding: 64px !important;
+    min-height: 220px !important; /* Reduced from 320px */
+    padding: 32px !important; /* Reduced from 64px */
   }
 }
 

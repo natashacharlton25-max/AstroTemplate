@@ -24,6 +24,11 @@ class SearchPopup {
   }
 
   init() {
+    if (!this.popup) {
+      console.error('SearchPopup: popup element not found');
+      return;
+    }
+
     // Close button event
     this.closeBtn?.addEventListener('click', () => this.closePopup());
     
@@ -64,6 +69,7 @@ class SearchPopup {
     
     // Expose global function to open popup
     window.openSearchPopup = () => this.openPopup();
+    console.log('SearchPopup initialized successfully');
   }
 
   openPopup() {
@@ -510,10 +516,24 @@ class SearchPopup {
   }
 }
 
+// Ensure single initialization
+let searchPopupInstance = null;
+
+// Initialize search popup when DOM is ready
+function initSearchPopup() {
+  if (searchPopupInstance) {
+    console.log('SearchPopup already initialized');
+    return;
+  }
+  searchPopupInstance = new SearchPopup();
+}
+
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  new SearchPopup();
-});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSearchPopup);
+} else {
+  initSearchPopup();
+}
 
 // Export for use in other files if needed
 if (typeof module !== 'undefined' && module.exports) {

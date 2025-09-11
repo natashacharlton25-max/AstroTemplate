@@ -129,7 +129,7 @@ export function initOverlayManager() {
         
       case 'accessibility':
         // Navigate to accessibility page
-        window.location.href = '/accessibility';
+        window.location.href = '/AccessibilityPage';
         break;
     }
   };
@@ -144,6 +144,48 @@ export function initOverlayManager() {
       const action = button.dataset.action;
       handleNavigationAction(action);
     });
+    
+    // Add keyboard navigation support
+    settingsTab.addEventListener('keydown', (e) => {
+      const button = e.target && e.target.closest('[data-action]');
+      if (!button) return;
+      
+      // Handle Enter and Space key presses
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const action = button.dataset.action;
+        handleNavigationAction(action);
+      }
+      
+      // Add visual feedback for keyboard navigation
+      if (e.key === 'Tab') {
+        button.style.outline = '2px solid #e63961';
+        button.style.outlineOffset = '2px';
+        
+        // Remove outline after a short delay
+        setTimeout(() => {
+          button.style.outline = '';
+          button.style.outlineOffset = '';
+        }, 3000);
+      }
+    });
+    
+    // Enhanced focus indicators for accessibility
+    settingsTab.addEventListener('focus', (e) => {
+      const button = e.target && e.target.closest('[data-action]');
+      if (button && button.dataset.action === 'accessibility') {
+        button.style.boxShadow = '0 0 0 3px rgba(230, 57, 97, 0.5)';
+        button.setAttribute('aria-label', 'Accessibility Options - Press Enter to open accessibility page');
+      }
+    }, true);
+    
+    settingsTab.addEventListener('blur', (e) => {
+      const button = e.target && e.target.closest('[data-action]');
+      if (button && button.dataset.action === 'accessibility') {
+        button.style.boxShadow = '';
+        button.setAttribute('aria-label', 'Accessibility Options');
+      }
+    }, true);
   }
   
   // Overlay event listeners (for any remaining overlays)

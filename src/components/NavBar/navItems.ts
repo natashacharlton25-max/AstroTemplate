@@ -15,5 +15,4 @@ export const links: NavLink[] = [
     label: 'Insights', 
     external: true
   },
-  { href: '/contact', label: 'Contact' },
 ];

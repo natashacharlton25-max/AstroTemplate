@@ -6,12 +6,10 @@ import '../styles/utilities/spacing.css';
 import '../styles/utilities/layout.css';
 import '../styles/utilities/colors.css';
 import '../styles/brand.css';
-import '../styles/accessibility.css';
 import '../components/Footer/scroll-effect/footerRevealStyles.css';
 import ScrollRevealLayout from '../components/Footer/scroll-effect/ScrollRevealLayout.astro';
 import BottomNav from '../components/BottomNav/BottomNav.astro';
 import TabNav from '../components/NavBar/TabNav.astro';
-import SkipLink from '../components/Accessibility/SkipLink.astro';
 
 // Props for layout configuration
 export interface Props {
@@ -275,8 +273,6 @@ const {
   </head>
   <body class="min-h-screen overflow-x-hidden" style="min-height:100vh">
     
-    <!-- Skip Link - First focusable element -->
-    <SkipLink />
     
     <!-- Top Navigation -->
     <header role="banner">

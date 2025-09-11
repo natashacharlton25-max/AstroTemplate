@@ -19,19 +19,19 @@
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--footer-border, var(--nav-border));
   border-radius: var(--footer-border-radius, var(--nav-border-radius));
-  padding: 32px; /* Reduced from 48px */
+  padding: 24px; /* Further reduced for compactness */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
-/* Footer Header with Logo and Tagline - Reduced spacing */
+/* Footer Header with Logo and Tagline - Compact spacing */
 .footer-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 32px; /* Reduced from 48px */
-  padding-bottom: 20px; /* Reduced from 32px */
+  margin-bottom: 20px; /* Further reduced */
+  padding-bottom: 16px; /* Further reduced */
   border-bottom: 1px solid var(--footer-border, rgba(255, 255, 255, 0.1));
 }
 
@@ -74,11 +74,9 @@
   line-height: 1.5;
 }
 
-/* Footer Content Grid - Tighter spacing */
+/* Footer Content - Let Tailwind responsive classes control display */
 .footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Smaller min-width */
-  gap: 24px; /* Reduced from 40px */
+  /* Remove display: grid to let Tailwind responsive classes work */
   margin-bottom: 24px; /* Reduced from 40px */
 }
 
