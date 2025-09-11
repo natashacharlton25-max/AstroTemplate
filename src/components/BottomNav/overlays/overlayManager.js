@@ -1,5 +1,32 @@
 // Overlay Management Functionality
 export function initOverlayManager() {
+  // Dark mode icon update function
+  const updateDarkModeIcon = () => {
+    const darkModeBtn = document.getElementById('bottomNavDarkMode');
+    if (darkModeBtn) {
+      const moonIcon = darkModeBtn.querySelector('.moon-icon');
+      const sunIcon = darkModeBtn.querySelector('.sun-icon');
+      const isDarkMode = document.body.classList.contains('accessibility-dark-mode');
+      
+      if (isDarkMode) {
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = 'block';
+        darkModeBtn.setAttribute('aria-label', 'Switch to light mode');
+      } else {
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
+        darkModeBtn.setAttribute('aria-label', 'Switch to dark mode');
+      }
+    }
+  };
+  
+  // Initialize dark mode icon state
+  setTimeout(() => {
+    updateDarkModeIcon();
+  }, 100);
+  
+  // Expose function globally for accessibility panel to call
+  window.updateBottomNavDarkModeIcon = updateDarkModeIcon;
   // Overlay management functions
   const openOverlay = (type) => {
     const overlay = document.querySelector(`[data-overlay-screen="${type}"]`);
@@ -75,11 +102,13 @@ export function initOverlayManager() {
         }
         break;
         
-      case 'accessibility':
-        // Use the accessibility panel
-        if (window.openAccessibilityPanel) {
-          window.openAccessibilityPanel();
-          // Close settings menu when opening panel
+      case 'dark-mode':
+        // Toggle dark mode via accessibility system
+        if (window.accessibilityPanelInstance && window.accessibilityPanelInstance.toggleDarkMode) {
+          window.accessibilityPanelInstance.toggleDarkMode();
+          // Update the icon state
+          updateDarkModeIcon();
+          // Close settings menu after action
           const settingsExpanded = document.querySelector('[data-settings-expanded]');
           const settingsToggle = document.querySelector('[data-settings-toggle]');
           settingsExpanded?.classList.remove('show');
@@ -87,6 +116,11 @@ export function initOverlayManager() {
         } else {
           console.warn('Accessibility Panel not available yet');
         }
+        break;
+        
+      case 'accessibility':
+        // Navigate to accessibility page
+        window.location.href = '/accessibility';
         break;
     }
   };

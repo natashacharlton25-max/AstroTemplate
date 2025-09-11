@@ -24,6 +24,61 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    
+    <!-- Critical accessibility CSS - prevent FOUC -->
+    <script>
+      // Apply critical accessibility styles immediately to prevent visual jumping
+      (function() {
+        // Check saved dark mode setting
+        const savedDarkMode = localStorage.getItem('accessibility-darkMode');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const shouldUseDarkMode = savedDarkMode === 'true' || (savedDarkMode === null && prefersDark);
+        
+        if (shouldUseDarkMode) {
+          document.documentElement.classList.add('accessibility-dark-mode');
+          document.body.classList.add('accessibility-dark-mode');
+        }
+        
+        // Check saved plain text mode
+        const savedPlainText = localStorage.getItem('accessibility-plainTextMode');
+        if (savedPlainText === 'true') {
+          document.documentElement.classList.add('accessibility-plain-text-mode');
+          document.body.classList.add('accessibility-plain-text-mode');
+        }
+        
+        // Check saved keyboard helpers
+        const savedKeyboardHelpers = localStorage.getItem('accessibility-keyboardHelpers');
+        if (savedKeyboardHelpers === 'true') {
+          document.documentElement.classList.add('accessibility-keyboard-helpers');
+          document.body.classList.add('accessibility-keyboard-helpers');
+        }
+        
+        // Check saved screen reader helpers
+        const savedScreenReaderHelpers = localStorage.getItem('accessibility-screenReaderHelpers');
+        if (savedScreenReaderHelpers === 'true') {
+          document.documentElement.classList.add('accessibility-screen-reader-helpers');
+          document.body.classList.add('accessibility-screen-reader-helpers');
+        }
+        
+        // Check high contrast preference
+        if (window.matchMedia && window.matchMedia('(prefers-contrast: high)').matches) {
+          document.documentElement.classList.add('accessibility-high-contrast');
+          document.body.classList.add('accessibility-high-contrast');
+        }
+        
+        // Apply background color setting
+        const savedBackgroundColor = localStorage.getItem('accessibility-backgroundColor');
+        if (savedBackgroundColor && savedBackgroundColor !== 'white' && savedBackgroundColor !== 'default') {
+          document.body.classList.add(`bg-${savedBackgroundColor}`);
+        }
+        
+        // Apply font family setting
+        const savedFontFamily = localStorage.getItem('accessibility-fontFamily');
+        if (savedFontFamily && savedFontFamily !== 'default') {
+          document.body.classList.add(`font-${savedFontFamily}`);
+        }
+      })();
+    </script>
   </head>
   <body class="min-h-screen overflow-x-hidden" style="min-height:100vh">
     
