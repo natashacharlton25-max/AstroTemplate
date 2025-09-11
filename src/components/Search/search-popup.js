@@ -1,6 +1,6 @@
 // Search Popup JavaScript
 
-class SearchPopup {
+export default class SearchPopup {
   constructor() {
     this.popup = document.getElementById('searchPopup');
     this.searchInput = document.getElementById('searchInput');
@@ -514,8 +514,3 @@ class SearchPopup {
 document.addEventListener('DOMContentLoaded', () => {
   new SearchPopup();
 });
-
-// Export for use in other files if needed
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = SearchPopup;
-}

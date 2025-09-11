@@ -528,10 +528,10 @@
 }
 </style>
 
-<script>
+<script type="module">
 // Contact Popup JavaScript
 
-class ContactPopup {
+export default class ContactPopup {
   private popup: HTMLElement | null;
   private closeBtn: HTMLElement | null;
   private submitBtn: HTMLButtonElement | null;
@@ -773,9 +773,4 @@ class ContactPopup {
 document.addEventListener('DOMContentLoaded', () => {
   new ContactPopup();
 });
-
-// Export for use in other files if needed
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = ContactPopup;
-}
 </script>
