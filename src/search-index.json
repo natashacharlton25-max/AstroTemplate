@@ -1,0 +1,43 @@
+[
+  {
+    "title": "Index",
+    "description": "Learn more about index",
+    "content": "",
+    "category": "pages",
+    "url": "/",
+    "date": "Updated recently",
+    "tags": [
+      "index",
+      "page"
+    ],
+    "type": "page"
+  },
+  {
+    "title": "Accessibility",
+    "description": "Learn more about accessibility",
+    "content": "Make our site accessible for everyone Customize your browsing experience with our comprehensive accessibility tools Visual assistance Keyboard navigation Reading assistance Quick Setup Choose a preset to get started quickly Default Standard settings for most users Vision Assistance High contrast and larger text Motor Assistance Enhanced keyboard navigation Cognitive Support Simplified interface and clear reading Visual Preferences Adjust the appearance to your comfort Dark Mode Reduce eye strain",
+    "category": "pages",
+    "url": "/accessibility",
+    "date": "Updated recently",
+    "tags": [
+      "accessibility",
+      "page"
+    ],
+    "type": "page"
+  },
+  {
+    "title": "Search Results",
+    "description": "Find anything on our website with powerful search functionality",
+    "content": "search results find discover explore website content",
+    "category": "pages",
+    "url": "/search-results",
+    "date": "Updated recently",
+    "tags": [
+      "search",
+      "results",
+      "find",
+      "discover"
+    ],
+    "type": "page"
+  }
+]
