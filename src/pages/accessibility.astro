@@ -4,98 +4,160 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Accessibility Settings" enableFooterReveal={false}>
   <main class="accessibility-page">
-    <div class="accessibility-container">
-      <!-- Header -->
-      <div class="page-header">
-        <div class="header-content">
-          <h1>Make our site <span class="highlight">accessible</span> for everyone</h1>
-          <p class="header-description">Customize your browsing experience with our comprehensive accessibility tools</p>
+    <!-- Hero Section -->
+    <section class="accessibility-hero">
+      <div class="hero-background">
+        <div class="hero-pattern"></div>
+        <div class="hero-gradient"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-icon">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-3H9V7h2v6zm2 3h2v-2h-2v2zm0-3h2V7h-2v6z"/>
+          </svg>
         </div>
-        <div class="accessibility-info">
-          <div class="accessibility-item">
-            <svg class="accessibility-icon" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="8"></circle>
-            </svg>
-            <span>Visual assistance</span>
+        <h1 class="hero-title">
+          Make our site <span class="hero-highlight">accessible</span> for everyone
+        </h1>
+        <p class="hero-description">
+          Customize your browsing experience with our comprehensive accessibility tools designed to meet your unique needs
+        </p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Accessibility Features</span>
           </div>
-          <div class="accessibility-item">
-            <svg class="accessibility-icon" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-              <rect x="4" y="8" width="16" height="8" rx="2"></rect>
-            </svg>
-            <span>Keyboard navigation</span>
+          <div class="stat-item">
+            <span class="stat-number">WCAG</span>
+            <span class="stat-label">Compliant</span>
           </div>
-          <div class="accessibility-item">
-            <svg class="accessibility-icon" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-              <rect x="4" y="6" width="16" height="2"></rect>
-              <rect x="4" y="10" width="16" height="2"></rect>
-              <rect x="4" y="14" width="16" height="2"></rect>
-              <rect x="4" y="18" width="16" height="2"></rect>
-            </svg>
-            <span>Reading assistance</span>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Customizable</span>
           </div>
         </div>
       </div>
+    </section>
+
+    <div class="accessibility-container">
+      <!-- Feature Overview -->
+      <section class="features-overview">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon visual">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Visual Assistance</h3>
+            <p class="feature-description">High contrast, font size adjustment, and color customization</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon motor">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11h20V9c0-1.1-.9-2-2-2zM10 4h4v3h-4V4zm8 16H6v-9h12v9z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Keyboard Navigation</h3>
+            <p class="feature-description">Enhanced keyboard support and focus indicators</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon cognitive">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Reading Support</h3>
+            <p class="feature-description">Simplified layouts and reading assistance tools</p>
+          </div>
+        </div>
+      </section>
 
       <!-- Content -->
       <div class="page-content">
         <div class="accessibility-panel-content">
         
         <!-- Quick Setup Section -->
-        <section class="accessibility-section">
-          <h2 class="section-title">Quick Setup</h2>
-          <p class="section-description">Choose a preset to get started quickly</p>
+        <section class="accessibility-section quick-setup">
+          <div class="section-header">
+            <h2 class="section-title">
+              <span class="section-icon">⚡</span>
+              Quick Setup
+            </h2>
+            <p class="section-description">Choose a preset configuration to get started instantly</p>
+          </div>
           
           <div class="preset-cards">
             <!-- Default Preset -->
-            <button class="preset-card" data-preset="default" aria-label="Apply default settings">
+            <button class="preset-card default-preset" data-preset="default" aria-label="Apply default settings">
               <div class="preset-icon">
-                <svg class="w-6 h-6" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                  <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
               </div>
               <div class="preset-content">
                 <h3 class="preset-title">Default</h3>
-                <p class="preset-description">Standard settings for most users</p>
+                <p class="preset-description">Standard settings optimized for most users</p>
+                <div class="preset-features">
+                  <span class="feature-tag">Balanced</span>
+                  <span class="feature-tag">Fast</span>
+                </div>
               </div>
+              <div class="preset-indicator"></div>
             </button>
 
             <!-- Vision Preset -->
-            <button class="preset-card" data-preset="vision" aria-label="Apply vision assistance settings">
+            <button class="preset-card vision-preset" data-preset="vision" aria-label="Apply vision assistance settings">
               <div class="preset-icon">
-                <svg class="w-6 h-6" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="8"></circle>
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                 </svg>
               </div>
               <div class="preset-content">
                 <h3 class="preset-title">Vision Assistance</h3>
-                <p class="preset-description">High contrast and larger text</p>
+                <p class="preset-description">High contrast colors and larger text for better visibility</p>
+                <div class="preset-features">
+                  <span class="feature-tag">High Contrast</span>
+                  <span class="feature-tag">Large Text</span>
+                </div>
               </div>
+              <div class="preset-indicator"></div>
             </button>
 
             <!-- Motor Preset -->
-            <button class="preset-card" data-preset="motor" aria-label="Apply motor assistance settings">
+            <button class="preset-card motor-preset" data-preset="motor" aria-label="Apply motor assistance settings">
               <div class="preset-icon">
-                <svg class="w-6 h-6" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                  <rect x="4" y="9" width="16" height="6" rx="1"></rect>
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11h20V9c0-1.1-.9-2-2-2zM10 4h4v3h-4V4zm8 16H6v-9h12v9z"/>
                 </svg>
               </div>
               <div class="preset-content">
                 <h3 class="preset-title">Motor Assistance</h3>
-                <p class="preset-description">Enhanced keyboard navigation</p>
+                <p class="preset-description">Enhanced keyboard navigation and larger click targets</p>
+                <div class="preset-features">
+                  <span class="feature-tag">Keyboard</span>
+                  <span class="feature-tag">Large Targets</span>
+                </div>
               </div>
+              <div class="preset-indicator"></div>
             </button>
 
             <!-- Cognitive Preset -->
-            <button class="preset-card" data-preset="cognitive" aria-label="Apply cognitive assistance settings">
+            <button class="preset-card cognitive-preset" data-preset="cognitive" aria-label="Apply cognitive assistance settings">
               <div class="preset-icon">
-                <svg class="w-6 h-6" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                  <polygon points="12,4 20,20 4,20"></polygon>
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H20v2h-1v16h-2V4h-1.5l-1 2H20V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2h5l-1-2z"/>
                 </svg>
               </div>
               <div class="preset-content">
                 <h3 class="preset-title">Cognitive Support</h3>
-                <p class="preset-description">Simplified interface and clear reading</p>
+                <p class="preset-description">Simplified interface with clear navigation and reading aids</p>
+                <div class="preset-features">
+                  <span class="feature-tag">Simple</span>
+                  <span class="feature-tag">Clear</span>
+                </div>
               </div>
+              <div class="preset-indicator"></div>
             </button>
           </div>
         </section>
