@@ -3,8 +3,8 @@ import Layout from '@layouts/Layout.astro';
 import BrandHero from '@components/Hero/BrandHero.astro';
 ---
 
-<Layout>
-  <main style="position: relative;">
+<Layout enableFooterReveal={true}>
+  <div style="position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; padding-top: 60px;">
     <BrandHero />
-  </main>
+  </div>
 </Layout>

@@ -201,9 +201,9 @@ export const siteConfig: SiteConfig = {
         { label: "Home", href: "/" },
         { label: "About", href: "/about" },
         { label: "Services", href: "/services" },
-        { label: "Portfolio", href: "/portfolio" },
-        { label: "Accessibility", href: "/accessibility" },
-        { label: "Contact", href: "/contact" }
+        { label: "Projects", href: "/projects" },
+        { label: "Insights", href: "/insights" },
+        { label: "Assets", href: "/assets" }
       ]
     },
     footer: {

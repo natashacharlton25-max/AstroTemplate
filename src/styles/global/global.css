@@ -13,21 +13,21 @@
 */
 
 /* Base Styles */
-@import './global/reset.css';
-@import './global/typography.css';
+@import './reset.css';
+@import './typography.css';
 
 /* Design Tokens */
-@import './tokens/variables.css';
+@import '../tokens/variables.css';
 
 /* Brand Theme */
-@import './themes/brand.css';
+@import '../themes/brand.css';
 
 /* Utility Classes (these provide Tailwind-like utilities using design system tokens) */
-@import './global/colors.css';
-@import './global/layout.css';
-@import './global/spacing.css';
+@import './colors.css';
+@import './layout.css';
+@import './spacing.css';
 
 /* Accessibility */
-@import './global/accessibility.css';
+@import './accessibility.css';
 
 /* Additional global styles can be added below if needed */

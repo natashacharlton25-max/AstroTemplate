@@ -1,9 +1,12 @@
 ---
-import '@styles/global.css';
+import '@styles/global/global.css';
 import '@components/Footer/scroll-effect/footerRevealStyles.css';
+import '@components/Scroll-bar/scrollbar-styles.css';
 import ScrollRevealLayout from '@components/Footer/scroll-effect/ScrollRevealLayout.astro';
+import Footer from '@components/Footer/Footer.astro';
 import BottomNav from '@components/BottomNav/BottomNav.astro';
 import TabNav from '@components/NavBar/TabNav.astro';
+import CustomScrollbar from '@components/Scroll-bar/CustomScrollbar.astro';
 import siteConfig from '@/site.config';
 
 // Props for layout configuration
@@ -284,7 +287,8 @@ const {
     </script>
   </head>
   <body class="min-h-screen overflow-x-hidden" style="min-height:100vh">
-    
+    <!-- Custom Scrollbar Styles -->
+    <CustomScrollbar />
     
     <!-- Top Navigation -->
     <header role="banner">
@@ -297,10 +301,13 @@ const {
       </ScrollRevealLayout>
     ) : (
       <>
-        <!-- Standard layout without reveal effect - NO FOOTER -->
+        <!-- Standard layout without reveal effect -->
         <main role="main" id="main-content">
           <slot />
         </main>
+        
+        <!-- Simple Footer -->
+        <Footer />
         
         <!-- Bottom Navigation -->
         <nav role="navigation" aria-label="Quick actions">

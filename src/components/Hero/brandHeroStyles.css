@@ -1,24 +1,33 @@
 /* Brand Hero Component Styles */
 
 .brand-text-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   text-align: center;
-  color: var(--brand-text-light);
+  color: var(--color-text-primary);
   font-family: var(--font-heading);
 }
 
 .brand-text-container h1 {
-  font-size: 8rem;
+  font-size: clamp(3rem, 8vw, 8rem);
   font-weight: bold;
-  color: var(--brand-text-light);
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  color: var(--color-secondary);
   margin-bottom: 1rem;
 }
 
 .brand-text-container p {
-  font-size: 2rem;
-  color: var(--brand-text-light);
+  font-size: clamp(1rem, 3vw, 2rem);
+  color: var(--color-text-primary);
+  opacity: 0.8;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .brand-text-container h1 {
+    font-size: clamp(2rem, 10vw, 4rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .brand-text-container p {
+    font-size: clamp(0.9rem, 4vw, 1.5rem);
+  }
 }
