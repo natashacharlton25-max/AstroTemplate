@@ -159,11 +159,7 @@ a:hover {
 .leading-relaxed { line-height: var(--leading-relaxed); }
 .leading-loose { line-height: var(--leading-loose); }
 
-/* Text colors */
-.text-primary { color: var(--color-primary); }
-.text-secondary { color: var(--color-secondary); }
-.text-gray-600 { color: var(--color-gray-600); }
-.text-gray-700 { color: var(--color-gray-700); }
+/* Typography-specific color utilities (removed - handled by colors.css) */
 
 /* Responsive typography */
 @media (max-width: 768px) {

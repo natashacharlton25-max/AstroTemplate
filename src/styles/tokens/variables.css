@@ -2,10 +2,14 @@
    CSS Custom Properties (Variables) - Brand Design System
    ========================================================================== */
 
+/* === GENERATED FROM SITE CONFIG - DO NOT EDIT MANUALLY === */
 :root {
-  /* ========================================
-     Brand Colors
-     ======================================== */
+  --brand-name: "IC the Moon";
+  --brand-tagline: "Digital Accessibility & Design";
+  --brand-description: "Creating inclusive digital experiences that work for everyone, everywhere.";
+  --brand-logo-path: "/images/LogoPlaceholder.png";
+  --brand-logo-fallback: "IC";
+  --contact-email: "natashacharlton25@googlemail.com";
   --color-primary: #e63961;
   --color-secondary: #184e77;
   --color-background: #fffaf6;
@@ -13,12 +17,30 @@
   --color-text-light: #ebdddd;
   --color-white: #ffffff;
   --color-black: #837474;
-  
-  /* Color variations */
   --color-primary-light: #f06b8a;
   --color-primary-dark: #d63456;
   --color-secondary-light: #2d6b9a;
   --color-secondary-dark: #0f3a5c;
+  --brand-accent-1: #ffb703;
+  --brand-accent-2: #fb8500;
+  --brand-neutral-dark: #111319;
+  --brand-neutral-mid: #727586;
+  --brand-neutral-light: #e7e8eb;
+  --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-nav: var(--font-body);
+  --nav-height: 45px;
+  --nav-mobile-height: 60px;
+  --nav-border-radius: 35px;
+  --nav-mobile-border-radius: 30px;
+}
+/* === END GENERATED SECTION === */
+
+:root {
+  /* ========================================
+     Additional Design System Variables
+     Note: Brand colors are generated from site.config.ts
+     ======================================== */
   
   /* Neutral colors */
   --color-gray-50: #f9fafb;

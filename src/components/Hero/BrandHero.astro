@@ -1,12 +1,14 @@
 ---
+import siteConfig from '@/site.config';
+
 export interface Props {
   title?: string;
   subtitle?: string;
 }
 
 const { 
-  title = "Your Brand",
-  subtitle = "This is some text to demonstrate the blur effect."
+  title = siteConfig.content.hero.title,
+  subtitle = siteConfig.content.hero.subtitle
 } = Astro.props;
 ---
 

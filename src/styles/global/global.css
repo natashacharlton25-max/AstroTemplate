@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Global CSS - Master stylesheet combining all base styles
+   ========================================================================== */
+
+/* Import order:
+   1. CSS reset and base styles
+   2. Design tokens and variables
+   3. Typography system
+   4. Brand/theme styles
+   5. Utility classes
+   6. Accessibility styles
+   7. Component-specific overrides
+*/
+
+/* Base Styles */
+@import './global/reset.css';
+@import './global/typography.css';
+
+/* Design Tokens */
+@import './tokens/variables.css';
+
+/* Brand Theme */
+@import './themes/brand.css';
+
+/* Utility Classes (these provide Tailwind-like utilities using design system tokens) */
+@import './global/colors.css';
+@import './global/layout.css';
+@import './global/spacing.css';
+
+/* Accessibility */
+@import './global/accessibility.css';
+
+/* Additional global styles can be added below if needed */

@@ -1,33 +1,45 @@
 ---
-import '../styles/variables.css';
-import '../styles/base/reset.css';
-import '../styles/base/typography.css';
-import '../styles/utilities/spacing.css';
-import '../styles/utilities/layout.css';
-import '../styles/utilities/colors.css';
-import '../styles/brand.css';
-import '../components/Footer/scroll-effect/footerRevealStyles.css';
-import ScrollRevealLayout from '../components/Footer/scroll-effect/ScrollRevealLayout.astro';
-import BottomNav from '../components/BottomNav/BottomNav.astro';
-import TabNav from '../components/NavBar/TabNav.astro';
+import '@styles/global.css';
+import '@components/Footer/scroll-effect/footerRevealStyles.css';
+import ScrollRevealLayout from '@components/Footer/scroll-effect/ScrollRevealLayout.astro';
+import BottomNav from '@components/BottomNav/BottomNav.astro';
+import TabNav from '@components/NavBar/TabNav.astro';
+import siteConfig from '@/site.config';
 
 // Props for layout configuration
 export interface Props {
   title?: string;
+  description?: string;
   enableFooterReveal?: boolean;
 }
 
 const { 
-  title = "Page Title",
+  title = siteConfig.seo.title,
+  description = siteConfig.seo.description,
   enableFooterReveal = true
 } = Astro.props;
 ---
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href={siteConfig.brand.favicon} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={siteConfig.seo.keywords.join(', ')} />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {siteConfig.seo.ogImage && <meta property="og:image" content={siteConfig.seo.ogImage} />}
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {siteConfig.seo.twitterHandle && <meta name="twitter:site" content={siteConfig.seo.twitterHandle} />}
+    {siteConfig.seo.ogImage && <meta name="twitter:image" content={siteConfig.seo.ogImage} />}
     
     <!-- Critical accessibility CSS - prevent FOUC -->
     <script>

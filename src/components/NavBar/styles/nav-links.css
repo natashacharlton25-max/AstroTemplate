@@ -1,0 +1,70 @@
+/* Navigation Links Styles */
+
+.nav-link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 120px !important;
+  height: var(--nav-height) !important;
+  padding: 0 20px !important;
+  background: var(--nav-background) !important;
+  border: var(--nav-border) !important;
+  border-radius: var(--nav-border-radius) !important;
+  color: var(--nav-text-primary) !important;
+  font-family: var(--font-nav) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  cursor: pointer !important;
+  transition: all var(--transition-base) !important;
+  box-shadow: var(--shadow-md) !important;
+  backdrop-filter: var(--glass-backdrop-blur) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+  margin-bottom: 8px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.nav-link:hover {
+  background: var(--nav-hover-bg) !important;
+  color: var(--nav-text-accent) !important;
+  box-shadow: var(--shadow-lg) !important;
+  transform: translateY(-2px) translateX(4px) !important;
+}
+
+.nav-link.active {
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  font-weight: 700 !important;
+}
+
+/* Animation states */
+.nav-expanded.show .nav-item {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.nav-expanded.exiting .nav-item {
+  opacity: 0 !important;
+  transform: translateY(-10px) !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .nav-link {
+    width: 100px !important;
+    height: var(--nav-mobile-height) !important;
+    border-radius: var(--nav-mobile-border-radius) !important;
+    padding: 0 16px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Ensure proper stacking and visibility */
+.nav-item {
+  position: relative;
+  z-index: 1001;
+}

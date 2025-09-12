@@ -266,18 +266,10 @@ mark, .highlight {
   font-weight: 600;
 }
 
-/* Brand Utility Classes */
-.text-primary   { color: var(--brand-primary) !important; }
-.text-secondary { color: var(--brand-secondary) !important; }
-.text-light     { color: var(--brand-text-light) !important; }
-.text-muted     { color: var(--brand-text) !important; }
-
-.bg-primary     { background-color: var(--brand-primary) !important; }
-.bg-secondary   { background-color: var(--brand-secondary) !important; }
-.bg-background  { background-color: var(--brand-background) !important; }
-
-.border-primary   { border-color: var(--brand-primary) !important; }
-.border-secondary { border-color: var(--brand-secondary) !important; }
+/* Brand-specific utilities that aren't covered by the main utility classes */
+.text-brand-light { color: var(--brand-text-light) !important; }
+.text-brand-muted { color: var(--brand-text) !important; }
+.bg-brand-background { background-color: var(--brand-background) !important; }
 
 /* Glassmorphic Utility Classes */
 .glass-light {

@@ -1,9 +1,10 @@
 ---
 // AccessibilityPage.astro
-import Layout from '../layouts/Layout.astro';
+import Layout from '@layouts/Layout.astro';
+import siteConfig from '@/site.config';
 ---
 
-<Layout title="Accessibility Settings - IC the Moon" enableFooterReveal={false}>
+<Layout title={`Accessibility Settings - ${siteConfig.brand.name}`} enableFooterReveal={false}>
   
   <main class="accessibility-page">
     <!-- Hero Section -->
@@ -272,7 +273,7 @@ import Layout from '../layouts/Layout.astro';
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <style>
-  @import '../styles/accessibility-page.css';
+  @import '@styles/global/accessibility.css';
 </style>
 
 <script>

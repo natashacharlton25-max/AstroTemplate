@@ -1,0 +1,74 @@
+/* Navigation Base Styles - Core positioning and structure */
+
+/* Mobile Nav Background Overlay */
+.nav-background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--color-background) 85%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  display: none;
+}
+
+.nav-background-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Only show overlay on mobile/tablet */
+@media (max-width: 1024px) {
+  .nav-background-overlay {
+    display: block;
+  }
+}
+
+/* Top-Left Navigation Tab - using brand colors */
+.nav-tab {
+  position: fixed !important;
+  top: 20px !important;
+  left: -20px !important;
+  z-index: 999 !important;
+  display: block !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Navigation expanded menu */
+.nav-expanded {
+  position: fixed;
+  top: 20px;
+  left: -20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-expanded.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Navigation items */
+.nav-item {
+  display: flex;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
