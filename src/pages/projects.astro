@@ -1,0 +1,358 @@
+---
+import Layout from '@layouts/Layout.astro';
+import siteConfig from '@/site.config';
+---
+
+<Layout title="Projects - IC the Moon" enableFooterReveal={true}>
+  <main class="page-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">Our Projects</h1>
+        <p class="hero-subtitle">Showcasing inclusive digital experiences we've crafted</p>
+      </div>
+    </section>
+
+    <!-- Projects Grid Section -->
+    <section class="projects-section">
+      <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">Explore our portfolio of accessibility-focused web applications, design systems, and digital solutions that prioritize inclusive user experiences.</p>
+        
+        <div class="masonry-grid">
+          <!-- Project Card 1 -->
+          <div class="project-card">
+            <div class="project-image">
+              <img src="/images/Placeholder.jpg" alt="E-Commerce platform redesign" />
+              <div class="project-overlay">
+                <span class="project-category">Web Application</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>E-Commerce Accessibility Transformation</h3>
+              <p>Redesigned a major retail platform to meet WCAG 2.1 AA standards, improving usability for screen reader users and keyboard navigation while maintaining visual appeal.</p>
+              <div class="project-tags">
+                <span class="tag">WCAG 2.1 AA</span>
+                <span class="tag">E-Commerce</span>
+                <span class="tag">Screen Readers</span>
+              </div>
+              <a href="#" class="project-link">View Case Study</a>
+            </div>
+          </div>
+
+          <!-- Project Card 2 -->
+          <div class="project-card">
+            <div class="project-image">
+              <img src="/images/Placeholder.jpg" alt="Government portal interface" />
+              <div class="project-overlay">
+                <span class="project-category">Government</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Government Portal Redesign</h3>
+              <p>Created an accessible citizen services portal with multi-language support, high contrast modes, and simplified navigation for diverse user needs. This project served over 2 million citizens and achieved 100% WCAG compliance.</p>
+              <div class="project-tags">
+                <span class="tag">Multi-language</span>
+                <span class="tag">High Contrast</span>
+                <span class="tag">Government</span>
+              </div>
+              <a href="#" class="project-link">View Case Study</a>
+            </div>
+          </div>
+
+          <!-- Project Card 3 -->
+          <div class="project-card">
+            <div class="project-image">
+              <img src="/images/Placeholder.jpg" alt="Educational platform design" />
+              <div class="project-overlay">
+                <span class="project-category">Education</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Educational Platform Overhaul</h3>
+              <p>Enhanced an online learning system with cognitive accessibility features, including reading aids, focus management, and customizable interface options.</p>
+              <div class="project-tags">
+                <span class="tag">Cognitive</span>
+                <span class="tag">Focus Management</span>
+                <span class="tag">Learning</span>
+              </div>
+              <a href="#" class="project-link">View Case Study</a>
+            </div>
+          </div>
+
+          <!-- Project Card 4 -->
+          <div class="project-card">
+            <div class="project-image">
+              <img src="/images/Placeholder.jpg" alt="Design system components" />
+              <div class="project-overlay">
+                <span class="project-category">Design System</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Design System Development</h3>
+              <p>Built comprehensive design systems with accessibility at their core, providing teams with components and guidelines for creating inclusive interfaces from the ground up. Used by 15+ development teams.</p>
+              <div class="project-tags">
+                <span class="tag">Design System</span>
+                <span class="tag">Components</span>
+                <span class="tag">Guidelines</span>
+              </div>
+              <a href="#" class="project-link">View Case Study</a>
+            </div>
+          </div>
+
+          <!-- Project Card 5 -->
+          <div class="project-card">
+            <div class="project-image">
+              <img src="/images/Placeholder.jpg" alt="Healthcare application" />
+              <div class="project-overlay">
+                <span class="project-category">Healthcare</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Healthcare Patient Portal</h3>
+              <p>Developed an accessible patient portal for a major healthcare provider, featuring voice navigation, large text options, and simplified appointment booking.</p>
+              <div class="project-tags">
+                <span class="tag">Healthcare</span>
+                <span class="tag">Voice Navigation</span>
+                <span class="tag">Patient Portal</span>
+              </div>
+              <a href="#" class="project-link">View Case Study</a>
+            </div>
+          </div>
+
+          <!-- Project Card 6 -->
+          <div class="project-card">
+            <div class="project-image">
+              <img src="/images/Placeholder.jpg" alt="Banking application" />
+              <div class="project-overlay">
+                <span class="project-category">Financial</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Banking App Accessibility Audit</h3>
+              <p>Comprehensive accessibility overhaul of a mobile banking application, implementing voice commands, haptic feedback, and improved contrast ratios for better usability.</p>
+              <div class="project-tags">
+                <span class="tag">Mobile Banking</span>
+                <span class="tag">Voice Commands</span>
+                <span class="tag">Haptic Feedback</span>
+              </div>
+              <a href="#" class="project-link">View Case Study</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page-content {
+    min-height: calc(100vh - 120px);
+    padding-top: 80px;
+  }
+
+  .hero-section {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    padding: 4rem 0 5rem;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Projects Section */
+  .projects-section {
+    padding: 4rem 0 667px;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .section-subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-primary);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  /* Masonry Grid */
+  .masonry-grid {
+    columns: 3;
+    column-gap: 2rem;
+    column-fill: balance;
+  }
+
+  .project-card {
+    break-inside: avoid;
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--color-secondary) 12%, transparent);
+    transition: all 0.3s ease;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px color-mix(in srgb, var(--color-secondary) 20%, transparent);
+  }
+
+  .project-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-image img {
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+    max-height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover .project-image img {
+    transform: scale(1.05);
+  }
+
+  .project-overlay {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .project-category {
+    background: color-mix(in srgb, var(--color-primary) 90%, transparent);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+  }
+
+  .project-content {
+    padding: 1.5rem;
+  }
+
+  .project-content h3 {
+    font-size: 1.375rem;
+    color: var(--color-secondary);
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .project-content p {
+    color: var(--color-text-primary);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tag {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+  }
+
+  .project-link:hover {
+    color: var(--color-primary-dark);
+    transform: translateX(4px);
+  }
+
+  .project-link::after {
+    content: '→';
+    transition: transform 0.3s ease;
+  }
+
+  .project-link:hover::after {
+    transform: translateX(4px);
+  }
+
+  /* Responsive Masonry */
+  @media (max-width: 1024px) {
+    .masonry-grid {
+      columns: 2;
+      column-gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .masonry-grid {
+      columns: 1;
+      column-gap: 0;
+    }
+    
+    .project-card {
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-section {
+      padding: 2rem 0 3rem;
+    }
+    
+    .projects-section {
+      padding: 2rem 0;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+    }
+  }
+</style>

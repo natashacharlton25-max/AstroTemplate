@@ -1,0 +1,375 @@
+---
+import Layout from '@layouts/Layout.astro';
+import siteConfig from '@/site.config';
+---
+
+<Layout title="Insights - IC the Moon" enableFooterReveal={true}>
+  <main class="page-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">Insights & Articles</h1>
+        <p class="hero-subtitle">Explore accessibility best practices, design insights, and industry updates</p>
+      </div>
+    </section>
+
+    <!-- Blog Cards Section -->
+    <section class="blog-section">
+      <div class="container">
+        <!-- Featured Article -->
+        <div class="featured-article">
+          <article class="featured-card">
+            <div class="featured-image">
+              <img src="/images/Placeholder.jpg" alt="Featured article image" />
+            </div>
+            <div class="featured-content">
+              <span class="featured-badge">Featured</span>
+              <h2>The Future of Web Accessibility: Emerging Technologies and Inclusive Design</h2>
+              <p>Discover how AI, voice interfaces, and emerging technologies are shaping the next generation of accessible digital experiences...</p>
+              <div class="article-meta">
+                <span class="date">March 15, 2024</span>
+                <span class="read-time">8 min read</span>
+                <span class="category">Best Practices</span>
+              </div>
+              <a href="#" class="read-more">Read Article</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="blog-grid">
+          <article class="blog-card">
+            <div class="card-image">
+              <img src="/images/Placeholder.jpg" alt="Article thumbnail" />
+            </div>
+            <div class="card-content">
+              <span class="category-tag">WCAG Guidelines</span>
+              <h3>Understanding WCAG 2.2: What's New and What It Means</h3>
+              <p>A comprehensive breakdown of the latest Web Content Accessibility Guidelines and their practical implications...</p>
+              <div class="card-meta">
+                <span class="date">March 10, 2024</span>
+                <span class="read-time">6 min read</span>
+              </div>
+              <a href="#" class="card-link">Read More</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="card-image">
+              <img src="/images/Placeholder.jpg" alt="Article thumbnail" />
+            </div>
+            <div class="card-content">
+              <span class="category-tag">Design Systems</span>
+              <h3>Building Accessible Design Systems from the Ground Up</h3>
+              <p>Learn how to create design systems that prioritize accessibility and ensure consistent inclusive experiences...</p>
+              <div class="card-meta">
+                <span class="date">March 5, 2024</span>
+                <span class="read-time">10 min read</span>
+              </div>
+              <a href="#" class="card-link">Read More</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="card-image">
+              <img src="/images/Placeholder.jpg" alt="Article thumbnail" />
+            </div>
+            <div class="card-content">
+              <span class="category-tag">User Testing</span>
+              <h3>Inclusive User Testing: Beyond Traditional Methods</h3>
+              <p>Explore innovative approaches to user testing that include diverse abilities and perspectives...</p>
+              <div class="card-meta">
+                <span class="date">February 28, 2024</span>
+                <span class="read-time">7 min read</span>
+              </div>
+              <a href="#" class="card-link">Read More</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="card-image">
+              <img src="/images/Placeholder.jpg" alt="Article thumbnail" />
+            </div>
+            <div class="card-content">
+              <span class="category-tag">Development</span>
+              <h3>Semantic HTML: The Foundation of Accessible Web Development</h3>
+              <p>Master the art of semantic markup and learn why it's crucial for creating accessible web experiences...</p>
+              <div class="card-meta">
+                <span class="date">February 22, 2024</span>
+                <span class="read-time">5 min read</span>
+              </div>
+              <a href="#" class="card-link">Read More</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="card-image">
+              <img src="/images/Placeholder.jpg" alt="Article thumbnail" />
+            </div>
+            <div class="card-content">
+              <span class="category-tag">Legal Compliance</span>
+              <h3>Accessibility Compliance: Legal Requirements and Best Practices</h3>
+              <p>Navigate the complex landscape of accessibility laws and regulations across different industries...</p>
+              <div class="card-meta">
+                <span class="date">February 15, 2024</span>
+                <span class="read-time">12 min read</span>
+              </div>
+              <a href="#" class="card-link">Read More</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="card-image">
+              <img src="/images/Placeholder.jpg" alt="Article thumbnail" />
+            </div>
+            <div class="card-content">
+              <span class="category-tag">Case Study</span>
+              <h3>Case Study: Transforming an E-commerce Platform for Accessibility</h3>
+              <p>A detailed look at how we improved accessibility for a major retail site, with measurable results...</p>
+              <div class="card-meta">
+                <span class="date">February 8, 2024</span>
+                <span class="read-time">15 min read</span>
+              </div>
+              <a href="#" class="card-link">Read More</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-section">
+          <button class="load-more-btn">Load More Articles</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page-content {
+    min-height: calc(100vh - 120px);
+    padding-top: 80px;
+  }
+
+  .hero-section {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    padding: 4rem 0 5rem;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .blog-section {
+    padding: 4rem 0 667px;
+  }
+
+  /* Featured Article */
+  .featured-article {
+    margin-bottom: 4rem;
+  }
+
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--color-secondary) 15%, transparent);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 48px color-mix(in srgb, var(--color-secondary) 25%, transparent);
+  }
+
+  .featured-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  .featured-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .featured-badge {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    align-self: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .featured-content h2 {
+    font-size: 1.75rem;
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .featured-content p {
+    font-size: 1.125rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  /* Blog Grid */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .blog-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--color-secondary) 10%, transparent);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-secondary) 20%, transparent);
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .category-tag {
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--color-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .card-content h3 {
+    font-size: 1.25rem;
+    color: var(--color-secondary);
+    margin: 1rem 0 0.75rem;
+    line-height: 1.4;
+  }
+
+  .card-content p {
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Article Meta */
+  .article-meta, .card-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .article-meta span, .card-meta span {
+    opacity: 0.8;
+  }
+
+  /* Links */
+  .read-more, .card-link {
+    display: inline-block;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .read-more:hover, .card-link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+  }
+
+  /* Load More */
+  .load-more-section {
+    text-align: center;
+  }
+
+  .load-more-btn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .load-more-btn:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .featured-card {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-image img {
+      height: 200px;
+    }
+
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .hero-section {
+      padding: 2rem 0 3rem;
+    }
+
+    .blog-section {
+      padding: 2rem 0;
+    }
+
+    .article-meta, .card-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
