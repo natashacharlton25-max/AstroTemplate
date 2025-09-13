@@ -18,13 +18,13 @@
   width: 72px !important;
   height: 48px !important;
   background: var(--brand-background) !important;
-  border: 1px solid var(--clr-surface-a30) !important;
+  border: 1px solid var(--nav-border) !important;
   border-radius: 28px 0 0 28px !important;
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   cursor: pointer !important;
-  color: var(--color-on-surface) !important;
+  color: var(--nav-text) !important;
   border-right: none !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 1 !important;
@@ -32,11 +32,6 @@
   position: relative !important;
   margin: 0 !important;
   padding: 0 20px 0 16px !important;
-}
-
-/* Dark mode override for elevated surface */
-.accessibility-dark-mode .settings-toggle {
-  background: var(--color-surface-elevated) !important;
 }
 
 .settings-plus {
@@ -50,8 +45,8 @@
 .settings-toggle:hover,
 .settings-toggle.active {
   transform: translateX(-10px) !important;
-  background: var(--clr-primary-a0) !important;
-  color: var(--brand-text-light) !important;
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
   box-shadow: -8px 0 24px rgba(230, 57, 97, 0.3) !important;
 }
 
@@ -143,7 +138,7 @@
   width: 72px !important;
   height: 48px !important;
   background: var(--brand-background) !important;
-  border: 1px solid var(--clr-surface-a30) !important;
+  border: 1px solid var(--nav-border) !important;
   border-radius: 28px 0 0 28px !important;
   border-right: none !important;
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08) !important;
@@ -151,22 +146,17 @@
   -webkit-backdrop-filter: blur(10px);
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  color: var(--color-on-surface) !important;
+  color: var(--nav-text) !important;
   position: relative !important;
   padding: 0 20px 0 16px !important;
   opacity: 0 !important;
   transform: translateX(50px) scale(0.9) !important;
 }
 
-/* Dark mode override for elevated surface */
-.accessibility-dark-mode .settings-item {
-  background: var(--color-surface-elevated) !important;
-}
-
 .settings-expanded.show .settings-item:hover {
   transform: translateX(-12px) scale(1) !important;
-  background: var(--clr-primary-a0) !important;
-  color: var(--brand-text-light) !important;
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
   box-shadow: -12px 0 24px rgba(230, 57, 97, 0.3) !important;
   transition-delay: 0s !important;
 }

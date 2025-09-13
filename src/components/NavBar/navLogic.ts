@@ -168,11 +168,6 @@ export function hideNavMenu() {
   setTimeout(() => {
     navExpanded?.classList.remove('show', 'exiting');
     
-    // Hide background overlay
-    const overlay = document.getElementById('navBackgroundOverlay');
-    if (overlay) {
-      overlay.classList.remove('show');
-    }
     
     navState.isAnimating = false;
   }, totalTime);
@@ -182,7 +177,6 @@ export function setupEventListeners() {
   const navToggle = document.getElementById('navToggle');
   const navTab = document.getElementById('navTab');
   const navExpanded = document.getElementById('navExpanded');
-  const overlay = document.getElementById('navBackgroundOverlay');
 
   // Hover to show menu
   navToggle?.addEventListener('mouseenter', () => {
@@ -248,14 +242,6 @@ export function setupEventListeners() {
     }
   });
 
-  // Close when clicking on overlay
-  overlay?.addEventListener('click', () => {
-    if (navState.isLocked) {
-      navState.isLocked = false;
-      navToggle?.classList.remove('active');
-      hideNavMenu();
-    }
-  });
 }
 
 // Initialize when DOM is ready

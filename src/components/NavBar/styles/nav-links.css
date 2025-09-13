@@ -7,11 +7,11 @@
   width: clamp(100px, 12vw, 150px) !important;
   height: 48px !important;
   padding: 0 20px 0 32px !important;
-  background: var(--color-surface-elevated) !important;
-  border: 1px solid var(--clr-surface-a30) !important;
+  background: var(--brand-background) !important;
+  border: 1px solid var(--nav-border) !important;
   border-radius: 0 28px 28px 0 !important;
   border-left: none !important;
-  color: var(--color-on-surface) !important;
+  color: var(--nav-text) !important;
   font-family: var(--font-nav) !important;
   font-size: 14px !important;
   font-weight: 600 !important;
@@ -20,7 +20,7 @@
   letter-spacing: 0.5px !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  box-shadow: 4px 0 16px color-mix(in srgb, var(--clr-surface-a40) 60%, transparent) !important;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
   white-space: nowrap !important;
@@ -29,16 +29,16 @@
 }
 
 .nav-expanded.show .nav-link:hover {
-  background: var(--clr-primary-a0) !important;
-  color: white !important;
-  box-shadow: 12px 0 24px color-mix(in srgb, var(--clr-primary-a0) 40%, transparent) !important;
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  box-shadow: 12px 0 24px rgba(230, 57, 97, 0.4) !important;
   transition-delay: 0s !important;
 }
 
 .nav-link.active {
   background: var(--color-secondary) !important;
-  color: white !important;
-  box-shadow: 4px 0 16px color-mix(in srgb, var(--color-secondary) 30%, transparent) !important;
+  color: var(--color-white) !important;
+  box-shadow: 4px 0 16px rgba(24, 78, 119, 0.3) !important;
 }
 
 /* Dynamic staggered animation - controlled by JavaScript */
