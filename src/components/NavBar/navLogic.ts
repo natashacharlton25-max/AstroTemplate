@@ -125,11 +125,6 @@ export function showNavMenu() {
   navToggle?.setAttribute('aria-expanded', 'true');
   navExpanded?.setAttribute('aria-hidden', 'false');
   
-  // Show background overlay on mobile
-  const overlay = document.getElementById('navBackgroundOverlay');
-  if (overlay) {
-    overlay.classList.add('show');
-  }
   
   // Calculate total animation time based on number of items
   const navItems = navExpanded?.querySelectorAll('.nav-item') || [];

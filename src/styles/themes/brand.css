@@ -104,14 +104,19 @@
   --preset-cognitive-bg: var(--accessibility-cognitive-gradient);
 }
 
-/* ---- DARK MODE OVERRIDES (simplified) ---- */
+/* ---- DARK MODE OVERRIDES WITH SURFACE SYSTEM ---- */
 .accessibility-dark-mode {
   /* Core brand overrides for dark mode */
   --brand-background: var(--brand-neutral-dark);
   --brand-text: var(--color-text-light);
   --brand-text-light: var(--color-white);
-  --brand-primary: var(--color-primary-light);
+  --brand-primary: var(--clr-primary-a0);
   --brand-secondary: var(--brand-neutral-light);
+
+  /* Surface system integration */
+  --brand-surface: var(--clr-surface-a0);
+  --brand-surface-elevated: var(--clr-surface-a30);
+  --brand-surface-tonal: var(--clr-surface-tonal-a10);
   
   /* Navigation for dark mode */
   --nav-background: color-mix(in srgb, var(--brand-neutral-dark) 90%, transparent);

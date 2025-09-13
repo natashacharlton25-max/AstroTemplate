@@ -16,7 +16,7 @@ export interface Props {
   enableFooterReveal?: boolean;
 }
 
-const { 
+const {
   title = siteConfig.seo.title,
   description = siteConfig.seo.description,
   enableFooterReveal = true
@@ -317,9 +317,9 @@ const {
     )}
     
     <!-- Auto-initialize scroll-aware navigation -->
-    <script type="module">
-      import { initScrollAwareNavigation } from '/src/components/utils/autoInitScrollNav.js';
-      
+    <script>
+      import { initScrollAwareNavigation } from '../components/utils/autoInitScrollNav.js';
+
       // Initialize when DOM is ready
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initScrollAwareNavigation);

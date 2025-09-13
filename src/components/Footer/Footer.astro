@@ -75,8 +75,8 @@ const { showLogo = true } = Astro.props;
   .simple-footer-container {
     max-width: 1200px;
     margin: 0 auto;
-    background: var(--color-background);
-    border: 1px solid color-mix(in srgb, var(--color-secondary) 15%, transparent);
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--clr-surface-a30);
     border-radius: 24px;
     padding: 2rem;
     box-shadow: 0 4px 16px color-mix(in srgb, var(--color-secondary) 8%, transparent);
@@ -86,7 +86,7 @@ const { showLogo = true } = Astro.props;
     text-align: center;
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
+    border-bottom: 1px solid var(--clr-surface-a20);
   }
 
   .simple-footer-logo {
@@ -152,7 +152,7 @@ const { showLogo = true } = Astro.props;
     justify-content: space-between;
     align-items: center;
     padding-top: 1.5rem;
-    border-top: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
+    border-top: 1px solid var(--clr-surface-a20);
     font-size: 0.875rem;
     color: var(--color-text-primary);
     opacity: 0.7;
@@ -186,7 +186,7 @@ const { showLogo = true } = Astro.props;
       gap: 1rem;
       margin: 1rem 0;
       padding-top: 1rem;
-      border-top: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
+      border-top: 1px solid var(--clr-surface-a20);
     }
 
     .simple-footer-mobile-legal a {

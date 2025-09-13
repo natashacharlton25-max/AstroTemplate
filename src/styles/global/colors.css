@@ -1,8 +1,40 @@
 /* ==========================================================================
-   Color Utilities - Consistent color classes
+   Color Utilities - Comprehensive Material Design Surface System
    ========================================================================== */
 
-/* Background colors */
+/* ========================================
+   Surface Background Utilities
+   ======================================== */
+/* Primary surface backgrounds */
+.bg-surface-a0 { background-color: var(--clr-surface-a0); }
+.bg-surface-a10 { background-color: var(--clr-surface-a10); }
+.bg-surface-a20 { background-color: var(--clr-surface-a20); }
+.bg-surface-a30 { background-color: var(--clr-surface-a30); }
+.bg-surface-a40 { background-color: var(--clr-surface-a40); }
+.bg-surface-a50 { background-color: var(--clr-surface-a50); }
+
+/* Tonal surface backgrounds */
+.bg-surface-tonal-a0 { background-color: var(--clr-surface-tonal-a0); }
+.bg-surface-tonal-a10 { background-color: var(--clr-surface-tonal-a10); }
+.bg-surface-tonal-a20 { background-color: var(--clr-surface-tonal-a20); }
+.bg-surface-tonal-a30 { background-color: var(--clr-surface-tonal-a30); }
+.bg-surface-tonal-a40 { background-color: var(--clr-surface-tonal-a40); }
+.bg-surface-tonal-a50 { background-color: var(--clr-surface-tonal-a50); }
+
+/* Primary color variations */
+.bg-primary-a0 { background-color: var(--clr-primary-a0); }
+.bg-primary-a10 { background-color: var(--clr-primary-a10); }
+.bg-primary-a20 { background-color: var(--clr-primary-a20); }
+.bg-primary-a30 { background-color: var(--clr-primary-a30); }
+.bg-primary-a40 { background-color: var(--clr-primary-a40); }
+.bg-primary-a50 { background-color: var(--clr-primary-a50); }
+
+/* Semantic surface backgrounds */
+.bg-surface { background-color: var(--color-surface); }
+.bg-surface-variant { background-color: var(--color-surface-variant); }
+.bg-surface-elevated { background-color: var(--color-surface-elevated); }
+
+/* Traditional background colors */
 .bg-transparent { background-color: transparent; }
 .bg-white { background-color: var(--color-white); }
 .bg-black { background-color: var(--color-black); }
@@ -26,7 +58,30 @@
 .bg-gray-800 { background-color: var(--color-gray-800); }
 .bg-gray-900 { background-color: var(--color-gray-900); }
 
-/* Text colors */
+/* ========================================
+   Surface Text Color Utilities
+   ======================================== */
+/* Primary color variations for text */
+.text-primary-a0 { color: var(--clr-primary-a0); }
+.text-primary-a10 { color: var(--clr-primary-a10); }
+.text-primary-a20 { color: var(--clr-primary-a20); }
+.text-primary-a30 { color: var(--clr-primary-a30); }
+.text-primary-a40 { color: var(--clr-primary-a40); }
+.text-primary-a50 { color: var(--clr-primary-a50); }
+
+/* Surface-based text colors */
+.text-surface-a10 { color: var(--clr-surface-a10); }
+.text-surface-a20 { color: var(--clr-surface-a20); }
+.text-surface-a30 { color: var(--clr-surface-a30); }
+.text-surface-a40 { color: var(--clr-surface-a40); }
+.text-surface-a50 { color: var(--clr-surface-a50); }
+
+/* Semantic text colors */
+.text-on-surface { color: var(--color-on-surface); }
+.text-on-surface-variant { color: var(--color-on-surface-variant); }
+.text-on-primary { color: white; }
+
+/* Traditional text colors */
 .text-transparent { color: transparent; }
 .text-white { color: var(--color-white); }
 .text-black { color: var(--color-black); }
@@ -50,7 +105,32 @@
 .text-gray-800 { color: var(--color-gray-800); }
 .text-gray-900 { color: var(--color-gray-900); }
 
-/* Border colors */
+/* ========================================
+   Surface Border Utilities
+   ======================================== */
+/* Surface border colors */
+.border-surface-a10 { border-color: var(--clr-surface-a10); }
+.border-surface-a20 { border-color: var(--clr-surface-a20); }
+.border-surface-a30 { border-color: var(--clr-surface-a30); }
+.border-surface-a40 { border-color: var(--clr-surface-a40); }
+.border-surface-a50 { border-color: var(--clr-surface-a50); }
+
+/* Tonal surface borders */
+.border-surface-tonal-a10 { border-color: var(--clr-surface-tonal-a10); }
+.border-surface-tonal-a20 { border-color: var(--clr-surface-tonal-a20); }
+.border-surface-tonal-a30 { border-color: var(--clr-surface-tonal-a30); }
+.border-surface-tonal-a40 { border-color: var(--clr-surface-tonal-a40); }
+.border-surface-tonal-a50 { border-color: var(--clr-surface-tonal-a50); }
+
+/* Primary color border variations */
+.border-primary-a0 { border-color: var(--clr-primary-a0); }
+.border-primary-a10 { border-color: var(--clr-primary-a10); }
+.border-primary-a20 { border-color: var(--clr-primary-a20); }
+.border-primary-a30 { border-color: var(--clr-primary-a30); }
+.border-primary-a40 { border-color: var(--clr-primary-a40); }
+.border-primary-a50 { border-color: var(--clr-primary-a50); }
+
+/* Traditional border colors */
 .border-transparent { border-color: transparent; }
 .border-white { border-color: var(--color-white); }
 .border-black { border-color: var(--color-black); }
@@ -118,6 +198,243 @@
 .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
 .focus\:ring-2:focus { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 
+/* ========================================
+   Component Styling with Surface System
+   ======================================== */
+
+/* Card Components */
+.card-surface {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--clr-surface-a20);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  color: var(--color-on-surface);
+  transition: all var(--transition-base);
+}
+
+.card-surface:hover {
+  background-color: var(--clr-surface-a30);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card-tonal {
+  background-color: var(--clr-surface-tonal-a10);
+  border: 1px solid var(--clr-surface-tonal-a20);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  color: var(--color-on-surface);
+}
+
+/* Button Components */
+.btn-surface {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--clr-surface-a30);
+  color: var(--color-on-surface);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-medium);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.btn-surface:hover {
+  background-color: var(--clr-surface-a30);
+  border-color: var(--clr-surface-a40);
+}
+
+.btn-primary {
+  background-color: var(--clr-primary-a0);
+  border: 1px solid var(--clr-primary-a0);
+  color: white;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-medium);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+/* Form Elements */
+.input-surface {
+  background-color: var(--color-surface-variant);
+  border: 2px solid var(--clr-surface-a20);
+  color: var(--color-on-surface);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  transition: all var(--transition-base);
+}
+
+.input-surface:focus {
+  outline: none;
+  border-color: var(--clr-primary-a0);
+  box-shadow: 0 0 0 3px var(--clr-primary-a40);
+}
+
+.textarea-surface {
+  background-color: var(--color-surface-variant);
+  border: 2px solid var(--clr-surface-a20);
+  color: var(--color-on-surface);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  resize: vertical;
+  min-height: 120px;
+  transition: all var(--transition-base);
+}
+
+.textarea-surface:focus {
+  outline: none;
+  border-color: var(--clr-primary-a0);
+  box-shadow: 0 0 0 3px var(--clr-primary-a40);
+}
+
+/* Navigation Components */
+.nav-surface {
+  background-color: color-mix(in srgb, var(--color-surface) 90%, transparent 10%);
+  border: 1px solid var(--clr-surface-a10);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Modal/Overlay Components */
+.modal-surface {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--clr-surface-a20);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.overlay-backdrop {
+  background-color: color-mix(in srgb, var(--color-black) 50%, transparent 50%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ========================================
+   Dark Mode Typography Enhancement
+   ======================================== */
+
+/* Body Typography Classes */
+.typography-body-light {
+  font-weight: var(--typography-font-weight-body-light);
+  letter-spacing: var(--typography-letter-spacing-body);
+}
+
+.typography-body-normal {
+  font-weight: var(--typography-font-weight-body-normal);
+  letter-spacing: var(--typography-letter-spacing-body);
+}
+
+/* Heading Typography Classes */
+.typography-heading-light {
+  font-weight: var(--typography-font-weight-heading-light);
+  letter-spacing: var(--typography-letter-spacing-heading);
+}
+
+.typography-heading-normal {
+  font-weight: var(--typography-font-weight-heading-normal);
+  letter-spacing: var(--typography-letter-spacing-heading);
+}
+
+/* Apply typography enhancements globally in dark modes */
+@media (prefers-color-scheme: dark) {
+  body {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--typography-font-weight-heading-normal);
+    letter-spacing: var(--typography-letter-spacing-heading);
+  }
+
+  nav, .nav {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+
+  button, .btn {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+
+  input, textarea, select {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+}
+
+[data-theme="dark"] {
+  body {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--typography-font-weight-heading-normal);
+    letter-spacing: var(--typography-letter-spacing-heading);
+  }
+
+  nav, .nav {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+
+  button, .btn {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+
+  input, textarea, select {
+    font-weight: var(--typography-font-weight-body-normal);
+    letter-spacing: var(--typography-letter-spacing-body);
+  }
+}
+
+.accessibility-dark-mode body {
+  font-weight: var(--typography-font-weight-body-normal);
+  letter-spacing: var(--typography-letter-spacing-body);
+}
+
+.accessibility-dark-mode h1,
+.accessibility-dark-mode h2,
+.accessibility-dark-mode h3,
+.accessibility-dark-mode h4,
+.accessibility-dark-mode h5,
+.accessibility-dark-mode h6 {
+  font-weight: var(--typography-font-weight-heading-normal);
+  letter-spacing: var(--typography-letter-spacing-heading);
+}
+
+.accessibility-dark-mode nav,
+.accessibility-dark-mode .nav {
+  font-weight: var(--typography-font-weight-body-normal);
+  letter-spacing: var(--typography-letter-spacing-body);
+}
+
+.accessibility-dark-mode button,
+.accessibility-dark-mode .btn {
+  font-weight: var(--typography-font-weight-body-normal);
+  letter-spacing: var(--typography-letter-spacing-body);
+}
+
+.accessibility-dark-mode input,
+.accessibility-dark-mode textarea,
+.accessibility-dark-mode select {
+  font-weight: var(--typography-font-weight-body-normal);
+  letter-spacing: var(--typography-letter-spacing-body);
+}
+
 /* Dark mode variants */
 @media (prefers-color-scheme: dark) {
   .dark\:bg-gray-800 { background-color: var(--color-gray-800); }
@@ -125,4 +442,9 @@
   .dark\:text-white { color: var(--color-white); }
   .dark\:text-gray-100 { color: var(--color-gray-100); }
   .dark\:text-gray-300 { color: var(--color-gray-300); }
+
+  /* Dark mode surface utilities */
+  .dark\:bg-surface-elevated { background-color: var(--color-surface-elevated); }
+  .dark\:text-on-surface { color: var(--color-on-surface); }
+  .dark\:border-surface-a20 { border-color: var(--clr-surface-a20); }
 }

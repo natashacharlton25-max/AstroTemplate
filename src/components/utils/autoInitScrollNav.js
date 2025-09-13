@@ -16,7 +16,8 @@ function initScrollAwareNavigation() {
     '#navTab',
     '.nav-tab',
     '.top-nav',
-    'nav[role="navigation"]'
+    'nav[role="navigation"]',
+    'nav.nav-tab'
   ];
   
   let topNav = null;
@@ -38,8 +39,11 @@ function initScrollAwareNavigation() {
         }
       }
     });
-    
-    console.log('✅ Top navigation registered for scroll-aware behavior');
+
+    console.log('✅ Top navigation registered for scroll-aware behavior', topNav);
+  } else {
+    console.warn('⚠️ Top navigation not found. Available elements:',
+      topNavSelectors.map(s => document.querySelector(s)).filter(Boolean));
   }
   
   // Find and register bottom navigation

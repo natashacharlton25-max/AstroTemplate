@@ -1,36 +1,5 @@
 /* Navigation Base Styles - Core positioning and structure */
 
-/* Mobile Nav Background Overlay */
-.nav-background-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: color-mix(in srgb, var(--color-background) 85%, transparent);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 998;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-  display: none;
-}
-
-.nav-background-overlay.show {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-/* Only show overlay on mobile/tablet */
-@media (max-width: 1024px) {
-  .nav-background-overlay {
-    display: block;
-  }
-}
-
 /* Top-Left Navigation Tab - using brand colors */
 nav.nav-tab {
   position: fixed !important;

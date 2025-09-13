@@ -16,8 +16,6 @@ function isActive(href: string, currentPath: string): boolean {
 @import './styles/nav-links.css';
 </style>
 
-<!-- Mobile Nav Background Overlay -->
-<div class="nav-background-overlay" id="navBackgroundOverlay"></div>
 
 <nav class="nav-tab" id="navTab" role="navigation" aria-label="Main navigation">
   <!-- Expanded Menu -->
@@ -60,64 +58,6 @@ function isActive(href: string, currentPath: string): boolean {
   
   // Initialize navigation
   initNav();
-  
-  // Simple direct scroll-aware behavior (fallback)
-  document.addEventListener('DOMContentLoaded', () => {
-    const navTab = document.getElementById('navTab');
-    const navToggle = document.getElementById('navToggle');
-    
-    if (navTab) {
-      let lastScrollY = window.scrollY;
-      let ticking = false;
-      const scrollThreshold = 50;
-      
-      // Scroll handler
-      function handleScroll() {
-        const currentScrollY = window.scrollY;
-        const scrollDelta = Math.abs(currentScrollY - lastScrollY);
 
-        if (scrollDelta < scrollThreshold) return;
-
-        const scrollingDown = currentScrollY > lastScrollY;
-        
-        if (scrollingDown && !navTab.classList.contains('nav-force-visible')) {
-          // Scrolling down - hide nav
-          navTab.classList.add('nav-hidden-top');
-          // Close menu if open
-          if (navTab.classList.contains('active')) {
-            navToggle?.click();
-          }
-        } else if (!scrollingDown) {
-          // Scrolling up - show nav
-          navTab.classList.remove('nav-hidden-top');
-        }
-
-        lastScrollY = currentScrollY;
-      }
-      
-      // Throttled scroll listener
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            handleScroll();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
-      
-      // Manual toggle handling
-      navToggle?.addEventListener('click', () => {
-        if (!navTab.classList.contains('active')) {
-          // Opening - force visible for 3 seconds
-          navTab.classList.add('nav-force-visible');
-          setTimeout(() => {
-            navTab.classList.remove('nav-force-visible');
-          }, 3000);
-        }
-      });
-      
-      console.log('✅ Top navigation scroll behavior initialized');
-    }
-  });
+  console.log('✅ TabNav component initialized - scroll behavior handled by global scroll manager');
 </script>

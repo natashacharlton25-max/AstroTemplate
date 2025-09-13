@@ -12,8 +12,8 @@ export function initScrollReveal() {
     const remainingScroll = scrollHeight - scrollTop - clientHeight;
     
     // Fixed distance from bottom to match desired reveal height
-    // Adjust this value to control how much footer shows underneath
-    const nearBottom = remainingScroll <= 400 && remainingScroll >= 0;
+    // Set to 100px to match the 100px bottom padding
+    const nearBottom = remainingScroll <= 100 && remainingScroll >= 0;
     
     if (nearBottom && !isAtBottom) {
       isAtBottom = true;
