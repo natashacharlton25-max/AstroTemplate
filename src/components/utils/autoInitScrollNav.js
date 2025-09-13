@@ -5,12 +5,7 @@
 
 import { scrollNavManager } from './scrollNavigation.js';
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  initScrollAwareNavigation();
-});
-
-function initScrollAwareNavigation() {
+export function initScrollAwareNavigation() {
   // Find and register top navigation
   const topNavSelectors = [
     '#navTab',
@@ -31,12 +26,10 @@ function initScrollAwareNavigation() {
       hideOnScrollDown: true,
       showOnScrollUp: true,
       onHide: () => {
-        // Auto-close any open menu when hiding
-        const activeMenu = topNav.querySelector('.nav-expanded.active, .nav-expanded[aria-hidden="false"]');
-        if (activeMenu) {
-          const toggle = topNav.querySelector('.nav-toggle, [aria-controls]');
-          toggle?.click();
-        }
+        console.log('🔔 onHide callback triggered for top nav');
+        // Never auto-unlock locked navigation - locked should stay locked
+        // This callback should only fire if element was actually hidden
+        console.log('🔔 Top nav onHide: Element should already be hidden naturally');
       }
     });
 
@@ -64,12 +57,10 @@ function initScrollAwareNavigation() {
       hideOnScrollDown: true,
       showOnScrollUp: true,
       onHide: () => {
-        // Auto-close any open bottom menu when hiding
-        const activeMenu = bottomNav.querySelector('.settings-expanded.active, [data-settings-expanded].active');
-        if (activeMenu) {
-          const toggle = bottomNav.querySelector('.settings-toggle, [data-settings-toggle]');
-          toggle?.click();
-        }
+        console.log('🔔 onHide callback triggered for bottom nav');
+        // Never auto-unlock locked navigation - locked should stay locked
+        // This callback should only fire if element was actually hidden
+        console.log('🔔 Bottom nav onHide: Element should already be hidden naturally');
       }
     });
     
@@ -106,17 +97,40 @@ function setupManualOverrides(topNav, bottomNav) {
 }
 
 function handleNavToggle(navElement) {
-  const isOpening = !navElement.classList.contains('active');
-  
-  if (isOpening) {
-    // Nav is opening - pause scroll hiding and force visible
-    scrollNavManager.pauseScrollHiding(5000); // 5 seconds
+  const toggle = navElement.querySelector('.nav-toggle, .settings-toggle, [aria-controls], [data-settings-toggle]');
+  const isLocking = !toggle?.classList.contains('active');
+
+  console.log('🔄 Navigation toggle triggered:', isLocking ? 'LOCKING' : 'UNLOCKING');
+
+  if (isLocking) {
+    // LOCKING: Add force visible class (scroll manager will skip it completely)
+    navElement.classList.remove('nav-hidden-top', 'nav-hidden-bottom');
     navElement.classList.add('nav-force-visible');
+    navElement.setAttribute('aria-hidden', 'false');
+
+    console.log('🔒 LOCKED - Navigation pinned, scroll manager will skip this element');
+    console.log('🔒 Classes after locking:', navElement.className);
   } else {
-    // Nav is closing - remove force visible after a brief delay
-    setTimeout(() => {
-      navElement.classList.remove('nav-force-visible');
-    }, 300);
+    // UNLOCKING: Enable scroll behavior and remove force visible
+    console.log('🔓 UNLOCKING - Restoring scroll behavior');
+    console.log('🔓 Classes before unlock:', navElement.className);
+
+    navElement.classList.remove('nav-force-visible');
+    console.log('🔓 Classes after removing nav-force-visible:', navElement.className);
+
+    // No need to call enableScrollBehavior since we're using early return approach
+
+    // Immediately check if we should hide based on current scroll state
+    const isScrollingDown = scrollNavManager.getScrollDirection() === 'down';
+    if (isScrollingDown && window.scrollY > scrollNavManager.scrollThreshold) {
+      console.log('📜 Scroll down detected - hiding navigation immediately');
+      // Hide immediately since user is scrolling down
+      setTimeout(() => {
+        scrollNavManager.hideElement(navElement);
+      }, 50); // Small delay for unlock animation
+    } else {
+      console.log('📜 Scroll up or at top - keeping navigation visible');
+    }
   }
 }
 
@@ -138,5 +152,4 @@ function setupResponsiveBehavior() {
   handleMediaChange(mediaQuery);
 }
 
-// Export for manual initialization if needed
-export { initScrollAwareNavigation };
+// Function is exported at the top of the file

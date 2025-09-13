@@ -1,5 +1,44 @@
 [
   {
+    "title": "Services",
+    "description": "Learn more about services",
+    "content": "Our Services Comprehensive business solutions to drive your success 🔍 Business Analysis Comprehensive evaluation of your business processes and systems against industry best practices. Process optimization assessment System efficiency analysis Detailed improvement roadmap Priority-based recommendations Starting at $2,500 Most Popular 🎨 UX/UI Design Review Design consultation focusing on user experience optimization and modern interface patterns. User journey analysis Visual design and branding",
+    "category": "pages",
+    "url": "/services",
+    "date": "Updated recently",
+    "tags": [
+      "services",
+      "page"
+    ],
+    "type": "page"
+  },
+  {
+    "title": "Projects",
+    "description": "Learn more about projects",
+    "content": "Our Projects Showcasing exceptional digital experiences we've crafted Featured Projects Explore our portfolio of innovative web applications, design systems, and digital solutions that deliver outstanding results. Web Application E-Commerce Platform Transformation Redesigned a major retail platform with modern UX principles, improving navigation flow and user experience while maintaining visual appeal and brand identity. WCAG 2.1 AA E-Commerce Screen Readers View Case Study Government Government",
+    "category": "pages",
+    "url": "/projects",
+    "date": "Updated recently",
+    "tags": [
+      "projects",
+      "page"
+    ],
+    "type": "page"
+  },
+  {
+    "title": "Insights",
+    "description": "Learn more about insights",
+    "content": "Digital Insights Thoughts, research, and insights on digital accessibility, inclusive design, and modern web development. Accessibility in Modern Web Design Published March 2024 Exploring the latest trends and techniques for creating inclusive digital experiences that work for everyone. Read More The Future of Digital Inclusion Published February 2024 Understanding how emerging technologies can be leveraged to create more accessible and inclusive digital spaces. Read More UX Design for All Abili",
+    "category": "pages",
+    "url": "/insights",
+    "date": "Updated recently",
+    "tags": [
+      "insights",
+      "page"
+    ],
+    "type": "page"
+  },
+  {
     "title": "Index",
     "description": "Learn more about index",
     "content": "",
@@ -13,14 +52,27 @@
     "type": "page"
   },
   {
-    "title": "Accessibility",
-    "description": "Learn more about accessibility",
-    "content": "Make our site accessible for everyone Customize your browsing experience with our comprehensive accessibility tools Visual assistance Keyboard navigation Reading assistance Quick Setup Choose a preset to get started quickly Default Standard settings for most users Vision Assistance High contrast and larger text Motor Assistance Enhanced keyboard navigation Cognitive Support Simplified interface and clear reading Visual Preferences Adjust the appearance to your comfort Dark Mode Reduce eye strain",
+    "title": "Assets",
+    "description": "Learn more about assets",
+    "content": "Download Assets Free accessibility resources, templates, and tools for inclusive design All Assets Templates Checklists Guides Tools Template Accessible Design System Template Complete design system with accessibility-first components, color palettes, and typography guidelines. Figma + Sketch 2.4 MB 1,234 downloads Download Preview Checklist WCAG 2.1 AA Compliance Checklist Comprehensive checklist covering all WCAG 2.1 AA success criteria with practical implementation notes. PDF 1.2 MB 3,456 dow",
     "category": "pages",
-    "url": "/accessibility",
+    "url": "/assets",
     "date": "Updated recently",
     "tags": [
-      "accessibility",
+      "assets",
+      "page"
+    ],
+    "type": "page"
+  },
+  {
+    "title": "About",
+    "description": "Learn more about about",
+    "content": "About Your Company Building exceptional solutions for your business needs Our Story Your Company was founded with a simple mission: to deliver exceptional solutions that drive success. We believe that great work isn't just functional—it's strategic, innovative, and designed to help our clients thrive. What We Do We specialize in providing comprehensive business solutions, helping organizations achieve their goals and grow their success. Our services include: Strategic business consulting Custom ",
+    "category": "pages",
+    "url": "/about",
+    "date": "Updated recently",
+    "tags": [
+      "about",
       "page"
     ],
     "type": "page"

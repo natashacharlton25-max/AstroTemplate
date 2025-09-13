@@ -1,130 +1,811 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import siteConfig from '@/site.config';
+
+// Sample blog posts data
+const posts = [
+  {
+    id: 1,
+    title: "Hello and Welcome to the insights Page",
+    excerpt: "It is lovely to meet you here.",
+    category: "Uncategorized",
+    categorySlug: "uncategorized",
+    author: "natashacharlton25@googlemail.com",
+    authorSlug: "natashacharlton25-googlemail-com",
+    date: "2025-04-30T14:08:57+00:00",
+    dateFormatted: "April 30, 2025",
+    slug: "hello-and-welcome-to-the-insights-page"
+  },
+  {
+    id: 2,
+    title: "Natural Strategies for Personal Growth",
+    excerpt: "Exploring holistic approaches to self-development and mindful living practices.",
+    category: "Personal Growth",
+    categorySlug: "personal-growth",
+    author: "natashacharlton25@googlemail.com",
+    authorSlug: "natashacharlton25-googlemail-com",
+    date: "2025-04-25T10:15:00+00:00",
+    dateFormatted: "April 25, 2025",
+    slug: "natural-strategies-personal-growth"
+  },
+  {
+    id: 3,
+    title: "Mindful Living in the Digital Age",
+    excerpt: "Finding balance and presence while navigating our connected world.",
+    category: "Natural Strategies",
+    categorySlug: "natural-strategies",
+    author: "natashacharlton25@googlemail.com",
+    authorSlug: "natashacharlton25-googlemail-com",
+    date: "2025-04-20T16:30:00+00:00",
+    dateFormatted: "April 20, 2025",
+    slug: "mindful-living-digital-age"
+  }
+];
 ---
 
 <Layout title={`Insights - ${siteConfig.brand.name}`}>
-  <main class="insights-page">
-    <section class="hero-section">
-      <div class="container">
-        <h1>Digital Insights</h1>
-        <p class="hero-description">
-          Thoughts, research, and insights on digital accessibility, inclusive design, and modern web development.
-        </p>
-      </div>
-    </section>
-
-    <section class="content-section">
-      <div class="container">
-        <div class="insights-grid">
-          <article class="insight-card">
-            <h2>Accessibility in Modern Web Design</h2>
-            <p class="meta">Published March 2024</p>
-            <p>Exploring the latest trends and techniques for creating inclusive digital experiences that work for everyone.</p>
-            <a href="#" class="read-more">Read More</a>
-          </article>
-          
-          <article class="insight-card">
-            <h2>The Future of Digital Inclusion</h2>
-            <p class="meta">Published February 2024</p>
-            <p>Understanding how emerging technologies can be leveraged to create more accessible and inclusive digital spaces.</p>
-            <a href="#" class="read-more">Read More</a>
-          </article>
-          
-          <article class="insight-card">
-            <h2>UX Design for All Abilities</h2>
-            <p class="meta">Published January 2024</p>
-            <p>Best practices for designing user experiences that accommodate diverse needs and abilities from the ground up.</p>
-            <a href="#" class="read-more">Read More</a>
-          </article>
+  <main class="site-main hfeed">
+    <!-- Hero Header Section -->
+    <section class="hero-header">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">Insights & Articles</h1>
+          <p class="hero-description">
+            Thoughts, research, and insights on personal growth, natural strategies, and mindful living practices.
+          </p>
         </div>
       </div>
     </section>
+
+    <!-- Navigation Tabs Section -->
+    <section class="nav-tabs-section">
+      <div class="nav-tabs-container">
+        <nav class="insights-nav-tabs nav-element" aria-label="Insights navigation"
+             data-hide-on-scroll="true" data-scroll-threshold="100">
+          <button class="insights-nav-tab" data-tab="categories" aria-label="Categories">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7M3 7L12 2L21 7M3 7L12 12L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 12V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Categories
+          </button>
+          <button class="insights-nav-tab" data-tab="archive" aria-label="Archive">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M3 4V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V8L15 2H5C3.89543 2 3 2.89543 3 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 13H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M9 17H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Archive
+          </button>
+          <button class="insights-nav-tab" data-tab="tags" aria-label="Tags">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M20.59 13.41L13.42 20.58C13.05 20.95 12.55 21.16 12.02 21.16C11.49 21.16 10.99 20.95 10.62 20.58L2 12V2H12L20.59 10.59C20.96 10.96 21.16 11.46 21.16 11.99C21.16 12.52 20.96 13.02 20.59 13.39V13.41Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7 7H7.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Tags
+          </button>
+        </nav>
+      </div>
+    </section>
+
+    <div class="main-content-wrapper">
+      <div class="ct-container" data-sidebar="right" data-vertical-spacing="top:bottom">
+        <section>
+          <div class="entries" data-archive="default" data-layout="classic" data-cards="boxed">
+            {posts.map(post => (
+              <article class="entry-card card-content" data-reveal="yes:1">
+                <ul class="entry-meta" data-type="icons:circle" data-id="meta_1">
+                  <li class="meta-categories" data-type="simple">
+                    <svg width="13" height="13" viewBox="0 0 15 15">
+                      <path d="M14.4,1.2H0.6C0.3,1.2,0,1.5,0,1.9V5c0,0.3,0.3,0.6,0.6,0.6h0.6v7.5c0,0.3,0.3,0.6,0.6,0.6h11.2c0.3,0,0.6-0.3,0.6-0.6V5.6h0.6C14.7,5.6,15,5.3,15,5V1.9C15,1.5,14.7,1.2,14.4,1.2z M12.5,12.5h-10V5.6h10V12.5z M13.8,4.4H1.2V2.5h12.5V4.4z M5.6,7.5c0-0.3,0.3-0.6,0.6-0.6h2.5c0.3,0,0.6,0.3,0.6,0.6S9.1,8.1,8.8,8.1H6.2C5.9,8.1,5.6,7.8,5.6,7.5z"></path>
+                    </svg>
+                    <a href={`/category/${post.categorySlug}/`} rel="tag" class="ct-term-1">
+                      {post.category}
+                    </a>
+                  </li>
+                </ul>
+
+                <h2 class="entry-title">
+                  <a href={`/${post.slug}/`} rel="bookmark">{post.title}</a>
+                </h2>
+
+                <div class="entry-excerpt">
+                  <p>{post.excerpt}</p>
+                </div>
+
+                <ul class="entry-meta" data-type="icons:circle" data-id="meta_2">
+                  <li class="meta-author" itemscope itemtype="https://schema.org/Person">
+                    <svg width="13" height="13" viewBox="0 0 15 15">
+                      <path d="M13.6,1.4c-1.9-1.9-4.9-1.9-6.8,0L2.2,6C2.1,6.1,2,6.3,2,6.5V12l-1.8,1.8c-0.3,0.3-0.3,0.7,0,1C0.3,14.9,0.5,15,0.7,15s0.3-0.1,0.5-0.2L3,13h5.5c0.2,0,0.4-0.1,0.5-0.2l2.7-2.7c0,0,0,0,0,0l1.9-1.9C15.5,6.3,15.5,3.3,13.6,1.4z M8.2,11.6H4.4l1.4-1.4h3.9L8.2,11.6z M12.6,7.2L11,8.9H7.1l3.6-3.6c0.3-0.3,0.3-0.7,0-1C10.4,4,10,4,9.7,4.3L5,9.1c0,0,0,0,0,0l-1.6,1.6V6.8l4.4-4.4c1.3-1.3,3.5-1.3,4.8,0C14,3.7,14,5.9,12.6,7.2C12.6,7.2,12.6,7.2,12.6,7.2z"></path>
+                    </svg>
+                    <a class="ct-meta-element-author" href={`/author/${post.authorSlug}/`} title={`Posts by ${post.author}`} rel="author">
+                      <span itemprop="name">{post.author}</span>
+                    </a>
+                  </li>
+                  <li class="meta-date" itemprop="datePublished">
+                    <svg width="13" height="13" viewBox="0 0 15 15">
+                      <path d="M7.5,0C3.4,0,0,3.4,0,7.5S3.4,15,7.5,15S15,11.6,15,7.5S11.6,0,7.5,0z M7.5,13.6c-3.4,0-6.1-2.8-6.1-6.1c0-3.4,2.8-6.1,6.1-6.1c3.4,0,6.1,2.8,6.1,6.1C13.6,10.9,10.9,13.6,7.5,13.6z M10.8,9.2c-0.1,0.2-0.4,0.4-0.6,0.4c-0.1,0-0.2,0-0.3-0.1L7.2,8.1C7,8,6.8,7.8,6.8,7.5V4c0-0.4,0.3-0.7,0.7-0.7S8.2,3.6,8.2,4v3.1l2.4,1.2C10.9,8.4,11,8.8,10.8,9.2z"></path>
+                    </svg>
+                    <time class="ct-meta-element-date" datetime={post.date}>
+                      {post.dateFormatted}
+                    </time>
+                  </li>
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Sidebar Widgets -->
+      <aside class="blog-sidebar" id="blogSidebar">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar-content">
+          <div class="sidebar-header">
+            <h3 class="sidebar-title" id="sidebarTitle">Categories</h3>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="sidebar-body">
+            <!-- Categories Widget -->
+            <div class="widget categories-widget" id="categoriesWidget">
+              <ul class="category-list">
+                <li class="category-item">
+                  <a href="/insights/results?type=category&value=Personal Growth" class="category-link">
+                    <span class="category-name">Personal Growth</span>
+                    <span class="category-count">(2)</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="/insights/results?type=category&value=Natural Strategies" class="category-link">
+                    <span class="category-name">Natural Strategies</span>
+                    <span class="category-count">(1)</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="/insights/results?type=category&value=Uncategorized" class="category-link">
+                    <span class="category-name">Uncategorized</span>
+                    <span class="category-count">(1)</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Archive Widget -->
+            <div class="widget archive-widget" id="archiveWidget" style="display: none;">
+              <ul class="archive-list">
+                <li class="archive-item">
+                  <a href="/insights/results?type=archive&value=2025-04" class="archive-link">
+                    <span class="archive-period">April 2025</span>
+                    <span class="archive-count">(3)</span>
+                  </a>
+                </li>
+                <li class="archive-item">
+                  <a href="/insights/results?type=archive&value=2025-03" class="archive-link">
+                    <span class="archive-period">March 2025</span>
+                    <span class="archive-count">(0)</span>
+                  </a>
+                </li>
+                <li class="archive-item">
+                  <a href="/insights/results?type=archive&value=2025-02" class="archive-link">
+                    <span class="archive-period">February 2025</span>
+                    <span class="archive-count">(0)</span>
+                  </a>
+                </li>
+                <li class="archive-item">
+                  <a href="/insights/results?type=archive&value=2025-01" class="archive-link">
+                    <span class="archive-period">January 2025</span>
+                    <span class="archive-count">(0)</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Tags Widget -->
+            <div class="widget tags-widget" id="tagsWidget" style="display: none;">
+              <div class="tag-cloud">
+                <a href="/insights/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
+                <a href="/insights/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
+                <a href="/insights/results?type=tag&value=natural strategies" class="tag-link tag-size-medium">natural strategies</a>
+                <a href="/insights/results?type=tag&value=wellness" class="tag-link tag-size-small">wellness</a>
+                <a href="/insights/results?type=tag&value=meditation" class="tag-link tag-size-small">meditation</a>
+                <a href="/insights/results?type=tag&value=lifestyle" class="tag-link tag-size-large">lifestyle</a>
+                <a href="/insights/results?type=tag&value=digital detox" class="tag-link tag-size-small">digital detox</a>
+                <a href="/insights/results?type=tag&value=self care" class="tag-link tag-size-medium">self care</a>
+                <a href="/insights/results?type=tag&value=balance" class="tag-link tag-size-small">balance</a>
+                <a href="/insights/results?type=tag&value=productivity" class="tag-link tag-size-small">productivity</a>
+                <a href="/insights/results?type=tag&value=habits" class="tag-link tag-size-medium">habits</a>
+                <a href="/insights/results?type=tag&value=inspiration" class="tag-link tag-size-small">inspiration</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
   </main>
 </Layout>
 
 <style>
-  .insights-page {
+  .site-main {
     min-height: 100vh;
+  }
+
+  /* Hero Header Section */
+  .hero-header {
+    background: var(--color-background);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
     padding: var(--space-2xl) 0;
   }
 
-  .hero-section {
-    text-align: center;
-    margin-bottom: var(--space-3xl);
-  }
-
-  .hero-description {
-    font-size: var(--text-lg);
-    color: var(--color-text-primary);
-    max-width: 700px;
-    margin: var(--space-lg) auto 0;
-  }
-
-  .content-section {
-    margin-top: var(--space-3xl);
-  }
-
-  .insights-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-xl);
-    margin-top: var(--space-2xl);
-  }
-
-  .insight-card {
-    background: var(--color-background);
-    border: 2px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-    border-radius: var(--radius-lg);
-    padding: var(--space-xl);
-    box-shadow: var(--shadow-md);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-  }
-
-  .insight-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--color-primary);
-  }
-
-  .insight-card h2 {
-    color: var(--color-secondary);
-    margin-bottom: var(--space-sm);
-  }
-
-  .meta {
-    color: var(--color-text-primary);
-    font-size: var(--text-sm);
-    opacity: 0.8;
-    margin-bottom: var(--space-md);
-  }
-
-  .insight-card p:not(.meta) {
-    color: var(--color-text-primary);
-    line-height: var(--leading-relaxed);
-    margin-bottom: var(--space-lg);
-  }
-
-  .read-more {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: var(--font-semibold);
-    transition: color var(--transition-base);
-  }
-
-  .read-more:hover {
-    color: var(--color-secondary);
-  }
-
-  .container {
+  .hero-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-lg);
   }
 
-  @media (max-width: 768px) {
-    .insights-grid {
-      grid-template-columns: 1fr;
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--color-secondary);
+    margin: 0 0 var(--space-lg) 0;
+    line-height: var(--leading-tight);
+    font-weight: 700;
+  }
+
+  .hero-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-primary);
+    line-height: var(--leading-relaxed);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Navigation Tabs Section */
+  .nav-tabs-section {
+    background: var(--color-background);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    padding: var(--space-lg) 0;
+  }
+
+  .nav-tabs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    display: flex;
+    justify-content: center;
+  }
+
+  .insights-nav-tabs {
+    display: flex;
+    gap: var(--space-xs);
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  /* Scroll navigation behavior */
+  .insights-nav-tabs.nav-hidden-top {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  .insights-nav-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-white);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-weight: 500;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .insights-nav-tab:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-primary) 20%, transparent);
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .insights-nav-tab.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+  }
+
+  .tab-icon {
+    flex-shrink: 0;
+  }
+
+  /* Main Content Wrapper */
+  .main-content-wrapper {
+    position: relative;
+  }
+
+  .ct-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  /* Right Sidebar */
+  .blog-sidebar {
+    position: fixed;
+    top: var(--space-xl);
+    right: -400px;
+    bottom: var(--space-xl);
+    width: 400px;
+    height: calc(100vh - var(--space-3xl));
+    background: var(--color-white);
+    border-left: 2px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+    box-shadow: -4px 0 20px color-mix(in srgb, var(--color-black) 15%, transparent);
+    transition: right var(--transition-base);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .blog-sidebar.active {
+    right: 0;
+  }
+
+  .sidebar-overlay {
+    display: none;
+  }
+
+  .sidebar-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-lg) var(--space-xl);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background: var(--color-background);
+  }
+
+  .sidebar-title {
+    margin: 0;
+    color: var(--color-secondary);
+    font-size: var(--text-xl);
+    font-weight: 600;
+  }
+
+  .sidebar-close {
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+  }
+
+  .sidebar-close:hover {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+  }
+
+  .sidebar-body {
+    flex: 1;
+    padding: var(--space-xl);
+    overflow-y: auto;
+  }
+
+  /* Widget Styles */
+  .widget {
+    margin-bottom: var(--space-xl);
+  }
+
+  /* Categories Widget */
+  .category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .category-item {
+    margin-bottom: var(--space-sm);
+  }
+
+  .category-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    color: var(--color-text-primary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    border: 1px solid transparent;
+  }
+
+  .category-link:hover {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .category-name {
+    font-weight: 500;
+  }
+
+  .category-count {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  /* Archive Widget */
+  .archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .archive-item {
+    margin-bottom: var(--space-sm);
+  }
+
+  .archive-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    color: var(--color-text-primary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    border: 1px solid transparent;
+  }
+
+  .archive-link:hover {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .archive-period {
+    font-weight: 500;
+  }
+
+  .archive-count {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  /* Tags Widget */
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .tag-link {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    font-size: var(--text-sm);
+    border: 1px solid transparent;
+  }
+
+  .tag-link:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .tag-link.tag-size-large {
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .tag-link.tag-size-medium {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .tag-link.tag-size-small {
+    font-size: var(--text-xs);
+  }
+
+  .entries {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .entry-card {
+    background: var(--color-background);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .entry-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+
+  .entry-meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+  }
+
+  .entry-meta[data-id="meta_1"] {
+    margin-bottom: var(--space-md);
+  }
+
+  .entry-meta[data-id="meta_2"] {
+    margin-top: var(--space-lg);
+  }
+
+  .entry-meta li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .entry-meta svg {
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Category Styling with Uppercase */
+  .meta-categories a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: var(--text-xs);
+  }
+
+  .meta-categories a:hover {
+    color: var(--color-secondary);
+  }
+
+  .entry-title {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+  }
+
+  .entry-title a {
+    color: var(--color-heading);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .entry-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .entry-excerpt {
+    margin: 0;
+  }
+
+  .entry-excerpt p {
+    color: var(--color-text-primary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  /* Author and Date Styling with Uppercase */
+  .ct-meta-element-author {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+  }
+
+  .ct-meta-element-author:hover {
+    color: var(--color-primary);
+  }
+
+  .ct-meta-element-date {
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+  }
+
+  /* Responsive Design */
+  @media (min-width: 768px) {
+    .entries {
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-header {
+      padding: var(--space-xl) 0;
+    }
+
+    .hero-container {
+      padding: 0 var(--space-md);
+    }
+
+    .nav-tabs-container {
+      padding: 0 var(--space-md);
+    }
+
+    .ct-container {
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .entry-meta {
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .insights-nav-tab {
+      padding: var(--space-sm);
+      font-size: var(--text-xs);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .insights-nav-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xs);
+      width: 100%;
+    }
+
+    .insights-nav-tab {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .blog-sidebar {
+      width: calc(100vw - var(--space-lg));
+      right: calc(-100vw + var(--space-lg));
+      top: var(--space-lg);
+      bottom: var(--space-lg);
+      height: calc(100vh - var(--space-xl));
+    }
+
+    .sidebar-header {
+      padding: var(--space-md);
+    }
+
+    .sidebar-body {
+      padding: var(--space-md);
     }
   }
 </style>
+
+<script>
+  import { scrollNavManager } from '@/components/utils/scrollNavigation.js';
+
+  // Initialize scroll navigation for insights tabs using centralized manager
+  document.addEventListener('DOMContentLoaded', () => {
+    const insightsNav = document.querySelector('.insights-nav-tabs');
+
+    if (insightsNav) {
+      // Register with the global scroll navigation manager
+      scrollNavManager.registerNavElement(insightsNav as HTMLElement, {
+        hideOnScrollDown: true,
+        showOnScrollUp: true,
+        onHide: () => {
+          console.log('Insights navigation hidden on scroll down');
+        },
+        onShow: () => {
+          console.log('Insights navigation shown on scroll up');
+        }
+      });
+
+      console.log('✅ Insights navigation registered with scroll manager');
+    }
+  });
+
+  // Sidebar functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const navTabs = document.querySelectorAll('.insights-nav-tab');
+    const sidebar = document.getElementById('blogSidebar');
+    const closeBtn = document.getElementById('sidebarClose');
+    const sidebarTitle = document.getElementById('sidebarTitle');
+
+    // Widget elements
+    const categoriesWidget = document.getElementById('categoriesWidget');
+    const archiveWidget = document.getElementById('archiveWidget');
+    const tagsWidget = document.getElementById('tagsWidget');
+
+    // Widget titles
+    const widgetTitles = {
+      'categories': 'Categories',
+      'archive': 'Archive',
+      'tags': 'Tags'
+    };
+
+    // Open sidebar
+    function openSidebar(widgetType) {
+      // Update title
+      sidebarTitle.textContent = widgetTitles[widgetType];
+
+      // Hide all widgets
+      categoriesWidget.style.display = 'none';
+      archiveWidget.style.display = 'none';
+      tagsWidget.style.display = 'none';
+
+      // Show selected widget
+      switch(widgetType) {
+        case 'categories':
+          categoriesWidget.style.display = 'block';
+          break;
+        case 'archive':
+          archiveWidget.style.display = 'block';
+          break;
+        case 'tags':
+          tagsWidget.style.display = 'block';
+          break;
+      }
+
+      // Show sidebar
+      sidebar.classList.add('active');
+
+      // Update active tab
+      navTabs.forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`[data-tab="${widgetType}"]`).classList.add('active');
+    }
+
+    // Close sidebar
+    function closeSidebar() {
+      sidebar.classList.remove('active');
+
+      // Remove active state from tabs
+      navTabs.forEach(tab => tab.classList.remove('active'));
+    }
+
+    // Event listeners
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const widgetType = tab.getAttribute('data-tab');
+        openSidebar(widgetType);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeSidebar);
+
+    // Close sidebar on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+        closeSidebar();
+      }
+    });
+  });
+</script>

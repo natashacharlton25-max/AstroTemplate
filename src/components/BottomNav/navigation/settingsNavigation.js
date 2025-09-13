@@ -97,7 +97,6 @@ export function initSettingsNavigation() {
         btn.style.pointerEvents = 'none';
       }
     }
-    lastScrollTop = scrollTop;
   };
   
   // Initial scroll check

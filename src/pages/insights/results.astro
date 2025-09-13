@@ -1,0 +1,572 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { siteConfig } from '@/site.config';
+
+const { url } = Astro;
+const searchParams = new URLSearchParams(url.search);
+const filterType = searchParams.get('type') || 'all';
+const filterValue = searchParams.get('value') || '';
+const page = parseInt(searchParams.get('page') || '1');
+
+// Sample blog posts data - in real implementation this would come from a CMS or markdown files
+const allPosts = [
+  {
+    id: 1,
+    title: "Getting Started with Astro",
+    excerpt: "Learn the fundamentals of building static sites with Astro framework and modern web technologies.",
+    slug: "getting-started-with-astro",
+    publishedAt: "2024-01-15",
+    category: "Web Development",
+    tags: ["Astro", "Static Sites", "JavaScript"],
+    author: "John Doe",
+    readTime: "5 min read"
+  },
+  {
+    id: 2,
+    title: "Advanced TypeScript Patterns",
+    excerpt: "Explore advanced TypeScript patterns and techniques for building robust applications.",
+    slug: "advanced-typescript-patterns",
+    publishedAt: "2024-01-10",
+    category: "Programming",
+    tags: ["TypeScript", "Patterns", "JavaScript"],
+    author: "Jane Smith",
+    readTime: "8 min read"
+  },
+  {
+    id: 3,
+    title: "Modern CSS Grid Layouts",
+    excerpt: "Master CSS Grid to create complex, responsive layouts with ease and flexibility.",
+    slug: "modern-css-grid-layouts",
+    publishedAt: "2024-01-05",
+    category: "CSS",
+    tags: ["CSS", "Grid", "Layouts", "Responsive"],
+    author: "Mike Johnson",
+    readTime: "6 min read"
+  },
+  {
+    id: 4,
+    title: "React Performance Optimization",
+    excerpt: "Learn techniques to optimize React applications for better performance and user experience.",
+    slug: "react-performance-optimization",
+    publishedAt: "2024-12-28",
+    category: "React",
+    tags: ["React", "Performance", "Optimization"],
+    author: "Sarah Wilson",
+    readTime: "10 min read"
+  },
+  {
+    id: 5,
+    title: "Node.js Best Practices",
+    excerpt: "Discover essential Node.js best practices for building scalable backend applications.",
+    slug: "nodejs-best-practices",
+    publishedAt: "2024-12-20",
+    category: "Backend",
+    tags: ["Node.js", "Backend", "Best Practices"],
+    author: "Alex Brown",
+    readTime: "7 min read"
+  }
+];
+
+// Filter posts based on the filter type and value
+let filteredPosts = allPosts;
+let pageTitle = "All Posts";
+
+if (filterType === 'category' && filterValue) {
+  filteredPosts = allPosts.filter(post =>
+    post.category.toLowerCase() === filterValue.toLowerCase()
+  );
+  pageTitle = `Posts in "${filterValue}"`;
+} else if (filterType === 'tag' && filterValue) {
+  filteredPosts = allPosts.filter(post =>
+    post.tags.some(tag => tag.toLowerCase() === filterValue.toLowerCase())
+  );
+  pageTitle = `Posts tagged with "${filterValue}"`;
+} else if (filterType === 'archive' && filterValue) {
+  const [year, month] = filterValue.split('-');
+  filteredPosts = allPosts.filter(post => {
+    const postDate = new Date(post.publishedAt);
+    const postYear = postDate.getFullYear().toString();
+    const postMonth = (postDate.getMonth() + 1).toString().padStart(2, '0');
+    return postYear === year && (!month || postMonth === month);
+  });
+
+  if (month) {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    pageTitle = `Posts from ${monthNames[parseInt(month) - 1]} ${year}`;
+  } else {
+    pageTitle = `Posts from ${year}`;
+  }
+}
+
+// Pagination
+const postsPerPage = 6;
+const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+const startIndex = (page - 1) * postsPerPage;
+const endIndex = startIndex + postsPerPage;
+const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+// Format date function
+function formatDate(dateString: string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+  return new Date(dateString).toLocaleDateString('en-US', options);
+}
+---
+
+<Layout
+  title={`${pageTitle} | ${siteConfig.brand.name}`}
+  description={`Browse ${pageTitle.toLowerCase()} on ${siteConfig.brand.name}`}
+>
+  <div class="results-page">
+    <!-- Header Section -->
+    <section class="results-header">
+      <div class="results-container">
+        <div class="results-header-content">
+          <h1 class="results-title">{pageTitle}</h1>
+          <p class="results-count">{filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'} found</p>
+          <nav class="breadcrumb">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="/insights" class="breadcrumb-link">Insights</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">{pageTitle}</span>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-content">
+      <div class="ct-container">
+        {paginatedPosts.length > 0 ? (
+          <div class="entries">
+            {paginatedPosts.map((post) => (
+              <article class="entry-card" itemscope itemtype="https://schema.org/BlogPosting">
+                <ul class="entry-meta" data-id="meta_1">
+                  <li class="meta-categories">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"/>
+                    </svg>
+                    <a href={`/insights/results?type=category&value=${encodeURIComponent(post.category)}`} itemprop="about">
+                      {post.category}
+                    </a>
+                  </li>
+                  <li class="meta-date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 3H18V1C18 0.447715 17.5523 0 17 0C16.4477 0 16 0.447715 16 1V3H8V1C8 0.447715 7.55228 0 7 0C6.44772 0 6 0.447715 6 1V3H5C3.34315 3 2 4.34315 2 6V20C2 21.6569 3.34315 23 5 23H19C20.6569 23 22 21.6569 22 20V6C22 4.34315 20.6569 3 19 3Z"/>
+                    </svg>
+                    <time datetime={post.publishedAt} itemprop="datePublished">
+                      {formatDate(post.publishedAt)}
+                    </time>
+                  </li>
+                  <li class="meta-author">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12ZM12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z"/>
+                    </svg>
+                    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+                      <span itemprop="name">{post.author}</span>
+                    </span>
+                  </li>
+                </ul>
+
+                <h2 class="entry-title" itemprop="headline">
+                  <a href={`/insights/${post.slug}`} itemprop="url">{post.title}</a>
+                </h2>
+
+                <p class="entry-excerpt" itemprop="description">
+                  {post.excerpt}
+                </p>
+
+                <ul class="entry-meta" data-id="meta_2">
+                  <li class="meta-reading-time">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13 13H8C7.45 13 7 12.55 7 12S7.45 11 8 11H11V6C11 5.45 11.45 5 12 5S13 5.45 13 6V13Z"/>
+                    </svg>
+                    <span>{post.readTime}</span>
+                  </li>
+                  <li class="meta-tags">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7V17C3 18.1 3.9 19 5 19H19C20.1 19 21 18.1 21 17V10.5C21 9.67 20.5 8.91 19.76 8.51L17.63 5.84ZM7 9H17V11H7V9Z"/>
+                    </svg>
+                    <span itemprop="keywords">
+                      {post.tags.map((tag, index) => (
+                        <span>
+                          <a href={`/insights/results?type=tag&value=${encodeURIComponent(tag)}`}>{tag}</a>
+                          {index < post.tags.length - 1 && ', '}
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                </ul>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="no-results">
+            <h2>No posts found</h2>
+            <p>Sorry, we couldn't find any posts matching your criteria.</p>
+            <a href="/insights" class="back-link">← Back to Insights</a>
+          </div>
+        )}
+
+        <!-- Pagination -->
+        {totalPages > 1 && (
+          <nav class="pagination" aria-label="Pagination">
+            <div class="pagination-info">
+              Showing {startIndex + 1} to {Math.min(endIndex, filteredPosts.length)} of {filteredPosts.length} posts
+            </div>
+            <div class="pagination-controls">
+              {page > 1 && (
+                <a
+                  href={`/insights/results?type=${filterType}&value=${encodeURIComponent(filterValue)}&page=${page - 1}`}
+                  class="pagination-btn pagination-prev"
+                >
+                  ← Previous
+                </a>
+              )}
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <a
+                  href={`/insights/results?type=${filterType}&value=${encodeURIComponent(filterValue)}&page=${pageNum}`}
+                  class={`pagination-btn ${pageNum === page ? 'pagination-current' : ''}`}
+                >
+                  {pageNum}
+                </a>
+              ))}
+
+              {page < totalPages && (
+                <a
+                  href={`/insights/results?type=${filterType}&value=${encodeURIComponent(filterValue)}&page=${page + 1}`}
+                  class="pagination-btn pagination-next"
+                >
+                  Next →
+                </a>
+              )}
+            </div>
+          </nav>
+        )}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .results-page {
+    min-height: 100vh;
+  }
+
+  /* Header Section */
+  .results-header {
+    background: var(--color-background);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    padding: var(--space-2xl) 0;
+  }
+
+  .results-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .results-header-content {
+    text-align: center;
+  }
+
+  .results-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--color-secondary);
+    margin: 0 0 var(--space-md) 0;
+    line-height: var(--leading-tight);
+    font-weight: 700;
+  }
+
+  .results-count {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-lg) 0;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+  }
+
+  .breadcrumb-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-secondary);
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-text-secondary);
+  }
+
+  .breadcrumb-current {
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  /* Results Content */
+  .results-content {
+    padding: var(--space-2xl) 0;
+  }
+
+  .ct-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .entries {
+    display: grid;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .entry-card {
+    background: var(--color-background);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .entry-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+
+  .entry-meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+  }
+
+  .entry-meta[data-id="meta_1"] {
+    margin-bottom: var(--space-md);
+  }
+
+  .entry-meta[data-id="meta_2"] {
+    margin-top: var(--space-lg);
+  }
+
+  .entry-meta li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .entry-meta svg {
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Category Styling with Uppercase */
+  .meta-categories a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: var(--text-xs);
+  }
+
+  .meta-categories a:hover {
+    color: var(--color-secondary);
+  }
+
+  .meta-tags a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .meta-tags a:hover {
+    color: var(--color-secondary);
+  }
+
+  .entry-title {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+  }
+
+  .entry-title a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .entry-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .entry-excerpt {
+    color: var(--color-text-primary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  /* No Results */
+  .no-results {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-lg);
+  }
+
+  .no-results h2 {
+    color: var(--color-secondary);
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-2xl);
+  }
+
+  .no-results p {
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-lg) 0;
+    font-size: var(--text-lg);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: var(--space-sm) var(--space-md);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+  }
+
+  .back-link:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    transform: translateY(-1px);
+  }
+
+  /* Pagination */
+  .pagination {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: center;
+    padding: var(--space-xl) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+  }
+
+  .pagination-info {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .pagination-controls {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pagination-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    color: var(--color-text-primary);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    font-weight: 500;
+  }
+
+  .pagination-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .pagination-current {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+  }
+
+  .pagination-current:hover {
+    transform: none;
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 767px) {
+    .results-header {
+      padding: var(--space-xl) 0;
+    }
+
+    .results-container {
+      padding: 0 var(--space-md);
+    }
+
+    .ct-container {
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .entry-meta {
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .breadcrumb {
+      flex-wrap: wrap;
+    }
+
+    .pagination-controls {
+      gap: var(--space-xs);
+    }
+
+    .pagination-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--text-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pagination {
+      padding: var(--space-md) 0;
+    }
+
+    .pagination-info {
+      text-align: center;
+      font-size: var(--text-xs);
+    }
+
+    .pagination-btn {
+      min-width: 36px;
+      height: 36px;
+      padding: var(--space-xs);
+      font-size: var(--text-xs);
+    }
+  }
+</style>

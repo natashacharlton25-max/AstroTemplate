@@ -47,12 +47,21 @@ class ScrollNavigationManager {
 
   updateNavigationVisibility() {
     this.navElements.forEach((config, element) => {
+      // Skip completely if element is force visible (locked state)
+      if (element.classList.contains('nav-force-visible')) {
+        console.log('⏭️ SKIPPING locked element - keeping visible:', element.className);
+        return; // Don't process locked elements at all
+      }
+
       const { hideOnScrollDown, showOnScrollUp, onHide, onShow } = config;
-      
+
       if (this.isScrollingDown && hideOnScrollDown) {
-        this.hideElement(element);
-        if (onHide) onHide();
+        console.log('📜⬇️ Scroll down - attempting to hide:', element.className);
+        const wasHidden = this.hideElement(element);
+        // Only call onHide if element was actually hidden
+        if (wasHidden && onHide) onHide();
       } else if (!this.isScrollingDown && showOnScrollUp) {
+        console.log('📜⬆️ Scroll up - showing:', element.className);
         this.showElement(element);
         if (onShow) onShow();
       }
@@ -60,26 +69,46 @@ class ScrollNavigationManager {
   }
 
   hideElement(element) {
-    if (!element) return;
-    
+    if (!element) return false;
+
+    // Don't hide if element is force visible (locked state)
+    if (element.classList.contains('nav-force-visible')) {
+      console.log('🔒 LOCKED - Element prevented from hiding:', element.className);
+      return false; // Element was NOT hidden
+    }
+
+    console.log('👋 HIDING navigation element:', element.className);
+
     // Add hiding classes based on element position
     if (element.classList.contains('nav-tab') || element.classList.contains('top-nav')) {
-      // Top navigation - slide up
+      // Top navigation - slide left
       element.classList.add('nav-hidden-top');
+      console.log('💨 Added nav-hidden-top class');
     } else if (element.classList.contains('settings-tab') || element.classList.contains('bottom-nav')) {
-      // Bottom navigation - slide down
+      // Bottom navigation - slide right
       element.classList.add('nav-hidden-bottom');
+      console.log('💨 Added nav-hidden-bottom class');
+    } else if (element.classList.contains('insights-nav-tabs')) {
+      // Insights navigation - treat as top navigation
+      element.classList.add('nav-hidden-top');
+      console.log('💨 Added nav-hidden-top class for insights nav');
+    } else {
+      console.log('❌ No matching nav class found for element:', element.className);
     }
-    
+
     element.setAttribute('aria-hidden', 'true');
+    return true; // Element was successfully hidden
   }
 
   showElement(element) {
     if (!element) return;
-    
+
+    console.log('👀 SHOWING navigation element:', element.className);
+
     // Remove hiding classes
     element.classList.remove('nav-hidden-top', 'nav-hidden-bottom');
     element.setAttribute('aria-hidden', 'false');
+    console.log('✨ Removed nav-hidden classes');
   }
 
   /**
@@ -112,23 +141,79 @@ class ScrollNavigationManager {
   /**
    * Temporarily disable scroll hiding (useful when nav is manually opened)
    * @param {number} duration - Time in ms to disable (default: 3000ms)
+   * @param {HTMLElement} specificElement - If provided, only pause this element
    */
-  pauseScrollHiding(duration = 3000) {
-    const originalMap = new Map(this.navElements);
-    
-    // Temporarily disable hiding
-    this.navElements.forEach((config) => {
-      config.hideOnScrollDown = false;
-    });
+  pauseScrollHiding(duration = 3000, specificElement = null) {
+    if (specificElement) {
+      // Only pause the specific element
+      const config = this.navElements.get(specificElement);
+      if (config) {
+        const originalHideOnScrollDown = config.hideOnScrollDown;
+        config.hideOnScrollDown = false;
 
-    // Re-enable after duration
-    setTimeout(() => {
-      originalMap.forEach((config, element) => {
-        if (this.navElements.has(element)) {
-          this.navElements.set(element, config);
-        }
+        // Re-enable after duration
+        setTimeout(() => {
+          if (this.navElements.has(specificElement)) {
+            config.hideOnScrollDown = originalHideOnScrollDown;
+          }
+        }, duration);
+      }
+    } else {
+      // Global pause (legacy behavior)
+      const originalMap = new Map(this.navElements);
+
+      // Temporarily disable hiding
+      this.navElements.forEach((config) => {
+        config.hideOnScrollDown = false;
       });
-    }, duration);
+
+      // Re-enable after duration
+      setTimeout(() => {
+        originalMap.forEach((config, element) => {
+          if (this.navElements.has(element)) {
+            this.navElements.set(element, config);
+          }
+        });
+      }, duration);
+    }
+  }
+
+  /**
+   * Re-enable scroll hiding for a specific element
+   * @param {HTMLElement} element - The element to re-enable scroll hiding for
+   */
+  enableScrollHiding(element) {
+    const config = this.navElements.get(element);
+    if (config) {
+      config.hideOnScrollDown = true;
+      console.log('🔄 Re-enabled scroll hiding for:', element.className);
+    }
+  }
+
+  /**
+   * Completely disable scroll behavior for an element (for locked state)
+   * @param {HTMLElement} element - The element to disable scroll for
+   */
+  disableScrollBehavior(element) {
+    const config = this.navElements.get(element);
+    if (config) {
+      config.hideOnScrollDown = false;
+      config.showOnScrollUp = false;
+      console.log('🚫 Disabled all scroll behavior for:', element.className);
+    }
+  }
+
+  /**
+   * Enable scroll behavior for an element (for unlocked state)
+   * @param {HTMLElement} element - The element to enable scroll for
+   */
+  enableScrollBehavior(element) {
+    const config = this.navElements.get(element);
+    if (config) {
+      config.hideOnScrollDown = true;
+      config.showOnScrollUp = true;
+      console.log('✅ Enabled all scroll behavior for:', element.className);
+    }
   }
 
   /**

@@ -9,27 +9,38 @@
   will-change: transform, opacity;
 }
 
-/* Top navigation hiding (slides LEFT off-screen) */
+/* Top navigation hiding (slides LEFT off-screen) - EXTREME STYLING FOR DEBUG */
 .nav-hidden-top {
-  transform: translateX(-100%);
-  opacity: 0.8;
+  transform: translateX(-200px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  display: none !important; /* Nuclear option for testing */
 }
 
-/* Bottom navigation hiding (slides RIGHT off-screen) */
+/* Bottom navigation hiding (slides RIGHT off-screen) - EXTREME STYLING FOR DEBUG */
 .nav-hidden-bottom {
-  transform: translateX(100%);
-  opacity: 0.8;
+  transform: translateX(200px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  display: none !important; /* Nuclear option for testing */
 }
 
-/* Enhanced transitions for smooth UX */
+/* Enhanced transitions for smooth UX - specific element targeting */
 .nav-tab.nav-hidden-top,
-.top-nav.nav-hidden-top {
-  transform: translateX(-120%); /* Slides completely off-screen to the left */
+.top-nav.nav-hidden-top,
+.insights-nav-tabs.nav-hidden-top {
+  transform: translateX(-120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .settings-tab.nav-hidden-bottom,
 .bottom-nav.nav-hidden-bottom {
-  transform: translateX(120%); /* Slides completely off-screen to the right */
+  transform: translateX(120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 /* Faster transitions for scroll-based hiding/showing */
@@ -70,21 +81,57 @@
   }
 }
 
-/* Special handling for when navigation is manually opened */
+/* Special handling for when navigation is manually opened/locked */
+/* ONLY apply force-visible when class is present */
 .nav-tab.nav-force-visible,
 .settings-tab.nav-force-visible {
-  transform: translateY(0) !important;
+  transform: translateX(0) !important;
   opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
-/* Hover states to prevent hiding when user is interacting */
-.nav-tab:hover,
-.settings-tab:hover,
-.nav-tab:focus-within,
-.settings-tab:focus-within {
+/* Ensure locked state overrides any hiding classes ONLY when force-visible is present */
+.nav-tab.nav-force-visible.nav-hidden-top,
+.settings-tab.nav-force-visible.nav-hidden-bottom {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure normal hiding works when force-visible is NOT present */
+.nav-tab:not(.nav-force-visible).nav-hidden-top {
+  transform: translateX(-120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+.settings-tab:not(.nav-force-visible).nav-hidden-bottom {
+  transform: translateX(120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Additional specificity for insights nav */
+.insights-nav-tabs:not(.nav-force-visible).nav-hidden-top {
+  transform: translateX(-120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Remove problematic hover override - let scroll behavior work */
+/* Commenting out hover overrides that prevent scroll hiding
+.nav-tab:hover:not(.nav-hidden-top),
+.settings-tab:hover:not(.nav-hidden-bottom),
+.nav-tab:focus-within:not(.nav-hidden-top),
+.settings-tab:focus-within:not(.nav-hidden-bottom) {
   transform: translateX(0) !important;
   opacity: 1 !important;
 }
+*/
 
 /* Additional classes for custom scroll behavior */
 .scroll-nav-pause .nav-tab,

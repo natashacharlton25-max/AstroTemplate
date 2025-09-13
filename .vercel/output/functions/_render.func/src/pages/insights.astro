@@ -1,0 +1,130 @@
+---
+import Layout from '@layouts/Layout.astro';
+import siteConfig from '@/site.config';
+---
+
+<Layout title={`Insights - ${siteConfig.brand.name}`}>
+  <main class="insights-page">
+    <section class="hero-section">
+      <div class="container">
+        <h1>Digital Insights</h1>
+        <p class="hero-description">
+          Thoughts, research, and insights on digital accessibility, inclusive design, and modern web development.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="insights-grid">
+          <article class="insight-card">
+            <h2>Accessibility in Modern Web Design</h2>
+            <p class="meta">Published March 2024</p>
+            <p>Exploring the latest trends and techniques for creating inclusive digital experiences that work for everyone.</p>
+            <a href="#" class="read-more">Read More</a>
+          </article>
+          
+          <article class="insight-card">
+            <h2>The Future of Digital Inclusion</h2>
+            <p class="meta">Published February 2024</p>
+            <p>Understanding how emerging technologies can be leveraged to create more accessible and inclusive digital spaces.</p>
+            <a href="#" class="read-more">Read More</a>
+          </article>
+          
+          <article class="insight-card">
+            <h2>UX Design for All Abilities</h2>
+            <p class="meta">Published January 2024</p>
+            <p>Best practices for designing user experiences that accommodate diverse needs and abilities from the ground up.</p>
+            <a href="#" class="read-more">Read More</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .insights-page {
+    min-height: 100vh;
+    padding: var(--space-2xl) 0;
+  }
+
+  .hero-section {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .hero-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-primary);
+    max-width: 700px;
+    margin: var(--space-lg) auto 0;
+  }
+
+  .content-section {
+    margin-top: var(--space-3xl);
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+
+  .insight-card {
+    background: var(--color-background);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .insight-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+
+  .insight-card h2 {
+    color: var(--color-secondary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .meta {
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    opacity: 0.8;
+    margin-bottom: var(--space-md);
+  }
+
+  .insight-card p:not(.meta) {
+    color: var(--color-text-primary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-lg);
+  }
+
+  .read-more {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-semibold);
+    transition: color var(--transition-base);
+  }
+
+  .read-more:hover {
+    color: var(--color-secondary);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  @media (max-width: 768px) {
+    .insights-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

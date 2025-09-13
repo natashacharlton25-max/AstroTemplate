@@ -77,10 +77,9 @@ import SearchPopup from '../Search/SearchPopup.astro';
         hideOnScrollDown: true,
         showOnScrollUp: true,
         onHide: () => {
-          // Close expanded menu when hiding due to scroll
-          if (settingsTab.classList.contains('active')) {
-            (settingsToggle as HTMLElement)?.click();
-          }
+          console.log('🔔 BottomNav onHide: Element should already be hidden naturally');
+          // Never auto-unlock locked navigation - locked should stay locked
+          // This callback should only fire if element was actually hidden
         },
         onShow: () => {
           console.log('Bottom navigation shown on scroll up');
@@ -89,15 +88,39 @@ import SearchPopup from '../Search/SearchPopup.astro';
       
       // Prevent hiding when nav is manually opened
       settingsToggle?.addEventListener('click', () => {
-        const isActive = settingsTab.classList.contains('active');
-        
-        if (!isActive) {
-          // Nav is opening - pause scroll hiding and force visible
-          scrollNavManager.pauseScrollHiding(3000);
+        const isLocking = !(settingsToggle as HTMLElement).classList.contains('active');
+
+        console.log('🔄 Bottom nav toggle triggered:', isLocking ? 'LOCKING' : 'UNLOCKING');
+
+        if (isLocking) {
+          // LOCKING: Add force visible class (scroll manager will skip it completely)
+          settingsTab.classList.remove('nav-hidden-top', 'nav-hidden-bottom');
           settingsTab.classList.add('nav-force-visible');
+          settingsTab.setAttribute('aria-hidden', 'false');
+
+          console.log('🔒 LOCKED - Bottom nav pinned, scroll manager will skip this element');
+          console.log('🔒 Bottom nav classes after locking:', settingsTab.className);
         } else {
-          // Nav is closing - remove force visible
+          // UNLOCKING: Enable scroll behavior and remove force visible
+          console.log('🔓 UNLOCKING - Restoring scroll behavior for bottom nav');
+          console.log('🔓 Bottom nav classes before unlock:', settingsTab.className);
+
           settingsTab.classList.remove('nav-force-visible');
+          console.log('🔓 Bottom nav classes after removing nav-force-visible:', settingsTab.className);
+
+          // No need to call enableScrollBehavior since we're using early return approach
+
+          // Immediately check if we should hide based on current scroll state
+          const isScrollingDown = scrollNavManager.getScrollDirection() === 'down';
+          if (isScrollingDown && window.scrollY > scrollNavManager.scrollThreshold) {
+            console.log('📜 Scroll down detected - hiding bottom nav immediately');
+            // Hide immediately since user is scrolling down
+            setTimeout(() => {
+              scrollNavManager.hideElement(settingsTab as HTMLElement);
+            }, 50); // Small delay for unlock animation
+          } else {
+            console.log('📜 Scroll up or at top - keeping bottom nav visible');
+          }
         }
       });
       
@@ -106,17 +129,31 @@ import SearchPopup from '../Search/SearchPopup.astro';
         const expandedMenu = document.querySelector('.settings-expanded');
         const target = e.target as Node | null;
         if (expandedMenu && target && !settingsTab.contains(target) && settingsTab.classList.contains('active')) {
+          console.log('🖱️ Outside click - unlocking bottom nav');
+
           settingsTab.classList.remove('nav-force-visible');
+          // No need to call enableScrollBehavior since we're using early return approach
+
+          // Check if we should hide it immediately based on current scroll state
+          const isScrollingDown = scrollNavManager.getScrollDirection() === 'down';
+          if (isScrollingDown && window.scrollY > scrollNavManager.scrollThreshold) {
+            console.log('📜 Outside click + scroll down - hiding bottom nav immediately');
+            setTimeout(() => {
+              scrollNavManager.hideElement(settingsTab as HTMLElement);
+            }, 50);
+          }
         }
       });
       
-      // Keep nav visible when hovering over it
+      // Keep nav visible when hovering over it (only if already locked)
       settingsTab.addEventListener('mouseenter', () => {
-        settingsTab.classList.add('nav-force-visible');
+        if (settingsToggle?.classList.contains('active')) {
+          settingsTab.classList.add('nav-force-visible');
+        }
       });
-      
+
       settingsTab.addEventListener('mouseleave', () => {
-        if (!settingsTab.classList.contains('active')) {
+        if (!settingsToggle?.classList.contains('active')) {
           settingsTab.classList.remove('nav-force-visible');
         }
       });
