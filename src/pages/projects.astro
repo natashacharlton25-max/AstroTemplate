@@ -1,0 +1,104 @@
+---
+import Layout from '@layouts/Layout.astro';
+import siteConfig from '@/site.config';
+---
+
+<Layout title={`Projects - ${siteConfig.brand.name}`} enableFooterReveal={false}>
+  <main class="projects-page">
+    <section class="hero-section">
+      <div class="container">
+        <h1>Our Projects</h1>
+        <p class="hero-description">
+          Discover our portfolio of innovative digital solutions and accessibility-focused projects.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="grid">
+          <div class="card">
+            <h2>Featured Projects</h2>
+            <p>Showcasing our latest work in digital accessibility and inclusive design.</p>
+          </div>
+          
+          <div class="card">
+            <h2>Client Solutions</h2>
+            <p>Custom solutions built with accessibility and user experience at the forefront.</p>
+          </div>
+          
+          <div class="card">
+            <h2>Open Source</h2>
+            <p>Contributing to the community with open-source accessibility tools and resources.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .projects-page {
+    min-height: 100vh;
+    padding: var(--space-2xl) 0;
+  }
+
+  .hero-section {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .hero-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-primary);
+    max-width: 600px;
+    margin: var(--space-lg) auto 0;
+  }
+
+  .content-section {
+    margin-top: var(--space-3xl);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+
+  .card {
+    background: var(--color-background);
+    border: 2px solid color-mix(in srgb, var(--color-secondary) 15%, transparent);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card h2 {
+    color: var(--color-secondary);
+    margin-bottom: var(--space-md);
+  }
+
+  .card p {
+    color: var(--color-text-primary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

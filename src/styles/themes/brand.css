@@ -5,70 +5,51 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap'); */
 
 :root {
-  /* ---- Brand Identity ---- */
-  --brand-name: "IC the Moon";
-  --brand-logo-path: "/images/LogoPlaceholder.png";
-  --brand-logo-fallback: "IC";
-
-  /* ---- Contact Configuration ---- */
-  --contact-email: "natashacharlton25@googlemail.com";
-
-  /* ---- Core Brand Colors ---- */
-  /* Import from variables.css - these are the source colors */
-  --brand-primary: var(--color-primary);    /* Red - main brand accent */
-  --brand-secondary: var(--color-secondary);  /* Blue - primary text & borders */
-  --brand-background: var(--color-background); /* Cream - page background */
-  --brand-text: var(--color-text-primary);       /* Gray - body text */
-  --brand-text-light: var(--color-text-light); /* White - text on dark backgrounds */
+  /* ---- Core Brand Colors (mapped from variables.css) ---- */
+  --brand-primary: var(--color-primary);
+  --brand-secondary: var(--color-secondary);
+  --brand-background: var(--color-background);
+  --brand-text: var(--color-text-primary);
+  --brand-text-light: var(--color-text-light);
   
-  /* ---- Highlight Colors ---- */
-  --brand-highlight-bg: rgba(230, 57, 97, 0.2);  /* Primary color with transparency */
-
-  /* ---- Typography ---- */
-  --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
-  /* --font-heading: 'Playfair Display', serif; /* Uncomment for serif headings */
-  --font-nav: var(--font-body);
-
+  /* ---- Brand Accents (mapped from variables.css) ---- */
+  --brand-accent-1: var(--brand-accent-1);
+  --brand-accent-2: var(--brand-accent-2);
+  --brand-neutral-dark: var(--brand-neutral-dark);
+  --brand-neutral-mid: var(--brand-neutral-mid);
+  --brand-neutral-light: var(--brand-neutral-light);
+  
+  /* ---- Derived Brand Colors ---- */
+  --brand-highlight-bg: color-mix(in srgb, var(--brand-primary) 20%, transparent);
+  
   /* ---- Navigation System ---- */
-  --nav-height: 45px;
-  --nav-mobile-height: 60px;
-  --nav-border-radius: 35px;
-  --nav-mobile-border-radius: 30px;
   --nav-text-primary: var(--brand-secondary);
   --nav-text-accent: var(--brand-primary);
   --nav-background: color-mix(in srgb, var(--brand-background) 70%, transparent);
   --nav-border: color-mix(in srgb, var(--brand-background) 40%, transparent);
   --nav-hover-bg: color-mix(in srgb, var(--brand-primary) 8%, transparent);
 
-  /* ---- Extended Palette ---- */
-  --brand-accent-1: #ffb703;   /* Orange accent */
-  --brand-accent-2: #fb8500;   /* Dark orange */
-  --brand-neutral-dark: #111319;
-  --brand-neutral-mid: #727586;
-  --brand-neutral-light: #e7e8eb;
+  /* ---- Navy Variations (mapped to brand colors) ---- */
+  --brand-navy: var(--brand-secondary);
+  --brand-navy-light: var(--color-secondary-light);
+  --brand-navy-dark: var(--color-secondary-dark);
+  --brand-accent: var(--brand-primary);
+  --brand-light: var(--color-secondary-light);
 
-  /* ---- Navy Variations for Footer ---- */
-  --brand-navy: var(--brand-secondary);        /* Main navy blue */
-  --brand-navy-light: #2c5282;                /* Lighter navy */
-  --brand-navy-dark: #1a202c;                 /* Darker navy */
-  --brand-accent: var(--brand-primary);       /* Accent color for animations */
-  --brand-light: #60a5fa;                     /* Light blue for effects */
-
-  /* ---- Glassmorphic Design System ---- */
-  --glass-background: rgba(255, 252, 240, 0.28);
-  --glass-border: 1px solid rgba(255, 252, 240, 0.38);
-  --glass-border-radius: 16px;
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  /* ---- Glassmorphic Design System (brand-based) ---- */
+  --glass-background: color-mix(in srgb, var(--brand-background) 28%, transparent);
+  --glass-border: 1px solid color-mix(in srgb, var(--brand-background) 38%, transparent);
+  --glass-border-radius: var(--radius-md);
+  --glass-shadow: var(--shadow-lg);
   --glass-backdrop-blur: blur(11.4px);
   
   /* Glassmorphic variations */
-  --glass-light: rgba(255, 252, 240, 0.15);
-  --glass-medium: rgba(255, 252, 240, 0.28);
-  --glass-heavy: rgba(255, 252, 240, 0.45);
-  --glass-border-light: rgba(255, 252, 240, 0.2);
-  --glass-border-medium: rgba(255, 252, 240, 0.38);
-  --glass-border-heavy: rgba(255, 252, 240, 0.55);
+  --glass-light: color-mix(in srgb, var(--brand-background) 15%, transparent);
+  --glass-medium: color-mix(in srgb, var(--brand-background) 28%, transparent);
+  --glass-heavy: color-mix(in srgb, var(--brand-background) 45%, transparent);
+  --glass-border-light: color-mix(in srgb, var(--brand-background) 20%, transparent);
+  --glass-border-medium: color-mix(in srgb, var(--brand-background) 38%, transparent);
+  --glass-border-heavy: color-mix(in srgb, var(--brand-background) 55%, transparent);
 
   /* Accessibility Hero Section */
   --accessibility-hero-bg: var(--brand-background);
@@ -123,39 +104,31 @@
   --preset-cognitive-bg: var(--accessibility-cognitive-gradient);
 }
 
-/* ---- DARK MODE OVERRIDES ---- */
-/* Dark mode variables that override the light theme */
-body.accessibility-dark-mode,
-html.accessibility-dark-mode,
+/* ---- DARK MODE OVERRIDES (simplified) ---- */
 .accessibility-dark-mode {
-  /* Override brand colors for dark mode */
-  --brand-background: #1a1e26;
-  --brand-text: #fffaf6;
-  --brand-text-light: #ffffff;
-  --brand-secondary: #f0ebe6;
-  --brand-primary: #f87171;
+  /* Core brand overrides for dark mode */
+  --brand-background: var(--brand-neutral-dark);
+  --brand-text: var(--color-text-light);
+  --brand-text-light: var(--color-white);
+  --brand-primary: var(--color-primary-light);
+  --brand-secondary: var(--brand-neutral-light);
   
-  /* Dark mode specific colors */
-  --brand-neutral-dark: #f1f5f9;
-  --brand-neutral-mid: #cbd5e1;
-  --brand-neutral-light: #374151;
+  /* Navigation for dark mode */
+  --nav-background: color-mix(in srgb, var(--brand-neutral-dark) 90%, transparent);
+  --nav-border: color-mix(in srgb, var(--brand-neutral-mid) 40%, transparent);
+  --nav-text-primary: var(--brand-neutral-light);
+  --nav-hover-bg: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  --nav-active-bg: var(--brand-secondary);
   
-  /* Navigation overrides for dark mode */
-  --nav-background: rgba(37, 42, 53, 0.9);
-  --nav-border: rgba(59, 69, 85, 0.4);
-  --nav-text-primary: #cbd5e1;
-  --nav-hover-bg: rgba(248, 113, 113, 0.1);
-  --nav-active-bg: #184e77; /* Dark blue for active nav items in dark mode */
-  
-  /* Glassmorphic overrides for dark mode */
-  --glass-background: rgba(37, 42, 53, 0.8);
-  --glass-light: rgba(37, 42, 53, 0.6);
-  --glass-medium: rgba(37, 42, 53, 0.8);
-  --glass-heavy: rgba(37, 42, 53, 0.95);
-  --glass-border: 1px solid rgba(59, 69, 85, 0.4);
-  --glass-border-light: rgba(59, 69, 85, 0.2);
-  --glass-border-medium: rgba(59, 69, 85, 0.4);
-  --glass-border-heavy: rgba(59, 69, 85, 0.6);
+  /* Glassmorphic for dark mode */
+  --glass-background: color-mix(in srgb, var(--brand-neutral-dark) 80%, transparent);
+  --glass-light: color-mix(in srgb, var(--brand-neutral-dark) 60%, transparent);
+  --glass-medium: color-mix(in srgb, var(--brand-neutral-dark) 80%, transparent);
+  --glass-heavy: color-mix(in srgb, var(--brand-neutral-dark) 95%, transparent);
+  --glass-border: 1px solid color-mix(in srgb, var(--brand-neutral-mid) 40%, transparent);
+  --glass-border-light: color-mix(in srgb, var(--brand-neutral-mid) 20%, transparent);
+  --glass-border-medium: color-mix(in srgb, var(--brand-neutral-mid) 40%, transparent);
+  --glass-border-heavy: color-mix(in srgb, var(--brand-neutral-mid) 60%, transparent);
   
   /* Accessibility Dark Mode Overrides */
   --accessibility-hero-primary: color-mix(in srgb, var(--brand-primary) 80%, black);
@@ -321,18 +294,17 @@ mark, .highlight {
 a.result-item,
 a.result-item:link,
 a.result-item:visited {
-  border: 2px solid rgba(24, 78, 119, 0.15) !important;
-  border-radius: 20px !important;
-  padding: 32px !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  border: 2px solid color-mix(in srgb, var(--brand-secondary) 15%, transparent) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: var(--space-2xl) !important;
+  box-shadow: var(--shadow-md) !important;
   position: relative !important;
-  margin-bottom: 8px !important;
+  margin-bottom: var(--space-sm) !important;
 }
-
 
 a.result-item:hover {
   border-color: var(--brand-primary) !important;
-  box-shadow: 0 8px 32px rgba(230, 57, 97, 0.15) !important;
+  box-shadow: var(--shadow-xl) !important;
   transform: translateY(-4px) !important;
 }
 
@@ -340,10 +312,10 @@ a.result-item:hover {
 .result-title {
   color: var(--brand-secondary) !important;
   font-family: var(--font-heading) !important;
-  font-size: 22px !important;
-  font-weight: 600 !important;
-  margin-bottom: 12px !important;
-  line-height: 1.3 !important;
+  font-size: var(--text-xl) !important;
+  font-weight: var(--font-semibold) !important;
+  margin-bottom: var(--space-md) !important;
+  line-height: var(--leading-tight) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
@@ -351,27 +323,27 @@ a.result-item:hover {
 .result-description {
   color: var(--brand-text) !important;
   font-family: var(--font-body) !important;
-  font-size: 16px !important;
-  line-height: 1.6 !important;
-  margin-bottom: 20px !important;
+  font-size: var(--text-base) !important;
+  line-height: var(--leading-normal) !important;
+  margin-bottom: var(--space-lg) !important;
 }
 
 .result-meta {
   display: flex !important;
-  gap: 16px !important;
+  gap: var(--space-md) !important;
   align-items: center !important;
-  font-size: 12px !important;
-  margin-top: 16px !important;
-  padding-top: 16px !important;
-  border-top: 1px solid rgba(24, 78, 119, 0.1) !important;
+  font-size: var(--text-xs) !important;
+  margin-top: var(--space-md) !important;
+  padding-top: var(--space-md) !important;
+  border-top: 1px solid color-mix(in srgb, var(--brand-secondary) 10%, transparent) !important;
 }
 
 .result-type {
   color: var(--brand-text) !important;
-  background: rgba(24, 78, 119, 0.08) !important;
-  padding: 4px 12px !important;
-  border-radius: 12px !important;
-  font-weight: 500 !important;
+  background: color-mix(in srgb, var(--brand-secondary) 8%, transparent) !important;
+  padding: var(--space-xs) var(--space-md) !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: var(--font-medium) !important;
   text-transform: capitalize !important;
 }
 
@@ -381,26 +353,22 @@ a.result-item .result-url,
 span.result-url,
 .result-meta .result-url {
   color: var(--brand-primary) !important;
-  font-size: 12px !important;
+  font-size: var(--text-xs) !important;
   text-decoration: none !important;
   opacity: 0.9 !important;
   text-transform: uppercase !important;
   letter-spacing: 1.2px !important;
-  font-weight: 600 !important;
+  font-weight: var(--font-semibold) !important;
   font-family: var(--font-body) !important;
 }
 
-/* CRITICAL: Dark mode body background override - must be at end of file */
-html.accessibility-dark-mode,
-html.accessibility-dark-mode body,
-body.accessibility-dark-mode {
-  background-color: #1a1e26 !important;
-  background: #1a1e26 !important;
+/* CRITICAL: Dark mode body background override */
+.accessibility-dark-mode {
+  background-color: var(--brand-background) !important;
+  background: var(--brand-background) !important;
 }
 
-/* Dark mode navigation overrides - use dark blue for active state */
-body.accessibility-dark-mode .nav-link.active,
-html.accessibility-dark-mode .nav-link.active,
+/* Dark mode navigation overrides */
 .accessibility-dark-mode .nav-link.active {
   background: var(--nav-active-bg) !important;
   color: var(--brand-text-light) !important;

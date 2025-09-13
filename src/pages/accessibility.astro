@@ -44,205 +44,154 @@ import siteConfig from '@/site.config';
     </section>
 
     <!-- Accessibility Controls -->
-    <section class="accessibility-controls">
+    <section class="accessibility-controls" id="accessibility-controls">
       <div class="container">
-        <div class="controls-grid">
-          
-          <!-- Font Size Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">text_fields</span>
-              <h3>Font Size</h3>
+        
+        <!-- Visual & Display Settings -->
+        <fieldset class="settings-group">
+          <legend>Visual & Display Settings</legend>
+          <div class="controls-grid">
+            
+            <!-- Font Size Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">text_fields</span>
+                <h3>Font Size</h3>
+              </div>
+              <p class="card-description">Adjust text size for better readability</p>
+              <div class="slider-container">
+                <label for="fontSize" class="sr-only">Font size multiplier</label>
+                <input 
+                  type="range" 
+                  id="fontSize" 
+                  class="accessibility-slider"
+                  min="0.8" 
+                  max="1.5" 
+                  step="0.1" 
+                  value="1"
+                  aria-describedby="fontSize-desc"
+                />
+                <div class="slider-labels" id="fontSize-desc">
+                  <span>Small</span>
+                  <span>Normal</span>
+                  <span>Large</span>
+                </div>
+              </div>
             </div>
-            <p class="card-description">Adjust text size for better readability</p>
-            <div class="slider-container">
-              <input 
-                type="range" 
-                id="fontSize" 
-                class="accessibility-slider"
-                min="0.8" 
-                max="1.5" 
-                step="0.1" 
-                value="1"
-                aria-label="Font size multiplier"
-              />
-              <div class="slider-labels">
-                <span>Small</span>
-                <span>Normal</span>
-                <span>Large</span>
+
+            <!-- High Contrast Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">contrast</span>
+                <h3>High Contrast</h3>
+              </div>
+              <p class="card-description" id="contrast-desc">Increase contrast for better visibility</p>
+              <div class="toggle-container">
+                <input type="checkbox" id="contrast" class="accessibility-toggle" aria-describedby="contrast-desc" />
+                <label for="contrast" class="toggle-label">Toggle high contrast mode</label>
+              </div>
+            </div>
+
+            <!-- Dark Mode Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">dark_mode</span>
+                <h3>Dark Mode</h3>
+              </div>
+              <p class="card-description" id="darkMode-desc">Reduce eye strain with darker colors</p>
+              <div class="toggle-container">
+                <input type="checkbox" id="darkMode" class="accessibility-toggle" aria-describedby="darkMode-desc" />
+                <label for="darkMode" class="toggle-label">Toggle dark mode</label>
+              </div>
+            </div>
+
+            <!-- Reduce Motion Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">motion_photos_off</span>
+                <h3>Reduce Motion</h3>
+              </div>
+              <p class="card-description" id="reducedMotion-desc">Minimize animations and transitions</p>
+              <div class="toggle-container">
+                <input type="checkbox" id="reducedMotion" class="accessibility-toggle" aria-describedby="reducedMotion-desc" />
+                <label for="reducedMotion" class="toggle-label">Toggle reduced motion</label>
               </div>
             </div>
           </div>
+        </fieldset>
 
-          <!-- High Contrast Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">contrast</span>
-              <h3>High Contrast</h3>
-            </div>
-            <p class="card-description">Increase contrast for better visibility</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="contrast" class="accessibility-toggle" />
-              <label for="contrast" class="toggle-label" aria-label="Toggle high contrast mode"></label>
-            </div>
-          </div>
+        <!-- Navigation & Interaction Settings -->
+        <fieldset class="settings-group">
+          <legend>Navigation & Interaction Settings</legend>
+          <div class="controls-grid">
 
-          <!-- Dark Mode Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">dark_mode</span>
-              <h3>Dark Mode</h3>
+            <!-- Enhanced Keyboard Navigation Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">keyboard</span>
+                <h3>Enhanced Keyboard Navigation</h3>
+              </div>
+              <p class="card-description" id="keyboardNav-desc">Improve keyboard focus indicators</p>
+              <div class="toggle-container">
+                <input type="checkbox" id="keyboardNav" class="accessibility-toggle" aria-describedby="keyboardNav-desc" />
+                <label for="keyboardNav" class="toggle-label">Toggle enhanced keyboard navigation</label>
+              </div>
             </div>
-            <p class="card-description">Reduce eye strain with darker colors</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="darkMode" class="accessibility-toggle" />
-              <label for="darkMode" class="toggle-label" aria-label="Toggle dark mode"></label>
-            </div>
-          </div>
 
-          <!-- Reduce Motion Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">motion_photos_off</span>
-              <h3>Reduce Motion</h3>
+            <!-- Skip Links Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">skip_next</span>
+                <h3>Skip Links</h3>
+              </div>
+              <p class="card-description" id="skipLinks-desc">Show skip to content links</p>
+              <div class="toggle-container">
+                <input type="checkbox" id="skipLinks" class="accessibility-toggle" checked aria-describedby="skipLinks-desc" />
+                <label for="skipLinks" class="toggle-label">Toggle skip links</label>
+              </div>
             </div>
-            <p class="card-description">Minimize animations and transitions</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="reducedMotion" class="accessibility-toggle" />
-              <label for="reducedMotion" class="toggle-label" aria-label="Toggle reduced motion"></label>
-            </div>
-          </div>
 
-          <!-- Enhanced Keyboard Navigation Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">keyboard</span>
-              <h3>Enhanced Keyboard Navigation</h3>
+            <!-- Screen Reader Announcements Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">record_voice_over</span>
+                <h3>Screen Reader Announcements</h3>
+              </div>
+              <p class="card-description" id="popupAnnouncements-desc">Announce when popups open and close</p>
+              <div class="toggle-container">
+                <input type="checkbox" id="popupAnnouncements" class="accessibility-toggle" checked aria-describedby="popupAnnouncements-desc" />
+                <label for="popupAnnouncements" class="toggle-label">Toggle popup announcements</label>
+              </div>
             </div>
-            <p class="card-description">Improve keyboard focus indicators</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="keyboardNav" class="accessibility-toggle" />
-              <label for="keyboardNav" class="toggle-label" aria-label="Toggle enhanced keyboard navigation"></label>
-            </div>
-          </div>
 
-          <!-- Skip Links Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">skip_next</span>
-              <h3>Skip Links</h3>
-            </div>
-            <p class="card-description">Show skip to content links</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="skipLinks" class="accessibility-toggle" checked />
-              <label for="skipLinks" class="toggle-label" aria-label="Toggle skip links"></label>
-            </div>
-          </div>
-
-          <!-- Auto-Focus Popups Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">center_focus_strong</span>
-              <h3>Auto-Focus Popups</h3>
-            </div>
-            <p class="card-description">Automatically focus popup content</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="autoFocus" class="accessibility-toggle" checked />
-              <label for="autoFocus" class="toggle-label" aria-label="Toggle auto-focus for popups"></label>
-            </div>
-          </div>
-
-          <!-- Screen Reader Announcements Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">record_voice_over</span>
-              <h3>Screen Reader Announcements</h3>
-            </div>
-            <p class="card-description">Announce when popups open and close</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="popupAnnouncements" class="accessibility-toggle" checked />
-              <label for="popupAnnouncements" class="toggle-label" aria-label="Toggle popup announcements"></label>
-            </div>
-          </div>
-
-          <!-- Popup Animation Speed Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">speed</span>
-              <h3>Popup Animation Speed</h3>
-            </div>
-            <p class="card-description">Control how fast popups animate</p>
-            <div class="slider-container">
-              <input 
-                type="range" 
-                id="popupDelay" 
-                class="accessibility-slider"
-                min="0.1" 
-                max="1" 
-                step="0.1" 
-                value="0.4"
-                aria-label="Popup animation speed"
-              />
-              <div class="slider-labels">
-                <span>Fast</span>
-                <span>Normal</span>
-                <span>Slow</span>
+            <!-- Popup Animation Speed Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <span class="material-icons card-icon" aria-hidden="true">speed</span>
+                <h3>Popup Animation Speed</h3>
+              </div>
+              <p class="card-description">Control how fast popups animate</p>
+              <div class="slider-container">
+                <label for="popupDelay" class="sr-only">Popup animation speed</label>
+                <input 
+                  type="range" 
+                  id="popupDelay" 
+                  class="accessibility-slider"
+                  min="0.1" 
+                  max="1" 
+                  step="0.1" 
+                  value="0.4"
+                  aria-describedby="popupDelay-desc"
+                />
+                <div class="slider-labels" id="popupDelay-desc">
+                  <span>Fast</span>
+                  <span>Normal</span>
+                  <span>Slow</span>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- Escape Key Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">keyboard_return</span>
-              <h3>Escape Key Closes Popups</h3>
-            </div>
-            <p class="card-description">Use Escape key to close popups</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="escapeClose" class="accessibility-toggle" checked />
-              <label for="escapeClose" class="toggle-label" aria-label="Toggle escape key to close popups"></label>
-            </div>
-          </div>
-
-          <!-- Focus Trapping Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">lock</span>
-              <h3>Focus Trapping</h3>
-            </div>
-            <p class="card-description">Keep keyboard focus within popups</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="trapFocus" class="accessibility-toggle" checked />
-              <label for="trapFocus" class="toggle-label" aria-label="Toggle focus trapping in popups"></label>
-            </div>
-          </div>
-
-          <!-- Sound Effects Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">volume_up</span>
-              <h3>Sound Effects</h3>
-            </div>
-            <p class="card-description">Play audio feedback for interactions</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="soundEffects" class="accessibility-toggle" />
-              <label for="soundEffects" class="toggle-label" aria-label="Toggle sound effects"></label>
-            </div>
-          </div>
-
-          <!-- Audio Descriptions Card -->
-          <div class="setting-card">
-            <div class="card-header">
-              <span class="material-icons card-icon" aria-hidden="true">hearing</span>
-              <h3>Audio Descriptions</h3>
-            </div>
-            <p class="card-description">Enable audio descriptions for visual content</p>
-            <div class="toggle-container">
-              <input type="checkbox" id="audioDescriptions" class="accessibility-toggle" />
-              <label for="audioDescriptions" class="toggle-label" aria-label="Toggle audio descriptions"></label>
-            </div>
-          </div>
-        </div>
+        </fieldset>
 
         <!-- Action Buttons -->
         <div class="action-buttons">

@@ -1,0 +1,125 @@
+/* Scroll-aware navigation transitions */
+
+/* Base transition for all navigation elements */
+.nav-tab,
+.settings-tab,
+.top-nav,
+.bottom-nav {
+  transition: transform var(--transition-base), opacity var(--transition-base);
+  will-change: transform, opacity;
+}
+
+/* Top navigation hiding (slides LEFT off-screen) */
+.nav-hidden-top {
+  transform: translateX(-100%);
+  opacity: 0.8;
+}
+
+/* Bottom navigation hiding (slides RIGHT off-screen) */
+.nav-hidden-bottom {
+  transform: translateX(100%);
+  opacity: 0.8;
+}
+
+/* Enhanced transitions for smooth UX */
+.nav-tab.nav-hidden-top,
+.top-nav.nav-hidden-top {
+  transform: translateX(-120%); /* Slides completely off-screen to the left */
+}
+
+.settings-tab.nav-hidden-bottom,
+.bottom-nav.nav-hidden-bottom {
+  transform: translateX(120%); /* Slides completely off-screen to the right */
+}
+
+/* Faster transitions for scroll-based hiding/showing */
+.nav-tab,
+.settings-tab {
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* Material Design easing */
+}
+
+/* Accessibility: Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .nav-tab,
+  .settings-tab,
+  .top-nav,
+  .bottom-nav {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Ensure proper z-index during transitions */
+.nav-tab,
+.settings-tab {
+  z-index: var(--z-sticky, 1020);
+}
+
+/* Optional: Add subtle backdrop blur during scroll */
+.nav-tab.nav-scrolling,
+.settings-tab.nav-scrolling {
+  backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--nav-background, var(--color-background)) 90%, transparent);
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 768px) {
+  .nav-tab,
+  .settings-tab {
+    transition-duration: 250ms; /* Slightly faster on mobile */
+  }
+}
+
+/* Special handling for when navigation is manually opened */
+.nav-tab.nav-force-visible,
+.settings-tab.nav-force-visible {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+}
+
+/* Hover states to prevent hiding when user is interacting */
+.nav-tab:hover,
+.settings-tab:hover,
+.nav-tab:focus-within,
+.settings-tab:focus-within {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+}
+
+/* Additional classes for custom scroll behavior */
+.scroll-nav-pause .nav-tab,
+.scroll-nav-pause .settings-tab {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+}
+
+/* Smooth reveal animation when scrolling up */
+.nav-tab:not(.nav-hidden-top) {
+  animation: slideInFromLeft 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.settings-tab:not(.nav-hidden-bottom) {
+  animation: slideInFromRight 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

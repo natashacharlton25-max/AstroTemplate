@@ -315,5 +315,17 @@ const {
         </nav>
       </>
     )}
+    
+    <!-- Auto-initialize scroll-aware navigation -->
+    <script type="module">
+      import { initScrollAwareNavigation } from '/src/components/utils/autoInitScrollNav.js';
+      
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollAwareNavigation);
+      } else {
+        initScrollAwareNavigation();
+      }
+    </script>
   </body>
 </html>

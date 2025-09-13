@@ -92,7 +92,64 @@ import SearchPopup from '../Search/SearchPopup.astro';
 
 <script>
   import { initBottomNav } from './navigation/bottomNavInit.js';
+  import { scrollNavManager } from '../utils/scrollNavigation.js';
   
   // Initialize bottom nav
   initBottomNav();
+  
+  // Initialize scroll-aware behavior
+  document.addEventListener('DOMContentLoaded', () => {
+    const settingsTab = document.querySelector('.settings-tab');
+    const settingsToggle = document.querySelector('[data-settings-toggle]');
+    
+    if (settingsTab) {
+      // Register the bottom nav element for scroll-aware behavior
+      scrollNavManager.registerNavElement(settingsTab, {
+        hideOnScrollDown: true,
+        showOnScrollUp: true,
+        onHide: () => {
+          // Close expanded menu when hiding due to scroll
+          if (settingsTab.classList.contains('active')) {
+            settingsToggle?.click();
+          }
+        },
+        onShow: () => {
+          console.log('Bottom navigation shown on scroll up');
+        }
+      });
+      
+      // Prevent hiding when nav is manually opened
+      settingsToggle?.addEventListener('click', () => {
+        const isActive = settingsTab.classList.contains('active');
+        
+        if (!isActive) {
+          // Nav is opening - pause scroll hiding and force visible
+          scrollNavManager.pauseScrollHiding(3000);
+          settingsTab.classList.add('nav-force-visible');
+        } else {
+          // Nav is closing - remove force visible
+          settingsTab.classList.remove('nav-force-visible');
+        }
+      });
+      
+      // Remove force visible when clicking outside expanded menu
+      document.addEventListener('click', (e) => {
+        const expandedMenu = document.querySelector('.settings-expanded');
+        if (expandedMenu && !settingsTab.contains(e.target) && settingsTab.classList.contains('active')) {
+          settingsTab.classList.remove('nav-force-visible');
+        }
+      });
+      
+      // Keep nav visible when hovering over it
+      settingsTab.addEventListener('mouseenter', () => {
+        settingsTab.classList.add('nav-force-visible');
+      });
+      
+      settingsTab.addEventListener('mouseleave', () => {
+        if (!settingsTab.classList.contains('active')) {
+          settingsTab.classList.remove('nav-force-visible');
+        }
+      });
+    }
+  });
 </script>

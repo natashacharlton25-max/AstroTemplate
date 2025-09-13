@@ -137,7 +137,7 @@ export const siteConfig: SiteConfig = {
       alt: "IC the Moon Logo",
       fallback: "IC"
     },
-    favicon: "/favicon.ico"
+    favicon: "/Favicon/favicon.ico"
   },
 
   contact: {

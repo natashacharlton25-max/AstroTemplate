@@ -9,13 +9,8 @@ class AccessibilityManager {
       reducedMotion: false,
       keyboardNav: false,
       skipLinks: true,
-      autoFocus: true,
       popupAnnouncements: true,
-      popupDelay: 0.4,
-      escapeClose: true,
-      trapFocus: true,
-      soundEffects: false,
-      audioDescriptions: false
+      popupDelay: 0.4
     };
     
     this.announcer = document.getElementById('announcements');
@@ -57,8 +52,7 @@ class AccessibilityManager {
     // Toggle controls
     const toggles = [
       'contrast', 'darkMode', 'reducedMotion', 'keyboardNav', 
-      'skipLinks', 'autoFocus', 'popupAnnouncements', 'escapeClose', 
-      'trapFocus', 'soundEffects', 'audioDescriptions'
+      'skipLinks', 'popupAnnouncements'
     ];
 
     toggles.forEach(setting => {
@@ -239,28 +233,21 @@ class AccessibilityManager {
     switch (setting) {
       case 'fontSize':
         this.applyFontSize();
-        localStorage.setItem('accessibility-fontSize', Math.round(this.settings.fontSize * 100).toString());
         break;
       case 'contrast':
         this.applyHighContrast();
         break;
       case 'darkMode':
         this.applyDarkMode();
-        localStorage.setItem('accessibility-darkMode', this.settings.darkMode.toString());
         break;
       case 'reducedMotion':
         this.applyReducedMotion();
-        localStorage.setItem('accessibility-plainTextMode', this.settings.reducedMotion.toString());
         break;
       case 'keyboardNav':
         this.applyEnhancedKeyboard();
-        localStorage.setItem('accessibility-keyboardHelpers', this.settings.keyboardNav.toString());
         break;
       case 'skipLinks':
         this.applySkipLinks();
-        break;
-      case 'popupAnnouncements':
-        localStorage.setItem('accessibility-screenReaderHelpers', this.settings.popupAnnouncements.toString());
         break;
       case 'popupDelay':
         this.applyPopupDelay();
@@ -268,14 +255,6 @@ class AccessibilityManager {
       default:
         // Handle other settings that don't need immediate application
         break;
-    }
-    
-    // Trigger global accessibility update for relevant settings
-    if (['fontSize', 'darkMode', 'reducedMotion', 'keyboardNav', 'popupAnnouncements'].includes(setting)) {
-      if (window.globalAccessibility) {
-        window.globalAccessibility.reloadSettings();
-        window.globalAccessibility.applySettings();
-      }
     }
   }
 
@@ -296,33 +275,33 @@ class AccessibilityManager {
 
   applyHighContrast() {
     if (this.settings.contrast) {
-      this.body.classList.add('high-contrast');
+      this.body.classList.add('accessibility-high-contrast');
     } else {
-      this.body.classList.remove('high-contrast');
+      this.body.classList.remove('accessibility-high-contrast');
     }
   }
 
   applyDarkMode() {
     if (this.settings.darkMode) {
-      this.body.classList.add('dark-mode');
+      this.body.classList.add('accessibility-dark-mode');
     } else {
-      this.body.classList.remove('dark-mode');
+      this.body.classList.remove('accessibility-dark-mode');
     }
   }
 
   applyReducedMotion() {
     if (this.settings.reducedMotion) {
-      this.body.classList.add('reduce-motion');
+      this.body.classList.add('accessibility-reduced-motion');
     } else {
-      this.body.classList.remove('reduce-motion');
+      this.body.classList.remove('accessibility-reduced-motion');
     }
   }
 
   applyEnhancedKeyboard() {
     if (this.settings.keyboardNav) {
-      this.body.classList.add('enhanced-focus');
+      this.body.classList.add('accessibility-enhanced-focus');
     } else {
-      this.body.classList.remove('enhanced-focus');
+      this.body.classList.remove('accessibility-enhanced-focus');
     }
   }
 
@@ -385,15 +364,8 @@ class AccessibilityManager {
 
   saveSettings() {
     try {
-      // Save to individual keys that match the global accessibility system
-      localStorage.setItem('accessibility-fontSize', Math.round(this.settings.fontSize * 100).toString());
-      localStorage.setItem('accessibility-darkMode', this.settings.darkMode.toString());
-      localStorage.setItem('accessibility-keyboardHelpers', this.settings.keyboardNav.toString());
-      localStorage.setItem('accessibility-screenReaderHelpers', this.settings.popupAnnouncements.toString());
-      localStorage.setItem('accessibility-plainTextMode', this.settings.reducedMotion.toString());
-      
-      // Also save the full settings for compatibility
-      localStorage.setItem('icthemoon_accessibility', JSON.stringify(this.settings));
+      // Save single JSON object (simplified storage)
+      localStorage.setItem('accessibility-settings', JSON.stringify(this.settings));
       
       // Trigger global accessibility update
       if (window.globalAccessibility) {
@@ -408,7 +380,7 @@ class AccessibilityManager {
       if (saveBtn) {
         const originalText = saveBtn.textContent;
         saveBtn.textContent = 'Saved!';
-        saveBtn.style.background = '#00b090';
+        saveBtn.style.background = 'var(--color-accent-1)';
         
         setTimeout(() => {
           saveBtn.textContent = originalText;
@@ -423,39 +395,11 @@ class AccessibilityManager {
 
   loadSettings() {
     try {
-      // Load from global accessibility keys first
-      const globalFontSize = localStorage.getItem('accessibility-fontSize');
-      const globalDarkMode = localStorage.getItem('accessibility-darkMode');
-      const globalKeyboardHelpers = localStorage.getItem('accessibility-keyboardHelpers');
-      const globalScreenReaderHelpers = localStorage.getItem('accessibility-screenReaderHelpers');
-      const globalPlainTextMode = localStorage.getItem('accessibility-plainTextMode');
-      
-      if (globalFontSize) {
-        this.settings.fontSize = parseInt(globalFontSize) / 100;
-      }
-      if (globalDarkMode !== null) {
-        this.settings.darkMode = globalDarkMode === 'true';
-      }
-      if (globalKeyboardHelpers !== null) {
-        this.settings.keyboardNav = globalKeyboardHelpers === 'true';
-      }
-      if (globalScreenReaderHelpers !== null) {
-        this.settings.popupAnnouncements = globalScreenReaderHelpers === 'true';
-      }
-      if (globalPlainTextMode !== null) {
-        this.settings.reducedMotion = globalPlainTextMode === 'true';
-      }
-      
-      // Also load from local settings for any settings not in global system
-      const saved = localStorage.getItem('icthemoon_accessibility');
+      // Load from single JSON object (simplified storage)
+      const saved = localStorage.getItem('accessibility-settings');
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Only override settings that weren't loaded from global keys
-        Object.keys(parsed).forEach(key => {
-          if (!['fontSize', 'darkMode', 'keyboardNav', 'popupAnnouncements', 'reducedMotion'].includes(key)) {
-            this.settings[key] = parsed[key];
-          }
-        });
+        this.settings = { ...this.settings, ...parsed };
       }
     } catch (error) {
       console.error('Failed to load accessibility settings:', error);
@@ -471,24 +415,12 @@ class AccessibilityManager {
       reducedMotion: false,
       keyboardNav: false,
       skipLinks: true,
-      autoFocus: true,
       popupAnnouncements: true,
-      popupDelay: 0.4,
-      escapeClose: true,
-      trapFocus: true,
-      soundEffects: false,
-      audioDescriptions: false
+      popupDelay: 0.4
     };
 
-    // Reset global accessibility keys
-    localStorage.setItem('accessibility-fontSize', '100');
-    localStorage.setItem('accessibility-darkMode', 'false');
-    localStorage.setItem('accessibility-keyboardHelpers', 'false');
-    localStorage.setItem('accessibility-screenReaderHelpers', 'true');
-    localStorage.setItem('accessibility-plainTextMode', 'false');
-    
-    // Reset local settings
-    localStorage.setItem('icthemoon_accessibility', JSON.stringify(this.settings));
+    // Save reset settings (simplified storage)
+    localStorage.setItem('accessibility-settings', JSON.stringify(this.settings));
     
     // Trigger global accessibility update
     if (window.globalAccessibility) {
@@ -505,7 +437,7 @@ class AccessibilityManager {
     if (resetBtn) {
       const originalText = resetBtn.textContent;
       resetBtn.textContent = 'Reset!';
-      resetBtn.style.background = '#fc5185';
+      resetBtn.style.background = 'var(--color-primary)';
       
       setTimeout(() => {
         resetBtn.textContent = originalText;

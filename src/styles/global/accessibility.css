@@ -61,6 +61,84 @@
   border: 0;
 }
 
+/* ========================================
+   Accessibility Toggle States
+   ======================================== */
+
+/* High Contrast Mode */
+.accessibility-high-contrast {
+  --color-background: #000000;
+  --color-text-primary: #ffffff;
+  --color-primary: #ffff00;
+  --color-secondary: #00ffff;
+  --color-text-light: #ffffff;
+  
+  /* High contrast shadows and borders */
+  --shadow-md: 0 0 0 2px #ffffff;
+  --shadow-lg: 0 0 0 3px #ffffff;
+}
+
+.accessibility-high-contrast * {
+  border-color: #ffffff !important;
+}
+
+.accessibility-high-contrast a {
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+/* Reduced Motion */
+.accessibility-reduced-motion *,
+.accessibility-reduced-motion *::before,
+.accessibility-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.accessibility-reduced-motion .popup-overlay,
+.accessibility-reduced-motion .search-popup-overlay {
+  transition: none !important;
+}
+
+/* Enhanced Focus Indicators */
+.accessibility-enhanced-focus *:focus {
+  outline: 3px solid var(--color-primary) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-primary) 30%, transparent) !important;
+}
+
+.accessibility-enhanced-focus button:focus,
+.accessibility-enhanced-focus input:focus,
+.accessibility-enhanced-focus textarea:focus,
+.accessibility-enhanced-focus select:focus,
+.accessibility-enhanced-focus a:focus {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-background)) !important;
+}
+
+/* ========================================
+   Settings Groups (Fieldsets)
+   ======================================== */
+
+.settings-group {
+  border: 2px solid color-mix(in srgb, var(--color-secondary) 20%, transparent);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+  background: color-mix(in srgb, var(--color-background) 50%, transparent);
+}
+
+.settings-group legend {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-secondary);
+  padding: 0 var(--space-md);
+  background: var(--color-background);
+  border-radius: var(--radius-sm);
+}
+
 /* Page Layout */
 .accessibility-page {
   min-height: 100vh;
