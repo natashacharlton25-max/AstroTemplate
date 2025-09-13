@@ -61,25 +61,16 @@
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar for dark mode */
-  .accessibility-dark-mode ::-webkit-scrollbar-track {
-    background: var(--color-background);
-  }
-
-  .accessibility-dark-mode ::-webkit-scrollbar-thumb {
-    border-color: var(--color-background);
-  }
-
-  /* Accessibility: Respect reduced motion preferences */
+  /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
     ::-webkit-scrollbar-thumb {
       transition: none;
     }
-    
+
     ::-webkit-scrollbar-thumb:hover {
       transform: none;
     }
-    
+
     html {
       scroll-behavior: auto;
     }
@@ -98,15 +89,4 @@
     }
   }
 
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    ::-webkit-scrollbar-thumb {
-      background: var(--color-black);
-      border-color: var(--color-white);
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: var(--color-white);
-    }
-  }
 </style>

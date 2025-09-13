@@ -73,13 +73,13 @@ import SearchPopup from '../Search/SearchPopup.astro';
     
     if (settingsTab) {
       // Register the bottom nav element for scroll-aware behavior
-      scrollNavManager.registerNavElement(settingsTab, {
+      scrollNavManager.registerNavElement(settingsTab as HTMLElement, {
         hideOnScrollDown: true,
         showOnScrollUp: true,
         onHide: () => {
           // Close expanded menu when hiding due to scroll
           if (settingsTab.classList.contains('active')) {
-            settingsToggle?.click();
+            (settingsToggle as HTMLElement)?.click();
           }
         },
         onShow: () => {
@@ -104,7 +104,8 @@ import SearchPopup from '../Search/SearchPopup.astro';
       // Remove force visible when clicking outside expanded menu
       document.addEventListener('click', (e) => {
         const expandedMenu = document.querySelector('.settings-expanded');
-        if (expandedMenu && !settingsTab.contains(e.target) && settingsTab.classList.contains('active')) {
+        const target = e.target as Node | null;
+        if (expandedMenu && target && !settingsTab.contains(target) && settingsTab.classList.contains('active')) {
           settingsTab.classList.remove('nav-force-visible');
         }
       });

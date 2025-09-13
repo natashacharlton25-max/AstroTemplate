@@ -1,32 +1,5 @@
 // Overlay Management Functionality
 export function initOverlayManager() {
-  // Dark mode icon update function
-  const updateDarkModeIcon = () => {
-    const darkModeBtn = document.getElementById('bottomNavDarkMode');
-    if (darkModeBtn) {
-      const moonIcon = darkModeBtn.querySelector('.moon-icon');
-      const sunIcon = darkModeBtn.querySelector('.sun-icon');
-      const isDarkMode = document.body.classList.contains('accessibility-dark-mode');
-      
-      if (isDarkMode) {
-        moonIcon.style.display = 'none';
-        sunIcon.style.display = 'block';
-        darkModeBtn.setAttribute('aria-label', 'Switch to light mode');
-      } else {
-        moonIcon.style.display = 'block';
-        sunIcon.style.display = 'none';
-        darkModeBtn.setAttribute('aria-label', 'Switch to dark mode');
-      }
-    }
-  };
-  
-  // Initialize dark mode icon state
-  setTimeout(() => {
-    updateDarkModeIcon();
-  }, 100);
-  
-  // Expose function globally for accessibility panel to call
-  window.updateBottomNavDarkModeIcon = updateDarkModeIcon;
   // Overlay management functions
   const openOverlay = (type) => {
     const overlay = document.querySelector(`[data-overlay-screen="${type}"]`);
@@ -102,35 +75,6 @@ export function initOverlayManager() {
         }
         break;
         
-      case 'dark-mode':
-        // Toggle dark mode via global accessibility system
-        if (window.toggleGlobalDarkMode) {
-          window.toggleGlobalDarkMode();
-          // Update the icon state
-          updateDarkModeIcon();
-          // Close settings menu after action
-          const settingsExpanded = document.querySelector('[data-settings-expanded]');
-          const settingsToggle = document.querySelector('[data-settings-toggle]');
-          settingsExpanded?.classList.remove('show');
-          settingsToggle?.classList.remove('active');
-        } else if (window.globalAccessibility) {
-          window.globalAccessibility.toggleDarkMode();
-          // Update the icon state
-          updateDarkModeIcon();
-          // Close settings menu after action
-          const settingsExpanded = document.querySelector('[data-settings-expanded]');
-          const settingsToggle = document.querySelector('[data-settings-toggle]');
-          settingsExpanded?.classList.remove('show');
-          settingsToggle?.classList.remove('active');
-        } else {
-          console.warn('Global Accessibility not available yet');
-        }
-        break;
-        
-      case 'accessibility':
-        // Navigate to accessibility page
-        window.location.href = '/AccessibilityPage';
-        break;
     }
   };
   
@@ -170,22 +114,6 @@ export function initOverlayManager() {
       }
     });
     
-    // Enhanced focus indicators for accessibility
-    settingsTab.addEventListener('focus', (e) => {
-      const button = e.target && e.target.closest('[data-action]');
-      if (button && button.dataset.action === 'accessibility') {
-        button.style.boxShadow = '0 0 0 3px rgba(230, 57, 97, 0.5)';
-        button.setAttribute('aria-label', 'Accessibility Options - Press Enter to open accessibility page');
-      }
-    }, true);
-    
-    settingsTab.addEventListener('blur', (e) => {
-      const button = e.target && e.target.closest('[data-action]');
-      if (button && button.dataset.action === 'accessibility') {
-        button.style.boxShadow = '';
-        button.setAttribute('aria-label', 'Accessibility Options');
-      }
-    }, true);
   }
   
   // Overlay event listeners (for any remaining overlays)

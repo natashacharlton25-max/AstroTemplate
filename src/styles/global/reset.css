@@ -82,11 +82,6 @@ a:hover {
   text-decoration-color: currentColor;
 }
 
-/* Focus styles for accessibility */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
@@ -100,10 +95,3 @@ a:hover {
   }
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --color-primary: #d63456;
-    --color-secondary: #0f3a5c;
-  }
-}

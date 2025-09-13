@@ -355,7 +355,7 @@ class SearchPopup {
     
     this.resultsContainer.innerHTML = results.map((result: {
       title: string;
-      description: a
+      description: string;
       content: string;
       category: string;
       url: string;
@@ -382,7 +382,7 @@ class SearchPopup {
     terms.forEach(term => {
       if (term.length > 2) { // Only highlight terms longer than 2 characters
         // Use word boundary to highlight complete words that start with the search term
-        const regex = new RegExp(`\b(\w*${term.replace(/[.*+?^${}()|[\\\]/g, '\$&')}\w*)`, 'gi');
+        const regex = new RegExp(`\\b(\\w*${term.replace(/[.*+?^${}()|[\\\]]/g, '\\$&')}\\w*)`, 'gi');
         highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
       }
     });
@@ -390,7 +390,7 @@ class SearchPopup {
     return highlightedText;
   }
 
-  getCategoryIcon(category: string) {
+  getCategoryIcon(_category: string) {
     return ''; // No icons, just return empty string
   }
 

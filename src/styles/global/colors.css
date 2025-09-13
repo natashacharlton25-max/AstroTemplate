@@ -401,39 +401,6 @@
   }
 }
 
-.accessibility-dark-mode body {
-  font-weight: var(--typography-font-weight-body-normal);
-  letter-spacing: var(--typography-letter-spacing-body);
-}
-
-.accessibility-dark-mode h1,
-.accessibility-dark-mode h2,
-.accessibility-dark-mode h3,
-.accessibility-dark-mode h4,
-.accessibility-dark-mode h5,
-.accessibility-dark-mode h6 {
-  font-weight: var(--typography-font-weight-heading-normal);
-  letter-spacing: var(--typography-letter-spacing-heading);
-}
-
-.accessibility-dark-mode nav,
-.accessibility-dark-mode .nav {
-  font-weight: var(--typography-font-weight-body-normal);
-  letter-spacing: var(--typography-letter-spacing-body);
-}
-
-.accessibility-dark-mode button,
-.accessibility-dark-mode .btn {
-  font-weight: var(--typography-font-weight-body-normal);
-  letter-spacing: var(--typography-letter-spacing-body);
-}
-
-.accessibility-dark-mode input,
-.accessibility-dark-mode textarea,
-.accessibility-dark-mode select {
-  font-weight: var(--typography-font-weight-body-normal);
-  letter-spacing: var(--typography-letter-spacing-body);
-}
 
 /* Dark mode variants */
 @media (prefers-color-scheme: dark) {

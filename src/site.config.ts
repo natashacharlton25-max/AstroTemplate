@@ -129,26 +129,25 @@ export interface SiteConfig {
 // Default configuration for "IC the Moon" brand
 export const siteConfig: SiteConfig = {
   brand: {
-    name: "IC the Moon",
-    tagline: "Digital Accessibility & Design", 
-    description: "Creating inclusive digital experiences that work for everyone, everywhere.",
+    name: "Your Company Name",
+    tagline: "Your Business Tagline",
     logo: {
       path: "/images/LogoPlaceholder.png",
-      alt: "IC the Moon Logo",
-      fallback: "IC"
+      alt: "Company Logo",
+      fallback: "YC"
     },
     favicon: "/Favicon/favicon.ico"
   },
 
   contact: {
-    email: "natashacharlton25@googlemail.com",
-    phone: "+44 (0) 123 456 789",
+    email: "hello@yourcompany.com",
+    phone: "+1 (555) 123-4567",
     address: {
-      street: "123 Innovation Street",
-      city: "London", 
-      state: "England",
-      zip: "SW1A 1AA",
-      country: "UK"
+      street: "123 Business Street",
+      city: "Your City",
+      state: "Your State",
+      zip: "12345",
+      country: "Your Country"
     }
   },
 
@@ -188,13 +187,13 @@ export const siteConfig: SiteConfig = {
 
   content: {
     hero: {
-      title: "IC the Moon",
-      subtitle: "Digital Accessibility & Design",
-      description: "Creating inclusive digital experiences that work for everyone, everywhere."
+      title: "Your Company Name",
+      subtitle: "Your Business Focus",
+      description: "Your company description and value proposition goes here."
     },
     accessibility: {
-      title: "Accessibility Features",
-      description: "Customize your viewing experience with our comprehensive accessibility tools."
+      title: "Site Features",
+      description: "Customize your experience with our site tools."
     },
     navigation: {
       items: [
@@ -259,9 +258,9 @@ export const siteConfig: SiteConfig = {
   },
 
   seo: {
-    title: "IC the Moon - Digital Accessibility & Design",
-    description: "Creating inclusive digital experiences through expert accessibility consulting and thoughtful design.",
-    keywords: ["accessibility", "design", "inclusive design", "web accessibility", "UX", "digital inclusion"],
+    title: "Your Company Name - Your Business Focus",
+    description: "Your company description and what you do for your customers.",
+    keywords: ["business", "services", "company", "professional", "solutions"],
     ogImage: "/images/og-image.jpg"
   }
 };

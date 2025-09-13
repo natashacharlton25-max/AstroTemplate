@@ -10,12 +10,6 @@
   background: var(--color-background);
 }
 
-/* Dark mode background for scroll reveal */
-html.accessibility-dark-mode .scroll-reveal-main,
-body.accessibility-dark-mode .scroll-reveal-main,
-.accessibility-dark-mode .scroll-reveal-main {
-  background: #1a1e26 !important;
-}
 
 /* Prevent overscroll and pull-to-refresh on mobile/tablet */
 html, body {

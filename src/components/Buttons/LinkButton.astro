@@ -1,0 +1,172 @@
+---
+// LinkButton.astro - Reusable neumorphic link button
+export interface Props {
+  text: string;
+  href?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+  className?: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'small' | 'medium' | 'large';
+  onClick?: string;
+}
+
+const {
+  text,
+  href = "#",
+  target = "_self",
+  className = "",
+  variant = "primary",
+  size = "medium",
+  onClick
+} = Astro.props;
+
+const buttonClass = `link-button link-button--${variant} link-button--${size} ${className}`;
+---
+
+{href !== "#" ? (
+  <a href={href} target={target} class={buttonClass}>
+    {text}
+  </a>
+) : (
+  <button
+    class={buttonClass}
+    type="button"
+    onclick={onClick}
+  >
+    {text}
+  </button>
+)}
+
+<style>
+  .link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-family: var(--font-body);
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 2px;
+    border-radius: 30px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: all var(--transition-slow);
+
+    /* Neumorphic shadow effect */
+    box-shadow:
+      4px 4px 6px rgba(0,0,0,0.2),
+      -4px -4px 6px rgba(255,255,255,0.7),
+      inset 4px 4px 6px rgba(0,0,0,0.4),
+      inset -4px -4px 6px rgba(255,255,255,0.2);
+  }
+
+  /* Primary variant */
+  .link-button--primary {
+    background: var(--color-secondary);
+    color: var(--color-white);
+  }
+
+  .link-button--primary:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    letter-spacing: 4px;
+  }
+
+  .link-button--primary:active {
+    background: transparent;
+    color: var(--color-secondary);
+    letter-spacing: 1px;
+    box-shadow:
+      inset 4px 4px 6px rgba(0,0,0,0.2),
+      inset -4px -4px 6px rgba(255,255,255,0.7);
+  }
+
+  /* Secondary variant */
+  .link-button--secondary {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .link-button--secondary:hover {
+    background: var(--color-secondary);
+    color: var(--color-white);
+    letter-spacing: 4px;
+  }
+
+  .link-button--secondary:active {
+    background: transparent;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+    box-shadow:
+      inset 4px 4px 6px rgba(0,0,0,0.2),
+      inset -4px -4px 6px rgba(255,255,255,0.7);
+  }
+
+  /* Size variants */
+  .link-button--small {
+    padding: 0 1.5em;
+    height: 40px;
+    font-size: var(--text-sm);
+    letter-spacing: 1px;
+  }
+
+  .link-button--small:hover {
+    letter-spacing: 2px;
+  }
+
+  .link-button--medium {
+    padding: 0 2em;
+    height: 50px;
+    font-size: var(--text-lg);
+  }
+
+  .link-button--large {
+    padding: 0 2.5em;
+    height: 60px;
+    font-size: var(--text-xl);
+    letter-spacing: 3px;
+  }
+
+  .link-button--large:hover {
+    letter-spacing: 5px;
+  }
+
+  /* Focus states for accessibility */
+  .link-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .link-button {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .link-button--small {
+      height: 36px;
+      font-size: var(--text-sm);
+    }
+
+    .link-button--medium {
+      height: 44px;
+      font-size: var(--text-base);
+      padding: 0 1.5em;
+    }
+
+    .link-button--large {
+      height: 52px;
+      font-size: var(--text-lg);
+      padding: 0 2em;
+      letter-spacing: 2px;
+    }
+
+    .link-button--large:hover {
+      letter-spacing: 3px;
+    }
+  }
+</style>

@@ -8,9 +8,8 @@
    3. Typography system
    4. Brand/theme styles
    5. Utility classes
-   6. Accessibility styles
-   7. Navigation enhancements
-   8. Component-specific overrides
+   6. Navigation enhancements
+   7. Component-specific overrides
 */
 
 /* Base Styles */
@@ -27,9 +26,6 @@
 @import './colors.css';
 @import './layout.css';
 @import './spacing.css';
-
-/* Accessibility */
-@import './accessibility.css';
 
 /* Navigation Enhancements */
 @import '../../components/utils/scrollNavigation.css';
