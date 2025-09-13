@@ -23,7 +23,13 @@ export const siteConfig: SiteConfig = {
   contact: {
     email: "hello@greentech-solutions.com",
     phone: "+1 (555) 123-4567",
-    address: "123 Innovation Drive, Tech City, TC 12345"
+    address: {
+      street: "123 Innovation Drive",
+      city: "Tech City",
+      state: "TC",
+      zip: "12345",
+      country: "United States"
+    }
   },
 
   theme: {
