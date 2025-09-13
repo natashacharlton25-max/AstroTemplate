@@ -85,6 +85,56 @@ export const siteConfig: SiteConfig = {
         { label: "Resources", href: "/resources" },
         { label: "Contact", href: "/contact" }
       ]
+    },
+    footer: {
+      sections: {
+        company: {
+          title: "Company",
+          items: [
+            { name: "About Us", url: "/about" },
+            { name: "Solutions", url: "/solutions" },
+            { name: "Case Studies", url: "/case-studies" },
+            { name: "Careers", url: "/careers" }
+          ]
+        },
+        products: {
+          title: "Solutions",
+          items: [
+            { name: "Energy Solutions", url: "/solutions/energy" },
+            { name: "Waste Management", url: "/solutions/waste" },
+            { name: "Carbon Tracking", url: "/solutions/carbon" },
+            { name: "Consulting", url: "/solutions/consulting" }
+          ]
+        },
+        resources: {
+          title: "Resources",
+          items: [
+            { name: "Documentation", url: "/docs" },
+            { name: "Support", url: "/support" },
+            { name: "Blog", url: "/blog" },
+            { name: "Contact", url: "/contact" }
+          ]
+        },
+        legal: {
+          title: "Legal",
+          items: [
+            { name: "Privacy Policy", url: "/privacy" },
+            { name: "Terms of Service", url: "/terms" },
+            { name: "Environmental Policy", url: "/environmental-policy" },
+            { name: "Compliance", url: "/compliance" }
+          ]
+        }
+      },
+      social: [
+        { name: "LinkedIn", url: "https://linkedin.com/company/greentech-solutions", icon: "linkedin" },
+        { name: "Twitter", url: "https://twitter.com/greentech_sol", icon: "twitter" },
+        { name: "Instagram", url: "https://instagram.com/greentech.solutions", icon: "instagram" },
+        { name: "GitHub", url: "https://github.com/greentech-solutions", icon: "github" }
+      ],
+      copyright: {
+        year: new Date().getFullYear(),
+        text: "All rights reserved. Building a sustainable future together."
+      }
     }
   },
 

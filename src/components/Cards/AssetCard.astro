@@ -407,31 +407,31 @@ const {
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.asset-card-wrapper').forEach(wrapper => {
       const rainbow = wrapper.querySelector('.rainbow-border');
-      let spinning = false, spinFrame, angle = 0, finished = false;
+      let spinning = false, spinFrame: number | undefined, angle = 0, finished = false;
 
       function startSpinOnce() {
         if (spinning) return;
         spinning = true;
         finished = false;
         angle = 0;
-        rainbow.classList.add('animated');
-        rainbow.classList.remove('red', 'transitioning');
+        rainbow?.classList.add('animated');
+        rainbow?.classList.remove('red', 'transitioning');
 
         function frame() {
           angle += 4; // speed (higher = faster)
           if (angle < 360) {
-            rainbow.style.setProperty('--angle', angle + 'deg');
+            (rainbow as HTMLElement)?.style.setProperty('--angle', angle + 'deg');
             spinFrame = requestAnimationFrame(frame);
           } else {
             spinning = false;
             finished = true;
-            rainbow.classList.remove('animated');
-            rainbow.classList.add('transitioning');
+            rainbow?.classList.remove('animated');
+            rainbow?.classList.add('transitioning');
             // Let the gradient background stay for one frame
             setTimeout(() => {
-              rainbow.classList.remove('transitioning');
-              rainbow.classList.add('red');
-              rainbow.style.setProperty('--angle', '0deg');
+              rainbow?.classList.remove('transitioning');
+              rainbow?.classList.add('red');
+              (rainbow as HTMLElement)?.style.setProperty('--angle', '0deg');
             }, 50); // Short delay before switching to red
           }
         }
@@ -441,9 +441,9 @@ const {
       function resetBorder() {
         spinning = false;
         finished = false;
-        cancelAnimationFrame(spinFrame);
-        rainbow.classList.remove('animated', 'red', 'transitioning');
-        rainbow.style.setProperty('--angle', '0deg');
+        if (spinFrame) cancelAnimationFrame(spinFrame);
+        rainbow?.classList.remove('animated', 'red', 'transitioning');
+        (rainbow as HTMLElement)?.style.setProperty('--angle', '0deg');
       }
 
       // Desktop hover/focus:
@@ -453,7 +453,7 @@ const {
       wrapper.addEventListener('focusout', resetBorder);
 
       // Touch support for mobile/tablet:
-      wrapper.addEventListener('touchstart', function(e) {
+      wrapper.addEventListener('touchstart', function() {
         startSpinOnce();
         setTimeout(resetBorder, 1900); // fade to red, then auto-reset
       });

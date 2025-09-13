@@ -84,7 +84,6 @@ export function initSettingsNavigation() {
   });
   
   // Show/hide scroll-to-top button based on scroll position
-  let lastScrollTop = 0;
   const handleScroll = () => {
     const scrollTopBtn = settingsTab.querySelector('[data-action="scroll-top"]');
     const scrollTop = window.scrollY || document.documentElement.scrollTop;

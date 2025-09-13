@@ -117,7 +117,7 @@ class ScrollNavigationManager {
     const originalMap = new Map(this.navElements);
     
     // Temporarily disable hiding
-    this.navElements.forEach((config, element) => {
+    this.navElements.forEach((config) => {
       config.hideOnScrollDown = false;
     });
 

@@ -105,7 +105,7 @@ function setupManualOverrides(topNav, bottomNav) {
   }
 }
 
-function handleNavToggle(navElement, position) {
+function handleNavToggle(navElement) {
   const isOpening = !navElement.classList.contains('active');
   
   if (isOpening) {

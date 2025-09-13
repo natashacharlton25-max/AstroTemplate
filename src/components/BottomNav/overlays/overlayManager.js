@@ -118,7 +118,7 @@ export function initOverlayManager() {
   
   // Overlay event listeners (for any remaining overlays)
   document.querySelectorAll('[data-overlay-close]').forEach(closeBtn => {
-    closeBtn.addEventListener('click', (e) => {
+    closeBtn.addEventListener('click', () => {
       const type = closeBtn.getAttribute('data-overlay-close');
       if (typeof type === 'string') {
         closeOverlay(type);
@@ -128,7 +128,7 @@ export function initOverlayManager() {
   
   // Close overlays when clicking backdrop
   document.querySelectorAll('[data-overlay-backdrop]').forEach(backdrop => {
-    backdrop.addEventListener('click', (e) => {
+    backdrop.addEventListener('click', () => {
       const type = backdrop.getAttribute('data-overlay-backdrop');
       if (typeof type === 'string') {
         closeOverlay(type);
