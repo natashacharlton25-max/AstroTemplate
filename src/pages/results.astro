@@ -233,25 +233,6 @@ if (filterType === 'category' && filterValue && !searchQuery) {
   }
 }
 
-// Pagination
-const itemsPerPage = 6;
-const totalPages = Math.ceil(filteredContent.length / itemsPerPage);
-const startIndex = (page - 1) * itemsPerPage;
-const endIndex = startIndex + itemsPerPage;
-const paginatedContent = filteredContent.slice(startIndex, endIndex);
-
-// Helper function to build pagination URLs
-function buildPaginationUrl(pageNum: number): string {
-  const params = new URLSearchParams();
-  if (searchQuery) {
-    params.set('q', searchQuery);
-  } else {
-    if (filterType && filterType !== 'all') params.set('type', filterType);
-    if (filterValue) params.set('value', filterValue);
-  }
-  if (pageNum > 1) params.set('page', pageNum.toString());
-  return `/results?${params.toString()}`;
-}
 
 // Format date function
 function formatDate(dateString: string): string {
@@ -280,27 +261,22 @@ function formatDate(dateString: string): string {
         <nav class="results-nav-tabs" aria-label="Results utilities">
           <button class="results-nav-tab" data-tab="searchin" aria-label="Search in">
             <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M21 21L15.5 15.5M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 2L17 7L12 12L7 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
+              <path d="M12 12L17 17L12 22L7 17L12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
             </svg>
             Search In
           </button>
           <button class="results-nav-tab" data-tab="keywords" aria-label="Keywords">
             <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M3 12l2-2 4 4L21 4l2 2-14 14-6-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
             </svg>
             Keywords
           </button>
-          <button class="results-nav-tab" data-tab="suggested" aria-label="Suggested posts">
+          <button class="results-nav-tab" data-tab="featured" aria-label="Featured posts">
             <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L15 8l6 1-4.5 4.2L18 20l-6-3.2L6 20l1.5-6.8L3 9l6-1 3-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Suggested
-          </button>
-          <button class="results-nav-tab" data-tab="popular" aria-label="Popular posts">
-            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2l3 6 6 1-4.5 4.2L18 20l-6-3.2L6 20l1.5-6.8L3 9l6-1 3-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Popular
+            Featured
           </button>
         </nav>
       </div>
@@ -367,7 +343,7 @@ function formatDate(dateString: string): string {
             <div class="content-section widget" id="searchInWidget" style="display: none;">
               <h3>Search in:</h3>
               <div class="category-buttons">
-                <button class="category-btn active" data-category="all">All Website</button>
+                <button class="category-btn active" data-category="all">All<br>Website</button>
                 <button class="category-btn" data-category="pages">Pages</button>
                 <button class="category-btn" data-category="blog">Blog</button>
                 <button class="category-btn" data-category="projects">Projects</button>
@@ -392,210 +368,62 @@ function formatDate(dateString: string): string {
               </div>
             </div>
 
-            <!-- Latest Posts -->
+            <!-- Default Content -->
             <div class="content-section">
-              <h3>Latest Posts</h3>
-              <div class="post-grid">
-                <a href="/blog/getting-started" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Getting Started Guide" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Getting Started Guide</h4>
-                    <p>Everything you need to know to begin your journey</p>
-                    <span class="post-date">3 days ago</span>
-                  </div>
-                </a>
-                <a href="/blog/best-practices" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Best Practices" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Industry Best Practices</h4>
-                    <p>Proven strategies for success in your field</p>
-                    <span class="post-date">1 week ago</span>
-                  </div>
-                </a>
-                <a href="/blog/case-study" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Case Study" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Success Story Case Study</h4>
-                    <p>Real-world example of outstanding results</p>
-                    <span class="post-date">2 weeks ago</span>
-                  </div>
-                </a>
-                <a href="/blog/advanced-tips" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Advanced Tips" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Advanced Tips & Tricks</h4>
-                    <p>Take your skills to the next level</p>
-                    <span class="post-date">3 weeks ago</span>
-                  </div>
-                </a>
-                <a href="/blog/troubleshooting" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Troubleshooting" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Common Issues & Solutions</h4>
-                    <p>Quick fixes for frequent problems</p>
-                    <span class="post-date">1 month ago</span>
-                  </div>
-                </a>
-                <a href="/blog/updates" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Latest Updates" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Latest Platform Updates</h4>
-                    <p>New features and improvements</p>
-                    <span class="post-date">1 month ago</span>
-                  </div>
-                </a>
+              <div class="default-content">
+                <h3>Welcome to Results</h3>
+                <p>Use the tabs above to explore different ways to find content, discover popular keywords, or browse our featured selections. You can also use the search bar to find specific information across our website.</p>
+                <p>Start by clicking on one of the navigation tabs above to see available options, or enter a search term in the search box.</p>
               </div>
             </div>
 
-            <!-- Popular Posts -->
-            <div class="content-section widget" id="popularWidget" style="display: none;">
-              <h3>Popular Posts</h3>
-              <div class="post-grid">
-                <a href="/about" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="About Us" loading="lazy" />
-                  </div>
-                  <div class="post-content">
+
+            <!-- Featured Posts (Combined Suggested & Popular) -->
+            <div class="content-section widget" id="featuredWidget" style="display: none;">
+              <h3>Featured Content</h3>
+              <div class="featured-cards">
+                <a href="/about" class="featured-card">
+                  <div class="featured-content">
                     <h4>About Our Company</h4>
-                    <p>Learn about our mission, values, and story</p>
-                    <span class="post-meta">12.5k views</span>
+                    <span class="featured-meta">Most Popular</span>
                   </div>
                 </a>
-                <a href="/services" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Our Services" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Our Services Overview</h4>
-                    <p>Discover what we can do for your business</p>
-                    <span class="post-meta">8.2k views</span>
-                  </div>
-                </a>
-                <a href="/portfolio" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Portfolio" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Portfolio Showcase</h4>
-                    <p>See our best work and successful projects</p>
-                    <span class="post-meta">6.8k views</span>
-                  </div>
-                </a>
-                <a href="/team" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Our Team" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Meet Our Team</h4>
-                    <p>Get to know the people behind our success</p>
-                    <span class="post-meta">5.1k views</span>
-                  </div>
-                </a>
-                <a href="/careers" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Careers" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Join Our Team</h4>
-                    <p>Explore exciting career opportunities</p>
-                    <span class="post-meta">4.3k views</span>
-                  </div>
-                </a>
-                <a href="/news" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Company News" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Company News</h4>
-                    <p>Stay updated with our latest announcements</p>
-                    <span class="post-meta">3.9k views</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <!-- Suggested Posts -->
-            <div class="content-section widget" id="suggestedWidget" style="display: none;">
-              <h3>Suggested for You</h3>
-              <div class="post-grid">
-                <a href="/contact" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Contact Us" loading="lazy" />
-                  </div>
-                  <div class="post-content">
+                <a href="/contact" class="featured-card">
+                  <div class="featured-content">
                     <h4>Get In Touch</h4>
-                    <p>Ready to start your project? Let's talk</p>
-                    <span class="post-meta">Recommended</span>
+                    <span class="featured-meta">Recommended</span>
                   </div>
                 </a>
-                <a href="/testimonials" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Testimonials" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Client Testimonials</h4>
-                    <p>See what our customers say about us</p>
-                    <span class="post-meta">For you</span>
+                <a href="/services" class="featured-card">
+                  <div class="featured-content">
+                    <h4>Our Services</h4>
+                    <span class="featured-meta">Trending</span>
                   </div>
                 </a>
-                <a href="/resources" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Resources" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Free Resources</h4>
-                    <p>Download helpful guides and templates</p>
-                    <span class="post-meta">Trending</span>
+                <a href="/portfolio" class="featured-card">
+                  <div class="featured-content">
+                    <h4>Portfolio</h4>
+                    <span class="featured-meta">Showcase</span>
                   </div>
                 </a>
-                <a href="/pricing" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Pricing" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Pricing Plans</h4>
-                    <p>Find the perfect plan for your needs</p>
-                    <span class="post-meta">Popular</span>
+                <a href="/team" class="featured-card">
+                  <div class="featured-content">
+                    <h4>Our Team</h4>
+                    <span class="featured-meta">Meet Us</span>
                   </div>
                 </a>
-                <a href="/faq" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="FAQ" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Frequently Asked</h4>
-                    <p>Quick answers to common questions</p>
-                    <span class="post-meta">Helpful</span>
-                  </div>
-                </a>
-                <a href="/support" class="post-card">
-                  <div class="post-image">
-                    <img src="/images/Placeholder.jpg" alt="Support" loading="lazy" />
-                  </div>
-                  <div class="post-content">
-                    <h4>Get Support</h4>
-                    <p>We're here to help with any issues</p>
-                    <span class="post-meta">24/7</span>
+                <a href="/resources" class="featured-card">
+                  <div class="featured-content">
+                    <h4>Resources</h4>
+                    <span class="featured-meta">Free Tools</span>
                   </div>
                 </a>
               </div>
             </div>
           </div>
-        ) : paginatedContent.length > 0 ? (
+        ) : filteredContent.length > 0 ? (
           <div class="entries">
-            {paginatedContent.map((item) => (
+            {filteredContent.map((item) => (
               <article class="entry-card" itemscope itemtype="https://schema.org/BlogPosting">
                 <ul class="entry-meta" data-id="meta_1">
                   <li class="meta-categories">
@@ -664,42 +492,6 @@ function formatDate(dateString: string): string {
           </div>
         )}
 
-        <!-- Pagination -->
-        {totalPages > 1 && (
-          <nav class="pagination" aria-label="Pagination">
-            <div class="pagination-info">
-              Showing {startIndex + 1} to {Math.min(endIndex, filteredContent.length)} of {filteredContent.length} items
-            </div>
-            <div class="pagination-controls">
-              {page > 1 && (
-                <a
-                  href={buildPaginationUrl(page - 1)}
-                  class="pagination-btn pagination-prev"
-                >
-                  ← Previous
-                </a>
-              )}
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                <a
-                  href={buildPaginationUrl(pageNum)}
-                  class={`pagination-btn ${pageNum === page ? 'pagination-current' : ''}`}
-                >
-                  {pageNum}
-                </a>
-              ))}
-
-              {page < totalPages && (
-                <a
-                  href={buildPaginationUrl(page + 1)}
-                  class="pagination-btn pagination-next"
-                >
-                  Next →
-                </a>
-              )}
-            </div>
-          </nav>
-        )}
       </div>
     </section>
   </main>
@@ -723,8 +515,7 @@ function formatDate(dateString: string): string {
     // Widgets
     const searchInWidget = document.getElementById('searchInWidget');
     const keywordsWidget = document.getElementById('keywordsWidget');
-    const suggestedWidget = document.getElementById('suggestedWidget');
-    const popularWidget = document.getElementById('popularWidget');
+    const featuredWidget = document.getElementById('featuredWidget');
 
     // Position overlay under header
     function positionOverlay() {
@@ -877,8 +668,7 @@ function formatDate(dateString: string): string {
         let widget: Element | null = null;
         if (widgetType === 'searchin') widget = searchInWidget;
         if (widgetType === 'keywords') widget = keywordsWidget;
-        if (widgetType === 'suggested') widget = suggestedWidget;
-        if (widgetType === 'popular') widget = popularWidget;
+        if (widgetType === 'featured') widget = featuredWidget;
         if (widget) {
           dropdownWrapper.appendChild(widget.cloneNode(true));
           const widgetElement = dropdownWrapper.querySelector('.widget');
@@ -995,6 +785,7 @@ function formatDate(dateString: string): string {
     cursor: pointer;
     transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
     position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -1003,6 +794,7 @@ function formatDate(dateString: string): string {
   .results-nav-tab:hover {
     background: var(--color-primary);
     color: var(--color-white);
+    box-shadow: none;
   }
 
   .results-nav-tab.active:hover {
@@ -1049,6 +841,12 @@ function formatDate(dateString: string): string {
     pointer-events: auto;
     box-shadow: none;
     filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+  }
+
+  .dropdown-content-wrapper {
+    padding: var(--space-xl) var(--space-xl);
+    max-height: none;
+    overflow: visible;
   }
 
   /* Search and Navigation Section */
@@ -1171,7 +969,7 @@ function formatDate(dateString: string): string {
 
   /* Content Section */
   .content-section {
-    padding: 4rem 0 667px;
+    padding: 4rem 0 2rem;
   }
 
   .container {
@@ -1316,61 +1114,6 @@ function formatDate(dateString: string): string {
     transform: translateY(-1px);
   }
 
-  /* Pagination */
-  .pagination {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    align-items: center;
-    padding: var(--space-xl) 0;
-    border-top: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-  }
-
-  .pagination-info {
-    color: var(--color-text-secondary);
-    font-size: var(--text-sm);
-  }
-
-  .pagination-controls {
-    display: flex;
-    gap: var(--space-xs);
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .pagination-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 44px;
-    height: 44px;
-    padding: var(--space-sm) var(--space-md);
-    text-decoration: none;
-    color: var(--color-text-primary);
-    border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-base);
-    font-weight: 500;
-  }
-
-  .pagination-btn:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-1px);
-  }
-
-  .pagination-current {
-    background: var(--color-primary);
-    color: var(--color-white);
-    border-color: var(--color-primary);
-  }
-
-  .pagination-current:hover {
-    transform: none;
-    background: var(--color-secondary);
-    border-color: var(--color-secondary);
-  }
 
   /* Content Sections Styles */
   .content-sections {
@@ -1487,7 +1230,26 @@ function formatDate(dateString: string): string {
     margin-top: var(--space-sm);
   }
 
-  .category-btn,
+  .category-btn {
+    padding: var(--space-md) var(--space-sm);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: capitalize;
+    line-height: 1.2;
+    text-align: center;
+    white-space: normal;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .keyword-tag {
     padding: var(--space-sm) var(--space-md);
     border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
@@ -1498,10 +1260,17 @@ function formatDate(dateString: string): string {
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-base);
-    text-transform: capitalize;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
-  .category-btn:hover,
+  .category-btn:hover {
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
   .keyword-tag:hover {
     border-color: var(--color-primary);
     background: color-mix(in srgb, var(--color-primary) 5%, transparent);
@@ -1524,12 +1293,84 @@ function formatDate(dateString: string): string {
   .keyword-tag {
     font-size: var(--text-xs);
     padding: var(--space-xs) var(--space-sm);
-    text-transform: lowercase;
   }
 
-  .keyword-tag:hover {
-    background: var(--color-primary);
-    color: var(--color-white);
+  /* Default Content */
+  .default-content {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-lg);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .default-content h3 {
+    color: var(--color-secondary);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-semibold);
+    margin: 0 0 var(--space-lg) 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .default-content p {
+    color: var(--color-text-primary);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-md) 0;
+  }
+
+  .default-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Featured Cards - 6 cards on desktop, 1 column on mobile */
+  .featured-cards {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .featured-card {
+    display: block;
+    background: var(--color-background);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .featured-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  }
+
+  .featured-content {
+    padding: var(--space-md);
+    text-align: center;
+  }
+
+  .featured-content h4 {
+    color: var(--color-secondary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    margin: 0 0 var(--space-xs) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .featured-meta {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
   }
 
   /* Mobile adjustments */
@@ -1667,20 +1508,44 @@ function formatDate(dateString: string): string {
       gap: var(--space-xs);
     }
 
-    .category-btn,
-    .keyword-tag {
+    .category-btn {
       font-size: var(--text-xs);
       padding: var(--space-xs) var(--space-sm);
-    }
-
-    .category-btn {
       flex: 1;
       min-width: 0;
       text-align: center;
+      line-height: 1.1;
     }
 
     .keyword-tag {
+      font-size: var(--text-xs);
       padding: var(--space-xs) var(--space-xs);
+    }
+
+    /* Mobile featured cards - simple text cards */
+    .featured-cards {
+      grid-template-columns: 1fr;
+      gap: var(--space-xs);
+    }
+
+    .featured-card {
+      border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+      border-radius: var(--radius-sm);
+    }
+
+    .featured-content {
+      padding: var(--space-sm);
+      text-align: left;
+    }
+
+    .featured-content h4 {
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-xs);
+    }
+
+    .featured-meta {
+      font-size: 10px;
+      padding: 2px var(--space-xs);
     }
 
     .entry-meta {
@@ -1688,45 +1553,68 @@ function formatDate(dateString: string): string {
       gap: var(--space-sm);
     }
 
-    .pagination-controls {
+  }
+
+  /* Tablet adjustments for tabs */
+  @media (max-width: 640px) {
+    .results-nav-tab {
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--text-xs);
       gap: var(--space-xs);
     }
 
-    .pagination-btn {
-      min-width: 40px;
-      height: 40px;
-      padding: var(--space-xs) var(--space-sm);
-      font-size: var(--text-sm);
+    .results-nav-tab .tab-icon {
+      width: 14px;
+      height: 14px;
     }
   }
 
   @media (max-width: 480px) {
     .results-nav-tabs {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
       gap: var(--space-xs);
-      width: 100%;
+      overflow-x: auto;
+      padding: 0 var(--space-sm);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .results-nav-tabs::-webkit-scrollbar {
+      display: none;
     }
 
     .results-nav-tab {
+      flex-shrink: 0;
+      min-width: auto;
+      padding: var(--space-xs) var(--space-xs);
+      font-size: 0;
+      gap: 0;
       justify-content: center;
       text-align: center;
-    }
-
-    .pagination {
-      padding: var(--space-md) 0;
-    }
-
-    .pagination-info {
-      text-align: center;
-      font-size: var(--text-xs);
-    }
-
-    .pagination-btn {
-      min-width: 36px;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      min-width: 42px;
       height: 36px;
-      padding: var(--space-xs);
-      font-size: var(--text-xs);
     }
+
+    .results-nav-tab .tab-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .results-nav-tab {
+      color: transparent;
+    }
+
+    .results-nav-tab .tab-icon {
+      color: var(--color-secondary);
+    }
+
+    .results-nav-tab:hover .tab-icon,
+    .results-nav-tab.active .tab-icon {
+      color: var(--color-white);
+    }
+
   }
 </style>

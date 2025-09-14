@@ -9,24 +9,97 @@ import Layout from '@layouts/Layout.astro';
       <div class="page-header-content">
         <h1>Download Assets</h1>
       </div>
+
+      <!-- Tabs hanging from header bottom -->
+      <div class="header-tabs-container">
+        <nav class="assets-nav-tabs" aria-label="Asset utilities">
+          <button class="assets-nav-tab" data-tab="category" aria-label="Category">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M3 3H21V7H3V3ZM3 10H21V14H3V10ZM3 17H21V21H3V17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
+            </svg>
+            Category
+          </button>
+          <button class="assets-nav-tab" data-tab="featured" aria-label="Featured assets">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
+            </svg>
+            Featured
+          </button>
+          <button class="assets-nav-tab" data-tab="keywords" aria-label="Keywords">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M20.59 13.41L13.42 20.58C13.05 20.95 12.55 21.16 12.02 21.16C11.49 21.16 10.99 20.95 10.62 20.58L2 12V2H12L20.59 10.59C20.96 10.96 21.16 11.46 21.16 11.99C21.16 12.52 20.96 13.02 20.59 13.39V13.41Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
+              <path d="M7 7H7.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Keywords
+          </button>
+        </nav>
+      </div>
     </section>
 
-    <!-- Filter Section -->
-    <section class="filter-section">
-      <div class="container content-aligned">
-        <div class="filter-controls">
-          <button class="filter-btn active" data-filter="all">All Assets</button>
-          <button class="filter-btn" data-filter="templates">Templates</button>
-          <button class="filter-btn" data-filter="checklists">Checklists</button>
-          <button class="filter-btn" data-filter="guides">Guides</button>
-          <button class="filter-btn" data-filter="tools">Tools</button>
-        </div>
-      </div>
+    <!-- Dropdown Content Area for assets tabs -->
+    <section class="assets-dropdown-content" id="assetsDropdownContent">
+      <div class="dropdown-content-wrapper"></div>
     </section>
 
     <!-- Assets Grid Section -->
     <section class="assets-section">
       <div class="container content-aligned">
+        <div class="content-sections">
+          <!-- Category Filter Widget -->
+          <div class="content-section widget" id="categoryWidget" style="display: none;">
+            <h3>Filter by Category:</h3>
+            <div class="category-buttons">
+              <button class="category-btn active" data-category="all">All<br>Assets</button>
+              <button class="category-btn" data-category="templates">Templates</button>
+              <button class="category-btn" data-category="checklists">Checklists</button>
+              <button class="category-btn" data-category="guides">Guides</button>
+              <button class="category-btn" data-category="tools">Tools</button>
+            </div>
+          </div>
+
+          <!-- Featured Assets Widget -->
+          <div class="content-section widget" id="featuredWidget" style="display: none;">
+            <h3>Featured Downloads</h3>
+            <div class="featured-cards">
+              <a href="#" class="featured-card">
+                <div class="featured-content">
+                  <h4>Design System Template</h4>
+                  <span class="featured-meta">Most Popular</span>
+                </div>
+              </a>
+              <a href="#" class="featured-card">
+                <div class="featured-content">
+                  <h4>WCAG Checklist</h4>
+                  <span class="featured-meta">Essential</span>
+                </div>
+              </a>
+              <a href="#" class="featured-card">
+                <div class="featured-content">
+                  <h4>Screen Reader Guide</h4>
+                  <span class="featured-meta">New Release</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Keywords Widget -->
+          <div class="content-section widget" id="keywordsWidget" style="display: none;">
+            <h3>Popular Tags:</h3>
+            <div class="keyword-tags">
+              <button class="keyword-tag" data-keyword="accessibility">ACCESSIBILITY</button>
+              <button class="keyword-tag" data-keyword="wcag">WCAG</button>
+              <button class="keyword-tag" data-keyword="design">DESIGN</button>
+              <button class="keyword-tag" data-keyword="templates">TEMPLATES</button>
+              <button class="keyword-tag" data-keyword="testing">TESTING</button>
+              <button class="keyword-tag" data-keyword="mobile">MOBILE</button>
+              <button class="keyword-tag" data-keyword="forms">FORMS</button>
+              <button class="keyword-tag" data-keyword="colors">COLORS</button>
+              <button class="keyword-tag" data-keyword="tools">TOOLS</button>
+              <button class="keyword-tag" data-keyword="guides">GUIDES</button>
+            </div>
+          </div>
+        </div>
+
         <div class="assets-grid">
           <!-- Template Assets -->
           <div class="asset-card" data-category="templates">

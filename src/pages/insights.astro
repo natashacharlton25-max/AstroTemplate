@@ -800,15 +800,43 @@ const posts = [
 
   @media (max-width: 480px) {
     .insights-nav-tabs {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
       gap: var(--space-xs);
-      width: 100%;
+      overflow-x: auto;
+      padding: 0 var(--space-sm);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .insights-nav-tabs::-webkit-scrollbar {
+      display: none;
     }
 
     .insights-nav-tab {
+      flex-shrink: 0;
+      min-width: auto;
+      padding: var(--space-xs) var(--space-xs);
+      font-size: 0;
+      gap: 0;
       justify-content: center;
       text-align: center;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      min-width: 42px;
+      height: 36px;
+      color: transparent;
+    }
+
+    .insights-nav-tab .tab-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--color-secondary);
+    }
+
+    .insights-nav-tab:hover .tab-icon,
+    .insights-nav-tab.active .tab-icon {
+      color: var(--color-white);
     }
 
     .blog-sidebar {
