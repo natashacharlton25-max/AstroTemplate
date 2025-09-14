@@ -74,12 +74,17 @@
   transform-origin: center !important;
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - Force rebuild */
 @media (max-width: 768px) {
   .nav-toggle {
     height: 40px !important;
+    width: 75px !important; /* Wider to prevent icon cutoff */
+    min-width: 75px !important;
+    max-width: 75px !important; /* Add max-width to ensure exact sizing */
+    padding: 0 12px 0 28px !important; /* Move icon just a touch more to the right */
+    justify-content: center !important; /* Center the icon */
   }
-  
+
   .nav-icon {
     gap: 4px !important;
     width: 18px !important;
@@ -89,7 +94,7 @@
   .nav-line {
     width: 16px !important;
   }
-  
+
   .nav-toggle.active .nav-line:nth-child(1) {
     transform: translateY(6px) rotate(45deg) !important;
   }

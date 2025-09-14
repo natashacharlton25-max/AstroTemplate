@@ -4,17 +4,16 @@ import Layout from '@layouts/Layout.astro';
 
 <Layout title="Assets - IC the Moon" enableFooterReveal={true}>
   <main class="page-content">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="container">
-        <h1 class="hero-title">Download Assets</h1>
-        <p class="hero-subtitle">Free accessibility resources, templates, and tools for inclusive design</p>
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="page-header-content">
+        <h1>Download Assets</h1>
       </div>
     </section>
 
     <!-- Filter Section -->
     <section class="filter-section">
-      <div class="container">
+      <div class="container content-aligned">
         <div class="filter-controls">
           <button class="filter-btn active" data-filter="all">All Assets</button>
           <button class="filter-btn" data-filter="templates">Templates</button>
@@ -27,7 +26,7 @@ import Layout from '@layouts/Layout.astro';
 
     <!-- Assets Grid Section -->
     <section class="assets-section">
-      <div class="container">
+      <div class="container content-aligned">
         <div class="assets-grid">
           <!-- Template Assets -->
           <div class="asset-card" data-category="templates">

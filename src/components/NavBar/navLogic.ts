@@ -1,4 +1,4 @@
-// Navigation state and animation logic
+// Navigation state and animation logic - FIXED VERSION
 interface NavState {
   isLocked: boolean;
   isAnimating: boolean;
@@ -175,7 +175,7 @@ export function hideNavMenu() {
 
 export function setupEventListeners() {
   const navToggle = document.getElementById('navToggle');
-  const navTab = document.getElementById('navTab');
+  const navTab = document.getElementById('navTab'); // CRITICAL: Get the nav container
   const navExpanded = document.getElementById('navExpanded');
 
   // Hover to show menu
@@ -215,20 +215,24 @@ export function setupEventListeners() {
     }
   });
 
-  // Click to lock/unlock
+  // FIXED: Click to lock/unlock - now properly manages container active class
   navToggle?.addEventListener('click', (e) => {
     e.stopPropagation();
     
     if (navState.isLocked) {
-      // Unlock and hide
+      // UNLOCKING: Remove locked state and container active class
+      console.log('🔓 Top nav UNLOCKING');
       navState.isLocked = false;
       navToggle.classList.remove('active');
+      navTab?.classList.remove('active'); // CRITICAL: Remove active from container
       hideNavMenu();
       
     } else {
-      // Lock open
+      // LOCKING: Set locked state and container active class
+      console.log('🔒 Top nav LOCKING');
       navState.isLocked = true;
       navToggle.classList.add('active');
+      navTab?.classList.add('active'); // CRITICAL: Add active to container
       showNavMenu();
     }
   });
@@ -236,8 +240,10 @@ export function setupEventListeners() {
   // Close when clicking outside (only if locked)
   document.addEventListener('click', (e) => {
     if (navState.isLocked && !navTab?.contains(e.target as Node)) {
+      console.log('👆 Clicked outside - unlocking top nav');
       navState.isLocked = false;
       navToggle?.classList.remove('active');
+      navTab?.classList.remove('active'); // CRITICAL: Remove active from container
       hideNavMenu();
     }
   });

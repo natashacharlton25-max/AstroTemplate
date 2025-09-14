@@ -2,6 +2,7 @@
 import '@styles/global/global.css';
 import '@components/Footer/scroll-effect/footerRevealStyles.css';
 import '@components/Scroll-bar/scrollbar-styles.css';
+import '@components/utils/unifiedNavSystem.css';
 import ScrollRevealLayout from '@components/Footer/scroll-effect/ScrollRevealLayout.astro';
 import Footer from '@components/Footer/Footer.astro';
 import BottomNav from '@components/BottomNav/BottomNav.astro';
@@ -78,16 +79,18 @@ const {
       </>
     )}
     
-    <!-- Auto-initialize scroll-aware navigation -->
+    <!-- Initialize unified navigation system -->
     <script>
-      import { initScrollAwareNavigation } from '../components/utils/autoInitScrollNav.js';
+      import { initNavigation } from '../components/utils/initNavigation.js';
 
       // Initialize when DOM is ready
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initScrollAwareNavigation);
+        document.addEventListener('DOMContentLoaded', initNavigation);
       } else {
-        initScrollAwareNavigation();
+        initNavigation();
       }
     </script>
+
+
   </body>
 </html>

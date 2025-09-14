@@ -4,10 +4,16 @@ import Layout from '@layouts/Layout.astro';
 
 <Layout>
   <main class="search-results-page" style="position: relative;">
-    <!-- Search Results Header -->
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="page-header-content">
+        <h1>Search Results</h1>
+      </div>
+    </section>
+
+    <!-- Search Results Content -->
     <div class="search-results-header">
-      <div class="container">
-        <h1 id="searchResultsTitle">Search Results</h1>
+      <div class="container content-aligned">
         <div class="search-info">
           <span id="searchQuery" class="search-query"></span>
           <span id="searchCount" class="search-count"></span>
