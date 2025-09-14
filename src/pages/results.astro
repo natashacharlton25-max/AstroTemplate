@@ -550,12 +550,13 @@ function formatDate(dateString: string): string {
     function attachRealTab(tabEl: Element | null) {
       if (!dropdown || !tabEl) return;
       const tab = tabEl as HTMLElement;
-      if (currentAttachedTab && currentAttachedTab !== tab) {
-        restoreRealTab(currentAttachedTab);
-      }
       if (currentAttachedTab === tab) return;
 
+      // Calculate and store the correct position BEFORE any layout changes
       const rect = tab.getBoundingClientRect();
+      const ddRect = dropdown.getBoundingClientRect();
+      const correctLeft = rect.left - ddRect.left + rect.width / 2;
+
       const phW = Math.round(rect.width);
       const phH = Math.round(rect.height);
       const placeholder = document.createElement('span');
@@ -567,9 +568,15 @@ function formatDate(dateString: string): string {
 
       const parent = tab.parentNode as Node;
       const nextSibling = tab.nextSibling as ChildNode | null;
-      tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW });
-      parent.insertBefore(placeholder, tab);
+      tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW, correctLeft });
 
+      // NOW restore the previous tab (this changes layout)
+      if (currentAttachedTab && currentAttachedTab !== tab) {
+        restoreRealTab(currentAttachedTab);
+      }
+
+      // Insert placeholder and attach new tab
+      parent.insertBefore(placeholder, tab);
       dropdown.appendChild(tab);
       tab.classList.add('attached-tab');
       tab.style.pointerEvents = 'auto';
@@ -587,9 +594,22 @@ function formatDate(dateString: string): string {
       if (!home) return;
       try {
         const ddRect = dropdown.getBoundingClientRect();
-        const phRect = home.placeholder.getBoundingClientRect();
-        const rawLeft = phRect.left - ddRect.left + phRect.width / 2;
-        const left = Math.round(rawLeft * 2) / 2; // snap to 0.5px
+
+        // Use the stored correct position if available
+        let rawLeft;
+        if (home.correctLeft !== undefined) {
+          rawLeft = home.correctLeft;
+        } else {
+          // Fallback to placeholder position
+          const phRect = home.placeholder.getBoundingClientRect();
+          rawLeft = phRect.left - ddRect.left + phRect.width / 2;
+        }
+
+        const tabWidth = tab.offsetWidth || 100;
+        const minLeft = tabWidth / 2;
+        const maxLeft = ddRect.width - tabWidth / 2;
+        const constrainedLeft = Math.max(minLeft, Math.min(maxLeft, rawLeft));
+        const left = Math.round(constrainedLeft * 2) / 2; // snap to 0.5px
         dropdown.style.setProperty('--attached-tab-left', `${left}px`);
       } catch {}
     }
@@ -812,7 +832,7 @@ function formatDate(dateString: string): string {
     transform: translateX(-50%) translateY(-100%);
     pointer-events: none;
     z-index: 1002;
-    width: min(100% - var(--space-2xl), 1200px);
+    width: min(100vw - var(--space-2xl), 1400px);
     background: var(--brand-background);
     border: 2px solid var(--nav-border);
     border-radius: 0 0 var(--radius-xl) var(--radius-xl);
@@ -841,6 +861,43 @@ function formatDate(dateString: string): string {
     pointer-events: auto;
     box-shadow: none;
     filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+  }
+
+  /* Responsive styles for attached tabs */
+  @media (max-width: 768px) {
+    .results-dropdown-content .attached-tab {
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--text-xs);
+      gap: var(--space-xs);
+    }
+    .results-dropdown-content .attached-tab .tab-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .results-dropdown-content .attached-tab {
+      flex-shrink: 0;
+      min-width: auto;
+      padding: var(--space-xs) var(--space-xs);
+      font-size: 0;
+      gap: 0;
+      justify-content: center;
+      text-align: center;
+      min-width: 42px;
+      height: 36px;
+      color: transparent;
+    }
+    .results-dropdown-content .attached-tab .tab-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--color-secondary);
+    }
+    .results-dropdown-content .attached-tab:hover .tab-icon,
+    .results-dropdown-content .attached-tab.active .tab-icon {
+      color: var(--color-white);
+    }
   }
 
   .dropdown-content-wrapper {

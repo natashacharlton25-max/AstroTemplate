@@ -349,7 +349,7 @@ const posts = [
     transform: translateX(-50%) translateY(-100%);
     pointer-events: none;
     z-index: 1002; /* below header but above content */
-    width: min(100% - var(--space-2xl), 1200px);
+    width: min(100vw - var(--space-2xl), 1400px);
     background: var(--brand-background);
     border: 2px solid var(--nav-border);
     border-radius: 0 0 var(--radius-xl) var(--radius-xl); /* square top corners */
@@ -401,6 +401,43 @@ const posts = [
 
   /* Hide original clicked tab to simulate movement */
   .insights-nav-tab.is-hidden { visibility: hidden; }
+
+  /* Responsive styles for attached tabs */
+  @media (max-width: 768px) {
+    .header-dropdown-content .attached-tab {
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--text-xs);
+      gap: var(--space-xs);
+    }
+    .header-dropdown-content .attached-tab .tab-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header-dropdown-content .attached-tab {
+      flex-shrink: 0;
+      min-width: auto;
+      padding: var(--space-xs) var(--space-xs);
+      font-size: 0;
+      gap: 0;
+      justify-content: center;
+      text-align: center;
+      min-width: 42px;
+      height: 36px;
+      color: transparent;
+    }
+    .header-dropdown-content .attached-tab .tab-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--color-secondary);
+    }
+    .header-dropdown-content .attached-tab:hover .tab-icon,
+    .header-dropdown-content .attached-tab.active .tab-icon {
+      color: var(--color-white);
+    }
+  }
 
   .dropdown-content-wrapper {
     /* larger top padding so content does not crowd under header */
@@ -927,13 +964,13 @@ const posts = [
     function attachRealTab(tabEl) {
       if (!dropdown || !tabEl) return;
       const tab = tabEl;
-      if (currentAttachedTab && currentAttachedTab !== tab) {
-        restoreRealTab(currentAttachedTab);
-      }
       if (currentAttachedTab === tab) return;
 
-      // Create placeholder to preserve layout in header
+      // Calculate and store the correct position BEFORE any layout changes
       const rect = tab.getBoundingClientRect();
+      const ddRect = dropdown.getBoundingClientRect();
+      const correctLeft = rect.left - ddRect.left + rect.width / 2;
+
       const phW = Math.round(rect.width);
       const phH = Math.round(rect.height);
       const placeholder = document.createElement('span');
@@ -945,15 +982,18 @@ const posts = [
 
       const parent = tab.parentNode;
       const nextSibling = tab.nextSibling;
-      tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW });
-      parent.insertBefore(placeholder, tab);
+      tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW, correctLeft });
 
-      // Move tab into overlay
+      // NOW restore the previous tab (this changes layout)
+      if (currentAttachedTab && currentAttachedTab !== tab) {
+        restoreRealTab(currentAttachedTab);
+      }
+
+      // Insert placeholder and attach new tab
+      parent.insertBefore(placeholder, tab);
       dropdown.appendChild(tab);
       tab.classList.add('attached-tab');
       tab.style.pointerEvents = 'auto';
-
-      // Lock tab width while attached to avoid width-based reflow jitter later
       tab.style.width = `${phW}px`;
       tab.style.flex = `0 0 ${phW}px`;
 
@@ -968,9 +1008,22 @@ const posts = [
       if (!home) return;
       try {
         const ddRect = dropdown.getBoundingClientRect();
-        const phRect = home.placeholder.getBoundingClientRect();
-        // Quantize to integer CSS pixels to avoid sub-pixel jitter
-        const left = Math.round(phRect.left - ddRect.left + phRect.width / 2);
+
+        // Use the stored correct position if available
+        let rawLeft;
+        if (home.correctLeft !== undefined) {
+          rawLeft = home.correctLeft;
+        } else {
+          // Fallback to placeholder position
+          const phRect = home.placeholder.getBoundingClientRect();
+          rawLeft = phRect.left - ddRect.left + phRect.width / 2;
+        }
+
+        const tabWidth = tab.offsetWidth || 100;
+        const minLeft = tabWidth / 2;
+        const maxLeft = ddRect.width - tabWidth / 2;
+        const constrainedLeft = Math.max(minLeft, Math.min(maxLeft, rawLeft));
+        const left = Math.round(constrainedLeft);
         dropdown.style.setProperty('--attached-tab-left', `${left}px`);
       } catch {}
     }
