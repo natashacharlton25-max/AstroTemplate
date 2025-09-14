@@ -1,0 +1,1720 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { siteConfig } from '@/site.config';
+
+const { url } = Astro;
+const searchParams = new URLSearchParams(url.search);
+const filterType = searchParams.get('type') || 'all';
+const filterValue = searchParams.get('value') || '';
+const searchQuery = searchParams.get('q') || '';
+const page = parseInt(searchParams.get('page') || '1');
+
+// Website content data - includes pages, blog posts, projects, and resources
+const allContent = [
+  // Blog Posts
+  {
+    id: 1,
+    title: "Getting Started with Astro",
+    excerpt: "Learn the fundamentals of building static sites with Astro framework and modern web technologies.",
+    slug: "getting-started-with-astro",
+    url: "/blog/getting-started-with-astro",
+    publishedAt: "2024-01-15",
+    category: "blog",
+    tags: ["Astro", "Static Sites", "JavaScript", "Tutorial"],
+    author: "John Doe",
+    readTime: "5 min read",
+    type: "blog"
+  },
+  {
+    id: 2,
+    title: "Advanced TypeScript Patterns",
+    excerpt: "Explore advanced TypeScript patterns and techniques for building robust applications.",
+    slug: "advanced-typescript-patterns",
+    url: "/blog/advanced-typescript-patterns",
+    publishedAt: "2024-01-10",
+    category: "blog",
+    tags: ["TypeScript", "Patterns", "JavaScript", "Advanced"],
+    author: "Jane Smith",
+    readTime: "8 min read",
+    type: "blog"
+  },
+  {
+    id: 3,
+    title: "Modern CSS Grid Layouts",
+    excerpt: "Master CSS Grid to create complex, responsive layouts with ease and flexibility.",
+    slug: "modern-css-grid-layouts",
+    url: "/blog/modern-css-grid-layouts",
+    publishedAt: "2024-01-05",
+    category: "blog",
+    tags: ["CSS", "Grid", "Layouts", "Responsive"],
+    author: "Mike Johnson",
+    readTime: "6 min read",
+    type: "blog"
+  },
+
+  // Pages
+  {
+    id: 10,
+    title: "About Our Company",
+    excerpt: "Learn about our mission, values, and the team behind our success.",
+    slug: "about",
+    url: "/about",
+    publishedAt: "2024-01-01",
+    category: "pages",
+    tags: ["about", "company", "mission", "team", "values"],
+    author: "Company",
+    readTime: "3 min read",
+    type: "page"
+  },
+  {
+    id: 11,
+    title: "Our Services",
+    excerpt: "Comprehensive overview of the services we offer to help your business grow.",
+    slug: "services",
+    url: "/services",
+    publishedAt: "2024-01-01",
+    category: "pages",
+    tags: ["services", "business", "solutions", "consulting"],
+    author: "Company",
+    readTime: "4 min read",
+    type: "page"
+  },
+  {
+    id: 12,
+    title: "Contact Information",
+    excerpt: "Get in touch with us. Find our contact details and office locations.",
+    slug: "contact",
+    url: "/contact",
+    publishedAt: "2024-01-01",
+    category: "pages",
+    tags: ["contact", "information", "office", "phone", "email"],
+    author: "Company",
+    readTime: "2 min read",
+    type: "page"
+  },
+  {
+    id: 13,
+    title: "Portfolio Showcase",
+    excerpt: "Explore our best work and successful project case studies.",
+    slug: "portfolio",
+    url: "/portfolio",
+    publishedAt: "2024-01-01",
+    category: "pages",
+    tags: ["portfolio", "showcase", "projects", "case studies", "work"],
+    author: "Company",
+    readTime: "5 min read",
+    type: "page"
+  },
+
+  // Projects
+  {
+    id: 20,
+    title: "E-commerce Platform Development",
+    excerpt: "Modern, scalable e-commerce solution built with cutting-edge technology.",
+    slug: "ecommerce-platform",
+    url: "/projects/ecommerce-platform",
+    publishedAt: "2024-01-01",
+    category: "projects",
+    tags: ["ecommerce", "platform", "scalable", "technology", "development"],
+    author: "Development Team",
+    readTime: "6 min read",
+    type: "project"
+  },
+  {
+    id: 21,
+    title: "Mobile App Development",
+    excerpt: "Cross-platform mobile application with seamless user experience.",
+    slug: "mobile-app",
+    url: "/projects/mobile-app",
+    publishedAt: "2024-01-01",
+    category: "projects",
+    tags: ["mobile", "app", "development", "cross platform", "UX"],
+    author: "Development Team",
+    readTime: "7 min read",
+    type: "project"
+  },
+  {
+    id: 22,
+    title: "Brand Identity Redesign",
+    excerpt: "Complete brand overhaul including logo, guidelines, and marketing materials.",
+    slug: "brand-redesign",
+    url: "/projects/brand-redesign",
+    publishedAt: "2024-01-01",
+    category: "projects",
+    tags: ["brand", "identity", "redesign", "logo", "marketing"],
+    author: "Design Team",
+    readTime: "5 min read",
+    type: "project"
+  },
+
+  // Resources
+  {
+    id: 30,
+    title: "Free Design Templates",
+    excerpt: "Collection of high-quality design templates for various business needs.",
+    slug: "design-templates",
+    url: "/resources/design-templates",
+    publishedAt: "2024-01-01",
+    category: "resources",
+    tags: ["templates", "design", "business", "free", "downloads"],
+    author: "Design Team",
+    readTime: "3 min read",
+    type: "resource"
+  },
+  {
+    id: 31,
+    title: "Business Planning Toolkit",
+    excerpt: "Comprehensive toolkit with templates and guides for business planning.",
+    slug: "business-toolkit",
+    url: "/resources/business-toolkit",
+    publishedAt: "2024-01-01",
+    category: "resources",
+    tags: ["business", "planning", "toolkit", "templates", "guides"],
+    author: "Business Team",
+    readTime: "8 min read",
+    type: "resource"
+  },
+  {
+    id: 32,
+    title: "SEO Guide for Beginners",
+    excerpt: "Everything you need to know to get started with search engine optimization.",
+    slug: "seo-guide",
+    url: "/resources/seo-guide",
+    publishedAt: "2024-01-01",
+    category: "resources",
+    tags: ["SEO", "guide", "beginners", "optimization", "search"],
+    author: "Marketing Team",
+    readTime: "10 min read",
+    type: "resource"
+  }
+];
+
+// Filter content based on the filter type, value, and search query
+let filteredContent = allContent;
+let pageTitle = "All Content";
+
+// Apply search query filter first if present
+if (searchQuery) {
+  filteredContent = filteredContent.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+  pageTitle = `Search results for<br>"${searchQuery}"`;
+}
+
+// Apply additional filters if search query is not the primary filter
+if (filterType === 'category' && filterValue && !searchQuery) {
+  filteredContent = allContent.filter(item =>
+    item.category.toLowerCase() === filterValue.toLowerCase()
+  );
+  pageTitle = `Content in<br>"${filterValue}"`;
+} else if (filterType === 'tag' && filterValue && !searchQuery) {
+  filteredContent = allContent.filter(item =>
+    item.tags.some(tag => tag.toLowerCase() === filterValue.toLowerCase())
+  );
+  pageTitle = `Content tagged with<br>"${filterValue}"`;
+} else if (filterType === 'archive' && filterValue && !searchQuery) {
+  const [year, month] = filterValue.split('-');
+  filteredContent = allContent.filter(item => {
+    const itemDate = new Date(item.publishedAt);
+    const itemYear = itemDate.getFullYear().toString();
+    const itemMonth = (itemDate.getMonth() + 1).toString().padStart(2, '0');
+    return itemYear === year && (!month || itemMonth === month);
+  });
+
+  if (month) {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    pageTitle = `Content from ${monthNames[parseInt(month) - 1]} ${year}`;
+  } else {
+    pageTitle = `Content from ${year}`;
+  }
+}
+
+// Pagination
+const itemsPerPage = 6;
+const totalPages = Math.ceil(filteredContent.length / itemsPerPage);
+const startIndex = (page - 1) * itemsPerPage;
+const endIndex = startIndex + itemsPerPage;
+const paginatedContent = filteredContent.slice(startIndex, endIndex);
+
+// Helper function to build pagination URLs
+function buildPaginationUrl(pageNum: number): string {
+  const params = new URLSearchParams();
+  if (searchQuery) {
+    params.set('q', searchQuery);
+  } else {
+    if (filterType && filterType !== 'all') params.set('type', filterType);
+    if (filterValue) params.set('value', filterValue);
+  }
+  if (pageNum > 1) params.set('page', pageNum.toString());
+  return `/results?${params.toString()}`;
+}
+
+// Format date function
+function formatDate(dateString: string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+  return new Date(dateString).toLocaleDateString('en-US', options);
+}
+---
+
+<Layout
+  title={`${pageTitle} | ${siteConfig.brand.name}`}
+  description={`Browse ${pageTitle.toLowerCase()} on ${siteConfig.brand.name}`}
+>
+  <main class="page-content">
+    <!-- Page Header with Red Background - Title Only -->
+    <section class="page-header">
+      <div class="page-header-content">
+        <h1 set:html={pageTitle}></h1>
+      </div>
+
+      <!-- Tabs hanging from header bottom -->
+      <div class="header-tabs-container">
+        <nav class="results-nav-tabs" aria-label="Results utilities">
+          <button class="results-nav-tab" data-tab="searchin" aria-label="Search in">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M21 21L15.5 15.5M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Search In
+          </button>
+          <button class="results-nav-tab" data-tab="keywords" aria-label="Keywords">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M3 12l2-2 4 4L21 4l2 2-14 14-6-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Keywords
+          </button>
+          <button class="results-nav-tab" data-tab="suggested" aria-label="Suggested posts">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L15 8l6 1-4.5 4.2L18 20l-6-3.2L6 20l1.5-6.8L3 9l6-1 3-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Suggested
+          </button>
+          <button class="results-nav-tab" data-tab="popular" aria-label="Popular posts">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l3 6 6 1-4.5 4.2L18 20l-6-3.2L6 20l1.5-6.8L3 9l6-1 3-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Popular
+          </button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Dropdown Content Area for results tabs -->
+    <section class="results-dropdown-content" id="resultsDropdownContent">
+      <div class="dropdown-content-wrapper"></div>
+    </section>
+
+    <!-- Search and Navigation Section -->
+    <section class="search-nav-section">
+      <div class="container content-aligned">
+        <div class="search-nav-wrapper">
+          <!-- Search Bar -->
+          <div class="search-container">
+            <form class="search-form" method="get">
+              <div class="search-input-wrapper">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 21L15.5 15.5M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input
+                  type="text"
+                  name="q"
+                  value={searchQuery}
+                  placeholder="Search"
+                  class="search-input"
+                  aria-label="Search insights"
+                />
+                <button type="submit" class="search-submit" aria-label="Search">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+              {filterType && filterType !== 'all' && !searchQuery && (
+                <input type="hidden" name="type" value={filterType} />
+              )}
+              {filterValue && !searchQuery && (
+                <input type="hidden" name="value" value={filterValue} />
+              )}
+            </form>
+          </div>
+
+          <!-- Breadcrumb -->
+          <nav class="breadcrumb">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="/insights" class="breadcrumb-link">Insights</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Results</span>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+      <div class="container content-aligned">
+        {!searchQuery && !filterValue ? (
+          <!-- Show content sections when no search is active -->
+          <div class="content-sections">
+            <!-- Search Categories -->
+            <div class="content-section widget" id="searchInWidget" style="display: none;">
+              <h3>Search in:</h3>
+              <div class="category-buttons">
+                <button class="category-btn active" data-category="all">All Website</button>
+                <button class="category-btn" data-category="pages">Pages</button>
+                <button class="category-btn" data-category="blog">Blog</button>
+                <button class="category-btn" data-category="projects">Projects</button>
+                <button class="category-btn" data-category="resources">Resources</button>
+              </div>
+            </div>
+
+            <!-- Popular Keywords -->
+            <div class="content-section widget" id="keywordsWidget" style="display: none;">
+              <h3>Popular keywords:</h3>
+              <div class="keyword-tags">
+                <button class="keyword-tag" data-keyword="about">about</button>
+                <button class="keyword-tag" data-keyword="services">services</button>
+                <button class="keyword-tag" data-keyword="portfolio">portfolio</button>
+                <button class="keyword-tag" data-keyword="contact">contact</button>
+                <button class="keyword-tag" data-keyword="projects">projects</button>
+                <button class="keyword-tag" data-keyword="experience">experience</button>
+                <button class="keyword-tag" data-keyword="skills">skills</button>
+                <button class="keyword-tag" data-keyword="testimonials">testimonials</button>
+                <button class="keyword-tag" data-keyword="blog">blog</button>
+                <button class="keyword-tag" data-keyword="resources">resources</button>
+              </div>
+            </div>
+
+            <!-- Latest Posts -->
+            <div class="content-section">
+              <h3>Latest Posts</h3>
+              <div class="post-grid">
+                <a href="/blog/getting-started" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Getting Started Guide" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Getting Started Guide</h4>
+                    <p>Everything you need to know to begin your journey</p>
+                    <span class="post-date">3 days ago</span>
+                  </div>
+                </a>
+                <a href="/blog/best-practices" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Best Practices" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Industry Best Practices</h4>
+                    <p>Proven strategies for success in your field</p>
+                    <span class="post-date">1 week ago</span>
+                  </div>
+                </a>
+                <a href="/blog/case-study" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Case Study" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Success Story Case Study</h4>
+                    <p>Real-world example of outstanding results</p>
+                    <span class="post-date">2 weeks ago</span>
+                  </div>
+                </a>
+                <a href="/blog/advanced-tips" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Advanced Tips" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Advanced Tips & Tricks</h4>
+                    <p>Take your skills to the next level</p>
+                    <span class="post-date">3 weeks ago</span>
+                  </div>
+                </a>
+                <a href="/blog/troubleshooting" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Troubleshooting" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Common Issues & Solutions</h4>
+                    <p>Quick fixes for frequent problems</p>
+                    <span class="post-date">1 month ago</span>
+                  </div>
+                </a>
+                <a href="/blog/updates" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Latest Updates" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Latest Platform Updates</h4>
+                    <p>New features and improvements</p>
+                    <span class="post-date">1 month ago</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Popular Posts -->
+            <div class="content-section widget" id="popularWidget" style="display: none;">
+              <h3>Popular Posts</h3>
+              <div class="post-grid">
+                <a href="/about" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="About Us" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>About Our Company</h4>
+                    <p>Learn about our mission, values, and story</p>
+                    <span class="post-meta">12.5k views</span>
+                  </div>
+                </a>
+                <a href="/services" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Our Services" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Our Services Overview</h4>
+                    <p>Discover what we can do for your business</p>
+                    <span class="post-meta">8.2k views</span>
+                  </div>
+                </a>
+                <a href="/portfolio" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Portfolio" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Portfolio Showcase</h4>
+                    <p>See our best work and successful projects</p>
+                    <span class="post-meta">6.8k views</span>
+                  </div>
+                </a>
+                <a href="/team" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Our Team" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Meet Our Team</h4>
+                    <p>Get to know the people behind our success</p>
+                    <span class="post-meta">5.1k views</span>
+                  </div>
+                </a>
+                <a href="/careers" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Careers" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Join Our Team</h4>
+                    <p>Explore exciting career opportunities</p>
+                    <span class="post-meta">4.3k views</span>
+                  </div>
+                </a>
+                <a href="/news" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Company News" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Company News</h4>
+                    <p>Stay updated with our latest announcements</p>
+                    <span class="post-meta">3.9k views</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Suggested Posts -->
+            <div class="content-section widget" id="suggestedWidget" style="display: none;">
+              <h3>Suggested for You</h3>
+              <div class="post-grid">
+                <a href="/contact" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Contact Us" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Get In Touch</h4>
+                    <p>Ready to start your project? Let's talk</p>
+                    <span class="post-meta">Recommended</span>
+                  </div>
+                </a>
+                <a href="/testimonials" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Testimonials" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Client Testimonials</h4>
+                    <p>See what our customers say about us</p>
+                    <span class="post-meta">For you</span>
+                  </div>
+                </a>
+                <a href="/resources" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Resources" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Free Resources</h4>
+                    <p>Download helpful guides and templates</p>
+                    <span class="post-meta">Trending</span>
+                  </div>
+                </a>
+                <a href="/pricing" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Pricing" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Pricing Plans</h4>
+                    <p>Find the perfect plan for your needs</p>
+                    <span class="post-meta">Popular</span>
+                  </div>
+                </a>
+                <a href="/faq" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="FAQ" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Frequently Asked</h4>
+                    <p>Quick answers to common questions</p>
+                    <span class="post-meta">Helpful</span>
+                  </div>
+                </a>
+                <a href="/support" class="post-card">
+                  <div class="post-image">
+                    <img src="/images/Placeholder.jpg" alt="Support" loading="lazy" />
+                  </div>
+                  <div class="post-content">
+                    <h4>Get Support</h4>
+                    <p>We're here to help with any issues</p>
+                    <span class="post-meta">24/7</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        ) : paginatedContent.length > 0 ? (
+          <div class="entries">
+            {paginatedContent.map((item) => (
+              <article class="entry-card" itemscope itemtype="https://schema.org/BlogPosting">
+                <ul class="entry-meta" data-id="meta_1">
+                  <li class="meta-categories">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"/>
+                    </svg>
+                    <a href={`/results?type=category&value=${encodeURIComponent(item.category)}`} itemprop="about">
+                      {item.category}
+                    </a>
+                  </li>
+                  <li class="meta-date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 3H18V1C18 0.447715 17.5523 0 17 0C16.4477 0 16 0.447715 16 1V3H8V1C8 0.447715 7.55228 0 7 0C6.44772 0 6 0.447715 6 1V3H5C3.34315 3 2 4.34315 2 6V20C2 21.6569 3.34315 23 5 23H19C20.6569 23 22 21.6569 22 20V6C22 4.34315 20.6569 3 19 3Z"/>
+                    </svg>
+                    <time datetime={item.publishedAt} itemprop="datePublished">
+                      {formatDate(item.publishedAt)}
+                    </time>
+                  </li>
+                  <li class="meta-author">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12ZM12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z"/>
+                    </svg>
+                    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+                      <span itemprop="name">{item.author}</span>
+                    </span>
+                  </li>
+                </ul>
+
+                <h2 class="entry-title" itemprop="headline">
+                  <a href={item.url} itemprop="url">{item.title}</a>
+                </h2>
+
+                <p class="entry-excerpt" itemprop="description">
+                  {item.excerpt}
+                </p>
+
+                <ul class="entry-meta" data-id="meta_2">
+                  <li class="meta-reading-time">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13 13H8C7.45 13 7 12.55 7 12S7.45 11 8 11H11V6C11 5.45 11.45 5 12 5S13 5.45 13 6V13Z"/>
+                    </svg>
+                    <span>{item.readTime}</span>
+                  </li>
+                  <li class="meta-tags">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7V17C3 18.1 3.9 19 5 19H19C20.1 19 21 18.1 21 17V10.5C21 9.67 20.5 8.91 19.76 8.51L17.63 5.84ZM7 9H17V11H7V9Z"/>
+                    </svg>
+                    <span itemprop="keywords">
+                      {item.tags.map((tag, index) => (
+                        <span>
+                          <a href={`/results?type=tag&value=${encodeURIComponent(tag)}`}>{tag}</a>
+                          {index < item.tags.length - 1 && ', '}
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                </ul>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="no-results">
+            <h2>No results found</h2>
+            <p>Sorry, we couldn't find any results matching your criteria.</p>
+            <button onclick="history.back()" class="back-link">← Back</button>
+          </div>
+        )}
+
+        <!-- Pagination -->
+        {totalPages > 1 && (
+          <nav class="pagination" aria-label="Pagination">
+            <div class="pagination-info">
+              Showing {startIndex + 1} to {Math.min(endIndex, filteredContent.length)} of {filteredContent.length} items
+            </div>
+            <div class="pagination-controls">
+              {page > 1 && (
+                <a
+                  href={buildPaginationUrl(page - 1)}
+                  class="pagination-btn pagination-prev"
+                >
+                  ← Previous
+                </a>
+              )}
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <a
+                  href={buildPaginationUrl(pageNum)}
+                  class={`pagination-btn ${pageNum === page ? 'pagination-current' : ''}`}
+                >
+                  {pageNum}
+                </a>
+              ))}
+
+              {page < totalPages && (
+                <a
+                  href={buildPaginationUrl(page + 1)}
+                  class="pagination-btn pagination-next"
+                >
+                  Next →
+                </a>
+              )}
+            </div>
+          </nav>
+        )}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  // Category button functionality and results header tabs
+  document.addEventListener('DOMContentLoaded', () => {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const keywordTags = document.querySelectorAll('.keyword-tag');
+    const searchInput = document.querySelector('.search-input');
+    const searchForm = document.querySelector('.search-form');
+
+    // Tabs
+    const navTabs = document.querySelectorAll('.results-nav-tab');
+    const dropdown = document.getElementById('resultsDropdownContent');
+    const dropdownWrapper = dropdown ? dropdown.querySelector('.dropdown-content-wrapper') : null;
+    const pageHeader = document.querySelector('.page-header');
+    const tabsRow = document.querySelector('.results-nav-tabs');
+
+    // Widgets
+    const searchInWidget = document.getElementById('searchInWidget');
+    const keywordsWidget = document.getElementById('keywordsWidget');
+    const suggestedWidget = document.getElementById('suggestedWidget');
+    const popularWidget = document.getElementById('popularWidget');
+
+    // Position overlay under header
+    function positionOverlay() {
+      if (!dropdown || !pageHeader) return;
+      const rect = pageHeader.getBoundingClientRect();
+      dropdown.style.setProperty('--dropdown-top', `${rect.bottom}px`);
+    }
+
+    // Move real tab into overlay and restore
+    const tabHomes = new WeakMap();
+    let currentAttachedTab = null;
+    let tabsRowLocked = false;
+
+    function lockTabsRow() {
+      if (!tabsRow || tabsRowLocked) return;
+      const rect = (tabsRow as HTMLElement).getBoundingClientRect();
+      const widthPx = Math.round(rect.width * 2) / 2;
+      (tabsRow as HTMLElement).style.width = `${widthPx}px`;
+      (tabsRow as HTMLElement).style.minWidth = `${widthPx}px`;
+      (tabsRow as HTMLElement).style.maxWidth = `${widthPx}px`;
+      tabsRowLocked = true;
+    }
+
+    function unlockTabsRow() {
+      if (!tabsRow || !tabsRowLocked) return;
+      (tabsRow as HTMLElement).style.removeProperty('width');
+      (tabsRow as HTMLElement).style.removeProperty('min-width');
+      (tabsRow as HTMLElement).style.removeProperty('max-width');
+      tabsRowLocked = false;
+    }
+
+    function attachRealTab(tabEl: Element | null) {
+      if (!dropdown || !tabEl) return;
+      const tab = tabEl as HTMLElement;
+      if (currentAttachedTab && currentAttachedTab !== tab) {
+        restoreRealTab(currentAttachedTab);
+      }
+      if (currentAttachedTab === tab) return;
+
+      const rect = tab.getBoundingClientRect();
+      const phW = Math.round(rect.width);
+      const phH = Math.round(rect.height);
+      const placeholder = document.createElement('span');
+      placeholder.className = 'tab-placeholder';
+      placeholder.style.display = 'inline-flex';
+      placeholder.style.width = `${phW}px`;
+      placeholder.style.height = `${phH}px`;
+      placeholder.style.flex = `0 0 ${phW}px`;
+
+      const parent = tab.parentNode as Node;
+      const nextSibling = tab.nextSibling as ChildNode | null;
+      tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW });
+      parent.insertBefore(placeholder, tab);
+
+      dropdown.appendChild(tab);
+      tab.classList.add('attached-tab');
+      tab.style.pointerEvents = 'auto';
+      tab.style.width = `${phW}px`;
+      tab.style.flex = `0 0 ${phW}px`;
+
+      updateAttachedTabPosition(tab);
+      currentAttachedTab = tab;
+    }
+
+    function updateAttachedTabPosition(tabEl) {
+      const tab = tabEl || currentAttachedTab;
+      if (!dropdown || !tab) return;
+      const home = tabHomes.get(tab);
+      if (!home) return;
+      try {
+        const ddRect = dropdown.getBoundingClientRect();
+        const phRect = home.placeholder.getBoundingClientRect();
+        const rawLeft = phRect.left - ddRect.left + phRect.width / 2;
+        const left = Math.round(rawLeft * 2) / 2; // snap to 0.5px
+        dropdown.style.setProperty('--attached-tab-left', `${left}px`);
+      } catch {}
+    }
+
+    function restoreRealTab(tabEl) {
+      const tab = tabEl || currentAttachedTab;
+      if (!tab) return;
+      const home = tabHomes.get(tab);
+      if (!home) return;
+      const prevTransition = tab.style.transition;
+      tab.style.transition = 'none';
+      tab.classList.remove('attached-tab');
+      tab.style.removeProperty('pointer-events');
+      const { parent, nextSibling, placeholder, widthPx } = home;
+      tab.style.width = `${widthPx}px`;
+      tab.style.flex = `0 0 ${widthPx}px`;
+      parent.insertBefore(tab, nextSibling);
+      requestAnimationFrame(() => {
+        placeholder.remove();
+        requestAnimationFrame(() => {
+          tab.style.removeProperty('width');
+          tab.style.removeProperty('flex');
+        });
+      });
+      requestAnimationFrame(() => {
+        tab.style.transition = prevTransition || '';
+      });
+      tabHomes.delete(tab);
+      if (currentAttachedTab === tab) currentAttachedTab = null;
+    }
+
+    // Toggle
+    let isClosing = false;
+    function closeOverlay() {
+      if (!dropdown || !dropdown.classList.contains('open') || isClosing) return;
+      isClosing = true;
+      updateAttachedTabPosition();
+      positionOverlay();
+      dropdown.classList.add('closing');
+      const finalize = () => {
+        if (currentAttachedTab) restoreRealTab(currentAttachedTab);
+        navTabs.forEach(t => t.classList.remove('active'));
+        isClosing = false;
+        dropdown.classList.remove('closing');
+        dropdown.classList.remove('open');
+        unlockTabsRow();
+      };
+      const onDone = (ev) => {
+        if (ev.target !== dropdown) return;
+        if (ev.propertyName !== 'transform') return;
+        dropdown.removeEventListener('transitionend', onDone);
+        clearTimeout(fallback);
+        finalize();
+      };
+      dropdown.addEventListener('transitionend', onDone);
+      const fallback = setTimeout(finalize, 1200);
+    }
+
+    function toggleDropdown(widgetType) {
+      if (!dropdown) return;
+      const clickedTab = document.querySelector(`[data-tab="${widgetType}"]`);
+      const isOpen = dropdown.classList.contains('open');
+      const isSame = clickedTab ? clickedTab.classList.contains('active') : false;
+
+      if (isOpen && isSame) {
+        closeOverlay();
+        return;
+      }
+
+      navTabs.forEach(t => t.classList.remove('active'));
+      if (clickedTab) clickedTab.classList.add('active');
+
+      // Content
+      if (dropdownWrapper) {
+        dropdownWrapper.innerHTML = '';
+        let widget: Element | null = null;
+        if (widgetType === 'searchin') widget = searchInWidget;
+        if (widgetType === 'keywords') widget = keywordsWidget;
+        if (widgetType === 'suggested') widget = suggestedWidget;
+        if (widgetType === 'popular') widget = popularWidget;
+        if (widget) {
+          dropdownWrapper.appendChild(widget.cloneNode(true));
+          const widgetElement = dropdownWrapper.querySelector('.widget');
+          if (widgetElement) widgetElement.style.display = 'block';
+        }
+      }
+
+      positionOverlay();
+      lockTabsRow();
+      attachRealTab(clickedTab);
+      dropdown.classList.add('open');
+    }
+
+    // Tab click
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const t = tab.getAttribute('data-tab');
+        if (t) toggleDropdown(t);
+      });
+    });
+
+    // Outside click
+    document.addEventListener('click', (e) => {
+      const tgt = e.target;
+      const inside = tgt && tgt.closest && (tgt.closest('.header-tabs-container') || tgt.closest('.results-dropdown-content'));
+      if (!inside && dropdown && dropdown.classList.contains('open')) closeOverlay();
+    });
+
+    // Positioning updates
+    window.addEventListener('resize', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); });
+    window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
+    positionOverlay();
+
+    // Handle category button clicks
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active from all buttons
+        categoryBtns.forEach(b => b.classList.remove('active'));
+
+        // Add active to clicked button
+        btn.classList.add('active');
+
+        // Get category and perform search
+        const category = btn.getAttribute('data-category');
+        if (category && category !== 'all') {
+          // Navigate to results with category filter
+          window.location.href = `/results?type=category&value=${encodeURIComponent(category)}`;
+        } else {
+          // Show all results
+          window.location.href = '/results';
+        }
+      });
+    });
+
+    // Handle keyword tag clicks
+    keywordTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        const keyword = tag.getAttribute('data-keyword');
+        if (keyword) {
+          // Navigate to search results for this keyword
+          window.location.href = `/results?q=${encodeURIComponent(keyword)}`;
+        }
+      });
+    });
+  });
+  </script>
+
+<style>
+  .page-content {
+    min-height: calc(100vh - 120px);
+  }
+
+  /* Use global page header styles - title only */
+  .page-header h1 {
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    font-weight: 200; /* Thin weight */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    line-height: 1.2;
+    color: #f5f5dc; /* Cream color */
+  }
+
+  .page-header { overflow: visible !important; padding-bottom: 3rem !important; }
+
+  /* Header tabs container - positioned to hang from red header */
+  .header-tabs-container {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+  }
+
+  .results-nav-tabs {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .results-nav-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--brand-background);
+    border: 2px solid var(--nav-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    color: var(--color-secondary);
+    font-weight: 500;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .results-nav-tab:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .results-nav-tab.active:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .tab-icon { flex-shrink: 0; }
+
+  /* Dropdown overlay card */
+  .results-dropdown-content {
+    position: fixed;
+    left: 50%;
+    top: var(--dropdown-top, 0px);
+    transform: translateX(-50%) translateY(-100%);
+    pointer-events: none;
+    z-index: 1002;
+    width: min(100% - var(--space-2xl), 1200px);
+    background: var(--brand-background);
+    border: 2px solid var(--nav-border);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    box-sizing: border-box;
+    transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 800ms ease;
+    box-shadow: none;
+  }
+
+  .results-dropdown-content.open {
+    transform: translateX(-50%) translateY(var(--open-overlap, -14px));
+    pointer-events: auto;
+    box-shadow: 0 24px 36px -24px rgba(0, 0, 0, 0.18), 0 48px 80px -40px rgba(0, 0, 0, 0.22);
+    border-bottom: none;
+  }
+
+  .results-dropdown-content.open.closing {
+    transform: translateX(-50%) translateY(-100%);
+  }
+
+  .results-dropdown-content .attached-tab {
+    position: absolute;
+    bottom: 0;
+    left: var(--attached-tab-left, 50%);
+    transform: translate(-50%, calc(100% - 1px));
+    z-index: 1;
+    pointer-events: auto;
+    box-shadow: none;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+  }
+
+  /* Search and Navigation Section */
+  .search-nav-section {
+    background: var(--color-background);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    padding: 2rem 0;
+  }
+
+  /* Search and navigation wrapper for desktop layout */
+  .search-nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-secondary);
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-text-secondary);
+  }
+
+  .breadcrumb-current {
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  /* Search Bar Styles for White Background Section */
+  .search-container {
+    max-width: 400px;
+    flex: 0 0 auto;
+  }
+
+  .search-form {
+    position: relative;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--color-white);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-radius: 30px;
+    padding: 0.75rem 1.25rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .search-input-wrapper:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-icon {
+    color: var(--color-text-secondary);
+    margin-right: 1rem;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    color: var(--color-text-primary);
+    outline: none;
+    padding: 0;
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  .search-submit {
+    background: var(--color-primary);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .search-submit svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .search-submit:hover {
+    background: var(--color-primary-dark, var(--color-primary));
+    transform: translateY(-1px);
+  }
+
+  /* Content Section */
+  .content-section {
+    padding: 4rem 0 667px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .entries {
+    display: grid;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .entry-card {
+    background: var(--color-background);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .entry-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+
+  .entry-meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+  }
+
+  .entry-meta[data-id="meta_1"] {
+    margin-bottom: var(--space-md);
+  }
+
+  .entry-meta[data-id="meta_2"] {
+    margin-top: var(--space-lg);
+  }
+
+  .entry-meta li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .entry-meta svg {
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Category Styling with Uppercase */
+  .meta-categories a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: var(--text-xs);
+  }
+
+  .meta-categories a:hover {
+    color: var(--color-secondary);
+  }
+
+  .meta-tags a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .meta-tags a:hover {
+    color: var(--color-secondary);
+  }
+
+  .entry-title {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+  }
+
+  .entry-title a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .entry-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .entry-excerpt {
+    color: var(--color-text-primary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  /* No Results */
+  .no-results {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-lg);
+  }
+
+  .no-results h2 {
+    color: var(--color-secondary);
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-2xl);
+  }
+
+  .no-results p {
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-lg) 0;
+    font-size: var(--text-lg);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-primary);
+    background: none;
+    font-weight: 500;
+    padding: var(--space-sm) var(--space-md);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+  }
+
+  .back-link:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    transform: translateY(-1px);
+  }
+
+  /* Pagination */
+  .pagination {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: center;
+    padding: var(--space-xl) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+  }
+
+  .pagination-info {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .pagination-controls {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pagination-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    color: var(--color-text-primary);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    font-weight: 500;
+  }
+
+  .pagination-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .pagination-current {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+  }
+
+  .pagination-current:hover {
+    transform: none;
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+  }
+
+  /* Content Sections Styles */
+  .content-sections {
+    padding: var(--space-xs) 0;
+  }
+
+  .content-section {
+    margin-bottom: var(--space-xs);
+  }
+
+  .content-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .content-section h3 {
+    color: var(--color-secondary);
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    margin: 0 0 var(--space-xs) 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .post-card {
+    display: block;
+    background: var(--color-background);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  }
+
+  .post-image {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  }
+
+  .post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-base);
+  }
+
+  .post-card:hover .post-image img {
+    transform: scale(1.05);
+  }
+
+  .post-content {
+    padding: var(--space-lg);
+  }
+
+  .post-content h4 {
+    color: var(--color-secondary);
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0 0 var(--space-xs) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .post-content p {
+    color: var(--color-text-primary);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-sm) 0;
+  }
+
+  .post-date,
+  .post-meta {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .post-date {
+    color: var(--color-primary);
+  }
+
+  .post-meta {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    display: inline-block;
+  }
+
+  /* Category Buttons and Keyword Tags */
+  .category-buttons,
+  .keyword-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+  }
+
+  .category-btn,
+  .keyword-tag {
+    padding: var(--space-sm) var(--space-md);
+    border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: capitalize;
+  }
+
+  .category-btn:hover,
+  .keyword-tag:hover {
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .category-btn.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+  }
+
+  .category-btn.active:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-1px);
+  }
+
+  .keyword-tag {
+    font-size: var(--text-xs);
+    padding: var(--space-xs) var(--space-sm);
+    text-transform: lowercase;
+  }
+
+  .keyword-tag:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .page-header-content {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+
+    .page-header h1 {
+      letter-spacing: 0.05em;
+      white-space: normal !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+      hyphens: auto !important;
+      max-width: calc(100vw - 3rem) !important;
+      line-height: 1.1 !important;
+    }
+
+    .page-header {
+      padding: 2rem 0 1.5rem;
+    }
+
+    .content-aligned,
+    .container.content-aligned,
+    div.content-aligned,
+    .content-section .container,
+    section .container {
+      margin-left: 1.5rem !important;
+      margin-right: 1.25rem !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      max-width: calc(100vw - 2.75rem) !important;
+      box-sizing: border-box !important;
+    }
+
+    .container {
+      padding: 0 var(--space-md);
+    }
+
+    /* Mobile search and nav layout */
+    .search-nav-wrapper {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .search-container {
+      max-width: 100%;
+      order: 1;
+    }
+
+    .breadcrumb {
+      order: 2;
+      justify-content: center;
+      font-size: 0.875rem;
+      flex-wrap: wrap;
+    }
+
+    /* Mobile search bar - smaller and thinner */
+    .search-input-wrapper {
+      padding: 0.5rem 0.875rem; /* Reduced padding */
+      border-radius: 20px; /* Smaller radius */
+    }
+
+    .search-icon {
+      width: 16px; /* Smaller icon */
+      height: 16px;
+      margin-right: 0.75rem;
+    }
+
+    .search-input {
+      font-size: 0.875rem; /* Smaller text */
+    }
+
+    .search-input::placeholder {
+      font-size: 0.875rem;
+    }
+
+    .search-submit {
+      width: 28px; /* Smaller button */
+      height: 28px;
+      margin-left: 0.75rem;
+    }
+
+    .search-submit svg {
+      width: 14px; /* Smaller icon */
+      height: 14px;
+    }
+
+    .search-nav-section {
+      padding: 1.5rem 0; /* Reduced padding */
+    }
+
+    /* Mobile content sections */
+    .content-sections {
+      padding: var(--space-xs) 0;
+    }
+
+    .content-section {
+      margin-bottom: var(--space-xs);
+    }
+
+    .content-section h3 {
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-xs);
+    }
+
+    .post-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .post-image {
+      height: 160px;
+    }
+
+    .post-content {
+      padding: var(--space-md);
+    }
+
+    .post-content h4 {
+      font-size: var(--text-base);
+    }
+
+    .post-content p {
+      font-size: var(--text-sm);
+    }
+
+    /* Mobile category buttons and keyword tags */
+    .category-buttons,
+    .keyword-tags {
+      gap: var(--space-xs);
+    }
+
+    .category-btn,
+    .keyword-tag {
+      font-size: var(--text-xs);
+      padding: var(--space-xs) var(--space-sm);
+    }
+
+    .category-btn {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .keyword-tag {
+      padding: var(--space-xs) var(--space-xs);
+    }
+
+    .entry-meta {
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .pagination-controls {
+      gap: var(--space-xs);
+    }
+
+    .pagination-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--text-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pagination {
+      padding: var(--space-md) 0;
+    }
+
+    .pagination-info {
+      text-align: center;
+      font-size: var(--text-xs);
+    }
+
+    .pagination-btn {
+      min-width: 36px;
+      height: 36px;
+      padding: var(--space-xs);
+      font-size: var(--text-xs);
+    }
+  }
+</style>

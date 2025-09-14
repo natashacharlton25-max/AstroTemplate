@@ -64,15 +64,8 @@ export function initOverlayManager() {
         break;
         
       case 'search':
-        // Use the search popup instead of overlay
-        if (window.openSearchPopup) {
-          window.openSearchPopup();
-          // Close settings menu when opening popup
-          const settingsExpanded = document.querySelector('[data-settings-expanded]');
-          const settingsToggle = document.querySelector('[data-settings-toggle]');
-          settingsExpanded?.classList.remove('show');
-          settingsToggle?.classList.remove('active');
-        }
+        // Navigate directly to results page
+        window.location.href = '/results';
         break;
         
     }

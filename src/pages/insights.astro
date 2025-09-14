@@ -85,7 +85,7 @@ const posts = [
     </section>
 
     <!-- Dropdown Content Area (replaces sidebar) -->
-    <section class="header-dropdown-content" id="headerDropdownContent" style="display: none;">
+    <section class="header-dropdown-content" id="headerDropdownContent">
       <div class="dropdown-content-wrapper">
         <!-- Content will be populated by JavaScript -->
       </div>
@@ -103,16 +103,18 @@ const posts = [
                       <svg width="13" height="13" viewBox="0 0 15 15">
                         <path d="M14.4,1.2H0.6C0.3,1.2,0,1.5,0,1.9V5c0,0.3,0.3,0.6,0.6,0.6h0.6v7.5c0,0.3,0.3,0.6,0.6,0.6h11.2c0.3,0,0.6-0.3,0.6-0.6V5.6h0.6C14.7,5.6,15,5.3,15,5V1.9C15,1.5,14.7,1.2,14.4,1.2z M12.5,12.5h-10V5.6h10V12.5z M13.8,4.4H1.2V2.5h12.5V4.4z M5.6,7.5c0-0.3,0.3-0.6,0.6-0.6h2.5c0.3,0,0.6,0.3,0.6,0.6S9.1,8.1,8.8,8.1H6.2C5.9,8.1,5.6,7.8,5.6,7.5z"></path>
                       </svg>
-                      <a href={`/category/${post.categorySlug}/`} rel="tag" class="ct-term-1">
+                      <a href={`/results?type=category&value=${encodeURIComponent(post.category)}`} rel="tag" class="ct-term-1">
                         {post.category}
                       </a>
                     </li>
                   </ul>
 
                   <div class="card-date" itemprop="datePublished">
-                    <time class="ct-meta-element-date" datetime={post.date}>
-                      {post.dateFormatted}
-                    </time>
+                    <a href={`/results?type=archive&value=${post.date.substring(0, 7)}`} class="ct-meta-element-date" title="View all posts from this month">
+                      <time datetime={post.date}>
+                        {post.dateFormatted}
+                      </time>
+                    </a>
                   </div>
                 </div>
 
@@ -126,7 +128,7 @@ const posts = [
 
                 <div class="card-tags">
                   {post.tags.map(tag => (
-                    <span class="tag-pill">{tag}</span>
+                    <a href={`/results?type=tag&value=${encodeURIComponent(tag)}`} class="tag-pill" title={`View all posts tagged with ${tag}`}>{tag}</a>
                   ))}
                 </div>
               </article>
@@ -153,19 +155,19 @@ const posts = [
             <div class="widget categories-widget" id="categoriesWidget">
               <ul class="category-list">
                 <li class="category-item">
-                  <a href="/insights/results?type=category&value=Personal Growth" class="category-link">
+                  <a href="/results?type=category&value=Personal Growth" class="category-link">
                     <span class="category-name">Personal Growth</span>
                     <span class="category-count">(2)</span>
                   </a>
                 </li>
                 <li class="category-item">
-                  <a href="/insights/results?type=category&value=Natural Strategies" class="category-link">
+                  <a href="/results?type=category&value=Natural Strategies" class="category-link">
                     <span class="category-name">Natural Strategies</span>
                     <span class="category-count">(1)</span>
                   </a>
                 </li>
                 <li class="category-item">
-                  <a href="/insights/results?type=category&value=Uncategorized" class="category-link">
+                  <a href="/results?type=category&value=Uncategorized" class="category-link">
                     <span class="category-name">Uncategorized</span>
                     <span class="category-count">(1)</span>
                   </a>
@@ -177,25 +179,25 @@ const posts = [
             <div class="widget archive-widget" id="archiveWidget" style="display: none;">
               <ul class="archive-list">
                 <li class="archive-item">
-                  <a href="/insights/results?type=archive&value=2025-04" class="archive-link">
+                  <a href="/results?type=archive&value=2025-04" class="archive-link">
                     <span class="archive-period">April 2025</span>
                     <span class="archive-count">(3)</span>
                   </a>
                 </li>
                 <li class="archive-item">
-                  <a href="/insights/results?type=archive&value=2025-03" class="archive-link">
+                  <a href="/results?type=archive&value=2025-03" class="archive-link">
                     <span class="archive-period">March 2025</span>
                     <span class="archive-count">(0)</span>
                   </a>
                 </li>
                 <li class="archive-item">
-                  <a href="/insights/results?type=archive&value=2025-02" class="archive-link">
+                  <a href="/results?type=archive&value=2025-02" class="archive-link">
                     <span class="archive-period">February 2025</span>
                     <span class="archive-count">(0)</span>
                   </a>
                 </li>
                 <li class="archive-item">
-                  <a href="/insights/results?type=archive&value=2025-01" class="archive-link">
+                  <a href="/results?type=archive&value=2025-01" class="archive-link">
                     <span class="archive-period">January 2025</span>
                     <span class="archive-count">(0)</span>
                   </a>
@@ -206,18 +208,18 @@ const posts = [
             <!-- Tags Widget -->
             <div class="widget tags-widget" id="tagsWidget" style="display: none;">
               <div class="tag-cloud">
-                <a href="/insights/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
-                <a href="/insights/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
-                <a href="/insights/results?type=tag&value=natural strategies" class="tag-link tag-size-medium">natural strategies</a>
-                <a href="/insights/results?type=tag&value=wellness" class="tag-link tag-size-small">wellness</a>
-                <a href="/insights/results?type=tag&value=meditation" class="tag-link tag-size-small">meditation</a>
-                <a href="/insights/results?type=tag&value=lifestyle" class="tag-link tag-size-large">lifestyle</a>
-                <a href="/insights/results?type=tag&value=digital detox" class="tag-link tag-size-small">digital detox</a>
-                <a href="/insights/results?type=tag&value=self care" class="tag-link tag-size-medium">self care</a>
-                <a href="/insights/results?type=tag&value=balance" class="tag-link tag-size-small">balance</a>
-                <a href="/insights/results?type=tag&value=productivity" class="tag-link tag-size-small">productivity</a>
-                <a href="/insights/results?type=tag&value=habits" class="tag-link tag-size-medium">habits</a>
-                <a href="/insights/results?type=tag&value=inspiration" class="tag-link tag-size-small">inspiration</a>
+                <a href="/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
+                <a href="/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
+                <a href="/results?type=tag&value=natural strategies" class="tag-link tag-size-medium">natural strategies</a>
+                <a href="/results?type=tag&value=wellness" class="tag-link tag-size-small">wellness</a>
+                <a href="/results?type=tag&value=meditation" class="tag-link tag-size-small">meditation</a>
+                <a href="/results?type=tag&value=lifestyle" class="tag-link tag-size-large">lifestyle</a>
+                <a href="/results?type=tag&value=digital detox" class="tag-link tag-size-small">digital detox</a>
+                <a href="/results?type=tag&value=self care" class="tag-link tag-size-medium">self care</a>
+                <a href="/results?type=tag&value=balance" class="tag-link tag-size-small">balance</a>
+                <a href="/results?type=tag&value=productivity" class="tag-link tag-size-small">productivity</a>
+                <a href="/results?type=tag&value=habits" class="tag-link tag-size-medium">habits</a>
+                <a href="/results?type=tag&value=inspiration" class="tag-link tag-size-small">inspiration</a>
               </div>
             </div>
           </div>
@@ -308,7 +310,7 @@ const posts = [
     align-items: center;
     gap: var(--space-xs);
     padding: var(--space-sm) var(--space-lg);
-    background: #f5f5dc; /* Cream fill color */
+    background: var(--brand-background); /* brand cream */
     border: 2px solid var(--nav-border);
     border-top: none; /* No top border for hanging tab effect */
     border-radius: 0 0 var(--radius-md) var(--radius-md); /* Flat top, rounded bottom */
@@ -316,7 +318,7 @@ const posts = [
     font-weight: 500;
     font-size: var(--text-sm);
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     white-space: nowrap;
@@ -325,10 +327,9 @@ const posts = [
   }
 
   .insights-nav-tab:hover {
-    background: var(--color-primary);
+    background: var(--color-primary); /* solid red */
     color: var(--color-white);
-    transform: translateY(-2px); /* Keep the movement */
-    box-shadow: 0 -4px 12px rgba(230, 57, 97, 0.3);
+    box-shadow: none; /* no glow */
   }
 
   /* Combined active state */
@@ -339,30 +340,76 @@ const posts = [
     z-index: 1051; /* Above other tabs when active */
   }
 
-  /* Dropdown content area - connects to upside-down tabs */
+  /* Dropdown card overlay with glide-down animation */
   .header-dropdown-content {
-    position: sticky;
-    top: 0; /* Stick right below the tab bar */
-    z-index: 1049; /* Below tabs but above content */
+    position: fixed;
+    left: 50%;
+    top: var(--dropdown-top, 0px); /* anchored to bottom of header */
+    /* closed: bottom flush with header bottom for smooth return */
+    transform: translateX(-50%) translateY(-100%);
+    pointer-events: none;
+    z-index: 1002; /* below header but above content */
+    width: min(100% - var(--space-2xl), 1200px);
     background: var(--brand-background);
     border: 2px solid var(--nav-border);
-    border-top: 2px solid var(--nav-border); /* Top border to separate from tabs */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl); /* square top corners */
+    /* No drop shadow when closed (hidden under header) */
+    box-shadow: none;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    margin-top: 0; /* No overlap needed for upside-down tabs */
+    transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 800ms ease;
   }
 
+  .header-dropdown-content.open {
+    /* open: still slightly hidden under header */
+    transform: translateX(-50%) translateY(var(--open-overlap, -14px));
+    /* Medium drop shadow while open, offset away from join line */
+    box-shadow: 0 24px 36px -24px rgba(0, 0, 0, 0.18), 0 48px 80px -40px rgba(0, 0, 0, 0.22);
+    border-bottom: none; /* avoid seam at the tab join */
+    pointer-events: auto;
+  }
+
+  /* Keep .open styles (including shadow) during the glide-up; only change transform */
+  .header-dropdown-content.open.closing {
+    transform: translateX(-50%) translateY(-100%);
+  }
+
+  /* Closing uses reverse glide; no special intermediate state */
+
+  /* Real tab attached to the card bottom edge (keeps original x position) */
+  .header-dropdown-content .attached-tab {
+    position: absolute;
+    bottom: 0; /* anchor to card bottom */
+    left: var(--attached-tab-left, 50%); /* pixel center relative to card */
+    transform: translate(-50%, calc(100% - 1px)); /* hang below, slight 1px overlap to hide seam */
+    z-index: 1;
+    pointer-events: auto; /* keep it interactive while open */
+    /* Use downward-only drop shadow; no line at join */
+    box-shadow: none;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+    transition: filter 800ms ease;
+  }
+
+  /* Ensure attached tab stays cream while open */
+  .header-dropdown-content .attached-tab,
+  .header-dropdown-content.open .attached-tab,
+  .header-dropdown-content.open .attached-tab.active {
+    background: var(--brand-background) !important;
+    color: var(--color-secondary) !important;
+    border-color: var(--nav-border) !important;
+  }
+
+  /* Hide original clicked tab to simulate movement */
+  .insights-nav-tab.is-hidden { visibility: hidden; }
+
   .dropdown-content-wrapper {
-    padding: var(--space-xl);
+    /* larger top padding so content does not crowd under header */
+    padding: var(--space-3xl) var(--space-xl) var(--space-xl);
     max-height: 400px;
     overflow-y: auto;
   }
 
   .insights-nav-tab.active:hover {
-    /* border-color property removed as requested */
-    transform: translateY(-2px); /* Consistent hover movement */
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-primary) 20%, transparent);
     background: var(--color-primary);
     color: var(--color-white);
   }
@@ -804,6 +851,8 @@ const posts = [
     const dropdownWrapper = document.querySelector('.dropdown-content-wrapper');
     const closeBtn = document.getElementById('sidebarClose');
     const sidebarTitle = document.getElementById('sidebarTitle');
+    const pageHeader = document.querySelector('.page-header');
+    const tabsRow = document.querySelector('.insights-nav-tabs');
 
     // Widget elements
     const categoriesWidget = document.getElementById('categoriesWidget');
@@ -817,32 +866,178 @@ const posts = [
       'tags': 'Tags'
     };
 
-    // Toggle dropdown
-    function toggleDropdown(widgetType: string) {
-      const isCurrentlyActive = dropdown && dropdown.style.display === 'block';
-      const clickedTab = document.querySelector(`[data-tab="${widgetType}"]`);
-      const isClickedTabActive = clickedTab ? clickedTab.classList.contains('active') : false;
+    // Compute overlay top to stick under header
+    function positionOverlay() {
+      if (!dropdown || !pageHeader) return;
+      const rect = pageHeader.getBoundingClientRect();
+      dropdown.style.setProperty('--dropdown-top', `${rect.bottom}px`);
+    }
 
-      // Remove active state from all tabs
-      navTabs.forEach(tab => tab.classList.remove('active'));
+    // Move the REAL tab into the overlay and restore after close
+    const tabHomes = new WeakMap();
+    let currentAttachedTab = null;
+    let tabsRowLocked = false;
 
-      if (isCurrentlyActive && isClickedTabActive) {
-        // Close dropdown if clicking the same active tab
-        dropdown.style.display = 'none';
-      } else {
-        // Open dropdown and show content
-        if (clickedTab) {
-          clickedTab.classList.add('active');
-        }
-        showDropdownContent(widgetType);
-        if (dropdown) {
-          dropdown.style.display = 'block';
-        }
+    function lockTabsRow() {
+      if (!tabsRow || tabsRowLocked) return;
+      const rect = tabsRow.getBoundingClientRect();
+      const widthPx = Math.round(rect.width * 2) / 2; // snap to 0.5px
+      tabsRow.style.width = `${widthPx}px`;
+      tabsRow.style.minWidth = `${widthPx}px`;
+      tabsRow.style.maxWidth = `${widthPx}px`;
+      tabsRowLocked = true;
+    }
+
+    function unlockTabsRow() {
+      if (!tabsRow || !tabsRowLocked) return;
+      tabsRow.style.removeProperty('width');
+      tabsRow.style.removeProperty('min-width');
+      tabsRow.style.removeProperty('max-width');
+      tabsRowLocked = false;
+    }
+
+    function attachRealTab(tabEl) {
+      if (!dropdown || !tabEl) return;
+      const tab = tabEl;
+      if (currentAttachedTab && currentAttachedTab !== tab) {
+        restoreRealTab(currentAttachedTab);
       }
+      if (currentAttachedTab === tab) return;
+
+      // Create placeholder to preserve layout in header
+      const rect = tab.getBoundingClientRect();
+      const phW = Math.round(rect.width);
+      const phH = Math.round(rect.height);
+      const placeholder = document.createElement('span');
+      placeholder.className = 'tab-placeholder';
+      placeholder.style.display = 'inline-flex';
+      placeholder.style.width = `${phW}px`;
+      placeholder.style.height = `${phH}px`;
+      placeholder.style.flex = `0 0 ${phW}px`;
+
+      const parent = tab.parentNode;
+      const nextSibling = tab.nextSibling;
+      tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW });
+      parent.insertBefore(placeholder, tab);
+
+      // Move tab into overlay
+      dropdown.appendChild(tab);
+      tab.classList.add('attached-tab');
+      tab.style.pointerEvents = 'auto';
+
+      // Lock tab width while attached to avoid width-based reflow jitter later
+      tab.style.width = `${phW}px`;
+      tab.style.flex = `0 0 ${phW}px`;
+
+      updateAttachedTabPosition(tab);
+      currentAttachedTab = tab;
+    }
+
+    function updateAttachedTabPosition(tabEl) {
+      const tab = tabEl || currentAttachedTab;
+      if (!dropdown || !tab) return;
+      const home = tabHomes.get(tab);
+      if (!home) return;
+      try {
+        const ddRect = dropdown.getBoundingClientRect();
+        const phRect = home.placeholder.getBoundingClientRect();
+        // Quantize to integer CSS pixels to avoid sub-pixel jitter
+        const left = Math.round(phRect.left - ddRect.left + phRect.width / 2);
+        dropdown.style.setProperty('--attached-tab-left', `${left}px`);
+      } catch {}
+    }
+
+    function restoreRealTab(tabEl) {
+      const tab = tabEl || currentAttachedTab;
+      if (!tab) return;
+      const home = tabHomes.get(tab);
+      if (!home) return;
+      // Temporarily disable transitions to avoid a "click" snap when restoring
+      const prevTransition = tab.style.transition;
+      tab.style.transition = 'none';
+      tab.classList.remove('attached-tab');
+      tab.style.removeProperty('pointer-events');
+      const { parent, nextSibling, placeholder, widthPx } = home;
+      // Keep width locked during the swap back into header
+      tab.style.width = `${widthPx}px`;
+      tab.style.flex = `0 0 ${widthPx}px`;
+      parent.insertBefore(tab, nextSibling);
+      // Remove placeholder and release width lock on the following frames
+      requestAnimationFrame(() => {
+        placeholder.remove();
+        requestAnimationFrame(() => {
+          tab.style.removeProperty('width');
+          tab.style.removeProperty('flex');
+        });
+      });
+      // Re-enable transitions on the next frame
+      requestAnimationFrame(() => {
+        tab.style.transition = prevTransition || '';
+      });
+      tabHomes.delete(tab);
+      if (currentAttachedTab === tab) currentAttachedTab = null;
+    }
+
+    // Close overlay: slow glide up (reverse of open). Restore tab after animation.
+    let isClosing = false;
+    function closeOverlay() {
+      if (!dropdown || !dropdown.classList.contains('open') || isClosing) return;
+      isClosing = true;
+      // Ensure final alignment before starting the glide-up
+      updateAttachedTabPosition();
+      positionOverlay();
+      dropdown.classList.add('closing');
+      const finalize = () => {
+        if (currentAttachedTab) restoreRealTab(currentAttachedTab);
+        navTabs.forEach(t => t.classList.remove('active'));
+        isClosing = false;
+        dropdown.classList.remove('closing');
+        dropdown.classList.remove('open');
+        unlockTabsRow();
+      };
+      const onDone = (ev) => {
+        // Only react to the dropdown's transform transition end
+        if (ev && ev.target !== dropdown) return;
+        if (ev && ev.propertyName && ev.propertyName !== 'transform') return;
+        dropdown.removeEventListener('transitionend', onDone);
+        clearTimeout(closeTimeout);
+        finalize();
+      };
+      dropdown.addEventListener('transitionend', onDone);
+      // Fallback in case transitionend doesn't fire (edge cases)
+      const closeTimeout = setTimeout(finalize, 1200);
+    }
+
+    // Toggle dropdown with glide animation
+    function toggleDropdown(widgetType) {
+      if (!dropdown) return;
+      const clickedTab = document.querySelector(`[data-tab="${widgetType}"]`);
+      const isOpen = dropdown.classList.contains('open');
+      const isSame = clickedTab ? clickedTab.classList.contains('active') : false;
+
+      // If already open and same tab -> close
+      if (isOpen && isSame) {
+        closeOverlay();
+        return;
+      }
+
+      // Switch active
+      navTabs.forEach(t => t.classList.remove('active'));
+      if (clickedTab) clickedTab.classList.add('active');
+
+      // Populate and position
+      showDropdownContent(widgetType);
+      positionOverlay();
+      // Move the actual clicked tab into the overlay and align
+      attachRealTab(clickedTab);
+      // Freeze row width to prevent lateral nudge while animating
+      lockTabsRow();
+      // Open
+      dropdown.classList.add('open');
     }
 
     // Show dropdown content
-    function showDropdownContent(widgetType: string) {
+    function showDropdownContent(widgetType) {
       // Hide all widgets
       if (categoriesWidget) categoriesWidget.style.display = 'none';
       if (archiveWidget) archiveWidget.style.display = 'none';
@@ -869,7 +1064,7 @@ const posts = [
           dropdownWrapper.appendChild(widgetToShow.cloneNode(true));
           const widgetElement = dropdownWrapper.querySelector('.widget');
           if (widgetElement) {
-            (widgetElement as HTMLElement).style.display = 'block';
+            widgetElement.style.display = 'block';
           }
         }
       }
@@ -888,18 +1083,19 @@ const posts = [
 
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
-      if (
-        !(
-          e.target &&
-          ((e.target as HTMLElement).closest('.header-tabs-container') ||
-           (e.target as HTMLElement).closest('.header-dropdown-content'))
-        )
-      ) {
-        if (dropdown) {
-          dropdown.style.display = 'none';
-        }
-        navTabs.forEach(tab => tab.classList.remove('active'));
+      const tgt = e.target;
+      const inside = (tgt instanceof Element) && (tgt.closest('.header-tabs-container') || tgt.closest('.header-dropdown-content'));
+      if (!inside) {
+        if (!dropdown) return;
+        // Smooth staged close
+        if (dropdown.classList.contains('open')) closeOverlay();
       }
     });
+
+    // Keep overlay positioned on scroll/resize
+    window.addEventListener('resize', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); });
+    window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
+    // Initial position
+    positionOverlay();
   });
 </script>
