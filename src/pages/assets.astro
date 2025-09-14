@@ -526,6 +526,14 @@ import Layout from '@layouts/Layout.astro';
 
   .keyword-tag { font-size: var(--text-xs); padding: var(--space-xs) var(--space-sm); }
 
+  .keyword-tag.active {
+    background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary);
+  }
+
+  .keyword-tag.active:hover {
+    background: var(--color-secondary); border-color: var(--color-secondary); transform: translateY(-1px);
+  }
+
   /* Featured Cards */
   .featured-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
   .featured-card {
@@ -1046,6 +1054,27 @@ import Layout from '@layouts/Layout.astro';
 
         // Filter the assets
         filterAssetsByCategory(selectedCategory);
+        return;
+      }
+
+      // Handle keyword tag clicks
+      if (e.target.classList.contains('keyword-tag')) {
+        e.preventDefault();
+
+        // Get the selected keyword
+        const selectedKeyword = e.target.getAttribute('data-keyword');
+
+        // Update active state of keyword tags within the same container
+        const container = e.target.closest('.keyword-tags');
+        if (container) {
+          container.querySelectorAll('.keyword-tag').forEach(tag => {
+            tag.classList.remove('active');
+          });
+          e.target.classList.add('active');
+        }
+
+        // Filter the assets by keyword
+        filterAssetsByKeyword(selectedKeyword);
         return;
       }
 

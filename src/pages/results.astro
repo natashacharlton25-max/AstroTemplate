@@ -336,9 +336,8 @@ function formatDate(dateString: string): string {
     <!-- Content Section -->
     <section class="content-section">
       <div class="container content-aligned">
-        {!searchQuery && !filterValue ? (
-          <!-- Show content sections when no search is active -->
-          <div class="content-sections">
+        <!-- Always show content sections for dropdown functionality -->
+        <div class="content-sections" style="display: none;">
             <!-- Search Categories -->
             <div class="content-section widget" id="searchInWidget" style="display: none;">
               <h3>Search in:</h3>
@@ -421,7 +420,9 @@ function formatDate(dateString: string): string {
               </div>
             </div>
           </div>
-        ) : filteredContent.length > 0 ? (
+        </div>
+
+        {filteredContent.length > 0 ? (
           <div class="entries">
             {filteredContent.map((item) => (
               <article class="entry-card" itemscope itemtype="https://schema.org/BlogPosting">
@@ -516,6 +517,7 @@ function formatDate(dateString: string): string {
     const searchInWidget = document.getElementById('searchInWidget');
     const keywordsWidget = document.getElementById('keywordsWidget');
     const featuredWidget = document.getElementById('featuredWidget');
+
 
     // Position overlay under header
     function positionOverlay() {
@@ -689,6 +691,8 @@ function formatDate(dateString: string): string {
         if (widgetType === 'searchin') widget = searchInWidget;
         if (widgetType === 'keywords') widget = keywordsWidget;
         if (widgetType === 'featured') widget = featuredWidget;
+
+
         if (widget) {
           dropdownWrapper.appendChild(widget.cloneNode(true));
           const widgetElement = dropdownWrapper.querySelector('.widget');
@@ -711,29 +715,29 @@ function formatDate(dateString: string): string {
       });
     });
 
-    // Outside click
-    document.addEventListener('click', (e) => {
-      const tgt = e.target;
-      const inside = tgt && tgt.closest && (tgt.closest('.header-tabs-container') || tgt.closest('.results-dropdown-content'));
-      if (!inside && dropdown && dropdown.classList.contains('open')) closeOverlay();
-    });
 
     // Positioning updates
     window.addEventListener('resize', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); });
     window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
     positionOverlay();
 
-    // Handle category button clicks
-    categoryBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Remove active from all buttons
-        categoryBtns.forEach(b => b.classList.remove('active'));
+    // Handle button clicks with event delegation (for cloned elements too)
+    document.addEventListener('click', (e) => {
+      // Handle category button clicks
+      if (e.target.classList.contains('category-btn')) {
+        e.preventDefault();
 
-        // Add active to clicked button
-        btn.classList.add('active');
+        // Update active state within the same container
+        const container = e.target.closest('.category-buttons');
+        if (container) {
+          container.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+          });
+          e.target.classList.add('active');
+        }
 
         // Get category and perform search
-        const category = btn.getAttribute('data-category');
+        const category = e.target.getAttribute('data-category');
         if (category && category !== 'all') {
           // Navigate to results with category filter
           window.location.href = `/results?type=category&value=${encodeURIComponent(category)}`;
@@ -741,18 +745,40 @@ function formatDate(dateString: string): string {
           // Show all results
           window.location.href = '/results';
         }
-      });
-    });
+        return;
+      }
 
-    // Handle keyword tag clicks
-    keywordTags.forEach(tag => {
-      tag.addEventListener('click', () => {
-        const keyword = tag.getAttribute('data-keyword');
+      // Handle keyword tag clicks
+      if (e.target.classList.contains('keyword-tag')) {
+        e.preventDefault();
+
+        // Update active state within the same container
+        const container = e.target.closest('.keyword-tags');
+        if (container) {
+          container.querySelectorAll('.keyword-tag').forEach(tag => {
+            tag.classList.remove('active');
+          });
+          e.target.classList.add('active');
+        }
+
+        // Navigate to search results for this keyword
+        const keyword = e.target.getAttribute('data-keyword');
         if (keyword) {
-          // Navigate to search results for this keyword
           window.location.href = `/results?q=${encodeURIComponent(keyword)}`;
         }
-      });
+        return;
+      }
+
+      // Handle featured card clicks (already have href, just for consistency)
+      if (e.target.closest('.featured-card')) {
+        // Featured cards already have proper href attributes, no additional handling needed
+        return;
+      }
+
+      // Outside click handling
+      const tgt = e.target;
+      const inside = tgt && tgt.closest && (tgt.closest('.header-tabs-container') || tgt.closest('.results-dropdown-content'));
+      if (!inside && dropdown && dropdown.classList.contains('open')) closeOverlay();
     });
   });
   </script>
