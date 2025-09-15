@@ -44,7 +44,11 @@
 			"dest": "_render"
 		},
 		{
-			"src": "^/search-results/?$",
+			"src": "^/results/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/sample-blog-post/?$",
 			"dest": "_render"
 		},
 		{
