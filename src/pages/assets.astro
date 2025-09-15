@@ -321,7 +321,7 @@ import Layout from '@layouts/Layout.astro';
     border-right: none;
     color: var(--nav-text);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -355,8 +355,91 @@ import Layout from '@layouts/Layout.astro';
     box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
     z-index: 1003; /* Always highest, above sidebar */
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border-radius: 12px; /* Keep original border radius */
-    border-right: 1px solid var(--color-primary); /* Connect to sidebar */
+    border-radius: 12px 0 0 12px; /* Remove right-side rounded corners to attach to sidebar */
+    border-right: none; /* Remove right border for seamless connection */
+  }
+
+  /* Sidebar slides in from off-screen with the tab */
+  .slide-out-card {
+    position: fixed;
+    top: calc(4rem + 80px); /* Start 30px higher to prevent top tab overlap */
+    right: -380px; /* Hidden off-screen initially */
+    width: 380px;
+    height: 520px; /* Increase height to accommodate higher position */
+    background: var(--brand-background);
+    border: 1px solid var(--nav-border);
+    border-radius: 16px 0 0 16px;
+    border-right: none;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1001; /* Under tabs but above page content */
+    opacity: 1; /* Always visible when in view */
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(0);
+  }
+
+  .slide-out-card.open {
+    right: 0; /* Slides to screen edge */
+    pointer-events: auto;
+  }
+
+  .card-content {
+    padding: var(--space-lg);
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .card-content h3 {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
+  .filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-base);
+  }
+
+  .filter-option:hover {
+    background: var(--color-background);
+  }
+
+  .filter-option input[type="checkbox"] {
+    margin: 0;
+  }
+
+  .filter-option label {
+    margin: 0;
+    cursor: pointer;
+    font-size: var(--text-xs);
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .slide-out-card {
+      top: calc(2.5rem + 80px); /* Same higher position as desktop */
+      right: -340px; /* Hidden off-screen on mobile too */
+      width: 340px; /* Larger width for mobile */
+      height: 480px; /* Taller height for mobile */
+    }
+
+    .pill-button.active {
+      transform: translateX(-340px); /* Move exactly mobile sidebar width to align left edges */
+    }
   }
 
   @media (max-width: 768px) {
@@ -1167,5 +1250,132 @@ import Layout from '@layouts/Layout.astro';
     });
     window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
     positionOverlay();
+
+    // Slide-out pill navigation functionality
+    const slideOutCard = document.getElementById('slideOutCard');
+    const pillButtons = document.querySelectorAll('.pill-button');
+    let activeButton = null;
+
+    // Content for each filter type
+    const filterContent = {
+      category: `
+        <h3>Asset Categories</h3>
+        <div class="filter-options">
+          <div class="filter-option">
+            <input type="checkbox" id="templates" name="category" value="templates">
+            <label for="templates">Templates</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="checklists" name="category" value="checklists">
+            <label for="checklists">Checklists</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="guides" name="category" value="guides">
+            <label for="guides">Guides</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="tools" name="category" value="tools">
+            <label for="tools">Tools</label>
+          </div>
+        </div>
+      `,
+      featured: `
+        <h3>Featured Assets</h3>
+        <div class="filter-options">
+          <div class="filter-option">
+            <input type="checkbox" id="recent" name="featured" value="recent">
+            <label for="recent">Recent Uploads</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="popular" name="featured" value="popular">
+            <label for="popular">Most Downloaded</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="premium" name="featured" value="premium">
+            <label for="premium">Premium Assets</label>
+          </div>
+        </div>
+      `,
+      keywords: `
+        <h3>Popular Keywords</h3>
+        <div class="filter-options">
+          <div class="filter-option">
+            <input type="checkbox" id="business" name="keywords" value="business">
+            <label for="business">Business</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="design" name="keywords" value="design">
+            <label for="design">Design</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="marketing" name="keywords" value="marketing">
+            <label for="marketing">Marketing</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="development" name="keywords" value="development">
+            <label for="development">Development</label>
+          </div>
+        </div>
+      `
+    };
+
+    pillButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const filter = button.dataset.filter;
+
+        // If clicking the same button, close it
+        if (activeButton === button) {
+          closeSlideOut();
+          return;
+        }
+
+        // If another button is active, close it first
+        if (activeButton) {
+          activeButton.classList.remove('active');
+        }
+
+        // Activate clicked button - sidebar starts first to sync with tab
+        activeButton = button;
+
+        // Update card content
+        document.getElementById('cardContent').innerHTML = filterContent[filter] || '';
+
+        // Start sidebar first, then tab with tiny delay for perfect sync
+        slideOutCard.classList.add('open');
+
+        // Add very small delay for tab to perfectly sync with sidebar
+        requestAnimationFrame(() => {
+          button.classList.add('active');
+        });
+      });
+    });
+
+    function closeSlideOut() {
+      // Close sidebar first to compensate for browser processing lag
+      slideOutCard.classList.remove('open');
+
+      // Then immediately close tab
+      if (activeButton) {
+        activeButton.classList.remove('active');
+        activeButton = null;
+      }
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.page-nav-pills') && !e.target.closest('.slide-out-card')) {
+        closeSlideOut();
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSlideOut();
+      }
+    });
+
+    console.log('✅ Assets slide-out navigation loaded');
   });
 </script>

@@ -363,6 +363,11 @@ const posts = [
     justify-content: center;
   }
 
+  /* Define shared transition for perfect synchronization */
+  :root {
+    --slide-transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
   /* Simple top-right pill buttons */
   .page-nav-pills {
     position: fixed;
@@ -384,7 +389,7 @@ const posts = [
     margin-right: -1px;
     color: var(--nav-text);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: var(--slide-transition);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -418,18 +423,18 @@ const posts = [
     transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
     box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
     z-index: 1003; /* Always highest, above sidebar */
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border-radius: 12px; /* Keep original border radius */
-    border-right: 1px solid var(--color-primary); /* Connect to sidebar */
+    transition: var(--slide-transition);
+    border-radius: 12px 0 0 12px; /* Remove right-side rounded corners to attach to sidebar */
+    border-right: none; /* Remove right border for seamless connection */
   }
 
   /* Sidebar slides in from off-screen with the tab */
   .slide-out-card {
     position: fixed;
-    top: calc(4rem + 110px);
+    top: calc(4rem + 80px); /* Start 30px higher to prevent top tab overlap */
     right: -380px; /* Hidden off-screen initially */
     width: 380px;
-    height: 480px;
+    height: 520px; /* Increase height to accommodate higher position */
     background: var(--brand-background);
     border: 1px solid var(--nav-border);
     border-radius: 16px 0 0 16px;
@@ -440,7 +445,7 @@ const posts = [
     z-index: 1001; /* Under tabs but above page content */
     opacity: 1; /* Always visible when in view */
     pointer-events: none;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--slide-transition);
     transform: translateX(0);
   }
 
@@ -500,7 +505,7 @@ const posts = [
     }
 
     .pill-button.active {
-      transform: translateX(-280px); /* Move exactly mobile sidebar width to align left edges */
+      transform: translateX(-340px); /* Move exactly mobile sidebar width to align left edges */
     }
 
     .pill-text {
@@ -508,10 +513,10 @@ const posts = [
     }
 
     .slide-out-card {
-      top: calc(2.5rem + 110px);
-      right: -280px; /* Hidden off-screen on mobile too */
-      width: 280px;
-      height: 400px;
+      top: calc(2.5rem + 80px); /* Same higher position as desktop */
+      right: -340px; /* Hidden off-screen on mobile too */
+      width: 340px; /* Larger width for mobile */
+      height: 480px; /* Taller height for mobile */
     }
 
     .slide-out-card.open {
@@ -1198,28 +1203,30 @@ const posts = [
           activeButton.classList.remove('active');
         }
 
-        // Open new one
+        // Open new one - sidebar starts just a hair earlier to sync with tab
         activeButton = button;
-        button.classList.add('active');
 
         // Update content
         cardContent.innerHTML = filterContent[filter] || '<p>Content coming soon...</p>';
 
-        // Show slide-out card
+        // Start sidebar first, then tab with tiny delay for perfect sync
         slideOutCard.classList.add('open');
+
+        // Add very small delay for tab to perfectly sync with sidebar
+        requestAnimationFrame(() => {
+          button.classList.add('active');
+        });
       });
     });
 
     function closeSlideOut() {
-      // Start closing the sidebar immediately
+      // Close sidebar first to compensate for browser processing lag
       slideOutCard.classList.remove('open');
 
-      // Delay removing tab's active class to keep it synchronized with sidebar
+      // Then immediately close tab
       if (activeButton) {
-        setTimeout(() => {
-          activeButton.classList.remove('active');
-          activeButton = null;
-        }, 100); // Small delay to keep tab visible until sidebar clears
+        activeButton.classList.remove('active');
+        activeButton = null;
       }
     }
 
