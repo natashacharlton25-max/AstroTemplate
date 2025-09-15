@@ -37,9 +37,8 @@ import Layout from '@layouts/Layout.astro';
     </section>
 
     <!-- Assets Grid Section -->
-    <section class="assets-section">
-      <div class="container content-aligned">
-        <div class="content-sections">
+    <section class="assets-section content-aligned">
+      <div class="content-sections">
           <!-- Category Filter Widget -->
           <div class="content-section widget" id="categoryWidget" style="display: none;">
             <h3>Filter by Category:</h3>
@@ -95,7 +94,7 @@ import Layout from '@layouts/Layout.astro';
           </div>
         </div>
 
-        <div class="assets-grid">
+      <div class="assets-grid">
           <!-- Template Assets -->
           <div class="asset-card" data-category="templates" data-keywords="accessibility,design,templates,wcag">
             <div class="asset-icon">
@@ -288,7 +287,6 @@ import Layout from '@layouts/Layout.astro';
               </div>
             </div>
           </div>
-        </div>
       </div>
     </section>
   </main>
@@ -299,7 +297,27 @@ import Layout from '@layouts/Layout.astro';
     min-height: calc(100vh - 120px);
   }
 
-  .page-header { overflow: visible !important; padding-bottom: 3rem !important; }
+  .page-header { overflow: visible !important; /* Padding now handled by global unified styles */ }
+
+  /* Protect pill navigation from footer reveal effects */
+  body.tight .page-nav-pills,
+  body.tight .slide-out-card {
+    position: fixed !important;
+    z-index: 999 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+
+  /* Ensure pinned pills stay visible during footer reveal */
+  body.tight .slide-out-card.open {
+    right: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
 
   /* Simple top-right pill buttons */
   .page-nav-pills {
@@ -310,6 +328,7 @@ import Layout from '@layouts/Layout.astro';
     display: flex;
     gap: 4px;
     flex-direction: column;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   }
 
   .pill-button {
@@ -376,7 +395,7 @@ import Layout from '@layouts/Layout.astro';
     z-index: 1001; /* Under tabs but above page content */
     opacity: 1; /* Always visible when in view */
     pointer-events: none;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     transform: translateX(0);
   }
 
@@ -941,8 +960,6 @@ import Layout from '@layouts/Layout.astro';
 
     .assets-grid {
       grid-template-columns: 1fr;
-      padding: 0 var(--space-xl) !important;
-      margin: 0 !important;
     }
 
     .asset-meta {
@@ -1375,6 +1392,65 @@ import Layout from '@layouts/Layout.astro';
         closeSlideOut();
       }
     });
+
+    // Add scroll behavior - hide on scroll down, show on scroll up
+    let lastScrollY = window.scrollY;
+    let isScrollingDown = false;
+    let scrollThreshold = 50;
+
+    function handleScroll() {
+      const pillNav = document.querySelector('.page-nav-pills');
+      const slideOutCard = document.querySelector('.slide-out-card');
+
+      // Check if sidebar is open - if so, pills are in "pinned" state
+      const sidebarIsOpen = slideOutCard && slideOutCard.classList.contains('open');
+
+      // If sidebar is open (pinned state), completely skip scroll hide logic
+      if (sidebarIsOpen) {
+        console.log('📌 Pills are pinned (sidebar open) - staying visible');
+        // Ensure both pills and sidebar stay visible
+        pillNav.style.opacity = '1';
+        pillNav.style.visibility = 'visible';
+        pillNav.style.transform = 'translateX(0)';
+        slideOutCard.style.opacity = '1';
+        slideOutCard.style.visibility = 'visible';
+        slideOutCard.style.transform = 'translateX(0)';
+        lastScrollY = window.scrollY;
+        return;
+      }
+
+      // Only run scroll logic if not pinned
+      const currentScrollY = window.scrollY;
+      const scrollDifference = Math.abs(currentScrollY - lastScrollY);
+
+      // Only trigger if scroll difference is significant
+      if (scrollDifference < scrollThreshold) return;
+
+      isScrollingDown = currentScrollY > lastScrollY;
+
+      if (isScrollingDown) {
+        // Hide pill buttons when scrolling down (only when not pinned)
+        console.log('📜⬇️ Hiding pills on scroll down');
+        pillNav.style.opacity = '0';
+        pillNav.style.visibility = 'hidden';
+        pillNav.style.transform = 'translateX(100px)';
+      } else {
+        // Show pill buttons when scrolling up
+        console.log('📜⬆️ Showing pills on scroll up');
+        pillNav.style.opacity = '1';
+        pillNav.style.visibility = 'visible';
+        pillNav.style.transform = 'translateX(0)';
+      }
+
+      lastScrollY = currentScrollY;
+    }
+
+    // Add scroll listener with throttling
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(handleScroll, 10);
+    }, { passive: true });
 
     console.log('✅ Assets slide-out navigation loaded');
   });

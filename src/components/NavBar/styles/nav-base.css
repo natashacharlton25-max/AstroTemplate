@@ -1,10 +1,10 @@
 /* Navigation Base Styles - Core positioning and structure */
 
-/* Top-Left Navigation Tab - aligned with page header text center */
+/* Top-Left Navigation Tab - centered in header red background */
 nav.nav-tab {
   position: fixed !important;
-  top: 4rem !important; /* Fine-tune to align exactly with title text */
-  left: -20px !important;
+  top: 1.5rem !important; /* Center in red header background (0.5rem padding + ~1rem for center) */
+  left: -20px !important; /* Fixed to left edge */
   z-index: 999 !important;
   display: block !important;
   pointer-events: auto !important;
@@ -48,7 +48,11 @@ nav.nav-tab {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   nav.nav-tab {
-    top: 2.25rem !important; /* Level with header title text */
-    left: -15px;
+    top: 0.25rem !important; /* Align with thinner mobile header */
+    left: -15px !important; /* Slightly less offset on mobile */
+  }
+
+  .nav-expanded {
+    left: -15px !important;
   }
 }

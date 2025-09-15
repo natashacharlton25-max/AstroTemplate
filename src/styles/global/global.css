@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Global CSS - Master stylesheet combining all base styles
+   Global CSS - Master stylesheet with centralized layout system
+   UPDATED: Mobile margins unified across all pages
    ========================================================================== */
 
 /* Import order:
@@ -27,20 +28,28 @@
 @import './layout.css';
 @import './spacing.css';
 
-/* Navigation Enhancements - handled by unified system */
+/* Centralized Layout Variables for Consistent Spacing */
+:root {
+  --nav-width: 120px;          /* width of expanded tab/nav area */
+  --nav-offset: 20px;          /* left margin for the nav block */
+  --container-padding: 2rem;   /* horizontal padding on desktop */
+  --max-content-width: 1600px; /* increased from 1400px for wider body text */
+  --mobile-margin: 1.75rem;    /* match Insights card padding on mobile */
+}
 
 /* Page Header Styles */
+section.page-header,
 .page-header {
-  background: var(--color-primary);
-  color: white;
-  padding: 3rem 0 2rem;
-  margin-bottom: 2rem;
+  background: var(--color-primary) !important;
+  color: white !important;
+  padding: 0.5rem 0 !important; /* Very thin header */
+  margin-bottom: 1rem !important;
   position: -webkit-sticky !important; /* Safari support */
   position: sticky !important; /* Sticky positioning */
   top: 0px !important; /* Stick exactly to top */
   z-index: 1100 !important; /* Above footer animation and content */
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important; /* Keep the drop shadow */
+  overflow: hidden !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   width: 100% !important;
 }
 
@@ -58,78 +67,119 @@
 .page-header-content {
   position: relative;
   z-index: 1;
-  max-width: 1400px;
+  max-width: var(--max-content-width);
   margin: 0 auto;
-  padding: 0 2rem;
-  /* Align content with nav hamburger position */
-  margin-left: calc(2rem + 40px); /* 2rem padding + ~40px for nav offset */
+  padding: 0 var(--container-padding);
+  margin-left: calc(var(--container-padding) + var(--nav-width) + var(--nav-offset));
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 60px; /* Ensure consistent height */
 }
 
+section.page-header h1,
 .page-header h1 {
-  font-size: 4rem;
-  font-weight: 200; /* Thin weight */
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin: 0;
-  line-height: 1.2;
-  color: #f5f5dc; /* Cream color */
+  flex: 1 1 auto !important;
+  max-width: calc(100% - var(--nav-width) - 2rem) !important;
+  font-size: clamp(2.5rem, 4vw, 3.5rem) !important; /* Larger desktop text */
+  font-weight: 200 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  color: #f5f5dc !important;
+  word-break: break-word !important;
 }
 
-/* Content alignment with nav */
-.content-aligned {
-  max-width: 1400px; /* Wider desktop content */
-  margin: 0 auto;
-  padding: 0 2rem;
-  /* Align content with nav hamburger position - nav width (120px) + nav left offset (20px) + padding */
-  margin-left: calc(2rem + 120px + 20px); /* 2rem padding + 120px nav width + 20px nav offset */
+/* CENTRALIZED CONTENT CONTAINER SYSTEM */
+/* Desktop Layout */
+.content-aligned,
+.main-content-wrapper,
+.ct-container,
+.services-section .container,
+.content-section .container,
+section .container,
+.page-content > section > .container,
+main .container,
+main > section .container {
+  max-width: var(--max-content-width);
+  margin-left: calc(var(--container-padding) + var(--nav-width) + var(--nav-offset));
+  margin-right: auto;
+  padding: 3rem 1.5rem; /* Match insights page: 48px top/bottom, 24px left/right */
 }
 
-.page-header-content {
-  position: relative;
-  z-index: 1;
-  max-width: 1400px; /* Wider desktop content */
-  margin: 0 auto;
-  padding: 0 2rem;
-  /* Align content with nav hamburger position - nav width (120px) + nav left offset (20px) + padding */
-  margin-left: calc(2rem + 120px + 20px); /* 2rem padding + 120px nav width + 20px nav offset */
-}
-
-/* Mobile adjustments */
+/* Mobile Layout - Clean and Simple */
 @media (max-width: 768px) {
-  .page-header-content {
-    margin-left: auto; /* Center on mobile */
-    margin-right: auto;
-    text-align: center;
-    padding: 0 1.5rem; /* More balanced mobile padding */
-  }
-
+  /* CRITICAL: Force mobile margins with extreme specificity */
+  html body main .content-aligned,
+  html body main .main-content-wrapper,
+  html body main .ct-container,
+  html body main .services-section .container,
+  html body main .content-section .container,
+  html body main section .container,
+  html body main .page-content > section > .container,
+  html body main .container,
+  html body main > section .container,
+  html body .content-aligned,
+  html body .main-content-wrapper,
+  html body .ct-container,
+  html body .services-section .container,
+  html body .content-section .container,
+  html body section .container,
+  html body .page-content > section > .container,
+  html body main .container,
+  html body main > section .container,
   .content-aligned,
-  .container.content-aligned,
-  div.content-aligned,
-  .content-section .container,
+  .main-content-wrapper,
+  .ct-container,
   .services-section .container,
-  section .container {
-    margin-left: 1.5rem !important; /* Simple left margin */
-    margin-right: 1.25rem !important; /* A touch more right margin */
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    max-width: calc(100vw - 2.75rem) !important; /* Prevent overflow with updated margins */
+  .content-section .container,
+  section .container,
+  .page-content > section > .container,
+  main .container,
+  main > section .container {
+    margin-left: 1.75rem !important;
+    margin-right: 1.75rem !important;
+    max-width: calc(100vw - 3.5rem) !important;
+    padding: 1.5rem 1rem !important; /* Match insights mobile: 24px top/bottom, 16px left/right */
+    width: auto !important;
     box-sizing: border-box !important;
   }
 
-  .page-header h1 {
-    font-size: 2.5rem;
-    letter-spacing: 0.05em;
-    white-space: normal !important; /* Allow text wrapping */
-    word-wrap: break-word !important; /* Break long words if needed */
-    overflow-wrap: break-word !important; /* Modern word breaking */
-    hyphens: auto !important; /* Add hyphens for better breaking */
-    max-width: calc(100vw - 3rem) !important; /* Constrain width to force wrapping */
-    line-height: 1.1 !important; /* Tighter line height for wrapped text */
+  /* Mobile page header */
+  section.page-header,
+  .page-header {
+    padding: 0.25rem 0 !important; /* Much thinner red background on mobile */
   }
 
-  .page-header {
-    padding: 2rem 0 1.5rem;
+  section.page-header .page-header-content,
+  .page-header-content {
+    margin-left: var(--mobile-margin) !important;
+    margin-right: var(--mobile-margin) !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    max-width: calc(100vw - calc(var(--mobile-margin) * 2)) !important;
+    min-height: 40px !important;
+    gap: 0.5rem !important;
+  }
+
+  section.page-header h1,
+  .page-header h1 {
+    flex: 1 !important;
+    font-size: 1.35rem !important; /* Mobile text size */
+    letter-spacing: 0.02em !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    padding-left: 0 !important; /* Space for nav tab */
+    color: var(--brand-background) !important;
+    text-align: center !important;
   }
 }
 
@@ -138,47 +188,3 @@ html, body {
   overflow-x: visible !important;
   height: auto !important;
 }
-
-/* No extra padding needed for sticky header */
-
-/* Additional global styles can be added below if needed */
-
-/*
-Add this script to Layout.astro or any global script file:
-
-<script>
-// Smooth header hide/show on scroll
-let lastScrollY = 0;
-let ticking = false;
-
-function updateHeader() {
-  const header = document.querySelector('.page-header');
-  const currentScrollY = window.scrollY;
-  const scrollDifference = Math.abs(currentScrollY - lastScrollY);
-
-  // Only trigger animation if scrolled more than 50px from last position
-  if (scrollDifference > 50) {
-    if (currentScrollY > lastScrollY && currentScrollY > 200) {
-      // Scrolling down and past initial threshold - hide header
-      header?.classList.add('header-hidden');
-    } else if (currentScrollY < lastScrollY) {
-      // Scrolling up - show header
-      header?.classList.remove('header-hidden');
-    }
-    lastScrollY = currentScrollY;
-  }
-
-  ticking = false;
-}
-
-function requestTick() {
-  if (!ticking) {
-    requestAnimationFrame(updateHeader);
-    ticking = true;
-  }
-}
-
-// Add scroll listener
-window.addEventListener('scroll', requestTick, { passive: true });
-</script>
-*/

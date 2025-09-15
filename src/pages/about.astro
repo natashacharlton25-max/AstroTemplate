@@ -76,10 +76,7 @@ import Layout from '@layouts/Layout.astro';
     text-align: center;
   }
 
-  .container {
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
+  /* Container styles now handled by global unified system */
 
   .hero-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -199,13 +196,15 @@ import Layout from '@layouts/Layout.astro';
       grid-template-columns: 1fr;
       gap: 2rem;
     }
-    
+
     .hero-section {
       padding: 2rem 0 3rem;
     }
-    
+
     .content-section {
       padding: 2rem 0;
     }
   }
+
+  /* Container spacing now handled by global unified system */
 </style>

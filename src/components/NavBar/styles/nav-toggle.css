@@ -8,27 +8,27 @@
   min-width: 120px !important;
   height: 48px !important;
   padding: 0 20px 0 32px !important;
-  background: var(--brand-background) !important;
+  background: var(--color-primary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 0 28px 28px 0 !important;
   border-left: none !important;
   cursor: pointer !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  color: var(--nav-text) !important;
+  color: var(--brand-background) !important;
   box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
 }
 
 .nav-toggle:hover {
-  background: var(--color-primary) !important;
-  color: var(--color-white) !important;
+  background: var(--brand-background) !important;
+  color: var(--color-primary) !important;
   box-shadow: 8px 0 24px rgba(230, 57, 97, 0.4) !important;
 }
 
 .nav-toggle.active {
-  background: var(--color-primary) !important;
-  color: var(--color-white) !important;
+  background: var(--brand-background) !important;
+  color: var(--color-primary) !important;
   box-shadow: 8px 0 24px rgba(230, 57, 97, 0.4) !important;
 }
 

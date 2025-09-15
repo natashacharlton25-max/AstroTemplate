@@ -7,11 +7,11 @@
   width: clamp(100px, 12vw, 150px) !important;
   height: 48px !important;
   padding: 0 20px 0 32px !important;
-  background: var(--brand-background) !important;
+  background: var(--color-primary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 0 28px 28px 0 !important;
   border-left: none !important;
-  color: var(--nav-text) !important;
+  color: var(--brand-background) !important;
   font-family: var(--font-nav) !important;
   font-size: 14px !important;
   font-weight: 600 !important;
@@ -29,15 +29,15 @@
 }
 
 .nav-expanded.show .nav-link:hover {
-  background: var(--color-primary) !important;
-  color: var(--color-white) !important;
+  background: var(--brand-background) !important;
+  color: var(--color-primary) !important;
   box-shadow: 12px 0 24px rgba(230, 57, 97, 0.4) !important;
   transition-delay: 0s !important;
 }
 
 .nav-link.active {
   background: var(--color-secondary) !important;
-  color: var(--color-white) !important;
+  color: var(--brand-background) !important;
   box-shadow: 4px 0 16px rgba(24, 78, 119, 0.3) !important;
 }
 
