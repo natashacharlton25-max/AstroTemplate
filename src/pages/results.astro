@@ -542,6 +542,7 @@ function formatDate(dateString: string): string {
 </Layout>
 
 <script>
+  // @ts-nocheck
   // Category button functionality and results header tabs
   document.addEventListener('DOMContentLoaded', () => {
     const categoryBtns = document.querySelectorAll('.category-btn');
@@ -570,12 +571,13 @@ function formatDate(dateString: string): string {
     }
 
     // Move real tab into overlay and restore
+    /** @type {WeakMap<HTMLElement, { parent: Node; nextSibling: ChildNode | null; placeholder: HTMLElement; widthPx: number; correctLeft?: number }>} */
     const tabHomes = new WeakMap();
-    let currentAttachedTab = null;
+    let /** @type {HTMLElement | null} */ currentAttachedTab = null;
 
-    function attachRealTab(tabEl: Element | null) {
-      if (!dropdown || !tabEl) return;
-      const tab = tabEl as HTMLElement;
+    function attachRealTab(/** @type {HTMLElement | null | undefined} */ tabEl = undefined) {
+      if (!dropdown || !(tabEl instanceof HTMLElement)) return;
+      const tab = tabEl;
       if (currentAttachedTab === tab) return;
 
       // Calculate and store the correct position BEFORE any layout changes
@@ -592,8 +594,8 @@ function formatDate(dateString: string): string {
       placeholder.style.height = `${phH}px`;
       placeholder.style.flex = `0 0 ${phW}px`;
 
-      const parent = tab.parentNode as Node;
-      const nextSibling = tab.nextSibling as ChildNode | null;
+      const parent = tab.parentNode;
+      const nextSibling = tab.nextSibling;
       tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW, correctLeft });
 
       // NOW restore the previous tab (this changes layout)
@@ -613,7 +615,7 @@ function formatDate(dateString: string): string {
       currentAttachedTab = tab;
     }
 
-    function updateAttachedTabPosition(tabEl) {
+    function updateAttachedTabPosition(/** @type {HTMLElement | null | undefined} */ tabEl = undefined) {
       const tab = tabEl || currentAttachedTab;
       if (!dropdown || !tab) return;
       const home = tabHomes.get(tab);
@@ -640,7 +642,7 @@ function formatDate(dateString: string): string {
       } catch {}
     }
 
-    function restoreRealTab(tabEl) {
+    function restoreRealTab(/** @type {HTMLElement | null | undefined} */ tabEl = undefined) {
       const tab = tabEl || currentAttachedTab;
       if (!tab) return;
       const home = tabHomes.get(tab);
@@ -682,7 +684,7 @@ function formatDate(dateString: string): string {
         dropdown.classList.remove('closing');
         dropdown.classList.remove('open');
       };
-      const onDone = (ev) => {
+      const onDone = (/** @type {TransitionEvent} */ ev) => {
         if (ev.target !== dropdown) return;
         if (ev.propertyName !== 'transform') return;
         dropdown.removeEventListener('transitionend', onDone);
@@ -693,7 +695,7 @@ function formatDate(dateString: string): string {
       const fallback = setTimeout(finalize, 1200);
     }
 
-    function toggleDropdown(widgetType) {
+    function toggleDropdown(/** @type {'searchin' | 'keywords' | 'featured'} */ widgetType) {
       if (!dropdown) return;
       const clickedTab = document.querySelector(`[data-tab="${widgetType}"]`);
       const isOpen = dropdown.classList.contains('open');
@@ -710,7 +712,8 @@ function formatDate(dateString: string): string {
       // Content
       if (dropdownWrapper) {
         dropdownWrapper.innerHTML = '';
-        let widget: Element | null = null;
+        /** @type {Element | null} */
+        let widget = null;
         if (widgetType === 'searchin') widget = searchInWidget;
         if (widgetType === 'keywords') widget = keywordsWidget;
         if (widgetType === 'featured') widget = featuredWidget;
@@ -719,7 +722,7 @@ function formatDate(dateString: string): string {
         if (widget) {
           dropdownWrapper.appendChild(widget.cloneNode(true));
           const widgetElement = dropdownWrapper.querySelector('.widget');
-          if (widgetElement) widgetElement.style.display = 'block';
+          if (widgetElement instanceof HTMLElement) widgetElement.style.display = 'block';
         }
       }
 
