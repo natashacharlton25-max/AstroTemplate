@@ -100,7 +100,6 @@ const posts = [
       <!-- Categories Widget -->
       <div class="mobile-section" id="mobileCategoriesSection" style="display: none;">
         <div class="mobile-section-content">
-          <h3>Categories</h3>
           <ul class="category-list">
             <li class="category-item">
               <a href="/results?type=category&value=Personal Growth" class="category-link">
@@ -127,7 +126,6 @@ const posts = [
       <!-- Archive Widget -->
       <div class="mobile-section" id="mobileArchiveSection" style="display: none;">
         <div class="mobile-section-content">
-          <h3>Archive</h3>
           <ul class="archive-list">
             <li class="archive-item">
               <a href="/results?type=archive&value=2025-04" class="archive-link">
@@ -160,7 +158,6 @@ const posts = [
       <!-- Tags Widget -->
       <div class="mobile-section" id="mobileTagsSection" style="display: none;">
         <div class="mobile-section-content">
-          <h3>Tags</h3>
           <div class="tag-cloud">
             <a href="/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
             <a href="/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
@@ -374,7 +371,7 @@ const posts = [
 
   /* Define shared transition for perfect synchronization */
   :root {
-    --slide-transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --slide-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   /* Protect pill navigation from footer reveal effects */
@@ -400,7 +397,7 @@ const posts = [
   /* Simple top-right pill buttons */
   .page-nav-pills {
     position: fixed;
-    top: calc(4rem + 110px);
+    top: calc(4rem + 60px); /* Moved up 50px to prevent bottom menu overlap */
     right: 0;
     z-index: 999;
     display: flex;
@@ -414,20 +411,21 @@ const posts = [
     height: 96px;
     border-radius: 12px 0 0 12px;
     background: var(--brand-background);
-    border: 1px solid var(--nav-border);
+    border: 1px solid var(--color-primary);
     border-right: none;
     margin-right: -1px;
-    color: var(--nav-text);
+    color: var(--color-secondary);
     cursor: pointer;
-    transition: var(--slide-transition);
+    transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 8px;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 28px 12px 8px; /* Extended right padding for hidden connection area */
+    box-shadow: -4px 2px 16px rgba(0, 0, 0, 0.15), -2px 0 8px rgba(230, 57, 97, 0.1), 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     text-decoration: none;
+    position: relative;
     z-index: 1002; /* Always on top, above sidebar */
   }
 
@@ -441,19 +439,20 @@ const posts = [
   }
 
   .pill-button:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.02);
     background: var(--color-primary);
-    color: var(--color-white);
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    color: var(--brand-background);
+    border-color: var(--color-primary-dark, var(--color-primary));
+    box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4);
   }
 
   .pill-button.active {
     background: var(--color-primary);
-    color: var(--color-white);
+    color: var(--brand-background);
     transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1003; /* Always highest, above sidebar */
-    transition: var(--slide-transition);
+    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 12px 0 0 12px; /* Remove right-side rounded corners to attach to sidebar */
     border-right: none; /* Remove right border for seamless connection */
   }
@@ -461,13 +460,14 @@ const posts = [
   /* Sidebar slides in from off-screen with the tab */
   .slide-out-card {
     position: fixed;
-    top: calc(4rem + 80px); /* Start 30px higher to prevent top tab overlap */
+    top: calc(4rem + 30px); /* Moved up 50px to align with tab positioning */
     right: -380px; /* Hidden off-screen initially */
     width: 380px;
     height: 520px; /* Increase height to accommodate higher position */
     background: var(--brand-background);
-    border: 1px solid var(--nav-border);
+    border: 2px solid var(--color-primary);
     border-radius: 16px 0 0 16px;
+    z-index: 1001; /* Above expanded tab but below non-expanded tabs */
     border-right: none;
     box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(16px);
@@ -544,7 +544,7 @@ const posts = [
     }
 
     .slide-out-card {
-      top: calc(2.5rem + 80px); /* Same higher position as desktop */
+      top: calc(2.5rem + 30px); /* Moved up 50px to align with tab positioning */
       right: -340px; /* Hidden off-screen on mobile too */
       width: 340px; /* Larger width for mobile */
       height: 480px; /* Taller height for mobile */
@@ -1173,32 +1173,64 @@ const posts = [
     // Sample content for each filter
     const filterContent = {
       categories: `
-        <h3>Categories</h3>
-        <div class="filter-options">
-          <button class="filter-item">Web Development</button>
-          <button class="filter-item">Design</button>
-          <button class="filter-item">JavaScript</button>
-          <button class="filter-item">CSS</button>
-          <button class="filter-item">Astro</button>
-        </div>
+        <ul class="category-list">
+          <li class="category-item">
+            <a href="/results?type=category&value=Personal Growth" class="category-link">
+              <span class="category-name">Personal Growth</span>
+              <span class="category-count">(2)</span>
+            </a>
+          </li>
+          <li class="category-item">
+            <a href="/results?type=category&value=Natural Strategies" class="category-link">
+              <span class="category-name">Natural Strategies</span>
+              <span class="category-count">(1)</span>
+            </a>
+          </li>
+          <li class="category-item">
+            <a href="/results?type=category&value=Uncategorized" class="category-link">
+              <span class="category-name">Uncategorized</span>
+              <span class="category-count">(1)</span>
+            </a>
+          </li>
+        </ul>
       `,
       archive: `
-        <h3>Archive</h3>
-        <div class="filter-options">
-          <button class="filter-item">2024</button>
-          <button class="filter-item">2023</button>
-          <button class="filter-item">2022</button>
-          <button class="filter-item">Older</button>
-        </div>
+        <ul class="archive-list">
+          <li class="archive-item">
+            <a href="/results?type=archive&value=2025-04" class="archive-link">
+              <span class="archive-period">April 2025</span>
+              <span class="archive-count">(3)</span>
+            </a>
+          </li>
+          <li class="archive-item">
+            <a href="/results?type=archive&value=2025-03" class="archive-link">
+              <span class="archive-period">March 2025</span>
+              <span class="archive-count">(0)</span>
+            </a>
+          </li>
+          <li class="archive-item">
+            <a href="/results?type=archive&value=2025-02" class="archive-link">
+              <span class="archive-period">February 2025</span>
+              <span class="archive-count">(0)</span>
+            </a>
+          </li>
+          <li class="archive-item">
+            <a href="/results?type=archive&value=2025-01" class="archive-link">
+              <span class="archive-period">January 2025</span>
+              <span class="archive-count">(0)</span>
+            </a>
+          </li>
+        </ul>
       `,
       tags: `
-        <h3>Tags</h3>
-        <div class="filter-options">
-          <button class="filter-item">#tutorial</button>
-          <button class="filter-item">#guide</button>
-          <button class="filter-item">#tips</button>
-          <button class="filter-item">#advanced</button>
-          <button class="filter-item">#beginner</button>
+        <div class="tag-cloud">
+          <a href="/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
+          <a href="/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
+          <a href="/results?type=tag&value=natural strategies" class="tag-link tag-size-medium">natural strategies</a>
+          <a href="/results?type=tag&value=wellness" class="tag-link tag-size-small">wellness</a>
+          <a href="/results?type=tag&value=meditation" class="tag-link tag-size-small">meditation</a>
+          <a href="/results?type=tag&value=healing" class="tag-link tag-size-small">healing</a>
+          <a href="/results?type=tag&value=self-care" class="tag-link tag-size-small">self-care</a>
         </div>
       `
     };
@@ -1225,21 +1257,15 @@ const posts = [
         // Update content
         cardContent.innerHTML = filterContent[filter] || '<p>Content coming soon...</p>';
 
-        // Start sidebar first, then tab with tiny delay for perfect sync
+        // Start both simultaneously for perfect sync
         slideOutCard.classList.add('open');
-
-        // Add very small delay for tab to perfectly sync with sidebar
-        requestAnimationFrame(() => {
-          button.classList.add('active');
-        });
+        button.classList.add('active');
       });
     });
 
     function closeSlideOut() {
-      // Close sidebar first to compensate for browser processing lag
+      // Close both simultaneously for perfect sync
       slideOutCard.classList.remove('open');
-
-      // Then immediately close tab
       if (activeButton) {
         activeButton.classList.remove('active');
         activeButton = null;

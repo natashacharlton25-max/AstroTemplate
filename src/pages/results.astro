@@ -192,6 +192,7 @@ const allContent = [
 // Filter content based on the filter type, value, and search query
 let filteredContent = allContent;
 let pageTitle = "All Content";
+let displayTitle = "All Content";
 
 // Apply search query filter first if present
 if (searchQuery) {
@@ -201,7 +202,8 @@ if (searchQuery) {
     item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
   );
-  pageTitle = `Search results for<br>"${searchQuery}"`;
+  pageTitle = "Search Results";
+  displayTitle = `Search results for "${searchQuery}"`;
 }
 
 // Apply additional filters if search query is not the primary filter
@@ -209,12 +211,14 @@ if (filterType === 'category' && filterValue && !searchQuery) {
   filteredContent = allContent.filter(item =>
     item.category.toLowerCase() === filterValue.toLowerCase()
   );
-  pageTitle = `Content in<br>"${filterValue}"`;
+  pageTitle = "Search Results";
+  displayTitle = `Content in "${filterValue}"`;
 } else if (filterType === 'tag' && filterValue && !searchQuery) {
   filteredContent = allContent.filter(item =>
     item.tags.some(tag => tag.toLowerCase() === filterValue.toLowerCase())
   );
-  pageTitle = `Content tagged with<br>"${filterValue}"`;
+  pageTitle = "Search Results";
+  displayTitle = `Content tagged with "${filterValue}"`;
 } else if (filterType === 'archive' && filterValue && !searchQuery) {
   const [year, month] = filterValue.split('-');
   filteredContent = allContent.filter(item => {
@@ -224,13 +228,17 @@ if (filterType === 'category' && filterValue && !searchQuery) {
     return itemYear === year && (!month || itemMonth === month);
   });
 
+  pageTitle = "Search Results";
   if (month) {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'];
-    pageTitle = `Content from ${monthNames[parseInt(month) - 1]} ${year}`;
+    displayTitle = `Content from ${monthNames[parseInt(month) - 1]} ${year}`;
   } else {
-    pageTitle = `Content from ${year}`;
+    displayTitle = `Content from ${year}`;
   }
+} else if (!searchQuery && !filterType) {
+  pageTitle = "Search";
+  displayTitle = "All Content";
 }
 
 
@@ -250,10 +258,10 @@ function formatDate(dateString: string): string {
   description={`Browse ${pageTitle.toLowerCase()} on ${siteConfig.brand.name}`}
 >
   <main class="page-content">
-    <!-- Page Header with Red Background - Title Only -->
+    <!-- Page Header with Red Background - Simple Title Only -->
     <section class="page-header">
       <div class="page-header-content">
-        <h1 set:html={pageTitle}></h1>
+        <h1>{pageTitle}</h1>
       </div>
 
       <!-- Simple top-right pill navigation -->
@@ -345,11 +353,23 @@ function formatDate(dateString: string): string {
       </div>
     </section>
 
-    <!-- Search and Navigation Section -->
-    <section class="search-nav-section">
-      <div class="container content-aligned">
-        <div class="search-nav-wrapper">
-          <!-- Search Bar -->
+    <!-- Title and Navigation Section -->
+    <section class="title-nav-section">
+      <div class="main-content-wrapper content-aligned">
+        <div class="title-nav-wrapper">
+          <!-- Left side: Title and Breadcrumb -->
+          <div class="title-breadcrumb">
+            <h2 class="display-title">{displayTitle}</h2>
+            <nav class="breadcrumb">
+              <a href="/" class="breadcrumb-link">Home</a>
+              <span class="breadcrumb-separator">›</span>
+              <a href="/insights" class="breadcrumb-link">Insights</a>
+              <span class="breadcrumb-separator">›</span>
+              <span class="breadcrumb-current">Results</span>
+            </nav>
+          </div>
+
+          <!-- Right side: Search Bar -->
           <div class="search-container">
             <form class="search-form" method="get">
               <div class="search-input-wrapper">
@@ -378,27 +398,17 @@ function formatDate(dateString: string): string {
               )}
             </form>
           </div>
-
-          <!-- Breadcrumb -->
-          <nav class="breadcrumb">
-            <a href="/" class="breadcrumb-link">Home</a>
-            <span class="breadcrumb-separator">›</span>
-            <a href="/insights" class="breadcrumb-link">Insights</a>
-            <span class="breadcrumb-separator">›</span>
-            <span class="breadcrumb-current">Results</span>
-          </nav>
         </div>
       </div>
     </section>
 
-    <!-- Content Section -->
+    <!-- Content Section - widgets for dropdown functionality only -->
     <section class="content-section">
       <div class="container content-aligned">
         <!-- Always show content sections for dropdown functionality -->
         <div class="content-sections" style="display: none;">
             <!-- Search Categories -->
             <div class="content-section widget" id="searchInWidget" style="display: none;">
-              <h3>Search in:</h3>
               <div class="category-buttons">
                 <button class="category-btn active" data-category="all">All<br>Website</button>
                 <button class="category-btn" data-category="pages">Pages</button>
@@ -410,7 +420,6 @@ function formatDate(dateString: string): string {
 
             <!-- Popular Keywords -->
             <div class="content-section widget" id="keywordsWidget" style="display: none;">
-              <h3>Popular keywords:</h3>
               <div class="keyword-tags">
                 <button class="keyword-tag" data-keyword="about">about</button>
                 <button class="keyword-tag" data-keyword="services">services</button>
@@ -428,7 +437,6 @@ function formatDate(dateString: string): string {
             <!-- Default Content -->
             <div class="content-section">
               <div class="default-content">
-                <h3>Welcome to Results</h3>
                 <p>Use the tabs above to explore different ways to find content, discover popular keywords, or browse our featured selections. You can also use the search bar to find specific information across our website.</p>
                 <p>Start by clicking on one of the navigation tabs above to see available options, or enter a search term in the search box.</p>
               </div>
@@ -437,7 +445,6 @@ function formatDate(dateString: string): string {
 
             <!-- Featured Posts (Combined Suggested & Popular) -->
             <div class="content-section widget" id="featuredWidget" style="display: none;">
-              <h3>Featured Content</h3>
               <div class="featured-cards">
                 <a href="/about" class="featured-card">
                   <div class="featured-content">
@@ -479,80 +486,58 @@ function formatDate(dateString: string): string {
             </div>
           </div>
         </div>
-
-        {filteredContent.length > 0 ? (
-          <div class="entries">
-            {filteredContent.map((item) => (
-              <article class="entry-card" itemscope itemtype="https://schema.org/BlogPosting">
-                <ul class="entry-meta" data-id="meta_1">
-                  <li class="meta-categories">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"/>
-                    </svg>
-                    <a href={`/results?type=category&value=${encodeURIComponent(item.category)}`} itemprop="about">
-                      {item.category}
-                    </a>
-                  </li>
-                  <li class="meta-date">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19 3H18V1C18 0.447715 17.5523 0 17 0C16.4477 0 16 0.447715 16 1V3H8V1C8 0.447715 7.55228 0 7 0C6.44772 0 6 0.447715 6 1V3H5C3.34315 3 2 4.34315 2 6V20C2 21.6569 3.34315 23 5 23H19C20.6569 23 22 21.6569 22 20V6C22 4.34315 20.6569 3 19 3Z"/>
-                    </svg>
-                    <time datetime={item.publishedAt} itemprop="datePublished">
-                      {formatDate(item.publishedAt)}
-                    </time>
-                  </li>
-                  <li class="meta-author">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12ZM12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z"/>
-                    </svg>
-                    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-                      <span itemprop="name">{item.author}</span>
-                    </span>
-                  </li>
-                </ul>
-
-                <h2 class="entry-title" itemprop="headline">
-                  <a href={item.url} itemprop="url">{item.title}</a>
-                </h2>
-
-                <p class="entry-excerpt" itemprop="description">
-                  {item.excerpt}
-                </p>
-
-                <ul class="entry-meta" data-id="meta_2">
-                  <li class="meta-reading-time">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13 13H8C7.45 13 7 12.55 7 12S7.45 11 8 11H11V6C11 5.45 11.45 5 12 5S13 5.45 13 6V13Z"/>
-                    </svg>
-                    <span>{item.readTime}</span>
-                  </li>
-                  <li class="meta-tags">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7V17C3 18.1 3.9 19 5 19H19C20.1 19 21 18.1 21 17V10.5C21 9.67 20.5 8.91 19.76 8.51L17.63 5.84ZM7 9H17V11H7V9Z"/>
-                    </svg>
-                    <span itemprop="keywords">
-                      {item.tags.map((tag, index) => (
-                        <span>
-                          <a href={`/results?type=tag&value=${encodeURIComponent(tag)}`}>{tag}</a>
-                          {index < item.tags.length - 1 && ', '}
-                        </span>
-                      ))}
-                    </span>
-                  </li>
-                </ul>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div class="no-results">
-            <h2>No results found</h2>
-            <p>Sorry, we couldn't find any results matching your criteria.</p>
-            <button onclick="history.back()" class="back-link">← Back</button>
-          </div>
-        )}
-
       </div>
     </section>
+
+    <!-- Results Section - Direct to page level, not in containers -->
+    <div class="main-content-wrapper content-aligned" style="padding-top: 0.25rem;">
+      {filteredContent.length > 0 ? (
+        <div class="entries">
+          {filteredContent.map((item) => (
+            <article class="entry-card" itemscope itemtype="https://schema.org/BlogPosting">
+              <div class="card-header">
+                <div class="meta-categories">
+                  <a href={`/results?type=category&value=${encodeURIComponent(item.category)}`} class="category-pill" itemprop="about">
+                    {item.category}
+                  </a>
+                </div>
+                <div class="meta-date">
+                  <time datetime={item.publishedAt} itemprop="datePublished">
+                    {formatDate(item.publishedAt)}
+                  </time>
+                </div>
+              </div>
+
+              <h2 class="entry-title" itemprop="headline">
+                <a href={item.url} itemprop="url">{item.title}</a>
+              </h2>
+
+              <p class="entry-excerpt" itemprop="description">
+                {item.excerpt}
+              </p>
+
+              <div class="card-footer">
+                <div class="meta-tags">
+                  <div class="tags-container">
+                    {item.tags.map((tag) => (
+                      <a href={`/results?type=tag&value=${encodeURIComponent(tag)}`} class="tag-pill" itemprop="keywords">
+                        {tag}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="no-results">
+          <h2>No results found</h2>
+          <p>Sorry, we couldn't find any results matching your criteria.</p>
+          <button onclick="history.back()" class="back-link">← Back</button>
+        </div>
+      )}
+    </div>
   </main>
 </Layout>
 
@@ -775,7 +760,7 @@ function formatDate(dateString: string): string {
       // Update breakpoint state
       wasDesktop = isNowDesktop;
     });
-    window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
+    window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(currentAttachedTab); }, { passive: true });
     positionOverlay();
 
     // Handle button clicks with event delegation (for cloned elements too)
@@ -846,62 +831,66 @@ function formatDate(dateString: string): string {
     // Content for each filter type
     const filterContent = {
       categories: `
-        <h3>Search Categories</h3>
-        <div class="filter-options">
-          <div class="filter-option">
-            <input type="checkbox" id="blog" name="categories" value="blog">
-            <label for="blog">Blog Posts</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="pages" name="categories" value="pages">
-            <label for="pages">Pages</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="projects" name="categories" value="projects">
-            <label for="projects">Projects</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="resources" name="categories" value="resources">
-            <label for="resources">Resources</label>
-          </div>
+        <div class="category-buttons">
+          <button class="category-btn active" data-category="all">All<br>Website</button>
+          <button class="category-btn" data-category="pages">Pages</button>
+          <button class="category-btn" data-category="blog">Blog</button>
+          <button class="category-btn" data-category="projects">Projects</button>
+          <button class="category-btn" data-category="resources">Resources</button>
         </div>
       `,
       keywords: `
-        <h3>Popular Keywords</h3>
-        <div class="filter-options">
-          <div class="filter-option">
-            <input type="checkbox" id="javascript" name="keywords" value="javascript">
-            <label for="javascript">JavaScript</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="css" name="keywords" value="css">
-            <label for="css">CSS</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="typescript" name="keywords" value="typescript">
-            <label for="typescript">TypeScript</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="astro" name="keywords" value="astro">
-            <label for="astro">Astro</label>
-          </div>
+        <div class="keyword-tags">
+          <button class="keyword-tag" data-keyword="about">about</button>
+          <button class="keyword-tag" data-keyword="services">services</button>
+          <button class="keyword-tag" data-keyword="portfolio">portfolio</button>
+          <button class="keyword-tag" data-keyword="contact">contact</button>
+          <button class="keyword-tag" data-keyword="projects">projects</button>
+          <button class="keyword-tag" data-keyword="experience">experience</button>
+          <button class="keyword-tag" data-keyword="skills">skills</button>
+          <button class="keyword-tag" data-keyword="testimonials">testimonials</button>
+          <button class="keyword-tag" data-keyword="blog">blog</button>
+          <button class="keyword-tag" data-keyword="resources">resources</button>
         </div>
       `,
       featured: `
-        <h3>Featured Content</h3>
-        <div class="filter-options">
-          <div class="filter-option">
-            <input type="checkbox" id="recent" name="featured" value="recent">
-            <label for="recent">Recent Posts</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="popular" name="featured" value="popular">
-            <label for="popular">Most Popular</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="trending" name="featured" value="trending">
-            <label for="trending">Trending</label>
-          </div>
+        <div class="featured-cards">
+          <a href="/about" class="featured-card">
+            <div class="featured-content">
+              <h4>About Our Company</h4>
+              <span class="featured-meta">Most Popular</span>
+            </div>
+          </a>
+          <a href="/contact" class="featured-card">
+            <div class="featured-content">
+              <h4>Get In Touch</h4>
+              <span class="featured-meta">Recommended</span>
+            </div>
+          </a>
+          <a href="/services" class="featured-card">
+            <div class="featured-content">
+              <h4>Our Services</h4>
+              <span class="featured-meta">Trending</span>
+            </div>
+          </a>
+          <a href="/portfolio" class="featured-card">
+            <div class="featured-content">
+              <h4>Portfolio</h4>
+              <span class="featured-meta">Showcase</span>
+            </div>
+          </a>
+          <a href="/team" class="featured-card">
+            <div class="featured-content">
+              <h4>Our Team</h4>
+              <span class="featured-meta">Meet Us</span>
+            </div>
+          </a>
+          <a href="/resources" class="featured-card">
+            <div class="featured-content">
+              <h4>Resources</h4>
+              <span class="featured-meta">Essential</span>
+            </div>
+          </a>
         </div>
       `
     };
@@ -928,21 +917,15 @@ function formatDate(dateString: string): string {
         // Update card content
         document.getElementById('cardContent').innerHTML = filterContent[filter] || '';
 
-        // Start sidebar first, then tab with tiny delay for perfect sync
+        // Start both simultaneously for perfect sync
         slideOutCard.classList.add('open');
-
-        // Add very small delay for tab to perfectly sync with sidebar
-        requestAnimationFrame(() => {
-          button.classList.add('active');
-        });
+        button.classList.add('active');
       });
     });
 
     function closeSlideOut() {
-      // Close sidebar first to compensate for browser processing lag
+      // Close both simultaneously for perfect sync
       slideOutCard.classList.remove('open');
-
-      // Then immediately close tab
       if (activeButton) {
         activeButton.classList.remove('active');
         activeButton = null;
@@ -1016,7 +999,7 @@ function formatDate(dateString: string): string {
     }
 
     // Add scroll listener with throttling
-    let scrollTimeout;
+    let scrollTimeout: number | undefined;
     window.addEventListener('scroll', () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(handleScroll, 10);
@@ -1067,7 +1050,7 @@ function formatDate(dateString: string): string {
   /* Simple top-right pill buttons */
   .page-nav-pills {
     position: fixed;
-    top: calc(4rem + 110px);
+    top: calc(4rem + 60px); /* Moved up 50px to prevent bottom menu overlap */
     right: 0;
     z-index: 999;
     display: flex;
@@ -1081,20 +1064,22 @@ function formatDate(dateString: string): string {
     height: 96px;
     border-radius: 12px 0 0 12px;
     background: var(--brand-background);
-    border: 1px solid var(--nav-border);
+    border: 1px solid var(--color-primary);
     border-right: none;
     margin-right: -1px;
-    color: var(--nav-text);
+    color: var(--color-secondary);
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 8px;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 28px 12px 8px; /* Extended right padding for hidden connection area */
+    box-shadow: -4px 2px 16px rgba(0, 0, 0, 0.15), -2px 0 8px rgba(230, 57, 97, 0.1), 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     text-decoration: none;
+    position: relative;
+    z-index: 1002;
   }
 
   .pill-text {
@@ -1107,19 +1092,20 @@ function formatDate(dateString: string): string {
   }
 
   .pill-button:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.02);
     background: var(--color-primary);
-    color: var(--color-white);
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    color: var(--brand-background);
+    border-color: var(--color-primary-dark, var(--color-primary));
+    box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4);
   }
 
   .pill-button.active {
     background: var(--color-primary);
-    color: var(--color-white);
+    color: var(--brand-background);
     transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1003; /* Always highest, above sidebar */
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 12px 0 0 12px; /* Remove right-side rounded corners to attach to sidebar */
     border-right: none; /* Remove right border for seamless connection */
   }
@@ -1127,7 +1113,7 @@ function formatDate(dateString: string): string {
   /* Sidebar slides in from off-screen with the tab */
   .slide-out-card {
     position: fixed;
-    top: calc(4rem + 80px); /* Start 30px higher to prevent top tab overlap */
+    top: calc(4rem + 30px); /* Moved up 50px to align with tab positioning */
     right: -380px; /* Hidden off-screen initially */
     width: 380px;
     height: 520px; /* Increase height to accommodate higher position */
@@ -1141,7 +1127,7 @@ function formatDate(dateString: string): string {
     z-index: 1001; /* Under tabs but above page content */
     opacity: 1; /* Always visible when in view */
     pointer-events: none;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateX(0);
   }
 
@@ -1196,7 +1182,7 @@ function formatDate(dateString: string): string {
 
   @media (max-width: 768px) {
     .slide-out-card {
-      top: calc(2.5rem + 80px); /* Same higher position as desktop */
+      top: calc(2.5rem + 30px); /* Moved up 50px to align with tab positioning */
       right: -340px; /* Hidden off-screen on mobile too */
       width: 340px; /* Larger width for mobile */
       height: 480px; /* Taller height for mobile */
@@ -1308,21 +1294,6 @@ function formatDate(dateString: string): string {
     overflow: visible;
   }
 
-  /* Search and Navigation Section */
-  .search-nav-section {
-    background: var(--color-background);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-    padding: 2rem 0;
-  }
-
-  /* Search and navigation wrapper for desktop layout */
-  .search-nav-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
 
   .breadcrumb {
     display: flex;
@@ -1349,6 +1320,33 @@ function formatDate(dateString: string): string {
   .breadcrumb-current {
     color: var(--color-text-primary);
     font-weight: 500;
+  }
+
+  /* Title and Navigation Section */
+  .title-nav-section {
+    background: var(--color-background);
+    padding: 0.25rem 0;
+  }
+
+  .title-nav-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .title-breadcrumb {
+    flex: 1;
+  }
+
+  .display-title {
+    font-size: var(--text-2xl);
+    font-weight: 300;
+    color: var(--color-secondary);
+    margin: 0 0 0.25rem 0;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* Search Bar Styles for White Background Section */
@@ -1428,13 +1426,14 @@ function formatDate(dateString: string): string {
 
   /* Content Section */
   .content-section {
-    padding: 4rem 0 2rem;
+    padding: 0.25rem 0;
   }
 
   
 
   .entries {
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-xl);
     margin-bottom: var(--space-2xl);
   }
@@ -1456,69 +1455,109 @@ function formatDate(dateString: string): string {
     border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
   }
 
-  .entry-meta {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  /* Card Header - Category left, Date right */
+  .card-header {
     display: flex;
-    gap: var(--space-md);
+    justify-content: space-between;
     align-items: center;
-  }
-
-  .entry-meta[data-id="meta_1"] {
     margin-bottom: var(--space-md);
   }
 
-  .entry-meta[data-id="meta_2"] {
+  .card-header .meta-categories,
+  .card-header .meta-date {
+    display: flex;
+    align-items: center;
+  }
+
+  .card-header .meta-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  /* Card Footer - Reading time and tags on separate lines */
+  .card-footer {
     margin-top: var(--space-lg);
   }
 
-  .entry-meta li {
+  .meta-reading-time {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
   }
 
-  .entry-meta svg {
+  .meta-reading-time svg {
     fill: currentColor;
     flex-shrink: 0;
   }
 
-  /* Category Styling with Uppercase */
-  .meta-categories a {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: var(--font-semibold);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  /* Tags Container */
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  /* Category Pill - Solid Red with Cream Font */
+  .category-pill {
+    display: inline-block;
+    background: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: var(--space-xs) var(--space-sm);
     font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brand-background);
+    text-decoration: none;
+    transition: all var(--transition-base);
   }
 
-  .meta-categories a:hover {
-    color: var(--color-secondary);
+  .category-pill:hover {
+    background: var(--color-secondary);
+    color: var(--brand-background);
+    transform: translateY(-1px);
   }
 
-  .meta-tags a {
+  /* Tag Pills - Match Category Style but Outlined */
+  .tag-pill {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-full);
+    padding: 2px var(--space-xs);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: var(--color-primary);
     text-decoration: none;
-    transition: color var(--transition-base);
+    transition: all var(--transition-base);
   }
 
-  .meta-tags a:hover {
-    color: var(--color-secondary);
+  .tag-pill:hover {
+    background: var(--color-primary);
+    color: var(--brand-background);
+    transform: translateY(-1px);
   }
+
+
 
   .entry-title {
     margin: 0 0 var(--space-md) 0;
-    font-size: var(--text-xl);
+    font-size: var(--text-2xl);
     line-height: var(--leading-tight);
   }
 
   .entry-title a {
     color: var(--color-secondary);
     text-decoration: none;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     transition: color var(--transition-base);
   }
 
@@ -1830,15 +1869,8 @@ function formatDate(dateString: string): string {
     display: inline-block;
   }
 
-  /* Mobile adjustments */
+  /* Results cards now direct to page level */
   @media (max-width: 768px) {
-    .page-header-content {
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-      padding: 0 1.5rem;
-    }
-
     .page-header h1 {
       letter-spacing: 0.05em;
       white-space: normal !important;
@@ -1906,6 +1938,30 @@ function formatDate(dateString: string): string {
 
     .search-nav-section {
       padding: 1.5rem 0; /* Reduced padding */
+    }
+
+    /* Mobile - stack layout and center title */
+    .title-nav-section {
+      padding: 1rem 0;
+    }
+
+    .title-nav-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .title-breadcrumb {
+      text-align: center;
+    }
+
+    .display-title {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .search-container {
+      max-width: 90%;
     }
 
     /* Mobile content sections */
@@ -1989,9 +2045,10 @@ function formatDate(dateString: string): string {
       padding: 2px var(--space-xs);
     }
 
-    .entry-meta {
-      flex-wrap: wrap;
-      gap: var(--space-sm);
+
+    /* Mobile - single column for entries */
+    .entries {
+      grid-template-columns: 1fr;
     }
 
   }

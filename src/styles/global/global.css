@@ -42,7 +42,7 @@ section.page-header,
 .page-header {
   background: var(--color-primary) !important;
   color: white !important;
-  padding: 0.5rem 0 !important; /* Very thin header */
+  padding: 0.5rem 0 !important; /* Desktop: Reduced padding for thinner header */
   margin-bottom: 1rem !important;
   position: -webkit-sticky !important; /* Safari support */
   position: sticky !important; /* Sticky positioning */
@@ -74,7 +74,7 @@ section.page-header,
   display: flex;
   align-items: center;
   gap: 1rem;
-  min-height: 60px; /* Ensure consistent height */
+  min-height: 50px; /* Desktop: Reduced height for thinner header */
 }
 
 section.page-header h1,
@@ -146,7 +146,7 @@ main > section .container {
     box-sizing: border-box !important;
   }
 
-  /* Mobile page header */
+  /* Mobile page header - keep thin */
   section.page-header,
   .page-header {
     padding: 0.25rem 0 !important; /* Much thinner red background on mobile */
@@ -162,7 +162,7 @@ main > section .container {
     justify-content: center !important;
     text-align: center !important;
     max-width: calc(100vw - calc(var(--mobile-margin) * 2)) !important;
-    min-height: 40px !important;
+    min-height: 40px !important; /* Mobile: Keep smaller height */
     gap: 0.5rem !important;
   }
 
@@ -187,4 +187,23 @@ main > section .container {
 html, body {
   overflow-x: visible !important;
   height: auto !important;
+}
+
+/* Hide scrollbars on desktop while keeping scroll functionality */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }

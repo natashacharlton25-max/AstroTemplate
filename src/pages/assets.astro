@@ -41,7 +41,6 @@ import Layout from '@layouts/Layout.astro';
       <div class="content-sections">
           <!-- Category Filter Widget -->
           <div class="content-section widget" id="categoryWidget" style="display: none;">
-            <h3>Filter by Category:</h3>
             <div class="category-buttons">
               <button class="category-btn active" data-category="all">All Assets</button>
               <button class="category-btn" data-category="templates">Templates</button>
@@ -53,7 +52,6 @@ import Layout from '@layouts/Layout.astro';
 
           <!-- Featured Assets Widget -->
           <div class="content-section widget" id="featuredWidget" style="display: none;">
-            <h3>Featured Downloads</h3>
             <div class="featured-cards">
               <a href="#" class="featured-card">
                 <div class="featured-content">
@@ -78,7 +76,6 @@ import Layout from '@layouts/Layout.astro';
 
           <!-- Keywords Widget -->
           <div class="content-section widget" id="keywordsWidget" style="display: none;">
-            <h3>Popular Tags:</h3>
             <div class="keyword-tags">
               <button class="keyword-tag" data-keyword="accessibility">ACCESSIBILITY</button>
               <button class="keyword-tag" data-keyword="wcag">WCAG</button>
@@ -322,7 +319,7 @@ import Layout from '@layouts/Layout.astro';
   /* Simple top-right pill buttons */
   .page-nav-pills {
     position: fixed;
-    top: calc(4rem + 110px);
+    top: calc(4rem + 60px); /* Moved up 50px to prevent bottom menu overlap */
     right: 0;
     z-index: 999;
     display: flex;
@@ -336,19 +333,21 @@ import Layout from '@layouts/Layout.astro';
     height: 96px;
     border-radius: 12px 0 0 12px;
     background: var(--brand-background);
-    border: 1px solid var(--nav-border);
+    border: 1px solid var(--color-primary);
     border-right: none;
-    color: var(--nav-text);
+    color: var(--color-secondary);
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 8px;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 28px 12px 8px; /* Extended right padding for hidden connection area */
+    box-shadow: -4px 2px 16px rgba(0, 0, 0, 0.15), -2px 0 8px rgba(230, 57, 97, 0.1), 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     text-decoration: none;
+    position: relative;
+    z-index: 1002;
   }
 
   .pill-text {
@@ -361,19 +360,20 @@ import Layout from '@layouts/Layout.astro';
   }
 
   .pill-button:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.02);
     background: var(--color-primary);
-    color: var(--color-white);
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    color: var(--brand-background);
+    border-color: var(--color-primary-dark, var(--color-primary));
+    box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4);
   }
 
   .pill-button.active {
     background: var(--color-primary);
-    color: var(--color-white);
+    color: var(--brand-background);
     transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1003; /* Always highest, above sidebar */
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 12px 0 0 12px; /* Remove right-side rounded corners to attach to sidebar */
     border-right: none; /* Remove right border for seamless connection */
   }
@@ -381,13 +381,14 @@ import Layout from '@layouts/Layout.astro';
   /* Sidebar slides in from off-screen with the tab */
   .slide-out-card {
     position: fixed;
-    top: calc(4rem + 80px); /* Start 30px higher to prevent top tab overlap */
+    top: calc(4rem + 30px); /* Moved up 50px to align with tab positioning */
     right: -380px; /* Hidden off-screen initially */
     width: 380px;
     height: 520px; /* Increase height to accommodate higher position */
     background: var(--brand-background);
-    border: 1px solid var(--nav-border);
+    border: 2px solid var(--color-primary);
     border-radius: 16px 0 0 16px;
+    z-index: 1001; /* Above expanded tab but below non-expanded tabs */
     border-right: none;
     box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(16px);
@@ -395,7 +396,7 @@ import Layout from '@layouts/Layout.astro';
     z-index: 1001; /* Under tabs but above page content */
     opacity: 1; /* Always visible when in view */
     pointer-events: none;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateX(0);
   }
 
@@ -450,7 +451,7 @@ import Layout from '@layouts/Layout.astro';
 
   @media (max-width: 768px) {
     .slide-out-card {
-      top: calc(2.5rem + 80px); /* Same higher position as desktop */
+      top: calc(2.5rem + 30px); /* Moved up 50px to align with tab positioning */
       right: -340px; /* Hidden off-screen on mobile too */
       width: 340px; /* Larger width for mobile */
       height: 480px; /* Taller height for mobile */
@@ -1273,62 +1274,46 @@ import Layout from '@layouts/Layout.astro';
     // Content for each filter type
     const filterContent = {
       category: `
-        <h3>Asset Categories</h3>
-        <div class="filter-options">
-          <div class="filter-option">
-            <input type="checkbox" id="templates" name="category" value="templates">
-            <label for="templates">Templates</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="checklists" name="category" value="checklists">
-            <label for="checklists">Checklists</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="guides" name="category" value="guides">
-            <label for="guides">Guides</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="tools" name="category" value="tools">
-            <label for="tools">Tools</label>
-          </div>
+        <div class="category-buttons">
+          <button class="category-btn active" data-category="all">All Assets</button>
+          <button class="category-btn" data-category="templates">Templates</button>
+          <button class="category-btn" data-category="checklists">Checklists</button>
+          <button class="category-btn" data-category="guides">Guides</button>
+          <button class="category-btn" data-category="tools">Tools</button>
         </div>
       `,
       featured: `
-        <h3>Featured Assets</h3>
-        <div class="filter-options">
-          <div class="filter-option">
-            <input type="checkbox" id="recent" name="featured" value="recent">
-            <label for="recent">Recent Uploads</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="popular" name="featured" value="popular">
-            <label for="popular">Most Downloaded</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="premium" name="featured" value="premium">
-            <label for="premium">Premium Assets</label>
-          </div>
+        <div class="featured-cards">
+          <a href="#" class="featured-card">
+            <div class="featured-content">
+              <h4>Design System Template</h4>
+              <span class="featured-meta">Most Popular</span>
+            </div>
+          </a>
+          <a href="#" class="featured-card">
+            <div class="featured-content">
+              <h4>WCAG Checklist</h4>
+              <span class="featured-meta">Essential</span>
+            </div>
+          </a>
+          <a href="#" class="featured-card">
+            <div class="featured-content">
+              <h4>Screen Reader Guide</h4>
+              <span class="featured-meta">New Release</span>
+            </div>
+          </a>
         </div>
       `,
       keywords: `
-        <h3>Popular Keywords</h3>
-        <div class="filter-options">
-          <div class="filter-option">
-            <input type="checkbox" id="business" name="keywords" value="business">
-            <label for="business">Business</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="design" name="keywords" value="design">
-            <label for="design">Design</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="marketing" name="keywords" value="marketing">
-            <label for="marketing">Marketing</label>
-          </div>
-          <div class="filter-option">
-            <input type="checkbox" id="development" name="keywords" value="development">
-            <label for="development">Development</label>
-          </div>
+        <div class="keyword-tags">
+          <button class="keyword-tag" data-keyword="accessibility">ACCESSIBILITY</button>
+          <button class="keyword-tag" data-keyword="wcag">WCAG</button>
+          <button class="keyword-tag" data-keyword="design">DESIGN</button>
+          <button class="keyword-tag" data-keyword="templates">TEMPLATES</button>
+          <button class="keyword-tag" data-keyword="testing">TESTING</button>
+          <button class="keyword-tag" data-keyword="mobile">MOBILE</button>
+          <button class="keyword-tag" data-keyword="forms">FORMS</button>
+          <button class="keyword-tag" data-keyword="compliance">COMPLIANCE</button>
         </div>
       `
     };
@@ -1355,21 +1340,15 @@ import Layout from '@layouts/Layout.astro';
         // Update card content
         document.getElementById('cardContent').innerHTML = filterContent[filter] || '';
 
-        // Start sidebar first, then tab with tiny delay for perfect sync
+        // Start both simultaneously for perfect sync
         slideOutCard.classList.add('open');
-
-        // Add very small delay for tab to perfectly sync with sidebar
-        requestAnimationFrame(() => {
-          button.classList.add('active');
-        });
+        button.classList.add('active');
       });
     });
 
     function closeSlideOut() {
-      // Close sidebar first to compensate for browser processing lag
+      // Close both simultaneously for perfect sync
       slideOutCard.classList.remove('open');
-
-      // Then immediately close tab
       if (activeButton) {
         activeButton.classList.remove('active');
         activeButton = null;
