@@ -54,33 +54,24 @@ const posts = [
         <h1>Insights & Articles</h1>
       </div>
 
-      <!-- Tabs hanging from header bottom -->
-      <div class="header-tabs-container">
-        <nav class="insights-nav-tabs" aria-label="Insights navigation">
-        <button class="insights-nav-tab" data-tab="categories" aria-label="Categories">
-          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7M3 7L12 2L21 7M3 7L12 12L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 12V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Categories
+      <!-- Simple top-right pill navigation -->
+      <div class="page-nav-pills">
+        <button class="pill-button" data-filter="categories" aria-label="Categories">
+          <span class="pill-text">Categories</span>
         </button>
-        <button class="insights-nav-tab" data-tab="archive" aria-label="Archive">
-          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M3 4V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V8L15 2H5C3.89543 2 3 2.89543 3 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M9 13H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M9 17H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Archive
+        <button class="pill-button" data-filter="archive" aria-label="Archive">
+          <span class="pill-text">Archive</span>
         </button>
-        <button class="insights-nav-tab" data-tab="tags" aria-label="Tags">
-          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M20.59 13.41L13.42 20.58C13.05 20.95 12.55 21.16 12.02 21.16C11.49 21.16 10.99 20.95 10.62 20.58L2 12V2H12L20.59 10.59C20.96 10.96 21.16 11.46 21.16 11.99C21.16 12.52 20.96 13.02 20.59 13.39V13.41Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M7 7H7.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Tags
+        <button class="pill-button" data-filter="tags" aria-label="Tags">
+          <span class="pill-text">Tags</span>
         </button>
-        </nav>
+      </div>
+
+      <!-- Slide-out card that follows the button -->
+      <div class="slide-out-card" id="slideOutCard">
+        <div class="card-content" id="cardContent">
+          <!-- Content will be loaded here based on selected filter -->
+        </div>
       </div>
     </section>
 
@@ -88,6 +79,90 @@ const posts = [
     <section class="header-dropdown-content" id="headerDropdownContent">
       <div class="dropdown-content-wrapper">
         <!-- Content will be populated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- Mobile Collapsible Content Area -->
+    <section class="mobile-collapsible-content" id="mobileCollapsibleContent">
+      <!-- Categories Widget -->
+      <div class="mobile-section" id="mobileCategoriesSection" style="display: none;">
+        <div class="mobile-section-content">
+          <h3>Categories</h3>
+          <ul class="category-list">
+            <li class="category-item">
+              <a href="/results?type=category&value=Personal Growth" class="category-link">
+                <span class="category-name">Personal Growth</span>
+                <span class="category-count">(2)</span>
+              </a>
+            </li>
+            <li class="category-item">
+              <a href="/results?type=category&value=Natural Strategies" class="category-link">
+                <span class="category-name">Natural Strategies</span>
+                <span class="category-count">(1)</span>
+              </a>
+            </li>
+            <li class="category-item">
+              <a href="/results?type=category&value=Uncategorized" class="category-link">
+                <span class="category-name">Uncategorized</span>
+                <span class="category-count">(1)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Archive Widget -->
+      <div class="mobile-section" id="mobileArchiveSection" style="display: none;">
+        <div class="mobile-section-content">
+          <h3>Archive</h3>
+          <ul class="archive-list">
+            <li class="archive-item">
+              <a href="/results?type=archive&value=2025-04" class="archive-link">
+                <span class="archive-period">April 2025</span>
+                <span class="archive-count">(3)</span>
+              </a>
+            </li>
+            <li class="archive-item">
+              <a href="/results?type=archive&value=2025-03" class="archive-link">
+                <span class="archive-period">March 2025</span>
+                <span class="archive-count">(0)</span>
+              </a>
+            </li>
+            <li class="archive-item">
+              <a href="/results?type=archive&value=2025-02" class="archive-link">
+                <span class="archive-period">February 2025</span>
+                <span class="archive-count">(0)</span>
+              </a>
+            </li>
+            <li class="archive-item">
+              <a href="/results?type=archive&value=2025-01" class="archive-link">
+                <span class="archive-period">January 2025</span>
+                <span class="archive-count">(0)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tags Widget -->
+      <div class="mobile-section" id="mobileTagsSection" style="display: none;">
+        <div class="mobile-section-content">
+          <h3>Tags</h3>
+          <div class="tag-cloud">
+            <a href="/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
+            <a href="/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
+            <a href="/results?type=tag&value=natural strategies" class="tag-link tag-size-medium">natural strategies</a>
+            <a href="/results?type=tag&value=wellness" class="tag-link tag-size-small">wellness</a>
+            <a href="/results?type=tag&value=meditation" class="tag-link tag-size-small">meditation</a>
+            <a href="/results?type=tag&value=lifestyle" class="tag-link tag-size-large">lifestyle</a>
+            <a href="/results?type=tag&value=digital detox" class="tag-link tag-size-small">digital detox</a>
+            <a href="/results?type=tag&value=self care" class="tag-link tag-size-medium">self care</a>
+            <a href="/results?type=tag&value=balance" class="tag-link tag-size-small">balance</a>
+            <a href="/results?type=tag&value=productivity" class="tag-link tag-size-small">productivity</a>
+            <a href="/results?type=tag&value=habits" class="tag-link tag-size-medium">habits</a>
+            <a href="/results?type=tag&value=inspiration" class="tag-link tag-size-small">inspiration</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -288,56 +363,164 @@ const posts = [
     justify-content: center;
   }
 
-  /* Header tabs container - positioned to hang from red header */
-  .header-tabs-container {
-    position: absolute;
-    top: 100%; /* Position at the very bottom of the red header */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 999; /* Lower than header to appear underneath */
-    /* Remove background - tabs should appear to hang from header */
-  }
-
-  .insights-nav-tabs {
+  /* Simple top-right pill buttons */
+  .page-nav-pills {
+    position: fixed;
+    top: calc(4rem + 110px);
+    right: 0;
+    z-index: 999;
     display: flex;
     gap: 4px;
-    align-items: flex-end;
+    flex-direction: column;
   }
 
-  /* Physical tab styling - cream-filled hanging tabs */
-  .insights-nav-tab {
+  .pill-button {
+    width: 48px;
+    height: 96px;
+    border-radius: 12px 0 0 12px;
+    background: var(--brand-background);
+    border: 1px solid var(--nav-border);
+    border-right: none;
+    margin-right: -1px;
+    color: var(--nav-text);
+    cursor: pointer;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-sm) var(--space-lg);
-    background: var(--brand-background); /* brand cream */
-    border: 2px solid var(--nav-border);
-    border-top: none; /* No top border for hanging tab effect */
-    border-radius: 0 0 var(--radius-md) var(--radius-md); /* Flat top, rounded bottom */
-    color: var(--color-secondary); /* Using a dark color for readability */
-    font-weight: 500;
-    font-size: var(--text-sm);
-    cursor: pointer;
-    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    padding: 12px 8px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-decoration: none;
+    z-index: 1002; /* Always on top, above sidebar */
+  }
+
+  .pill-text {
+    transform: rotate(-90deg);
     white-space: nowrap;
+    font-size: var(--text-xs);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .insights-nav-tab:hover {
-    background: var(--color-primary); /* solid red */
+  .pill-button:hover {
+    transform: translateY(-2px);
+    background: var(--color-primary);
     color: var(--color-white);
-    box-shadow: none; /* no glow */
+    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
   }
 
-  /* Combined active state */
-  .insights-nav-tab.active {
+  .pill-button.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
+    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    z-index: 1003; /* Always highest, above sidebar */
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 12px; /* Keep original border radius */
+    border-right: 1px solid var(--color-primary); /* Connect to sidebar */
+  }
+
+  /* Sidebar slides in from off-screen with the tab */
+  .slide-out-card {
+    position: fixed;
+    top: calc(4rem + 110px);
+    right: -380px; /* Hidden off-screen initially */
+    width: 380px;
+    height: 480px;
+    background: var(--brand-background);
+    border: 1px solid var(--nav-border);
+    border-radius: 16px 0 0 16px;
+    border-right: none;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1001; /* Under tabs but above page content */
+    opacity: 1; /* Always visible when in view */
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(0);
+  }
+
+  .slide-out-card.open {
+    right: 0; /* Slides to screen edge */
+    pointer-events: auto;
+  }
+
+  .card-content {
+    padding: var(--space-lg);
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .card-content h3 {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
+  .filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .filter-item {
+    background: transparent;
+    border: 1px solid var(--nav-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-size: var(--text-xs);
+  }
+
+  .filter-item:hover {
     background: var(--color-primary);
     color: var(--color-white);
     border-color: var(--color-primary);
-    z-index: 1051; /* Above other tabs when active */
+  }
+
+  @media (max-width: 768px) {
+    .page-nav-pills {
+      top: calc(2.5rem + 110px);
+      right: 0;
+      gap: 2px;
+    }
+
+    .pill-button {
+      width: 38px;
+      height: 72px;
+      padding: 8px 6px;
+    }
+
+    .pill-button.active {
+      transform: translateX(-280px); /* Move exactly mobile sidebar width to align left edges */
+    }
+
+    .pill-text {
+      font-size: 9px;
+    }
+
+    .slide-out-card {
+      top: calc(2.5rem + 110px);
+      right: -280px; /* Hidden off-screen on mobile too */
+      width: 280px;
+      height: 400px;
+    }
+
+    .slide-out-card.open {
+      right: 0; /* Slides to screen edge on mobile */
+    }
+
+    .card-content {
+      padding: var(--space-md);
+    }
   }
 
   /* Dropdown card overlay with glide-down animation */
@@ -845,6 +1028,9 @@ const posts = [
       padding: 0 var(--space-sm);
       scrollbar-width: none;
       -ms-overflow-style: none;
+      width: auto !important;
+      min-width: auto !important;
+      max-width: none !important;
     }
 
     .insights-nav-tabs::-webkit-scrollbar {
@@ -893,6 +1079,57 @@ const posts = [
     }
   }
 
+  /* Mobile Collapsible Content */
+  .mobile-collapsible-content {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .mobile-collapsible-content {
+      display: block;
+      background: var(--color-background);
+      border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    }
+
+    .mobile-section {
+      border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+    }
+
+    .mobile-section:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-section-content {
+      padding: var(--space-lg) var(--space-md);
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mobile-section-content h3 {
+      color: var(--color-secondary);
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      margin: 0 0 var(--space-md) 0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Hide desktop dropdown on mobile */
+    .header-dropdown-content {
+      display: none !important;
+    }
+  }
+
   /* Mobile adjustments - More specific override for insights */
   @media (max-width: 768px) {
     main .main-content-wrapper.content-aligned {
@@ -906,277 +1143,100 @@ const posts = [
 </style>
 
 <script>
-  // Insights navigation is now handled by unified navigation system
-  // No need for separate registration
-
-  // Header dropdown functionality
   document.addEventListener('DOMContentLoaded', () => {
-    const navTabs = document.querySelectorAll('.insights-nav-tab');
-    const dropdown = document.getElementById('headerDropdownContent');
-    const dropdownWrapper = document.querySelector('.dropdown-content-wrapper');
-    const closeBtn = document.getElementById('sidebarClose');
-    const sidebarTitle = document.getElementById('sidebarTitle');
-    const pageHeader = document.querySelector('.page-header');
-    const tabsRow = document.querySelector('.insights-nav-tabs');
+    const pillButtons = document.querySelectorAll('.pill-button');
+    const slideOutCard = document.getElementById('slideOutCard');
+    const cardContent = document.getElementById('cardContent');
+    let activeButton = null;
 
-    // Widget elements
-    const categoriesWidget = document.getElementById('categoriesWidget');
-    const archiveWidget = document.getElementById('archiveWidget');
-    const tagsWidget = document.getElementById('tagsWidget');
-
-    // Widget titles
-    const widgetTitles = {
-      'categories': 'Categories',
-      'archive': 'Archive',
-      'tags': 'Tags'
+    // Sample content for each filter
+    const filterContent = {
+      categories: `
+        <h3>Categories</h3>
+        <div class="filter-options">
+          <button class="filter-item">Web Development</button>
+          <button class="filter-item">Design</button>
+          <button class="filter-item">JavaScript</button>
+          <button class="filter-item">CSS</button>
+          <button class="filter-item">Astro</button>
+        </div>
+      `,
+      archive: `
+        <h3>Archive</h3>
+        <div class="filter-options">
+          <button class="filter-item">2024</button>
+          <button class="filter-item">2023</button>
+          <button class="filter-item">2022</button>
+          <button class="filter-item">Older</button>
+        </div>
+      `,
+      tags: `
+        <h3>Tags</h3>
+        <div class="filter-options">
+          <button class="filter-item">#tutorial</button>
+          <button class="filter-item">#guide</button>
+          <button class="filter-item">#tips</button>
+          <button class="filter-item">#advanced</button>
+          <button class="filter-item">#beginner</button>
+        </div>
+      `
     };
 
-    // Compute overlay top to stick under header
-    function positionOverlay() {
-      if (!dropdown || !pageHeader) return;
-      const rect = pageHeader.getBoundingClientRect();
-      dropdown.style.setProperty('--dropdown-top', `${rect.bottom}px`);
-    }
-
-    // Move the REAL tab into the overlay and restore after close
-    const tabHomes = new WeakMap();
-    let currentAttachedTab = null;
-    let tabsRowLocked = false;
-
-    function lockTabsRow() {
-      if (!tabsRow || tabsRowLocked) return;
-      const rect = tabsRow.getBoundingClientRect();
-      const widthPx = Math.round(rect.width * 2) / 2; // snap to 0.5px
-      tabsRow.style.width = `${widthPx}px`;
-      tabsRow.style.minWidth = `${widthPx}px`;
-      tabsRow.style.maxWidth = `${widthPx}px`;
-      tabsRowLocked = true;
-    }
-
-    function unlockTabsRow() {
-      if (!tabsRow || !tabsRowLocked) return;
-      tabsRow.style.removeProperty('width');
-      tabsRow.style.removeProperty('min-width');
-      tabsRow.style.removeProperty('max-width');
-      tabsRowLocked = false;
-    }
-
-    function attachRealTab(tabEl) {
-      if (!dropdown || !tabEl) return;
-      const tab = tabEl;
-      if (currentAttachedTab === tab) return;
-
-      // Calculate and store the correct position BEFORE any layout changes
-      const rect = tab.getBoundingClientRect();
-      const ddRect = dropdown.getBoundingClientRect();
-      const correctLeft = rect.left - ddRect.left + rect.width / 2;
-
-      const phW = Math.round(rect.width);
-      const phH = Math.round(rect.height);
-      const placeholder = document.createElement('span');
-      placeholder.className = 'tab-placeholder';
-      placeholder.style.display = 'inline-flex';
-      placeholder.style.width = `${phW}px`;
-      placeholder.style.height = `${phH}px`;
-      placeholder.style.flex = `0 0 ${phW}px`;
-
-      const parent = tab.parentNode;
-      const nextSibling = tab.nextSibling;
-      tabHomes.set(tab, { parent, nextSibling, placeholder, widthPx: phW, correctLeft });
-
-      // NOW restore the previous tab (this changes layout)
-      if (currentAttachedTab && currentAttachedTab !== tab) {
-        restoreRealTab(currentAttachedTab);
-      }
-
-      // Insert placeholder and attach new tab
-      parent.insertBefore(placeholder, tab);
-      dropdown.appendChild(tab);
-      tab.classList.add('attached-tab');
-      tab.style.pointerEvents = 'auto';
-      tab.style.width = `${phW}px`;
-      tab.style.flex = `0 0 ${phW}px`;
-
-      updateAttachedTabPosition(tab);
-      currentAttachedTab = tab;
-    }
-
-    function updateAttachedTabPosition(tabEl) {
-      const tab = tabEl || currentAttachedTab;
-      if (!dropdown || !tab) return;
-      const home = tabHomes.get(tab);
-      if (!home) return;
-      try {
-        const ddRect = dropdown.getBoundingClientRect();
-
-        // Use the stored correct position if available
-        let rawLeft;
-        if (home.correctLeft !== undefined) {
-          rawLeft = home.correctLeft;
-        } else {
-          // Fallback to placeholder position
-          const phRect = home.placeholder.getBoundingClientRect();
-          rawLeft = phRect.left - ddRect.left + phRect.width / 2;
-        }
-
-        const tabWidth = tab.offsetWidth || 100;
-        const minLeft = tabWidth / 2;
-        const maxLeft = ddRect.width - tabWidth / 2;
-        const constrainedLeft = Math.max(minLeft, Math.min(maxLeft, rawLeft));
-        const left = Math.round(constrainedLeft);
-        dropdown.style.setProperty('--attached-tab-left', `${left}px`);
-      } catch {}
-    }
-
-    function restoreRealTab(tabEl) {
-      const tab = tabEl || currentAttachedTab;
-      if (!tab) return;
-      const home = tabHomes.get(tab);
-      if (!home) return;
-      // Temporarily disable transitions to avoid a "click" snap when restoring
-      const prevTransition = tab.style.transition;
-      tab.style.transition = 'none';
-      tab.classList.remove('attached-tab');
-      tab.style.removeProperty('pointer-events');
-      const { parent, nextSibling, placeholder, widthPx } = home;
-      // Keep width locked during the swap back into header
-      tab.style.width = `${widthPx}px`;
-      tab.style.flex = `0 0 ${widthPx}px`;
-      parent.insertBefore(tab, nextSibling);
-      // Remove placeholder and release width lock on the following frames
-      requestAnimationFrame(() => {
-        placeholder.remove();
-        requestAnimationFrame(() => {
-          tab.style.removeProperty('width');
-          tab.style.removeProperty('flex');
-        });
-      });
-      // Re-enable transitions on the next frame
-      requestAnimationFrame(() => {
-        tab.style.transition = prevTransition || '';
-      });
-      tabHomes.delete(tab);
-      if (currentAttachedTab === tab) currentAttachedTab = null;
-    }
-
-    // Close overlay: slow glide up (reverse of open). Restore tab after animation.
-    let isClosing = false;
-    function closeOverlay() {
-      if (!dropdown || !dropdown.classList.contains('open') || isClosing) return;
-      isClosing = true;
-      // Ensure final alignment before starting the glide-up
-      updateAttachedTabPosition();
-      positionOverlay();
-      dropdown.classList.add('closing');
-      const finalize = () => {
-        if (currentAttachedTab) restoreRealTab(currentAttachedTab);
-        navTabs.forEach(t => t.classList.remove('active'));
-        isClosing = false;
-        dropdown.classList.remove('closing');
-        dropdown.classList.remove('open');
-        unlockTabsRow();
-      };
-      const onDone = (ev) => {
-        // Only react to the dropdown's transform transition end
-        if (ev && ev.target !== dropdown) return;
-        if (ev && ev.propertyName && ev.propertyName !== 'transform') return;
-        dropdown.removeEventListener('transitionend', onDone);
-        clearTimeout(closeTimeout);
-        finalize();
-      };
-      dropdown.addEventListener('transitionend', onDone);
-      // Fallback in case transitionend doesn't fire (edge cases)
-      const closeTimeout = setTimeout(finalize, 1200);
-    }
-
-    // Toggle dropdown with glide animation
-    function toggleDropdown(widgetType) {
-      if (!dropdown) return;
-      const clickedTab = document.querySelector(`[data-tab="${widgetType}"]`);
-      const isOpen = dropdown.classList.contains('open');
-      const isSame = clickedTab ? clickedTab.classList.contains('active') : false;
-
-      // If already open and same tab -> close
-      if (isOpen && isSame) {
-        closeOverlay();
-        return;
-      }
-
-      // Switch active
-      navTabs.forEach(t => t.classList.remove('active'));
-      if (clickedTab) clickedTab.classList.add('active');
-
-      // Populate and position
-      showDropdownContent(widgetType);
-      positionOverlay();
-      // Move the actual clicked tab into the overlay and align
-      attachRealTab(clickedTab);
-      // Freeze row width to prevent lateral nudge while animating
-      lockTabsRow();
-      // Open
-      dropdown.classList.add('open');
-    }
-
-    // Show dropdown content
-    function showDropdownContent(widgetType) {
-      // Hide all widgets
-      if (categoriesWidget) categoriesWidget.style.display = 'none';
-      if (archiveWidget) archiveWidget.style.display = 'none';
-      if (tagsWidget) tagsWidget.style.display = 'none';
-
-      // Show selected widget in dropdown
-      let widgetToShow;
-      switch(widgetType) {
-        case 'categories':
-          widgetToShow = categoriesWidget;
-          break;
-        case 'archive':
-          widgetToShow = archiveWidget;
-          break;
-        case 'tags':
-          widgetToShow = tagsWidget;
-          break;
-      }
-
-      if (widgetToShow) {
-        // Move widget content into dropdown
-        if (dropdownWrapper) {
-          dropdownWrapper.innerHTML = '';
-          dropdownWrapper.appendChild(widgetToShow.cloneNode(true));
-          const widgetElement = dropdownWrapper.querySelector('.widget');
-          if (widgetElement) {
-            widgetElement.style.display = 'block';
-          }
-        }
-      }
-    }
-
-    // Event listeners for tabs
-    navTabs.forEach(tab => {
-      tab.addEventListener('click', (e) => {
+    pillButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
         e.preventDefault();
-        const tabType = tab.getAttribute('data-tab');
-        if (tabType) {
-          toggleDropdown(tabType);
+        const filter = button.dataset.filter;
+
+        // If clicking the same button, close everything
+        if (activeButton === button) {
+          closeSlideOut();
+          return;
         }
+
+        // Close previous if open
+        if (activeButton) {
+          activeButton.classList.remove('active');
+        }
+
+        // Open new one
+        activeButton = button;
+        button.classList.add('active');
+
+        // Update content
+        cardContent.innerHTML = filterContent[filter] || '<p>Content coming soon...</p>';
+
+        // Show slide-out card
+        slideOutCard.classList.add('open');
       });
     });
 
-    // Close dropdown when clicking outside
+    function closeSlideOut() {
+      // Start closing the sidebar immediately
+      slideOutCard.classList.remove('open');
+
+      // Delay removing tab's active class to keep it synchronized with sidebar
+      if (activeButton) {
+        setTimeout(() => {
+          activeButton.classList.remove('active');
+          activeButton = null;
+        }, 100); // Small delay to keep tab visible until sidebar clears
+      }
+    }
+
+    // Close when clicking outside
     document.addEventListener('click', (e) => {
-      const tgt = e.target;
-      const inside = (tgt instanceof Element) && (tgt.closest('.header-tabs-container') || tgt.closest('.header-dropdown-content'));
-      if (!inside) {
-        if (!dropdown) return;
-        // Smooth staged close
-        if (dropdown.classList.contains('open')) closeOverlay();
+      if (!e.target.closest('.page-nav-pills') && !e.target.closest('.slide-out-card')) {
+        closeSlideOut();
       }
     });
 
-    // Keep overlay positioned on scroll/resize
-    window.addEventListener('resize', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); });
-    window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
-    // Initial position
-    positionOverlay();
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSlideOut();
+      }
+    });
+
+    console.log('✅ Slide-out pill navigation loaded');
   });
 </script>

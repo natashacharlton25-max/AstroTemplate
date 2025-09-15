@@ -256,35 +256,93 @@ function formatDate(dateString: string): string {
         <h1 set:html={pageTitle}></h1>
       </div>
 
-      <!-- Tabs hanging from header bottom -->
-      <div class="header-tabs-container">
-        <nav class="results-nav-tabs" aria-label="Results utilities">
-          <button class="results-nav-tab" data-tab="searchin" aria-label="Search in">
-            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L17 7L12 12L7 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
-              <path d="M12 12L17 17L12 22L7 17L12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
-            </svg>
-            Search In
-          </button>
-          <button class="results-nav-tab" data-tab="keywords" aria-label="Keywords">
-            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
-            </svg>
-            Keywords
-          </button>
-          <button class="results-nav-tab" data-tab="featured" aria-label="Featured posts">
-            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Featured
-          </button>
-        </nav>
+      <!-- Simple top-right pill navigation -->
+      <div class="page-nav-pills">
+        <button class="pill-button" data-filter="categories" aria-label="Search Categories">
+          <span class="pill-text">Categories</span>
+        </button>
+        <button class="pill-button" data-filter="keywords" aria-label="Keywords">
+          <span class="pill-text">Keywords</span>
+        </button>
+        <button class="pill-button" data-filter="featured" aria-label="Featured">
+          <span class="pill-text">Featured</span>
+        </button>
+      </div>
+
+      <!-- Slide-out card that follows the button -->
+      <div class="slide-out-card" id="slideOutCard">
+        <div class="card-content" id="cardContent">
+          <!-- Content will be loaded here based on selected filter -->
+        </div>
       </div>
     </section>
 
     <!-- Dropdown Content Area for results tabs -->
     <section class="results-dropdown-content" id="resultsDropdownContent">
       <div class="dropdown-content-wrapper"></div>
+    </section>
+
+    <!-- Mobile Collapsible Content Area -->
+    <section class="mobile-collapsible-content" id="mobileCollapsibleContent">
+      <!-- Search In Widget -->
+      <div class="mobile-section" id="mobileSearchInSection" style="display: none;">
+        <div class="mobile-section-content">
+          <h3>Search in:</h3>
+          <div class="category-buttons">
+            <button class="category-btn active" data-category="all">All<br>Website</button>
+            <button class="category-btn" data-category="pages">Pages</button>
+            <button class="category-btn" data-category="blog">Blog</button>
+            <button class="category-btn" data-category="projects">Projects</button>
+            <button class="category-btn" data-category="resources">Resources</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keywords Widget -->
+      <div class="mobile-section" id="mobileKeywordsSection" style="display: none;">
+        <div class="mobile-section-content">
+          <h3>Popular keywords:</h3>
+          <div class="keyword-tags">
+            <button class="keyword-tag" data-keyword="about">about</button>
+            <button class="keyword-tag" data-keyword="services">services</button>
+            <button class="keyword-tag" data-keyword="portfolio">portfolio</button>
+            <button class="keyword-tag" data-keyword="contact">contact</button>
+            <button class="keyword-tag" data-keyword="projects">projects</button>
+            <button class="keyword-tag" data-keyword="experience">experience</button>
+            <button class="keyword-tag" data-keyword="skills">skills</button>
+            <button class="keyword-tag" data-keyword="testimonials">testimonials</button>
+            <button class="keyword-tag" data-keyword="blog">blog</button>
+            <button class="keyword-tag" data-keyword="resources">resources</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Widget -->
+      <div class="mobile-section" id="mobileFeaturedSection" style="display: none;">
+        <div class="mobile-section-content">
+          <h3>Featured Content</h3>
+          <div class="featured-cards">
+            <a href="/about" class="featured-card">
+              <div class="featured-content">
+                <h4>About Our Company</h4>
+                <span class="featured-meta">Most Popular</span>
+              </div>
+            </a>
+            <a href="/contact" class="featured-card">
+              <div class="featured-content">
+                <h4>Get In Touch</h4>
+                <span class="featured-meta">Recommended</span>
+              </div>
+            </a>
+            <a href="/services" class="featured-card">
+              <div class="featured-content">
+                <h4>Our Services</h4>
+                <span class="featured-meta">Trending</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Search and Navigation Section -->
@@ -529,25 +587,6 @@ function formatDate(dateString: string): string {
     // Move real tab into overlay and restore
     const tabHomes = new WeakMap();
     let currentAttachedTab = null;
-    let tabsRowLocked = false;
-
-    function lockTabsRow() {
-      if (!tabsRow || tabsRowLocked) return;
-      const rect = (tabsRow as HTMLElement).getBoundingClientRect();
-      const widthPx = Math.round(rect.width * 2) / 2;
-      (tabsRow as HTMLElement).style.width = `${widthPx}px`;
-      (tabsRow as HTMLElement).style.minWidth = `${widthPx}px`;
-      (tabsRow as HTMLElement).style.maxWidth = `${widthPx}px`;
-      tabsRowLocked = true;
-    }
-
-    function unlockTabsRow() {
-      if (!tabsRow || !tabsRowLocked) return;
-      (tabsRow as HTMLElement).style.removeProperty('width');
-      (tabsRow as HTMLElement).style.removeProperty('min-width');
-      (tabsRow as HTMLElement).style.removeProperty('max-width');
-      tabsRowLocked = false;
-    }
 
     function attachRealTab(tabEl: Element | null) {
       if (!dropdown || !tabEl) return;
@@ -657,7 +696,6 @@ function formatDate(dateString: string): string {
         isClosing = false;
         dropdown.classList.remove('closing');
         dropdown.classList.remove('open');
-        unlockTabsRow();
       };
       const onDone = (ev) => {
         if (ev.target !== dropdown) return;
@@ -701,7 +739,6 @@ function formatDate(dateString: string): string {
       }
 
       positionOverlay();
-      lockTabsRow();
       attachRealTab(clickedTab);
       dropdown.classList.add('open');
     }
@@ -717,7 +754,27 @@ function formatDate(dateString: string): string {
 
 
     // Positioning updates
-    window.addEventListener('resize', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); });
+    // Add resize handler to unlock tabs row on mobile and auto-close dropdowns
+    let wasDesktop = window.innerWidth > 480;
+    window.addEventListener('resize', () => {
+      positionOverlay();
+      if (!isClosing) updateAttachedTabPosition();
+
+      const isNowMobile = window.innerWidth <= 480;
+      const isNowDesktop = window.innerWidth > 480;
+
+      // Auto-close dropdown when switching from desktop to mobile while extended
+      if (wasDesktop && isNowMobile && dropdown && dropdown.classList.contains('open')) {
+        // Instant close for responsive breakpoint changes
+        if (currentAttachedTab) restoreRealTab(currentAttachedTab);
+        navTabs.forEach(t => t.classList.remove('active'));
+        dropdown.classList.remove('open');
+        dropdown.classList.remove('closing');
+      }
+
+      // Update breakpoint state
+      wasDesktop = isNowDesktop;
+    });
     window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
     positionOverlay();
 
@@ -780,6 +837,130 @@ function formatDate(dateString: string): string {
       const inside = tgt && tgt.closest && (tgt.closest('.header-tabs-container') || tgt.closest('.results-dropdown-content'));
       if (!inside && dropdown && dropdown.classList.contains('open')) closeOverlay();
     });
+
+    // Slide-out pill navigation functionality
+    const slideOutCard = document.getElementById('slideOutCard');
+    const pillButtons = document.querySelectorAll('.pill-button');
+    let activeButton = null;
+
+    // Content for each filter type
+    const filterContent = {
+      categories: `
+        <h3>Search Categories</h3>
+        <div class="filter-options">
+          <div class="filter-option">
+            <input type="checkbox" id="blog" name="categories" value="blog">
+            <label for="blog">Blog Posts</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="pages" name="categories" value="pages">
+            <label for="pages">Pages</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="projects" name="categories" value="projects">
+            <label for="projects">Projects</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="resources" name="categories" value="resources">
+            <label for="resources">Resources</label>
+          </div>
+        </div>
+      `,
+      keywords: `
+        <h3>Popular Keywords</h3>
+        <div class="filter-options">
+          <div class="filter-option">
+            <input type="checkbox" id="javascript" name="keywords" value="javascript">
+            <label for="javascript">JavaScript</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="css" name="keywords" value="css">
+            <label for="css">CSS</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="typescript" name="keywords" value="typescript">
+            <label for="typescript">TypeScript</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="astro" name="keywords" value="astro">
+            <label for="astro">Astro</label>
+          </div>
+        </div>
+      `,
+      featured: `
+        <h3>Featured Content</h3>
+        <div class="filter-options">
+          <div class="filter-option">
+            <input type="checkbox" id="recent" name="featured" value="recent">
+            <label for="recent">Recent Posts</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="popular" name="featured" value="popular">
+            <label for="popular">Most Popular</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="trending" name="featured" value="trending">
+            <label for="trending">Trending</label>
+          </div>
+        </div>
+      `
+    };
+
+    pillButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const filter = button.dataset.filter;
+
+        // If clicking the same button, close it
+        if (activeButton === button) {
+          closeSlideOut();
+          return;
+        }
+
+        // If another button is active, close it first
+        if (activeButton) {
+          activeButton.classList.remove('active');
+        }
+
+        // Activate clicked button and show card
+        activeButton = button;
+        button.classList.add('active');
+
+        // Update card content
+        document.getElementById('cardContent').innerHTML = filterContent[filter] || '';
+
+        slideOutCard.classList.add('open');
+      });
+    });
+
+    function closeSlideOut() {
+      // Start closing the sidebar immediately
+      slideOutCard.classList.remove('open');
+
+      // Delay removing tab's active class to keep it synchronized with sidebar
+      if (activeButton) {
+        setTimeout(() => {
+          activeButton.classList.remove('active');
+          activeButton = null;
+        }, 100); // Small delay to keep tab visible until sidebar clears
+      }
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.page-nav-pills') && !e.target.closest('.slide-out-card')) {
+        closeSlideOut();
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSlideOut();
+      }
+    });
+
+    console.log('✅ Results slide-out navigation loaded');
   });
   </script>
 
@@ -801,54 +982,164 @@ function formatDate(dateString: string): string {
 
   .page-header { overflow: visible !important; padding-bottom: 3rem !important; }
 
-  /* Header tabs container - positioned to hang from red header */
-  .header-tabs-container {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+  /* Simple top-right pill buttons */
+  .page-nav-pills {
+    position: fixed;
+    top: calc(4rem + 110px);
+    right: 0;
     z-index: 999;
-  }
-
-  .results-nav-tabs {
     display: flex;
     gap: 4px;
-    align-items: flex-end;
+    flex-direction: column;
   }
 
-  .results-nav-tab {
+  .pill-button {
+    width: 48px;
+    height: 96px;
+    border-radius: 12px 0 0 12px;
+    background: var(--brand-background);
+    border: 1px solid var(--nav-border);
+    border-right: none;
+    margin-right: -1px;
+    color: var(--nav-text);
+    cursor: pointer;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-sm) var(--space-lg);
-    background: var(--brand-background);
-    border: 2px solid var(--nav-border);
-    border-top: none;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    color: var(--color-secondary);
-    font-weight: 500;
-    font-size: var(--text-sm);
-    cursor: pointer;
-    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    padding: 12px 8px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-decoration: none;
+  }
+
+  .pill-text {
+    transform: rotate(-90deg);
     white-space: nowrap;
+    font-size: var(--text-xs);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .results-nav-tab:hover {
+  .pill-button:hover {
+    transform: translateY(-2px);
     background: var(--color-primary);
     color: var(--color-white);
-    box-shadow: none;
+    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
   }
 
-  .results-nav-tab.active:hover {
+  .pill-button.active {
     background: var(--color-primary);
     color: var(--color-white);
+    transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
+    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    z-index: 1003; /* Always highest, above sidebar */
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 12px; /* Keep original border radius */
+    border-right: 1px solid var(--color-primary); /* Connect to sidebar */
   }
 
-  .tab-icon { flex-shrink: 0; }
+  /* Sidebar slides in from off-screen with the tab */
+  .slide-out-card {
+    position: fixed;
+    top: calc(4rem + 110px);
+    right: -380px; /* Hidden off-screen initially */
+    width: 380px;
+    height: 480px;
+    background: var(--brand-background);
+    border: 1px solid var(--nav-border);
+    border-radius: 16px 0 0 16px;
+    border-right: none;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1001; /* Under tabs but above page content */
+    opacity: 1; /* Always visible when in view */
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(0);
+  }
+
+  .slide-out-card.open {
+    right: 0; /* Slides to screen edge */
+    pointer-events: auto;
+  }
+
+  .card-content {
+    padding: var(--space-lg);
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .card-content h3 {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
+  .filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-base);
+  }
+
+  .filter-option:hover {
+    background: var(--color-background);
+  }
+
+  .filter-option input[type="checkbox"] {
+    margin: 0;
+  }
+
+  .filter-option label {
+    margin: 0;
+    cursor: pointer;
+    font-size: var(--text-xs);
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .slide-out-card {
+      top: calc(2.5rem + 110px);
+      width: 320px;
+      height: 400px;
+    }
+
+    .pill-button.active {
+      transform: translateX(-320px); /* Adjust for mobile sidebar width */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-nav-pills {
+      top: calc(2.5rem + 110px);
+      right: 0;
+      gap: 2px;
+    }
+
+    .pill-button {
+      width: 38px;
+      height: 72px;
+      padding: 8px 6px;
+    }
+
+    .pill-text {
+      font-size: 9px;
+    }
+  }
 
   /* Dropdown overlay card */
   .results-dropdown-content {
@@ -1667,6 +1958,9 @@ function formatDate(dateString: string): string {
       padding: 0 var(--space-sm);
       scrollbar-width: none;
       -ms-overflow-style: none;
+      width: auto !important;
+      min-width: auto !important;
+      max-width: none !important;
     }
 
     .results-nav-tabs::-webkit-scrollbar {

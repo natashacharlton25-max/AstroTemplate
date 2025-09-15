@@ -10,29 +10,24 @@ import Layout from '@layouts/Layout.astro';
         <h1>Download Assets</h1>
       </div>
 
-      <!-- Tabs hanging from header bottom -->
-      <div class="header-tabs-container">
-        <nav class="assets-nav-tabs" aria-label="Asset utilities">
-          <button class="assets-nav-tab" data-tab="category" aria-label="Category">
-            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M3 3H21V7H3V3ZM3 10H21V14H3V10ZM3 17H21V21H3V17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
-            </svg>
-            Category
-          </button>
-          <button class="assets-nav-tab" data-tab="featured" aria-label="Featured assets">
-            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
-            </svg>
-            Featured
-          </button>
-          <button class="assets-nav-tab" data-tab="keywords" aria-label="Keywords">
-            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M20.59 13.41L13.42 20.58C13.05 20.95 12.55 21.16 12.02 21.16C11.49 21.16 10.99 20.95 10.62 20.58L2 12V2H12L20.59 10.59C20.96 10.96 21.16 11.46 21.16 11.99C21.16 12.52 20.96 13.02 20.59 13.39V13.41Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
-              <path d="M7 7H7.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Keywords
-          </button>
-        </nav>
+      <!-- Simple top-right pill navigation -->
+      <div class="page-nav-pills">
+        <button class="pill-button" data-filter="category" aria-label="Category">
+          <span class="pill-text">Category</span>
+        </button>
+        <button class="pill-button" data-filter="featured" aria-label="Featured">
+          <span class="pill-text">Featured</span>
+        </button>
+        <button class="pill-button" data-filter="keywords" aria-label="Keywords">
+          <span class="pill-text">Keywords</span>
+        </button>
+      </div>
+
+      <!-- Slide-out card that follows the button -->
+      <div class="slide-out-card" id="slideOutCard">
+        <div class="card-content" id="cardContent">
+          <!-- Content will be loaded here based on selected filter -->
+        </div>
       </div>
     </section>
 
@@ -306,33 +301,115 @@ import Layout from '@layouts/Layout.astro';
 
   .page-header { overflow: visible !important; padding-bottom: 3rem !important; }
 
-  /* Header tabs container - positioned to hang from red header */
-  .header-tabs-container {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+  /* Simple top-right pill buttons */
+  .page-nav-pills {
+    position: fixed;
+    top: calc(4rem + 110px);
+    right: 0;
     z-index: 999;
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+  }
+
+  .pill-button {
+    width: 48px;
+    height: 96px;
+    border-radius: 12px 0 0 12px;
+    background: var(--brand-background);
+    border: 1px solid var(--nav-border);
+    border-right: none;
+    color: var(--nav-text);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-decoration: none;
+  }
+
+  .pill-text {
+    transform: rotate(-90deg);
+    white-space: nowrap;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .pill-button:hover {
+    transform: translateY(-2px);
+    background: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+  }
+
+  .pill-button.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
+    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3);
+    z-index: 1003; /* Always highest, above sidebar */
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 12px; /* Keep original border radius */
+    border-right: 1px solid var(--color-primary); /* Connect to sidebar */
+  }
+
+  @media (max-width: 768px) {
+    .page-nav-pills {
+      top: calc(2.5rem + 110px);
+      right: 0;
+      gap: 2px;
+    }
+
+    .pill-button {
+      width: 38px;
+      height: 72px;
+      padding: 8px 6px;
+    }
+
+    .pill-text {
+      font-size: 9px;
+    }
   }
 
   .assets-nav-tabs {
     display: flex;
     gap: 4px;
     align-items: flex-end;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 640px) {
+    .assets-nav-tabs {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .assets-nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .assets-nav-tab {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-sm) var(--space-lg);
+    gap: clamp(0.1rem, 0.5vw + 0.1rem, var(--space-xs));
+    padding: clamp(0.25rem, 1vw + 0.3rem, 0.75rem) clamp(0.75rem, 2vw + 0.1rem, 1.5rem);
     background: var(--brand-background);
     border: 2px solid var(--nav-border);
     border-top: none;
     border-radius: 0 0 var(--radius-md) var(--radius-md);
     color: var(--color-secondary);
     font-weight: 500;
-    font-size: var(--text-sm);
+    font-size: clamp(0.7rem, 1vw + 0.4rem, 0.875rem);
     cursor: pointer;
     transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
     position: relative;
@@ -340,6 +417,7 @@ import Layout from '@layouts/Layout.astro';
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    flex-shrink: 0;
   }
 
   .assets-nav-tab:hover {
@@ -610,6 +688,9 @@ import Layout from '@layouts/Layout.astro';
     .assets-nav-tabs {
       display: flex; flex-wrap: nowrap; justify-content: center; gap: var(--space-xs);
       overflow-x: auto; padding: 0 var(--space-sm); scrollbar-width: none; -ms-overflow-style: none;
+      width: auto !important;
+      min-width: auto !important;
+      max-width: none !important;
     }
     .assets-nav-tabs::-webkit-scrollbar { display: none; }
     .assets-nav-tab {
@@ -823,25 +904,6 @@ import Layout from '@layouts/Layout.astro';
     // Move real tab into overlay and restore
     const tabHomes = new WeakMap();
     let currentAttachedTab = null;
-    let tabsRowLocked = false;
-
-    function lockTabsRow() {
-      if (!tabsRow || tabsRowLocked) return;
-      const rect = tabsRow.getBoundingClientRect();
-      const widthPx = Math.round(rect.width * 2) / 2;
-      tabsRow.style.width = `${widthPx}px`;
-      tabsRow.style.minWidth = `${widthPx}px`;
-      tabsRow.style.maxWidth = `${widthPx}px`;
-      tabsRowLocked = true;
-    }
-
-    function unlockTabsRow() {
-      if (!tabsRow || !tabsRowLocked) return;
-      tabsRow.style.removeProperty('width');
-      tabsRow.style.removeProperty('min-width');
-      tabsRow.style.removeProperty('max-width');
-      tabsRowLocked = false;
-    }
 
     function attachRealTab(tabEl) {
       if (!dropdown || !tabEl) return;
@@ -951,7 +1013,6 @@ import Layout from '@layouts/Layout.astro';
         isClosing = false;
         dropdown.classList.remove('closing');
         dropdown.classList.remove('open');
-        unlockTabsRow();
       };
       const onDone = (ev) => {
         if (ev.target !== dropdown) return;
@@ -993,7 +1054,6 @@ import Layout from '@layouts/Layout.astro';
       }
 
       positionOverlay();
-      lockTabsRow();
       attachRealTab(clickedTab);
       dropdown.classList.add('open');
     }
@@ -1084,7 +1144,27 @@ import Layout from '@layouts/Layout.astro';
       if (!inside && dropdown && dropdown.classList.contains('open')) closeOverlay();
     });
 
-    window.addEventListener('resize', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); });
+    // Add resize handler to unlock tabs row on mobile and auto-close dropdowns
+    let wasDesktop = window.innerWidth > 480;
+    window.addEventListener('resize', () => {
+      positionOverlay();
+      if (!isClosing) updateAttachedTabPosition();
+
+      const isNowMobile = window.innerWidth <= 480;
+      const isNowDesktop = window.innerWidth > 480;
+
+      // Auto-close dropdown when switching from desktop to mobile while extended
+      if (wasDesktop && isNowMobile && dropdown && dropdown.classList.contains('open')) {
+        // Instant close for responsive breakpoint changes
+        if (currentAttachedTab) restoreRealTab(currentAttachedTab);
+        navTabs.forEach(t => t.classList.remove('active'));
+        dropdown.classList.remove('open');
+        dropdown.classList.remove('closing');
+      }
+
+      // Update breakpoint state
+      wasDesktop = isNowDesktop;
+    });
     window.addEventListener('scroll', () => { positionOverlay(); if (!isClosing) updateAttachedTabPosition(); }, { passive: true });
     positionOverlay();
   });
