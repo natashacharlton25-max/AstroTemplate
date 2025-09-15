@@ -373,7 +373,7 @@ import Layout from '@layouts/Layout.astro';
     transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
     box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1003; /* Always highest, above sidebar */
-    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.31s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 12px 0 0 12px; /* Remove right-side rounded corners to attach to sidebar */
     border-right: none; /* Remove right border for seamless connection */
   }
@@ -1269,7 +1269,7 @@ import Layout from '@layouts/Layout.astro';
     // Slide-out pill navigation functionality
     const slideOutCard = document.getElementById('slideOutCard');
     const pillButtons = document.querySelectorAll('.pill-button');
-    let activeButton = null;
+    let activeButton: HTMLButtonElement | null = null;
 
     // Content for each filter type
     const filterContent = {
@@ -1347,6 +1347,7 @@ import Layout from '@layouts/Layout.astro';
     });
 
     function closeSlideOut() {
+      if (!slideOutCard) return; // Add null check here
       // Close both simultaneously for perfect sync
       slideOutCard.classList.remove('open');
       if (activeButton) {
@@ -1375,11 +1376,13 @@ import Layout from '@layouts/Layout.astro';
     let scrollThreshold = 50;
 
     function handleScroll() {
-      const pillNav = document.querySelector('.page-nav-pills');
-      const slideOutCard = document.querySelector('.slide-out-card');
+      const pillNav = document.querySelector<HTMLElement>('.page-nav-pills');
+      const slideOutCard = document.querySelector<HTMLElement>('.slide-out-card');
+
+      if (!pillNav || !slideOutCard) return; // Add null check here
 
       // Check if sidebar is open - if so, pills are in "pinned" state
-      const sidebarIsOpen = slideOutCard && slideOutCard.classList.contains('open');
+      const sidebarIsOpen = slideOutCard.classList.contains('open'); // slideOutCard is now guaranteed not null
 
       // If sidebar is open (pinned state), completely skip scroll hide logic
       if (sidebarIsOpen) {
@@ -1422,7 +1425,7 @@ import Layout from '@layouts/Layout.astro';
     }
 
     // Add scroll listener with throttling
-    let scrollTimeout;
+    let scrollTimeout: number | undefined;
     window.addEventListener('scroll', () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(handleScroll, 10);
