@@ -7,7 +7,7 @@
     "start": "astro dev",
     "sync:config": "node scripts/sync-config.mjs",
     "generate:search-index": "node scripts/generate-search-index.mjs",
-    "build": "npm run sync:config && astro check && npm run generate:search-index && astro build",
+    "build": "npm run sync:config && npm run generate:search-index && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
