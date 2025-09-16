@@ -48,7 +48,7 @@ nav.nav-tab {
 /* iPad adjustments */
 @media (max-width: 1200px) and (min-width: 769px) {
   nav.nav-tab {
-    top: calc((55px - 48px) / 2 + 4px) !important; /* iPad: 3.5px + 4px offset = 7.5px */
+    top: calc((55px - 48px) / 2 + 5px) !important; /* iPad: 3.5px + 5px offset = 8.5px */
     left: -20px !important;
   }
 
