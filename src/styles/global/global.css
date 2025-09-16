@@ -134,8 +134,8 @@ main > section .container {
   html body .container,
   html body > section .container {
     margin-left: 1rem !important;
-    margin-right: 1rem !important;
-    max-width: calc(100% - 2rem) !important;
+    margin-right: 70px !important; /* Right margin for iPad navigation clearance */
+    max-width: calc(100% - 1rem - 70px) !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
@@ -175,9 +175,9 @@ main > section .container {
   .page-content > section > .container,
   main .container,
   main > section .container {
-    margin-left: 1.75rem !important;
-    margin-right: 1.75rem !important;
-    max-width: calc(100vw - 3.5rem) !important;
+    margin-left: 1.5rem !important;
+    margin-right: 50px !important; /* Reduced right margin for mobile - navigation is more compact */
+    max-width: calc(100vw - 1.5rem - 50px) !important;
     padding: 1.5rem 1rem !important; /* Match insights mobile: 24px top/bottom, 16px left/right */
     width: auto !important;
     box-sizing: border-box !important;
