@@ -1,9 +1,9 @@
 /* Navigation Base Styles - Core positioning and structure */
 
-/* Top-Left Navigation Tab - centered in header red background */
+/* Top-Left Navigation Tab - centered using fixed header heights */
 nav.nav-tab {
   position: fixed !important;
-  top: 1rem !important; /* Desktop: Center in red header background */
+  top: calc((60px - 48px) / 2) !important; /* Desktop: (60px fixed header - 48px button) / 2 = 6px */
   left: -20px !important; /* Fixed to left edge */
   z-index: 9999 !important;
   display: block !important;
@@ -45,10 +45,22 @@ nav.nav-tab {
   z-index: 1001;
 }
 
+/* iPad adjustments */
+@media (max-width: 1200px) and (min-width: 769px) {
+  nav.nav-tab {
+    top: calc((55px - 48px) / 2) !important; /* iPad: (55px fixed header - 48px button) / 2 = 3.5px */
+    left: -20px !important;
+  }
+
+  .nav-expanded {
+    left: -20px !important;
+  }
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
   nav.nav-tab {
-    top: 0.25rem !important; /* Align with thinner mobile header */
+    top: calc((50px - 40px) / 2) !important; /* Mobile: (50px header - 40px button) / 2 = 5px */
     left: -15px !important; /* Slightly less offset on mobile */
   }
 

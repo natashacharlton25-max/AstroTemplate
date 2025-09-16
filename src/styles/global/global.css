@@ -74,7 +74,7 @@ section.page-header,
   display: flex;
   align-items: center;
   gap: 1rem;
-  min-height: 50px; /* Desktop: Reduced height for thinner header */
+  height: 60px; /* Desktop: Fixed header height for consistent hamburger positioning */
 }
 
 section.page-header h1,
@@ -110,6 +110,10 @@ main > section .container {
 
 /* iPad Layout - Reduced margins to prevent overflow */
 @media (max-width: 1200px) and (min-width: 769px) {
+  .page-header-content {
+    height: 55px !important; /* iPad: Fixed header height */
+  }
+
   /* CRITICAL: iPad-specific margins with high specificity */
   html body main .content-aligned,
   html body main .main-content-wrapper,
@@ -139,6 +143,10 @@ main > section .container {
 
 /* Mobile Layout - Clean and Simple */
 @media (max-width: 768px) {
+  .page-header-content {
+    height: 50px !important; /* Mobile: Fixed header height */
+  }
+
   /* CRITICAL: Force mobile margins with extreme specificity */
   html body main .content-aligned,
   html body main .main-content-wrapper,
