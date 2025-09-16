@@ -157,10 +157,11 @@ main > section .container {
   .asset-grid,
   .assets-grid,
   .content-grid,
-  .blog-grid {
-    margin-left: 1rem !important;
-    margin-right: 20px !important; /* Much smaller right margin for wider cards */
-    max-width: calc(100vw - 1rem - 20px) !important;
+  .blog-grid,
+  .featured-grid {
+    margin-left: 0rem !important;
+    margin-right: 15px !important; /* Minimal right margin for maximum width */
+    max-width: calc(100vw - 0rem - 15px) !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
@@ -193,9 +194,9 @@ main > section .container {
   .page-content > section > .container,
   main .container,
   main > section .container {
-    margin-left: 1.5rem !important;
-    margin-right: 50px !important; /* Reduced right margin for mobile - navigation is more compact */
-    max-width: calc(100vw - 1.5rem - 50px) !important;
+    margin-left: 0rem !important;
+    margin-right: 15px !important; /* Minimal right margin for maximum mobile card width */
+    max-width: calc(100vw - 0rem - 15px) !important;
     padding: 1.5rem 1rem !important; /* Match insights mobile: 24px top/bottom, 16px left/right */
     width: auto !important;
     box-sizing: border-box !important;
