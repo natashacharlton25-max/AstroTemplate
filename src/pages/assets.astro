@@ -379,20 +379,10 @@ import Layout from '@layouts/Layout.astro';
   }
 
   .pill-button:hover {
-    background: var(--color-primary);
-    color: var(--brand-background);
-    border-color: var(--color-primary-dark, var(--color-primary));
-<<<<<<< HEAD
-    transform: none !important; /* Prevent any transform on hover */
-    transition: background-color 0s, border-color 0s, color 0s !important; /* Force instant color changes only */
-    box-shadow: none !important; /* Remove any box-shadow changes */
-    position: relative !important; /* Lock position */
-    top: 0 !important; /* Lock vertical position */
-    left: 0 !important; /* Lock horizontal position */
-    margin: 0 !important; /* Remove margin changes */
-    padding: 12px 8px !important; /* Lock padding */
-=======
->>>>>>> 8c177d8293b6d00a6d5e927911a84d1e7cacff9b
+    background: var(--color-primary) !important;
+    color: var(--brand-background) !important;
+    border-color: var(--color-primary-dark, var(--color-primary)) !important;
+    transition: none !important; /* Completely disable all transitions on hover */
   }
 
   .pill-button.active {
