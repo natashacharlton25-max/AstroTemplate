@@ -44,6 +44,27 @@
   color: inherit !important;
 }
 
+.settings-plus {
+  font-size: 20px;
+  font-weight: bold;
+  color: inherit !important;
+  transition: transform 0.3s ease;
+}
+
+.settings-toggle.active .settings-plus {
+  transform: rotate(45deg);
+}
+
+.settings-icon {
+  width: 16px;
+  height: 16px;
+  color: inherit !important;
+  stroke: currentColor !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .settings-toggle:hover,
 .settings-toggle.active {
   background: var(--color-primary) !important;
@@ -53,6 +74,10 @@
 
 .settings-toggle.active .settings-text {
   transform: rotate(-90deg);
+}
+
+.settings-toggle.active .settings-plus {
+  transform: rotate(45deg);
 }
 
 /* Expanded Settings Menu */
@@ -162,30 +187,35 @@
 }
 
 
-/* Mobile adjustments */
+/* Mobile and Tablet adjustments */
 @media (max-width: 768px) {
   .settings-tab {
-    top: 70vh;
-    right: var(--space-md);
+    top: 75vh !important;
+    right: 0px !important;
   }
-  
+
   .settings-toggle {
-    width: 60px;
-    height: 40px;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 4px !important;
   }
-  
+
   .settings-plus {
-    width: 18px;
-    height: 18px;
+    font-size: 18px !important;
   }
-  
+
   .settings-item {
-    width: 60px;
-    height: 40px;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 4px !important;
   }
-  
+
   .settings-icon {
-    width: 20px;
-    height: 20px;
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .settings-expanded {
+    bottom: 50px !important;
   }
 }
