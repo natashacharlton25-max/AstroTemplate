@@ -3,7 +3,7 @@
 /* Top-Left Navigation Tab - centered using fixed header heights */
 nav.nav-tab {
   position: fixed !important;
-  top: calc((60px - 48px) / 2) !important; /* Desktop: (60px fixed header - 48px button) / 2 = 6px */
+  top: calc((60px - 48px) / 2 + 2px) !important; /* Desktop: 6px + 2px offset = 8px */
   left: -20px !important; /* Fixed to left edge */
   z-index: 9999 !important;
   display: block !important;
@@ -48,7 +48,7 @@ nav.nav-tab {
 /* iPad adjustments */
 @media (max-width: 1200px) and (min-width: 769px) {
   nav.nav-tab {
-    top: calc((55px - 48px) / 2) !important; /* iPad: (55px fixed header - 48px button) / 2 = 3.5px */
+    top: calc((55px - 48px) / 2 + 2px) !important; /* iPad: 3.5px + 2px offset = 5.5px */
     left: -20px !important;
   }
 
@@ -60,7 +60,7 @@ nav.nav-tab {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   nav.nav-tab {
-    top: calc((50px - 40px) / 2) !important; /* Mobile: (50px header - 40px button) / 2 = 5px */
+    top: calc((50px - 40px) / 2 + 2px) !important; /* Mobile: 5px + 2px offset = 7px */
     left: -15px !important; /* Slightly less offset on mobile */
   }
 
