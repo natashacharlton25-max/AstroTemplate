@@ -149,17 +149,18 @@ main > section .container {
     height: 50px !important; /* Mobile: Fixed header height */
   }
 
-  /* Card layout overrides for mobile - match global page settings */
+  /* Card layout overrides for mobile - wider cards */
   .entries,
   .masonry-grid,
   .projects-grid,
   .services-grid,
   .asset-grid,
+  .assets-grid,
   .content-grid,
   .blog-grid {
-    margin-left: 1.5rem !important;
-    margin-right: 50px !important; /* Match global page settings */
-    max-width: calc(100vw - 1.5rem - 50px) !important;
+    margin-left: 1rem !important;
+    margin-right: 20px !important; /* Much smaller right margin for wider cards */
+    max-width: calc(100vw - 1rem - 20px) !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }

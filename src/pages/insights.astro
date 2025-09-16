@@ -1095,6 +1095,34 @@ const posts = [
   }
 
   @media (max-width: 767px) {
+    .entries {
+      margin-left: 0.75rem !important;
+      margin-right: 0.75rem !important;
+      max-width: calc(100vw - 1.5rem) !important;
+      width: calc(100vw - 1.5rem) !important;
+      padding: 0 !important;
+    }
+
+    .entry-card {
+      padding: 1rem !important;
+    }
+
+    .card-header {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 0.5rem !important;
+    }
+
+    .card-date {
+      margin-left: 0 !important;
+      order: 2;
+    }
+
+    .entry-title {
+      order: 1;
+      margin-bottom: 0 !important;
+    }
+
     .hero-header {
       padding: var(--space-xl) 0;
     }
