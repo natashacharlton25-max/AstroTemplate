@@ -11,20 +11,12 @@
   visibility: visible !important;
 }
 
-/* Desktop only - above tablet breakpoint */
-@media (min-width: 1025px) {
-  .settings-toggle {
-    width: 28px !important;
-    height: 60px !important;
-  }
-}
-
 .settings-toggle {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 35px !important;
-  height: 35px !important;
+  width: 32px !important;
+  height: 80px !important;
   background: var(--color-secondary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 12px 0 0 12px !important;
@@ -50,7 +42,13 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: inherit !important;
-  display: none; /* Hide text on all screen sizes since we're using icons */
+}
+
+/* Hide text on mobile and tablet only */
+@media (max-width: 1024px) {
+  .settings-text {
+    display: none !important;
+  }
 }
 
 .settings-plus {
@@ -69,9 +67,16 @@
   height: 16px;
   color: inherit !important;
   fill: currentColor !important;
-  display: flex;
+  display: none; /* Hide icons by default (desktop) */
   align-items: center;
   justify-content: center;
+}
+
+/* Show icons on mobile and tablet only */
+@media (max-width: 1024px) {
+  .settings-icon {
+    display: flex !important;
+  }
 }
 
 .settings-toggle:hover,
@@ -166,20 +171,12 @@
   transition-delay: 0.45s !important;
 }
 
-/* Desktop only - above tablet breakpoint */
-@media (min-width: 1025px) {
-  .settings-item {
-    width: 28px !important;
-    height: 60px !important;
-  }
-}
-
 .settings-item {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 35px !important;
-  height: 35px !important;
+  width: 32px !important;
+  height: 80px !important;
   background: var(--color-secondary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 12px 0 0 12px !important;
@@ -233,7 +230,7 @@
   }
 
   .settings-expanded {
-    bottom: 40px !important;
+    bottom: 38px !important;
   }
 }
 
