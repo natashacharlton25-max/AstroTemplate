@@ -284,9 +284,21 @@ const pageDescription = "Learn the fundamentals of creating accessible websites 
     margin-top: 2rem;
   }
 
-  .blog-article {
-    max-width: none;
+  /* Apply desktop margins - align header and body - maximum specificity */
+  html body main .blog-header .blog-header-content .container,
+  html body main .blog-header .container,
+  .blog-header .blog-header-content .container,
+  .blog-header .container,
+  .blog-header .blog-header-content,
+  .blog-title,
+  .blog-description,
+  .blog-body .container,
+  .blog-body .content-grid {
+    margin-left: calc(2rem + 80px) !important; /* 112px total - moved right */
+    margin-right: auto !important;
+    max-width: 1600px !important;
   }
+
 
   .blog-article h2 {
     font-size: 2rem;
@@ -426,15 +438,32 @@ const pageDescription = "Learn the fundamentals of creating accessible websites 
     transform: translateY(-2px);
   }
 
-  /* Mobile responsive */
+  /* iPad Layout - only target body content */
+  @media (max-width: 1200px) and (min-width: 769px) {
+    .blog-body .container,
+    .blog-body .content-grid {
+      margin-left: 1rem !important;
+      margin-right: 70px !important;
+      max-width: calc(100% - 1rem - 70px) !important;
+    }
+  }
+
+  /* Mobile responsive - only target body content */
   @media (max-width: 768px) {
-    .blog-header {
-      padding: 1.5rem 0 2.5rem;
+    .blog-body .container,
+    .blog-body .content-grid {
+      margin-left: 0rem !important;
+      margin-right: 15px !important;
+      max-width: calc(100vw - 0rem - 15px) !important;
     }
 
     .content-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
+    }
+
+    .blog-header {
+      padding: 1.5rem 0 2.5rem;
     }
 
     .blog-body {
