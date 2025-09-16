@@ -114,6 +114,21 @@ main > section .container {
     height: 55px !important; /* iPad: Fixed header height */
   }
 
+  /* Card layout overrides - give more space for cards */
+  .entries,
+  .masonry-grid,
+  .projects-grid,
+  .services-grid,
+  .asset-grid,
+  .content-grid,
+  .blog-grid {
+    margin-left: 1rem !important;
+    margin-right: 50px !important; /* Less aggressive right margin for cards */
+    max-width: calc(100% - 1rem - 50px) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
   /* CRITICAL: iPad-specific margins with high specificity */
   html body main .content-aligned,
   html body main .main-content-wrapper,
@@ -145,6 +160,21 @@ main > section .container {
 @media (max-width: 768px) {
   .page-header-content {
     height: 50px !important; /* Mobile: Fixed header height */
+  }
+
+  /* Card layout overrides for mobile - give more space for cards */
+  .entries,
+  .masonry-grid,
+  .projects-grid,
+  .services-grid,
+  .asset-grid,
+  .content-grid,
+  .blog-grid {
+    margin-left: 1rem !important;
+    margin-right: 35px !important; /* Even less aggressive on mobile */
+    max-width: calc(100vw - 1rem - 35px) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   /* CRITICAL: Force mobile margins with extreme specificity */
