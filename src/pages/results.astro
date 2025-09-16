@@ -1301,6 +1301,26 @@ function formatDate(dateString: string): string {
 
   }
 
+  /* iPad-specific search container fixes */
+  @media (max-width: 1200px) and (min-width: 769px) {
+    .search-container {
+      max-width: 300px !important; /* Smaller for iPad */
+      min-height: auto !important;
+      flex-shrink: 1 !important;
+    }
+
+    .search-input-wrapper {
+      padding: 0.6rem 1rem !important; /* Optimized iPad padding */
+      min-height: 44px !important; /* Ensure adequate touch target */
+      box-sizing: border-box !important;
+    }
+
+    .search-input {
+      min-height: 20px !important;
+      line-height: 1.4 !important;
+    }
+  }
+
   @media (max-width: 768px) {
     /* Ensure proper page width on mobile devices including Samsung S24 Ultra */
     html, body {
