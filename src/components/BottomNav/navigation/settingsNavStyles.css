@@ -56,6 +56,14 @@
   font-weight: bold;
   color: inherit !important;
   transition: transform 0.3s ease;
+  display: none; /* Hide plus by default (desktop) */
+}
+
+/* Show plus icon on mobile and tablet only */
+@media (max-width: 1024px) {
+  .settings-plus {
+    display: block !important;
+  }
 }
 
 .settings-toggle.active .settings-plus {
