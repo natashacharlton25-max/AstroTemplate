@@ -5,7 +5,7 @@ nav.nav-tab {
   position: fixed !important;
   top: 1rem !important; /* Desktop: Center in red header background */
   left: -20px !important; /* Fixed to left edge */
-  z-index: 999 !important;
+  z-index: 9999 !important;
   display: block !important;
   pointer-events: auto !important;
   opacity: 1 !important;
