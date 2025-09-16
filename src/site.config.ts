@@ -85,35 +85,6 @@ export interface SiteConfig {
         external?: boolean;
       }>;
     };
-    footer: {
-      sections: {
-        company: {
-          title: string;
-          items: Array<{ name: string; url: string; }>;
-        };
-        products: {
-          title: string;
-          items: Array<{ name: string; url: string; }>;
-        };
-        resources: {
-          title: string;
-          items: Array<{ name: string; url: string; }>;
-        };
-        legal: {
-          title: string;
-          items: Array<{ name: string; url: string; }>;
-        };
-      };
-      social: Array<{
-        name: string;
-        url: string;
-        icon: string;
-      }>;
-      copyright: {
-        year: number;
-        text: string;
-      };
-    };
   };
 
   // SEO & Meta
@@ -205,56 +176,6 @@ export const siteConfig: SiteConfig = {
         { label: "Assets", href: "/assets" }
       ]
     },
-    footer: {
-      sections: {
-        company: {
-          title: "Company",
-          items: [
-            { name: "About Us", url: "/about" },
-            { name: "Services", url: "/services" },
-            { name: "Portfolio", url: "/portfolio" },
-            { name: "Blog", url: "/blog" }
-          ]
-        },
-        products: {
-          title: "Services",
-          items: [
-            { name: "Accessibility Audits", url: "/services/audits" },
-            { name: "Design Consultation", url: "/services/design" },
-            { name: "Training", url: "/services/training" },
-            { name: "Support", url: "/services/support" }
-          ]
-        },
-        resources: {
-          title: "Resources",
-          items: [
-            { name: "Help Center", url: "/help" },
-            { name: "Accessibility Guide", url: "/guide" },
-            { name: "Contact", url: "/contact" },
-            { name: "Status", url: "/status" }
-          ]
-        },
-        legal: {
-          title: "Legal",
-          items: [
-            { name: "Privacy Policy", url: "/privacy" },
-            { name: "Terms of Service", url: "/terms" },
-            { name: "Cookie Policy", url: "/cookies" },
-            { name: "Accessibility Statement", url: "/accessibility-statement" }
-          ]
-        }
-      },
-      social: [
-        { name: "Twitter", url: "https://twitter.com/icthemoon", icon: "twitter" },
-        { name: "LinkedIn", url: "https://linkedin.com/company/icthemoon", icon: "linkedin" },
-        { name: "GitHub", url: "https://github.com/icthemoon", icon: "github" },
-        { name: "Instagram", url: "https://instagram.com/icthemoon", icon: "instagram" }
-      ],
-      copyright: {
-        year: new Date().getFullYear(),
-        text: "All rights reserved."
-      }
-    }
   },
 
   seo: {

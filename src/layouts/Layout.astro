@@ -1,10 +1,7 @@
 ---
 import '@styles/global/global.css';
-import '@components/Footer/scroll-effect/footerRevealStyles.css';
 import '@components/Scroll-bar/scrollbar-styles.css';
 import '@components/utils/unifiedNavSystem.css';
-import ScrollRevealLayout from '@components/Footer/scroll-effect/ScrollRevealLayout.astro';
-import Footer from '@components/Footer/Footer.astro';
 import BottomNav from '@components/BottomNav/BottomNav.astro';
 import TabNav from '@components/NavBar/TabNav.astro';
 import CustomScrollbar from '@components/Scroll-bar/CustomScrollbar.astro';
@@ -14,13 +11,11 @@ import siteConfig from '@/site.config';
 export interface Props {
   title?: string;
   description?: string;
-  enableFooterReveal?: boolean;
 }
 
 const {
   title = siteConfig.seo.title,
-  description = siteConfig.seo.description,
-  enableFooterReveal = true
+  description = siteConfig.seo.description
 } = Astro.props;
 ---
 <html lang="en">
@@ -58,26 +53,15 @@ const {
       <TabNav />
     </header>
 
-    {enableFooterReveal ? (
-      <ScrollRevealLayout title={title}>
-        <slot />
-      </ScrollRevealLayout>
-    ) : (
-      <>
-        <!-- Standard layout without reveal effect -->
-        <main role="main" id="main-content">
-          <slot />
-        </main>
-        
-        <!-- Simple Footer -->
-        <Footer />
-        
-        <!-- Bottom Navigation -->
-        <nav role="navigation" aria-label="Quick actions">
-          <BottomNav />
-        </nav>
-      </>
-    )}
+    <!-- Standard layout without footer -->
+    <main role="main" id="main-content">
+      <slot />
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav role="navigation" aria-label="Quick actions">
+      <BottomNav />
+    </nav>
     
     <!-- Initialize unified navigation system -->
     <script>
