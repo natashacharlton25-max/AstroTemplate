@@ -20,7 +20,7 @@
   -webkit-backdrop-filter: blur(12px) !important;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (min-width: 769px) {
   .nav-toggle:hover {
     background: var(--brand-background) !important;
     color: var(--color-primary) !important;
@@ -55,8 +55,8 @@
   transform-origin: center !important;
 }
 
-/* Hover: skewed hamburger at 45 degrees - only on devices that support hover */
-@media (hover: hover) {
+/* Hover: skewed hamburger at 45 degrees - only on desktop devices that support hover */
+@media (hover: hover) and (min-width: 769px) {
   .nav-toggle:hover .nav-line {
     transform: rotate(45deg) !important;
   }
