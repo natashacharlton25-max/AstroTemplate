@@ -212,7 +212,7 @@
 /* Tablet adjustments */
 @media (max-width: 1200px) and (min-width: 769px) {
   .settings-tab {
-    top: 75vh !important;
+    top: calc(75vh + 80px) !important;
     right: 0px !important;
   }
 
@@ -245,7 +245,7 @@
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .settings-tab {
-    top: 75vh !important;
+    top: calc(75vh + 80px) !important;
     right: 0px !important;
   }
 
