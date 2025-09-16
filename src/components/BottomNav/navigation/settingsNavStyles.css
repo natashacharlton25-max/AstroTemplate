@@ -45,7 +45,7 @@
 }
 
 /* Hide text on mobile and tablet only */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .settings-text {
     display: none !important;
   }
@@ -60,7 +60,7 @@
 }
 
 /* Show plus icon on mobile and tablet only */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .settings-plus {
     display: block !important;
   }
@@ -81,7 +81,7 @@
 }
 
 /* Show icons on mobile and tablet only */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .settings-icon {
     display: flex !important;
   }
@@ -210,7 +210,7 @@
 
 
 /* Tablet adjustments */
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1200px) and (min-width: 769px) {
   .settings-tab {
     top: 75vh !important;
     right: 0px !important;
