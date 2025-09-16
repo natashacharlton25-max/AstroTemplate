@@ -15,8 +15,8 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 32px !important;
-  height: 80px !important;
+  width: 28px !important;
+  height: 60px !important;
   background: var(--color-secondary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 12px 0 0 12px !important;
@@ -42,6 +42,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: inherit !important;
+  display: none; /* Hide text on all screen sizes since we're using icons */
 }
 
 .settings-plus {
@@ -59,7 +60,7 @@
   width: 16px;
   height: 16px;
   color: inherit !important;
-  stroke: currentColor !important;
+  fill: currentColor !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -161,8 +162,8 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 32px !important;
-  height: 80px !important;
+  width: 28px !important;
+  height: 60px !important;
   background: var(--color-secondary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 12px 0 0 12px !important;
@@ -187,26 +188,26 @@
 }
 
 
-/* Mobile and Tablet adjustments */
-@media (max-width: 768px) {
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
   .settings-tab {
     top: 75vh !important;
     right: 0px !important;
   }
 
   .settings-toggle {
-    width: 45px !important;
-    height: 45px !important;
+    width: 35px !important;
+    height: 35px !important;
     padding: 4px !important;
   }
 
   .settings-plus {
-    font-size: 18px !important;
+    font-size: 16px !important;
   }
 
   .settings-item {
-    width: 45px !important;
-    height: 45px !important;
+    width: 35px !important;
+    height: 35px !important;
     padding: 4px !important;
   }
 
@@ -216,6 +217,39 @@
   }
 
   .settings-expanded {
-    bottom: 50px !important;
+    bottom: 40px !important;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .settings-tab {
+    top: 75vh !important;
+    right: 0px !important;
+  }
+
+  .settings-toggle {
+    width: 35px !important;
+    height: 35px !important;
+    padding: 4px !important;
+  }
+
+  .settings-plus {
+    font-size: 16px !important;
+  }
+
+  .settings-item {
+    width: 35px !important;
+    height: 35px !important;
+    padding: 4px !important;
+  }
+
+  .settings-icon {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .settings-expanded {
+    bottom: 40px !important;
   }
 }
