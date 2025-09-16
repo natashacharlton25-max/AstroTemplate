@@ -11,12 +11,20 @@
   visibility: visible !important;
 }
 
+/* Desktop only - above tablet breakpoint */
+@media (min-width: 1025px) {
+  .settings-toggle {
+    width: 28px !important;
+    height: 60px !important;
+  }
+}
+
 .settings-toggle {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 28px !important;
-  height: 60px !important;
+  width: 35px !important;
+  height: 35px !important;
   background: var(--color-secondary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 12px 0 0 12px !important;
@@ -158,12 +166,20 @@
   transition-delay: 0.45s !important;
 }
 
+/* Desktop only - above tablet breakpoint */
+@media (min-width: 1025px) {
+  .settings-item {
+    width: 28px !important;
+    height: 60px !important;
+  }
+}
+
 .settings-item {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 28px !important;
-  height: 60px !important;
+  width: 35px !important;
+  height: 35px !important;
   background: var(--color-secondary) !important;
   border: 1px solid var(--nav-border) !important;
   border-radius: 12px 0 0 12px !important;
