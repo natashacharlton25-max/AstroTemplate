@@ -217,28 +217,28 @@
   }
 
   .settings-toggle {
-    width: 35px !important;
-    height: 35px !important;
-    padding: 4px !important;
+    width: 42px !important;
+    height: 42px !important;
+    padding: 6px !important;
   }
 
   .settings-plus {
-    font-size: 16px !important;
+    font-size: 18px !important;
   }
 
   .settings-item {
-    width: 35px !important;
-    height: 35px !important;
-    padding: 4px !important;
+    width: 42px !important;
+    height: 42px !important;
+    padding: 6px !important;
   }
 
   .settings-icon {
-    width: 14px !important;
-    height: 14px !important;
+    width: 16px !important;
+    height: 16px !important;
   }
 
   .settings-expanded {
-    bottom: 38px !important;
+    bottom: 45px !important;
   }
 }
 
