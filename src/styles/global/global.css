@@ -149,7 +149,7 @@ main > section .container {
     height: 50px !important; /* Mobile: Fixed header height */
   }
 
-  /* Card layout overrides for mobile - give more space for cards */
+  /* Card layout overrides for mobile - match global page settings */
   .entries,
   .masonry-grid,
   .projects-grid,
@@ -157,9 +157,9 @@ main > section .container {
   .asset-grid,
   .content-grid,
   .blog-grid {
-    margin-left: 1rem !important;
-    margin-right: 35px !important; /* Even less aggressive on mobile */
-    max-width: calc(100vw - 1rem - 35px) !important;
+    margin-left: 1.5rem !important;
+    margin-right: 50px !important; /* Match global page settings */
+    max-width: calc(100vw - 1.5rem - 50px) !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
