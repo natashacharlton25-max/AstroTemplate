@@ -108,6 +108,35 @@ main > section .container {
   padding: 3rem 1.5rem; /* Match insights page: 48px top/bottom, 24px left/right */
 }
 
+/* iPad Layout - Reduced margins to prevent overflow */
+@media (max-width: 1200px) and (min-width: 769px) {
+  /* CRITICAL: iPad-specific margins with high specificity */
+  html body main .content-aligned,
+  html body main .main-content-wrapper,
+  html body main .ct-container,
+  html body main .services-section .container,
+  html body main .content-section .container,
+  html body main section .container,
+  html body main .page-content > section > .container,
+  html body main .container,
+  html body main > section .container,
+  html body .content-aligned,
+  html body .main-content-wrapper,
+  html body .ct-container,
+  html body .services-section .container,
+  html body .content-section .container,
+  html body section .container,
+  html body .page-content > section > .container,
+  html body .container,
+  html body > section .container {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+    max-width: calc(100% - 2rem) !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
 /* Mobile Layout - Clean and Simple */
 @media (max-width: 768px) {
   /* CRITICAL: Force mobile margins with extreme specificity */
