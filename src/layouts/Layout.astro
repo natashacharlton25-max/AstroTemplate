@@ -1,0 +1,80 @@
+---
+import '@styles/global/global.css';
+import '@components/Scroll-bar/scrollbar-styles.css';
+import '@components/utils/unifiedNavSystem.css';
+import BottomNav from '@components/BottomNav/BottomNav.astro';
+import TabNav from '@components/NavBar/TabNav.astro';
+import CustomScrollbar from '@components/Scroll-bar/CustomScrollbar.astro';
+import siteConfig from '@/site.config';
+
+// Props for layout configuration
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = siteConfig.seo.title,
+  description = siteConfig.seo.description
+} = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={siteConfig.brand.favicon} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={siteConfig.seo.keywords.join(', ')} />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {siteConfig.seo.ogImage && <meta property="og:image" content={siteConfig.seo.ogImage} />}
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {siteConfig.seo.twitterHandle && <meta name="twitter:site" content={siteConfig.seo.twitterHandle} />}
+    {siteConfig.seo.ogImage && <meta name="twitter:image" content={siteConfig.seo.ogImage} />}
+
+    <!-- FontAwesome for ProjectCard icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  </head>
+  <body class="min-h-screen overflow-x-hidden" style="min-height:100vh">
+    <!-- Custom Scrollbar Styles -->
+    <CustomScrollbar />
+    
+    <!-- Top Navigation -->
+    <header role="banner">
+      <TabNav />
+    </header>
+
+    <!-- Standard layout without footer -->
+    <main role="main" id="main-content">
+      <slot />
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav role="navigation" aria-label="Quick actions">
+      <BottomNav />
+    </nav>
+    
+    <!-- Initialize unified navigation system -->
+    <script>
+      import { initNavigation } from '../components/utils/initNavigation.js';
+
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavigation);
+      } else {
+        initNavigation();
+      }
+    </script>
+
+
+  </body>
+</html>

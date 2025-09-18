@@ -1,0 +1,245 @@
+/* ==== IC THE MOON BRAND SYSTEM ==== */
+
+/* Google Fonts - customize as needed */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap'); */
+
+:root {
+  /* ---- Core Brand Colors (mapped from variables.css) ---- */
+  --brand-primary: var(--color-primary);
+  --brand-secondary: var(--color-secondary);
+  --brand-background: var(--color-background);
+  --brand-text: var(--color-text-primary);
+  --brand-text-light: var(--color-text-light);
+  
+  /* ---- Brand Accents (mapped from variables.css) ---- */
+  --brand-accent-1: var(--brand-accent-1);
+  --brand-accent-2: var(--brand-accent-2);
+  --brand-neutral-dark: var(--brand-neutral-dark);
+  --brand-neutral-mid: var(--brand-neutral-mid);
+  --brand-neutral-light: var(--brand-neutral-light);
+  
+  /* ---- Derived Brand Colors ---- */
+  --brand-highlight-bg: color-mix(in srgb, var(--brand-primary) 20%, transparent);
+  
+  /* ---- Navigation System ---- */
+  --nav-text-primary: var(--brand-secondary);
+  --nav-text-accent: var(--brand-primary);
+  --nav-background: color-mix(in srgb, var(--brand-background) 70%, transparent);
+  --nav-border: color-mix(in srgb, var(--brand-background) 40%, transparent);
+  --nav-hover-bg: color-mix(in srgb, var(--brand-primary) 8%, transparent);
+
+  /* ---- Navy Variations (mapped to brand colors) ---- */
+  --brand-navy: var(--brand-secondary);
+  --brand-navy-light: var(--color-secondary-light);
+  --brand-navy-dark: var(--color-secondary-dark);
+  --brand-accent: var(--brand-primary);
+  --brand-light: var(--color-secondary-light);
+
+  /* ---- Glassmorphic Design System (brand-based) ---- */
+  --glass-background: color-mix(in srgb, var(--brand-background) 28%, transparent);
+  --glass-border: 1px solid color-mix(in srgb, var(--brand-background) 38%, transparent);
+  --glass-border-radius: var(--radius-md);
+  --glass-shadow: var(--shadow-lg);
+  --glass-backdrop-blur: blur(11.4px);
+  
+  /* Glassmorphic variations */
+  --glass-light: color-mix(in srgb, var(--brand-background) 15%, transparent);
+  --glass-medium: color-mix(in srgb, var(--brand-background) 28%, transparent);
+  --glass-heavy: color-mix(in srgb, var(--brand-background) 45%, transparent);
+  --glass-border-light: color-mix(in srgb, var(--brand-background) 20%, transparent);
+  --glass-border-medium: color-mix(in srgb, var(--brand-background) 38%, transparent);
+  --glass-border-heavy: color-mix(in srgb, var(--brand-background) 55%, transparent);
+
+}
+
+
+/* ==== GLOBAL STYLES ==== */
+
+/* Base Typography */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--brand-background);
+  color: var(--brand-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* Prevent pull-to-refresh and overscroll behavior on mobile/tablet only */
+  overscroll-behavior-x: none;
+  -webkit-overscroll-behavior-x: none;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--brand-secondary);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1.125rem; }
+
+/* Links */
+a {
+  color: var(--brand-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--brand-secondary);
+}
+
+/* Highlight/Mark Element */
+mark, .highlight {
+  background-color: var(--brand-highlight-bg);
+  color: var(--brand-primary);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* Brand-specific utilities that aren't covered by the main utility classes */
+.text-brand-light { color: var(--brand-text-light) !important; }
+.text-brand-muted { color: var(--brand-text) !important; }
+.bg-brand-background { background-color: var(--brand-background) !important; }
+
+/* Glassmorphic Utility Classes */
+.glass-light {
+  background: var(--glass-light) !important;
+  border: var(--glass-border-light) !important;
+  border-radius: var(--glass-border-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: var(--glass-backdrop-blur) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+}
+
+.glass-medium {
+  background: var(--glass-medium) !important;
+  border: var(--glass-border-medium) !important;
+  border-radius: var(--glass-border-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: var(--glass-backdrop-blur) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+}
+
+.glass-heavy {
+  background: var(--glass-heavy) !important;
+  border: var(--glass-border-heavy) !important;
+  border-radius: var(--glass-border-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: var(--glass-backdrop-blur) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-blur) !important;
+}
+
+/* ==== COMPONENT-SPECIFIC OVERRIDES ==== */
+
+/* Search Result Links */
+/* Apply this class to anchor tags on the search results page for custom styling. */
+.search-result-link {
+  color: var(--brand-text); /* Sets default color to gray */
+}
+
+.search-result-link:hover {
+  color: var(--brand-primary); /* Sets hover color to red */
+}
+
+/* Search Results Styling */
+.results-container {
+  display: grid;
+  gap: 40px !important;
+}
+
+/* Enhanced visual separation for search results */
+a.result-item,
+a.result-item:link,
+a.result-item:visited {
+  border: 2px solid color-mix(in srgb, var(--brand-secondary) 15%, transparent) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: var(--space-2xl) !important;
+  box-shadow: var(--shadow-md) !important;
+  position: relative !important;
+  margin-bottom: var(--space-sm) !important;
+}
+
+a.result-item:hover {
+  border-color: var(--brand-primary) !important;
+  box-shadow: var(--shadow-xl) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Search result content styling */
+.result-title {
+  color: var(--brand-secondary) !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--text-xl) !important;
+  font-weight: var(--font-semibold) !important;
+  margin-bottom: var(--space-md) !important;
+  line-height: var(--leading-tight) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.result-description {
+  color: var(--brand-text) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-base) !important;
+  line-height: var(--leading-normal) !important;
+  margin-bottom: var(--space-lg) !important;
+}
+
+.result-meta {
+  display: flex !important;
+  gap: var(--space-md) !important;
+  align-items: center !important;
+  font-size: var(--text-xs) !important;
+  margin-top: var(--space-md) !important;
+  padding-top: var(--space-md) !important;
+  border-top: 1px solid color-mix(in srgb, var(--brand-secondary) 10%, transparent) !important;
+}
+
+.result-type {
+  color: var(--brand-text) !important;
+  background: color-mix(in srgb, var(--brand-secondary) 8%, transparent) !important;
+  padding: var(--space-xs) var(--space-md) !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: var(--font-medium) !important;
+  text-transform: capitalize !important;
+}
+
+.result-url,
+a.result-item .result-url,
+.results-container .result-url,
+span.result-url,
+.result-meta .result-url {
+  color: var(--brand-primary) !important;
+  font-size: var(--text-xs) !important;
+  text-decoration: none !important;
+  opacity: 0.9 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.2px !important;
+  font-weight: var(--font-semibold) !important;
+  font-family: var(--font-body) !important;
+}
+

@@ -1,0 +1,65 @@
+/* Unified Navigation System CSS */
+/* Save as: src/components/utils/unifiedNavSystem.css */
+
+/* Base transitions for all navigation elements */
+.nav-tab,
+.settings-tab,
+#navTab,
+[data-settings-tab] {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform, opacity;
+}
+
+/* Top navigation hiding - slide left */
+.nav-tab.nav-hidden-top,
+#navTab.nav-hidden-top {
+  transform: translateX(-200px) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Bottom navigation hiding - slide right */
+.settings-tab.nav-hidden-bottom,
+[data-settings-tab].nav-hidden-bottom {
+  transform: translateX(200px) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Visible state */
+.nav-tab.nav-visible,
+.settings-tab.nav-visible,
+#navTab.nav-visible,
+[data-settings-tab].nav-visible {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Ensure proper z-index during animations */
+.nav-tab,
+.settings-tab {
+  z-index: 999;
+}
+
+.nav-tab.nav-hidden-top,
+.settings-tab.nav-hidden-bottom {
+  z-index: -1; /* Send hidden navs behind content */
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .nav-tab.nav-hidden-top,
+  #navTab.nav-hidden-top {
+    transform: translateX(-150px) !important;
+  }
+  
+  .settings-tab.nav-hidden-bottom,
+  [data-settings-tab].nav-hidden-bottom {
+    transform: translateX(150px) !important;
+  }
+}

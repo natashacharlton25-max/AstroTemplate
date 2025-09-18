@@ -1,0 +1,22 @@
+---
+import siteConfig from '@/site.config';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { 
+  title = siteConfig.content.hero.title,
+  subtitle = siteConfig.content.hero.subtitle
+} = Astro.props;
+---
+
+<div class="brand-text-container">
+  <h1>{title}</h1>
+  <p>{subtitle}</p>
+</div>
+
+<style>
+  @import './brandHeroStyles.css';
+</style>

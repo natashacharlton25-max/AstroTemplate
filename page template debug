@@ -1,0 +1,88 @@
+To create a reusable page template that automatically pulls in your brand colours, typography and accessibility settings before you add any content, follow the pattern already established in your Layout.astro file.
+
+1. Use a dedicated layout component
+
+Create a new layout—call it PageTemplate.astro—inside src/layouts. In Astro, layouts wrap your pages; they’re the perfect place to import global CSS and apply site‑wide scripts.
+
+---
+// Props allow you to override the title/description per page.
+import siteConfig from '@/site.config';
+import '@styles/global/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = siteConfig.seo.title, description = siteConfig.seo.description } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <!-- skip links improve keyboard navigation -->
+    <nav class="skip-links">
+      <a class="skip-link" href="#main">Skip to main content</a>
+    </nav>
+
+    <!-- main content slot -->
+    <main id="main">
+      <slot />
+    </main>
+
+    <!-- optional footer or nav could be imported here -->
+  </body>
+
+  <script>
+    // apply dark mode, plain text and other settings from localStorage
+    (function() {
+      const dark = localStorage.getItem('accessibility-darkMode');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dark === 'true' || (dark === null && prefersDark)) {
+        document.documentElement.classList.add('accessibility-dark-mode');
+        document.body.classList.add('accessibility-dark-mode');
+      }
+      const plainText = localStorage.getItem('accessibility-plainTextMode') === 'true';
+      if (plainText) {
+        document.documentElement.classList.add('accessibility-plain-text-mode');
+        document.body.classList.add('accessibility-plain-text-mode');
+      }
+      // add other preferences (keyboard helpers, screen reader helpers, font family etc.) as in Layout.astro:contentReference[oaicite:0]{index=0}.
+    })();
+  </script>
+</html>
+
+
+This template imports @styles/global/global.css at the top
+GitHub
+. That single import brings in your reset, typography, tokens, brand theme, utilities and accessibility styles. Because your variables and colours are defined in variables.css and mapped in brand.css, any page that uses this template will pick up the correct brand palette and fonts automatically. If you update site.config.ts and run the sync script, the generated variables will flow through the entire site without further changes.
+
+2. Centralise accessibility settings
+
+The script block shown above is a simplified version of the one in Layout.astro that checks localStorage for saved accessibility preferences and toggles classes on <html> and <body>
+GitHub
+. You can extend it to handle keyboard helpers, screen‑reader helpers, font size, line spacing or custom backgrounds just as the existing GlobalAccessibility class does
+GitHub
+. By placing this script in your template you ensure every page respects user preferences—even pages that never import the full accessibility component.
+
+Make sure the CSS classes you toggle (accessibility-dark-mode, accessibility-plain-text-mode, etc.) have corresponding style rules in your brand and utility styles; align the names with those defined in accessibility.css and add any missing selectors as needed.
+
+3. Use the template in new pages
+
+Once PageTemplate.astro is defined, you can wrap any new content with it:
+
+---
+import PageTemplate from '@layouts/PageTemplate.astro';
+---
+<PageTemplate title="About Us">
+  <!-- your page content here -->
+</PageTemplate>
+
+
+Because PageTemplate imports global.css and runs the accessibility script, every page built on this layout will inherit your brand colours, fonts and accessibility settings. Later, when you add components like navigation bars or footers, you can import them within PageTemplate so they appear across all pages by default.
+
+By encapsulating your styles and user‑preference logic in a single layout, you make it easy to maintain consistency across the site: update the colours or fonts in site.config.ts,

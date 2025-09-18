@@ -1,0 +1,109 @@
+/* Navigation Toggle Button Styles */
+
+.nav-toggle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  width: auto !important;
+  min-width: 120px !important;
+  height: 48px !important;
+  padding: 0 20px 0 32px !important;
+  background: var(--color-primary) !important;
+  border: 1px solid var(--nav-border) !important;
+  border-radius: 0 28px 28px 0 !important;
+  border-left: none !important;
+  cursor: pointer !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  color: var(--brand-background) !important;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .nav-toggle:hover {
+    background: var(--brand-background) !important;
+    color: var(--color-primary) !important;
+    box-shadow: 8px 0 24px rgba(230, 57, 97, 0.4) !important;
+  }
+}
+
+.nav-toggle.active {
+  background: var(--brand-background) !important;
+  color: var(--color-primary) !important;
+  box-shadow: 8px 0 24px rgba(230, 57, 97, 0.4) !important;
+}
+
+/* Hamburger Icon */
+.nav-icon {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 5px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.nav-line {
+  display: block !important;
+  width: 18px !important;
+  height: 2px !important;
+  background: currentColor !important;
+  border-radius: 2px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform-origin: center !important;
+}
+
+/* Hover: skewed hamburger at 45 degrees - only on desktop devices that support hover */
+@media (hover: hover) and (min-width: 769px) {
+  .nav-toggle:hover .nav-line {
+    transform: rotate(45deg) !important;
+  }
+}
+
+/* Clicked/Locked: X transformation */
+.nav-toggle.active .nav-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg) !important;
+  transform-origin: center !important;
+}
+
+.nav-toggle.active .nav-line:nth-child(2) {
+  opacity: 0 !important;
+  transform: scaleX(0) !important;
+}
+
+.nav-toggle.active .nav-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg) !important;
+  transform-origin: center !important;
+}
+
+/* Mobile Responsive - Force rebuild */
+@media (max-width: 768px) {
+  .nav-toggle {
+    height: 40px !important;
+    width: 75px !important; /* Wider to prevent icon cutoff */
+    min-width: 75px !important;
+    max-width: 75px !important; /* Add max-width to ensure exact sizing */
+    padding: 0 12px 0 28px !important; /* Move icon just a touch more to the right */
+    justify-content: center !important; /* Center the icon */
+  }
+
+  .nav-icon {
+    gap: 4px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .nav-line {
+    width: 16px !important;
+  }
+
+  .nav-toggle.active .nav-line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg) !important;
+  }
+
+  .nav-toggle.active .nav-line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg) !important;
+  }
+}

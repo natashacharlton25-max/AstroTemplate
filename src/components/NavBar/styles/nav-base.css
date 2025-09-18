@@ -1,0 +1,70 @@
+/* Navigation Base Styles - Core positioning and structure */
+
+/* Top-Left Navigation Tab - centered using fixed header heights */
+nav.nav-tab {
+  position: fixed !important;
+  top: calc((60px - 48px) / 2 + 5px) !important; /* Desktop: 6px + 5px offset = 11px */
+  left: -20px !important; /* Fixed to left edge */
+  z-index: 9999 !important;
+  display: block !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Navigation expanded menu */
+.nav-expanded {
+  position: absolute !important;
+  top: 100px !important; /* Desktop: Larger gap from hamburger */
+  left: -20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  opacity: 0 !important;
+  transform: translateY(-10px) scale(0.98) !important;
+  transform-origin: top left !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  pointer-events: none !important;
+  max-height: 400px !important;
+  overflow: visible !important;
+  z-index: 1001 !important;
+}
+
+.nav-expanded.show {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  transform-origin: top left !important;
+  pointer-events: auto !important;
+}
+
+/* Navigation items */
+.nav-item {
+  position: relative !important;
+  overflow: visible !important;
+  display: block !important;
+  z-index: 1001;
+}
+
+/* iPad adjustments */
+@media (max-width: 1200px) and (min-width: 769px) {
+  nav.nav-tab {
+    top: calc((55px - 48px) / 2 + 5px) !important; /* iPad: 3.5px + 5px offset = 8.5px */
+    left: -20px !important;
+  }
+
+  .nav-expanded {
+    left: -20px !important;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  nav.nav-tab {
+    top: calc((50px - 40px) / 2 + 2px) !important; /* Mobile: 5px + 2px offset = 7px */
+    left: -15px !important; /* Slightly less offset on mobile */
+  }
+
+  .nav-expanded {
+    left: -15px !important;
+  }
+}
