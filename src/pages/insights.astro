@@ -1,62 +1,7 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import BrandHero from '@components/Hero/BrandHero.astro';
 import siteConfig from '@/site.config';
-
-// Sample blog posts data
-const posts = [
-  {
-    id: 1,
-    title: "Hello and Welcome to the insights Page",
-    excerpt: "It is lovely to meet you here.",
-    category: "Uncategorized",
-    categorySlug: "uncategorized",
-    tags: ["welcome", "introduction", "getting-started"],
-    author: "natashacharlton25@googlemail.com",
-    authorSlug: "natashacharlton25-googlemail-com",
-    date: "2025-04-30T14:08:57+00:00",
-    dateFormatted: "April 30, 2025",
-    slug: "hello-and-welcome-to-the-insights-page"
-  },
-  {
-    id: 2,
-    title: "Getting Started with Web Accessibility",
-    excerpt: "Learn the fundamentals of creating accessible websites that work for everyone.",
-    category: "Tutorial",
-    categorySlug: "tutorial",
-    tags: ["accessibility", "web-design", "ux"],
-    author: "Sarah Johnson",
-    authorSlug: "sarah-johnson",
-    date: "2024-03-15T10:00:00+00:00",
-    dateFormatted: "March 15, 2024",
-    slug: "sample-blog-post"
-  },
-  {
-    id: 3,
-    title: "Natural Strategies for Personal Growth",
-    excerpt: "Exploring holistic approaches to self-development and mindful living practices.",
-    category: "Personal Growth",
-    categorySlug: "personal-growth",
-    tags: ["growth", "mindfulness", "holistic", "development"],
-    author: "natashacharlton25@googlemail.com",
-    authorSlug: "natashacharlton25-googlemail-com",
-    date: "2025-04-25T10:15:00+00:00",
-    dateFormatted: "April 25, 2025",
-    slug: "natural-strategies-personal-growth"
-  },
-  {
-    id: 4,
-    title: "Mindful Living in the Digital Age",
-    excerpt: "Finding balance and presence while navigating our connected world.",
-    category: "Natural Strategies",
-    categorySlug: "natural-strategies",
-    tags: ["mindfulness", "digital", "balance", "technology"],
-    author: "natashacharlton25@googlemail.com",
-    authorSlug: "natashacharlton25-googlemail-com",
-    date: "2025-04-20T16:30:00+00:00",
-    dateFormatted: "April 20, 2025",
-    slug: "mindful-living-digital-age"
-  }
-];
 ---
 
 <Layout title={`Insights - ${siteConfig.brand.name}`}>
@@ -88,225 +33,8 @@ const posts = [
       </div>
     </section>
 
-    <!-- Dropdown Content Area (replaces sidebar) -->
-    <section class="header-dropdown-content" id="headerDropdownContent">
-      <div class="dropdown-content-wrapper">
-        <!-- Content will be populated by JavaScript -->
-      </div>
-    </section>
-
-    <!-- Mobile Collapsible Content Area -->
-    <section class="mobile-collapsible-content" id="mobileCollapsibleContent">
-      <!-- Categories Widget -->
-      <div class="mobile-section" id="mobileCategoriesSection" style="display: none;">
-        <div class="mobile-section-content">
-          <ul class="category-list">
-            <li class="category-item">
-              <a href="/results?type=category&value=Personal Growth" class="category-link">
-                <span class="category-name">Personal Growth</span>
-                <span class="category-count">(2)</span>
-              </a>
-            </li>
-            <li class="category-item">
-              <a href="/results?type=category&value=Natural Strategies" class="category-link">
-                <span class="category-name">Natural Strategies</span>
-                <span class="category-count">(1)</span>
-              </a>
-            </li>
-            <li class="category-item">
-              <a href="/results?type=category&value=Uncategorized" class="category-link">
-                <span class="category-name">Uncategorized</span>
-                <span class="category-count">(1)</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Archive Widget -->
-      <div class="mobile-section" id="mobileArchiveSection" style="display: none;">
-        <div class="mobile-section-content">
-          <ul class="archive-list">
-            <li class="archive-item">
-              <a href="/results?type=archive&value=2025-04" class="archive-link">
-                <span class="archive-period">April 2025</span>
-                <span class="archive-count">(3)</span>
-              </a>
-            </li>
-            <li class="archive-item">
-              <a href="/results?type=archive&value=2025-03" class="archive-link">
-                <span class="archive-period">March 2025</span>
-                <span class="archive-count">(0)</span>
-              </a>
-            </li>
-            <li class="archive-item">
-              <a href="/results?type=archive&value=2025-02" class="archive-link">
-                <span class="archive-period">February 2025</span>
-                <span class="archive-count">(0)</span>
-              </a>
-            </li>
-            <li class="archive-item">
-              <a href="/results?type=archive&value=2025-01" class="archive-link">
-                <span class="archive-period">January 2025</span>
-                <span class="archive-count">(0)</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Tags Widget -->
-      <div class="mobile-section" id="mobileTagsSection" style="display: none;">
-        <div class="mobile-section-content">
-          <div class="tag-cloud">
-            <a href="/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
-            <a href="/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
-            <a href="/results?type=tag&value=natural strategies" class="tag-link tag-size-medium">natural strategies</a>
-            <a href="/results?type=tag&value=wellness" class="tag-link tag-size-small">wellness</a>
-            <a href="/results?type=tag&value=meditation" class="tag-link tag-size-small">meditation</a>
-            <a href="/results?type=tag&value=lifestyle" class="tag-link tag-size-large">lifestyle</a>
-            <a href="/results?type=tag&value=digital detox" class="tag-link tag-size-small">digital detox</a>
-            <a href="/results?type=tag&value=self care" class="tag-link tag-size-medium">self care</a>
-            <a href="/results?type=tag&value=balance" class="tag-link tag-size-small">balance</a>
-            <a href="/results?type=tag&value=productivity" class="tag-link tag-size-small">productivity</a>
-            <a href="/results?type=tag&value=habits" class="tag-link tag-size-medium">habits</a>
-            <a href="/results?type=tag&value=inspiration" class="tag-link tag-size-small">inspiration</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="unified-container">
-      <div class="entries" data-archive="default" data-layout="classic" data-cards="boxed">
-        {posts.map(post => (
-          <article class="entry-card card-content" data-reveal="yes:1">
-                <div class="card-header">
-                  <ul class="entry-meta" data-type="icons:circle" data-id="meta_1">
-                    <li class="meta-categories" data-type="simple">
-                      <svg width="13" height="13" viewBox="0 0 15 15">
-                        <path d="M14.4,1.2H0.6C0.3,1.2,0,1.5,0,1.9V5c0,0.3,0.3,0.6,0.6,0.6h0.6v7.5c0,0.3,0.3,0.6,0.6,0.6h11.2c0.3,0,0.6-0.3,0.6-0.6V5.6h0.6C14.7,5.6,15,5.3,15,5V1.9C15,1.5,14.7,1.2,14.4,1.2z M12.5,12.5h-10V5.6h10V12.5z M13.8,4.4H1.2V2.5h12.5V4.4z M5.6,7.5c0-0.3,0.3-0.6,0.6-0.6h2.5c0.3,0,0.6,0.3,0.6,0.6S9.1,8.1,8.8,8.1H6.2C5.9,8.1,5.6,7.8,5.6,7.5z"></path>
-                      </svg>
-                      <a href={`/results?type=category&value=${encodeURIComponent(post.category)}`} rel="tag" class="ct-term-1">
-                        {post.category}
-                      </a>
-                    </li>
-                  </ul>
-
-                  <div class="card-date" itemprop="datePublished">
-                    <a href={`/results?type=archive&value=${post.date.substring(0, 7)}`} class="ct-meta-element-date" title="View all posts from this month">
-                      <time datetime={post.date}>
-                        {post.dateFormatted}
-                      </time>
-                    </a>
-                  </div>
-                </div>
-
-                <h2 class="entry-title">
-                  <a href={`/${post.slug}/`} rel="bookmark">{post.title}</a>
-                </h2>
-
-                <div class="entry-excerpt">
-                  <p>{post.excerpt}</p>
-                </div>
-
-                <div class="card-tags">
-                  {post.tags.map(tag => (
-                    <a href={`/results?type=tag&value=${encodeURIComponent(tag)}`} class="tag-pill" title={`View all posts tagged with ${tag}`}>{tag}</a>
-                  ))}
-                </div>
-              </article>
-        ))}
-      </div>
-
-      <!-- Right Sidebar Widgets -->
-      <aside class="blog-sidebar" id="blogSidebar">
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        <div class="sidebar-content">
-          <div class="sidebar-header">
-            <h3 class="sidebar-title" id="sidebarTitle">Categories</h3>
-            <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-
-          <div class="sidebar-body">
-            <!-- Categories Widget -->
-            <div class="widget categories-widget" id="categoriesWidget">
-              <ul class="category-list">
-                <li class="category-item">
-                  <a href="/results?type=category&value=Personal Growth" class="category-link">
-                    <span class="category-name">Personal Growth</span>
-                    <span class="category-count">(2)</span>
-                  </a>
-                </li>
-                <li class="category-item">
-                  <a href="/results?type=category&value=Natural Strategies" class="category-link">
-                    <span class="category-name">Natural Strategies</span>
-                    <span class="category-count">(1)</span>
-                  </a>
-                </li>
-                <li class="category-item">
-                  <a href="/results?type=category&value=Uncategorized" class="category-link">
-                    <span class="category-name">Uncategorized</span>
-                    <span class="category-count">(1)</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Archive Widget -->
-            <div class="widget archive-widget" id="archiveWidget" style="display: none;">
-              <ul class="archive-list">
-                <li class="archive-item">
-                  <a href="/results?type=archive&value=2025-04" class="archive-link">
-                    <span class="archive-period">April 2025</span>
-                    <span class="archive-count">(3)</span>
-                  </a>
-                </li>
-                <li class="archive-item">
-                  <a href="/results?type=archive&value=2025-03" class="archive-link">
-                    <span class="archive-period">March 2025</span>
-                    <span class="archive-count">(0)</span>
-                  </a>
-                </li>
-                <li class="archive-item">
-                  <a href="/results?type=archive&value=2025-02" class="archive-link">
-                    <span class="archive-period">February 2025</span>
-                    <span class="archive-count">(0)</span>
-                  </a>
-                </li>
-                <li class="archive-item">
-                  <a href="/results?type=archive&value=2025-01" class="archive-link">
-                    <span class="archive-period">January 2025</span>
-                    <span class="archive-count">(0)</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Tags Widget -->
-            <div class="widget tags-widget" id="tagsWidget" style="display: none;">
-              <div class="tag-cloud">
-                <a href="/results?type=tag&value=mindfulness" class="tag-link tag-size-large">mindfulness</a>
-                <a href="/results?type=tag&value=personal growth" class="tag-link tag-size-medium">personal growth</a>
-                <a href="/results?type=tag&value=natural strategies" class="tag-link tag-size-medium">natural strategies</a>
-                <a href="/results?type=tag&value=wellness" class="tag-link tag-size-small">wellness</a>
-                <a href="/results?type=tag&value=meditation" class="tag-link tag-size-small">meditation</a>
-                <a href="/results?type=tag&value=lifestyle" class="tag-link tag-size-large">lifestyle</a>
-                <a href="/results?type=tag&value=digital detox" class="tag-link tag-size-small">digital detox</a>
-                <a href="/results?type=tag&value=self care" class="tag-link tag-size-medium">self care</a>
-                <a href="/results?type=tag&value=balance" class="tag-link tag-size-small">balance</a>
-                <a href="/results?type=tag&value=productivity" class="tag-link tag-size-small">productivity</a>
-                <a href="/results?type=tag&value=habits" class="tag-link tag-size-medium">habits</a>
-                <a href="/results?type=tag&value=inspiration" class="tag-link tag-size-small">inspiration</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </div>
+    <!-- Hero Component -->
+    <BrandHero />
   </main>
 </Layout>
 
@@ -315,63 +43,9 @@ const posts = [
     min-height: 100vh;
   }
 
-  /* Hero Header Section */
-  .hero-header {
-    background: var(--color-background);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-    padding: var(--space-2xl) 0;
-  }
-
-  .hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-lg);
-  }
-
-  .hero-content {
-    text-align: center;
-  }
-
-  .hero-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    color: var(--color-secondary);
-    margin: 0 0 var(--space-lg) 0;
-    line-height: var(--leading-tight);
-    font-weight: 700;
-  }
-
-  .hero-description {
-    font-size: var(--text-lg);
-    color: var(--color-text-primary);
-    line-height: var(--leading-relaxed);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  /* Insights Page Header Override */
+  /* Page Header Override */
   .page-header {
-    overflow: visible !important; /* Allow tabs to hang outside */
-    /* Padding now handled by global unified styles */
-  }
-
-  /* Navigation Tabs Section */
-  .nav-tabs-section {
-    background: var(--color-background);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
-    padding: var(--space-lg) 0;
-  }
-
-  .nav-tabs-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-lg);
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Define shared transition for perfect synchronization */
-  :root {
-    --slide-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: visible !important;
   }
 
   /* Protect pill navigation from footer reveal effects */
@@ -393,11 +67,10 @@ const posts = [
     pointer-events: auto !important;
   }
 
-
   /* Simple top-right pill buttons */
   .page-nav-pills {
     position: fixed;
-    top: calc(4rem + 60px); /* Moved up 50px to prevent bottom menu overlap */
+    top: calc(4rem + 60px);
     right: 0;
     z-index: 999;
     display: flex;
@@ -406,12 +79,8 @@ const posts = [
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   }
 
-  .page-nav-pills:hover {
-    transform: none !important; /* Prevent parent container movement */
-  }
-
   .pill-button {
-    width: 48px; /* Original visible size */
+    width: 48px;
     height: 96px;
     border-radius: 12px 0 0 12px;
     background: var(--brand-background);
@@ -420,7 +89,7 @@ const posts = [
     margin-right: -1px;
     color: var(--color-secondary);
     cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0s, border-color 0s; /* Transform animation + instant colors */
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0s, border-color 0s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -430,22 +99,22 @@ const posts = [
     -webkit-backdrop-filter: blur(16px);
     text-decoration: none;
     position: relative;
-    z-index: 1002; /* Always on top, above sidebar */
+    z-index: 1002;
   }
 
-  /* Hidden extension for better animation connection - always red */
+  /* Hidden extension for better animation connection */
   .pill-button::after {
     content: '';
     position: absolute;
     top: 0;
-    right: -52px; /* Extend 52px to the right, off-screen */
+    right: -52px;
     width: 52px;
     height: 100%;
-    background: var(--color-primary); /* Always red for solid connection */
+    background: var(--color-primary);
     border: 1px solid var(--color-primary);
     border-left: none;
     border-right: none;
-    z-index: -1; /* Behind the main tab */
+    z-index: -1;
   }
 
   .pill-text {
@@ -461,43 +130,42 @@ const posts = [
     background: var(--color-primary) !important;
     color: var(--brand-background) !important;
     border-color: var(--color-primary-dark, var(--color-primary)) !important;
-    transition: none !important; /* Completely disable all transitions on hover */
+    transition: none !important;
   }
 
   .pill-button.active {
     background: var(--color-primary);
     color: var(--brand-background);
-    transform: translateX(-380px); /* Move exactly sidebar width to align left edges */
+    transform: translateX(-380px);
     box-shadow: -6px 4px 20px rgba(0, 0, 0, 0.2), -4px 0 16px rgba(230, 57, 97, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1003; /* Always highest, above sidebar */
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0s, border-color 0s; /* Transform animation + instant colors */
-    border-radius: 12px 0 0 12px; /* Remove right-side rounded corners to attach to sidebar */
-    border-right: none; /* Remove right border for seamless connection */
+    z-index: 1003;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0s, border-color 0s;
+    border-radius: 12px 0 0 12px;
+    border-right: none;
   }
 
-  /* Sidebar slides in from off-screen with the tab */
+  /* Sidebar slides in from off-screen */
   .slide-out-card {
     position: fixed;
-    top: calc(4rem + 30px); /* Moved up 50px to align with tab positioning */
-    right: -380px; /* Hidden off-screen initially */
+    top: calc(4rem + 30px);
+    right: -380px;
     width: 380px;
-    height: 520px; /* Increase height to accommodate higher position */
+    height: 520px;
     background: var(--brand-background);
-    border: 2px solid var(--color-primary); /* Consistent red border */
+    border: 2px solid var(--color-primary);
     border-radius: 16px 0 0 16px;
-    z-index: 1001; /* Above expanded tab but below non-expanded tabs */
     border-right: none;
-    box-shadow: -12px 4px 32px rgba(0, 0, 0, 0.2), -8px 0 24px rgba(230, 57, 97, 0.15), -4px 0 16px rgba(0, 0, 0, 0.1); /* Enhanced drop shadow with red accent */
+    box-shadow: -12px 4px 32px rgba(0, 0, 0, 0.2), -8px 0 24px rgba(230, 57, 97, 0.15), -4px 0 16px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    z-index: 1001; /* Under tabs but above page content */
-    opacity: 1; /* Always visible when in view */
+    z-index: 1001;
+    opacity: 1;
     pointer-events: none;
-    transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth glide animation */
+    transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .slide-out-card.open {
-    right: 0; /* Slides to screen edge */
+    right: 0;
     pointer-events: auto;
   }
 
@@ -507,22 +175,21 @@ const posts = [
     overflow-y: auto;
     background: var(--brand-background);
     border-radius: 12px 0 0 12px;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     color: var(--color-secondary) !important;
   }
 
   .card-content::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
   }
 
   .card-content * {
     color: inherit !important;
   }
 
-  /* Global sidebar content styling for brand consistency */
   .card-content h3 {
-    color: var(--color-primary);
+    color: var(--color-primary) !important;
     font-size: var(--text-lg);
     font-weight: 600;
     margin: 0 0 var(--space-md) 0;
@@ -532,46 +199,7 @@ const posts = [
     padding-bottom: var(--space-sm);
   }
 
-  .card-content .section-title {
-    color: var(--color-secondary);
-    font-size: var(--text-md);
-    font-weight: 500;
-    margin: var(--space-lg) 0 var(--space-sm) 0;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .card-content h3 {
-    margin: 0 0 var(--space-md) 0;
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-secondary);
-  }
-
-  .filter-options {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-  }
-
-  .filter-item {
-    background: transparent;
-    border: 1px solid var(--nav-border);
-    border-radius: var(--radius-sm);
-    padding: var(--space-xs) var(--space-sm);
-    color: var(--color-secondary);
-    cursor: pointer;
-    transition: background-color 0s, border-color 0s;
-    text-align: left;
-    font-size: var(--text-xs);
-  }
-
-  .filter-item:hover {
-    background: var(--color-primary);
-    color: var(--color-white);
-    border-color: var(--color-primary);
-  }
-
+  /* Mobile adjustments */
   @media (max-width: 768px) {
     .page-nav-pills {
       top: calc(2.5rem + 110px);
@@ -586,28 +214,23 @@ const posts = [
     }
 
     .pill-button::after {
-      right: -26px; /* Mobile: smaller extension */
+      right: -26px;
       width: 26px;
     }
 
     .pill-button.active {
-      transform: translateX(-340px); /* Move exactly mobile sidebar width to align left edges */
+      transform: translateX(-340px);
     }
-
 
     .pill-text {
       font-size: 9px;
     }
 
     .slide-out-card {
-      top: calc(2.5rem + 30px); /* Moved up 50px to align with tab positioning */
-      right: -340px; /* Hidden off-screen on mobile too */
-      width: 340px; /* Larger width for mobile */
-      height: 480px; /* Taller height for mobile */
-    }
-
-    .slide-out-card.open {
-      right: 0; /* Slides to screen edge on mobile */
+      top: calc(2.5rem + 30px);
+      right: -340px;
+      width: 340px;
+      height: 480px;
     }
 
     .card-content {
@@ -615,645 +238,7 @@ const posts = [
     }
   }
 
-  /* Dropdown card overlay with glide-down animation */
-  .header-dropdown-content {
-    position: fixed;
-    left: 50%;
-    top: var(--dropdown-top, 0px); /* anchored to bottom of header */
-    /* closed: bottom flush with header bottom for smooth return */
-    transform: translateX(-50%) translateY(-100%);
-    pointer-events: none;
-    z-index: 1002; /* below header but above content */
-    width: min(100vw - var(--space-2xl), 1400px);
-    background: var(--brand-background);
-    border: 2px solid var(--nav-border);
-    border-radius: 0 0 var(--radius-xl) var(--radius-xl); /* square top corners */
-    /* No drop shadow when closed (hidden under header) */
-    box-shadow: none;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: border-color 0s; /* Instant color changes */
-  }
-
-  .header-dropdown-content.open {
-    /* open: still slightly hidden under header */
-    transform: translateX(-50%) translateY(var(--open-overlap, -14px));
-    /* Medium drop shadow while open, offset away from join line */
-    box-shadow: 0 24px 36px -24px rgba(0, 0, 0, 0.18), 0 48px 80px -40px rgba(0, 0, 0, 0.22);
-    border-bottom: none; /* avoid seam at the tab join */
-    pointer-events: auto;
-  }
-
-  /* Keep .open styles (including shadow) during the glide-up; only change transform */
-  .header-dropdown-content.open.closing {
-    transform: translateX(-50%) translateY(-100%);
-  }
-
-  /* Closing uses reverse glide; no special intermediate state */
-
-  /* Real tab attached to the card bottom edge (keeps original x position) */
-  .header-dropdown-content .attached-tab {
-    position: absolute;
-    bottom: 0; /* anchor to card bottom */
-    left: var(--attached-tab-left, 50%); /* pixel center relative to card */
-    transform: translate(-50%, calc(100% - 1px)); /* hang below, slight 1px overlap to hide seam */
-    z-index: 1;
-    pointer-events: auto; /* keep it interactive while open */
-    /* Use downward-only drop shadow; no line at join */
-    box-shadow: none;
-    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
-    transition: filter 800ms ease;
-  }
-
-  /* Ensure attached tab stays cream while open */
-  .header-dropdown-content .attached-tab,
-  .header-dropdown-content.open .attached-tab,
-  .header-dropdown-content.open .attached-tab.active {
-    background: var(--brand-background) !important;
-    color: var(--color-secondary) !important;
-    border-color: var(--nav-border) !important;
-  }
-
-  /* Hide original clicked tab to simulate movement */
-  .insights-nav-tab.is-hidden { visibility: hidden; }
-
-  /* Responsive styles for attached tabs */
-  @media (max-width: 768px) {
-    .header-dropdown-content .attached-tab {
-      padding: var(--space-xs) var(--space-sm);
-      font-size: var(--text-xs);
-      gap: var(--space-xs);
-    }
-    .header-dropdown-content .attached-tab .tab-icon {
-      width: 14px;
-      height: 14px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .header-dropdown-content .attached-tab {
-      flex-shrink: 0;
-      min-width: auto;
-      padding: var(--space-xs) var(--space-xs);
-      font-size: 0;
-      gap: 0;
-      justify-content: center;
-      text-align: center;
-      min-width: 42px;
-      height: 36px;
-      color: transparent;
-    }
-    .header-dropdown-content .attached-tab .tab-icon {
-      width: 16px;
-      height: 16px;
-      color: var(--color-secondary);
-    }
-    .header-dropdown-content .attached-tab:hover .tab-icon,
-    .header-dropdown-content .attached-tab.active .tab-icon {
-      color: var(--color-white);
-    }
-  }
-
-  .dropdown-content-wrapper {
-    /* larger top padding so content does not crowd under header */
-    padding: var(--space-3xl) var(--space-xl) var(--space-xl);
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
-  .insights-nav-tab.active:hover {
-    background: var(--color-primary);
-    color: var(--color-white);
-  }
-
-  .tab-icon {
-    flex-shrink: 0;
-  }
-
-  /* Main Content Wrapper */
-  .main-content-wrapper {
-    position: relative;
-  }
-
-  /* Right Sidebar */
-  .blog-sidebar {
-    position: fixed;
-    top: var(--space-xl);
-    right: -400px;
-    bottom: var(--space-xl);
-    width: 400px;
-    height: calc(100vh - var(--space-3xl));
-    background: var(--color-white);
-    border-left: 2px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
-    box-shadow: -4px 0 20px color-mix(in srgb, var(--color-black) 15%, transparent);
-    transition: right var(--transition-base);
-    z-index: 1000;
-    overflow-y: auto;
-  }
-
-  .blog-sidebar.active {
-    right: 0;
-  }
-
-  .sidebar-overlay {
-    display: none;
-  }
-
-  .sidebar-content {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-lg) var(--space-xl);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
-    background: var(--color-background);
-  }
-
-  .sidebar-title {
-    margin: 0;
-    color: var(--color-secondary);
-    font-size: var(--text-xl);
-    font-weight: 600;
-  }
-
-  .sidebar-close {
-    background: none;
-    border: none;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    padding: var(--space-xs);
-    border-radius: var(--radius-sm);
-    transition: background-color 0s, border-color 0s;
-  }
-
-  .sidebar-close:hover {
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    color: var(--color-primary);
-  }
-
-  .sidebar-body {
-    flex: 1;
-    padding: var(--space-xl);
-    overflow-y: auto;
-  }
-
-  /* Widget Styles */
-  .widget {
-    margin-bottom: var(--space-xl);
-  }
-
-  /* Categories Widget */
-  .category-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .category-item {
-    margin-bottom: var(--space-sm);
-  }
-
-  .category-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-md) var(--space-lg);
-    text-decoration: none;
-    color: var(--color-secondary);
-    background: var(--brand-background);
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-lg);
-    transition: background-color 0s, border-color 0s;
-    margin-bottom: var(--space-sm);
-    box-shadow: 0 2px 8px rgba(230, 57, 97, 0.15), 0 1px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid transparent;
-  }
-
-  .category-link:hover {
-    background: var(--color-primary);
-    color: var(--brand-background);
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  .category-link:hover .category-count {
-    color: var(--brand-background);
-  }
-
-  .category-name {
-    font-weight: 600;
-    font-size: var(--text-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .category-count {
-    color: var(--color-primary);
-    font-weight: 600;
-    font-size: var(--text-xs);
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--brand-background));
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-full);
-    min-width: 24px;
-    text-align: center;
-  }
-
-  .category-count {
-    color: var(--color-text-secondary);
-    font-size: var(--text-sm);
-  }
-
-  /* Archive Widget */
-  .archive-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .archive-item {
-    margin-bottom: var(--space-sm);
-  }
-
-  .archive-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-sm) var(--space-md);
-    text-decoration: none;
-    color: var(--color-text-primary);
-    border-radius: var(--radius-md);
-    transition: background-color 0s, border-color 0s;
-    border: 1px solid transparent;
-  }
-
-  .archive-link:hover {
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
-
-  .archive-period {
-    font-weight: 500;
-  }
-
-  .archive-count {
-    color: var(--color-text-secondary);
-    font-size: var(--text-sm);
-  }
-
-  /* Tags Widget */
-  .tag-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-  }
-
-  .tag-link {
-    display: inline-block;
-    padding: var(--space-xs) var(--space-sm);
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    color: var(--color-primary);
-    text-decoration: none;
-    border-radius: var(--radius-full);
-    transition: background-color 0s, border-color 0s;
-    font-size: var(--text-sm);
-    border: 1px solid transparent;
-  }
-
-  .tag-link:hover {
-    background: var(--color-primary);
-    color: var(--color-white);
-    border-color: var(--color-primary);
-  }
-
-  .tag-link.tag-size-large {
-    font-size: var(--text-base);
-    font-weight: 500;
-  }
-
-  .tag-link.tag-size-medium {
-    font-size: var(--text-sm);
-    font-weight: 500;
-  }
-
-  .tag-link.tag-size-small {
-    font-size: var(--text-xs);
-  }
-
-  .entries {
-    display: grid;
-    gap: var(--space-xl);
-  }
-
-  .entry-card {
-    background: var(--color-background);
-    border: 2px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
-    border-radius: var(--radius-lg);
-    padding: var(--space-xl);
-    box-shadow: var(--shadow-sm);
-    transition: background-color 0s, border-color 0s;
-  }
-
-  .entry-card:hover {
-    border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
-  }
-
-  .entry-meta {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: var(--space-md);
-    align-items: center;
-  }
-
-  .entry-meta[data-id="meta_1"] {
-    margin-bottom: var(--space-md);
-  }
-
-  .entry-meta[data-id="meta_2"] {
-    margin-top: var(--space-lg);
-  }
-
-  .entry-meta li {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: var(--text-sm);
-    color: var(--color-text-secondary);
-  }
-
-  .entry-meta svg {
-    fill: currentColor;
-    flex-shrink: 0;
-  }
-
-  /* Category Styling with Uppercase */
-  .meta-categories a {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: var(--font-semibold);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: var(--text-xs);
-  }
-
-  .meta-categories a:hover {
-    color: var(--color-secondary);
-  }
-
-  .entry-title {
-    margin: 0 0 var(--space-md) 0;
-    font-size: var(--text-xl);
-    line-height: var(--leading-tight);
-  }
-
-  .entry-title a {
-    color: var(--color-heading);
-    text-decoration: none;
-    transition: color var(--transition-base);
-  }
-
-  .entry-title a:hover {
-    color: var(--color-primary);
-  }
-
-  .entry-excerpt {
-    margin: 0;
-  }
-
-  .entry-excerpt p {
-    color: var(--color-text-primary);
-    line-height: var(--leading-relaxed);
-    margin: 0;
-  }
-
-  /* Card Header Layout */
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    position: relative;
-  }
-
-  /* Date in Top Right Corner */
-  .card-date {
-    flex-shrink: 0;
-    margin-left: 1rem;
-  }
-
-  .ct-meta-element-date {
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    white-space: nowrap;
-  }
-
-  /* Tag Pills Styling */
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-
-  .tag-pill {
-    display: inline-block;
-    background: var(--color-primary);
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.625rem;
-    font-weight: var(--font-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: background-color 0.2s ease;
-  }
-
-  .tag-pill:hover {
-    background: var(--color-primary-dark, var(--color-primary));
-  }
-
-  /* Adjust meta spacing */
-  .entry-meta {
-    margin-bottom: 0;
-  }
-
-  /* Responsive Design */
-  @media (min-width: 768px) {
-    .entries {
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    }
-  }
-
-  /* Mobile responsive styles - margins now handled by unified system */
-  @media (max-width: 768px) {
-    .card-header {
-      flex-direction: column !important;
-      align-items: flex-start !important;
-      gap: 0.5rem !important;
-    }
-
-    .card-date {
-      margin-left: 0 !important;
-      order: 2;
-    }
-
-    .entry-title {
-      order: 1;
-      margin-bottom: 0 !important;
-    }
-
-    .hero-header {
-      padding: var(--space-xl) 0;
-    }
-
-    .hero-container {
-      padding: 0 var(--space-md);
-    }
-
-    .nav-tabs-container {
-      padding: 0 var(--space-md);
-    }
-
-    .ct-container {
-      padding: var(--space-lg) var(--space-md);
-    }
-
-    .entry-meta {
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-    }
-
-    .insights-nav-tab {
-      padding: var(--space-sm);
-      font-size: var(--text-xs);
-    }
-  }
-
-  @media (max-width: 480px) {
-    .insights-nav-tabs {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: center;
-      gap: var(--space-xs);
-      overflow-x: auto;
-      padding: 0 var(--space-sm);
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      width: auto !important;
-      min-width: auto !important;
-      max-width: none !important;
-    }
-
-    .insights-nav-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .insights-nav-tab {
-      flex-shrink: 0;
-      min-width: auto;
-      padding: var(--space-xs) var(--space-xs);
-      font-size: 0;
-      gap: 0;
-      justify-content: center;
-      text-align: center;
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
-      min-width: 42px;
-      height: 36px;
-      color: transparent;
-    }
-
-    .insights-nav-tab .tab-icon {
-      width: 16px;
-      height: 16px;
-      color: var(--color-secondary);
-    }
-
-    .insights-nav-tab:hover .tab-icon,
-    .insights-nav-tab.active .tab-icon {
-      color: var(--color-white);
-    }
-
-    .blog-sidebar {
-      width: calc(100vw - var(--space-lg));
-      right: calc(-100vw + var(--space-lg));
-      top: var(--space-lg);
-      bottom: var(--space-lg);
-      height: calc(100vh - var(--space-xl));
-    }
-
-    .sidebar-header {
-      padding: var(--space-md);
-    }
-
-    .sidebar-body {
-      padding: var(--space-md);
-    }
-  }
-
-  /* Mobile Collapsible Content */
-  .mobile-collapsible-content {
-    display: none;
-  }
-
-  @media (max-width: 480px) {
-    .mobile-collapsible-content {
-      display: block;
-      background: var(--color-background);
-      border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-    }
-
-    .mobile-section {
-      border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
-    }
-
-    .mobile-section:last-child {
-      border-bottom: none;
-    }
-
-    .mobile-section-content {
-      padding: var(--space-lg) var(--space-md);
-      animation: slideDown 0.3s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .mobile-section-content h3 {
-      color: var(--color-secondary);
-      font-size: var(--text-lg);
-      font-weight: var(--font-semibold);
-      margin: 0 0 var(--space-md) 0;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* Hide desktop dropdown on mobile */
-    .header-dropdown-content {
-      display: none !important;
-    }
-  }
-
-  /* Mobile adjustments now handled by global unified styles */
-
-  /* Enhanced Sidebar Sections */
+  /* Sidebar content styling */
   .sidebar-section {
     margin-bottom: var(--space-xl);
   }
@@ -1284,7 +269,7 @@ const posts = [
     opacity: 0.8;
   }
 
-  /* Enhanced Category Buttons */
+  /* Category buttons */
   .category-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -1316,20 +301,7 @@ const posts = [
     color: var(--brand-background);
   }
 
-  .category-btn.active {
-    background: var(--color-primary);
-    color: var(--brand-background);
-    border-color: var(--color-primary);
-    box-shadow: 0 4px 16px rgba(230, 57, 97, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  .category-btn.active:hover {
-    background: var(--color-secondary);
-    color: var(--brand-background);
-    border-color: var(--color-secondary);
-  }
-
-  /* Enhanced Keyword Cloud */
+  /* Keyword cloud */
   .keyword-cloud {
     display: flex;
     flex-wrap: wrap;
@@ -1350,7 +322,6 @@ const posts = [
     transition: background-color 0s, border-color 0s;
     text-transform: lowercase;
     letter-spacing: 0.02em;
-    position: relative;
     text-decoration: none;
   }
 
@@ -1359,26 +330,19 @@ const posts = [
     color: var(--brand-background);
   }
 
-  .keyword-pill.popular {
-    font-weight: 600;
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--brand-background));
-  }
-
   .keyword-pill.featured {
     border-color: var(--color-secondary);
     color: var(--color-secondary);
     font-weight: 600;
   }
 
-  .keyword-pill.trending {
-    animation: subtle-pulse 2s infinite;
+  .keyword-pill.popular {
+    font-weight: 600;
+    background: color-mix(in srgb, var(--color-primary) 10%, var(--brand-background));
   }
 
-  .keyword-pill.active {
-    background: var(--color-primary);
-    color: var(--brand-background);
-    border-color: var(--color-primary);
-    box-shadow: 0 2px 8px rgba(230, 57, 97, 0.3), 0 1px 4px rgba(0, 0, 0, 0.1);
+  .keyword-pill.trending {
+    animation: subtle-pulse 2s infinite;
   }
 
   @keyframes subtle-pulse {
@@ -1386,79 +350,7 @@ const posts = [
     50% { transform: scale(1.02); }
   }
 
-  /* Enhanced Featured Grid */
-  .featured-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    margin-top: var(--space-md);
-  }
-
-  .featured-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    padding: var(--space-md);
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-lg);
-    background: var(--brand-background);
-    text-decoration: none;
-    color: inherit;
-    transition: background-color 0s, border-color 0s;
-    box-shadow: 0 2px 8px rgba(230, 57, 97, 0.1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .featured-item:hover {
-    border-color: var(--color-secondary);
-  }
-
-  .featured-icon {
-    font-size: 1.5rem;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--brand-background));
-    border-radius: var(--radius-md);
-    flex-shrink: 0;
-  }
-
-  .featured-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .featured-info h4 {
-    color: var(--color-secondary);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    margin: 0 0 var(--space-xs) 0;
-    line-height: 1.3;
-  }
-
-  .featured-badge {
-    font-size: var(--text-xs);
-    color: var(--brand-background);
-    background: var(--color-primary);
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-  }
-
-  .featured-item.popular .featured-badge {
-    background: var(--color-secondary);
-  }
-
-  .featured-item.trending .featured-icon {
-    animation: subtle-pulse 2s infinite;
-  }
-
-  /* Archive Grid */
+  /* Archive grid */
   .archive-grid {
     display: flex;
     flex-direction: column;
@@ -1500,25 +392,24 @@ const posts = [
 </style>
 
 <script>
-  // @ts-nocheck
   document.addEventListener('DOMContentLoaded', () => {
     const pillButtons = document.querySelectorAll('.pill-button');
     const slideOutCard = document.getElementById('slideOutCard');
     const cardContent = document.getElementById('cardContent');
-    let /** @type {HTMLButtonElement | null} */ activeButton = null;
+    let activeButton = null;
 
-    // Sample content for each filter
-    const filterContent = /** @type {Record<string, string>} */ ({
+    // Content for each filter
+    const filterContent = {
       categories: `
         <div class="sidebar-section">
           <div class="section-header">
-            <h3><i class="fas fa-folder"></i> Browse by Section</h3>
-            <p class="section-description">Filter content by website areas</p>
+            <h3><i class="fas fa-folder"></i> Browse by Category</h3>
+            <p class="section-description">Filter content by topic areas</p>
           </div>
           <div class="category-buttons">
-            <button class="category-btn active" data-category="all">All<br>Insights</button>
-            <button class="category-btn" data-category="personal-growth">Personal<br>Growth</button>
-            <button class="category-btn" data-category="natural-strategies">Natural<br>Strategies</button>
+            <button class="category-btn" data-category="all">All Insights</button>
+            <button class="category-btn" data-category="personal-growth">Personal Growth</button>
+            <button class="category-btn" data-category="natural-strategies">Natural Strategies</button>
             <button class="category-btn" data-category="tutorial">Tutorial</button>
             <button class="category-btn" data-category="uncategorized">Uncategorized</button>
           </div>
@@ -1531,7 +422,7 @@ const posts = [
             <p class="section-description">Filter content by publication date</p>
           </div>
           <div class="archive-grid">
-            <a href="/results?type=archive&value=2025-04" class="archive-item active">
+            <a href="/results?type=archive&value=2025-04" class="archive-item">
               <div class="archive-info">
                 <h4>April 2025</h4>
                 <span class="archive-count">3 articles</span>
@@ -1555,7 +446,7 @@ const posts = [
       tags: `
         <div class="sidebar-section">
           <div class="section-header">
-            <h3><i class="fas fa-tags"></i> Search Keywords</h3>
+            <h3><i class="fas fa-tags"></i> Popular Keywords</h3>
             <p class="section-description">Quick search by popular terms</p>
           </div>
           <div class="keyword-cloud">
@@ -1572,14 +463,14 @@ const posts = [
           </div>
         </div>
       `
-    });
+    };
 
     pillButtons.forEach(button => {
       button.addEventListener('click', (e) => {
         e.preventDefault();
-        const filter = (button instanceof HTMLElement) ? button.getAttribute('data-filter') : null;
+        const filter = button.getAttribute('data-filter');
 
-        // If clicking the same button, close everything
+        // If clicking the same button, close it
         if (activeButton === button) {
           closeSlideOut();
           return;
@@ -1590,7 +481,7 @@ const posts = [
           activeButton.classList.remove('active');
         }
 
-        // Open new one - sidebar starts just a hair earlier to sync with tab
+        // Open new one
         activeButton = button;
 
         // Update content
@@ -1605,7 +496,6 @@ const posts = [
     });
 
     function closeSlideOut() {
-      // Close both simultaneously for perfect sync
       if (slideOutCard) slideOutCard.classList.remove('open');
       if (activeButton) {
         activeButton.classList.remove('active');
@@ -1615,8 +505,7 @@ const posts = [
 
     // Close when clicking outside
     document.addEventListener('click', (e) => {
-      const el = e.target;
-      const inside = el instanceof Element && (el.closest('.page-nav-pills') || el.closest('.slide-out-card'));
+      const inside = e.target.closest('.page-nav-pills') || e.target.closest('.slide-out-card');
       if (!inside) {
         closeSlideOut();
       }
@@ -1631,21 +520,18 @@ const posts = [
 
     // Add scroll behavior - hide on scroll down, show on scroll up
     let lastScrollY = window.scrollY;
-    let isScrollingDown = false;
     let scrollThreshold = 50;
 
     function handleScroll() {
       const pillNav = document.querySelector('.page-nav-pills');
       const slideOutCard = document.querySelector('.slide-out-card');
-      if (!(pillNav instanceof HTMLElement) || !(slideOutCard instanceof HTMLElement)) return;
+      if (!pillNav || !slideOutCard) return;
 
       // Check if sidebar is open - if so, pills are in "pinned" state
       const sidebarIsOpen = slideOutCard.classList.contains('open');
 
       // If sidebar is open (pinned state), completely skip scroll hide logic
       if (sidebarIsOpen) {
-        console.log('📌 Pills are pinned (sidebar open) - staying visible');
-        // Ensure both pills and sidebar stay visible
         pillNav.style.opacity = '1';
         pillNav.style.visibility = 'visible';
         pillNav.style.transform = 'translateX(0)';
@@ -1663,17 +549,15 @@ const posts = [
       // Only trigger if scroll difference is significant
       if (scrollDifference < scrollThreshold) return;
 
-      isScrollingDown = currentScrollY > lastScrollY;
+      const isScrollingDown = currentScrollY > lastScrollY;
 
       if (isScrollingDown) {
         // Hide pill buttons when scrolling down (only when not pinned)
-        console.log('📜⬇️ Hiding pills on scroll down');
         pillNav.style.opacity = '0';
         pillNav.style.visibility = 'hidden';
         pillNav.style.transform = 'translateX(100px)';
       } else {
         // Show pill buttons when scrolling up
-        console.log('📜⬆️ Showing pills on scroll up');
         pillNav.style.opacity = '1';
         pillNav.style.visibility = 'visible';
         pillNav.style.transform = 'translateX(0)';
@@ -1683,12 +567,12 @@ const posts = [
     }
 
     // Add scroll listener with throttling
-    let /** @type {ReturnType<typeof setTimeout> | undefined} */ scrollTimeout;
+    let scrollTimeout;
     window.addEventListener('scroll', () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(handleScroll, 10);
     }, { passive: true });
 
-    console.log('✅ Slide-out pill navigation loaded');
+    console.log('✅ Simplified insights page loaded');
   });
 </script>

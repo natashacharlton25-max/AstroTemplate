@@ -1,33 +1,40 @@
 /* ==========================================================================
-   UNIFIED MARGIN SYSTEM - Professional spacing across all content types
+   UNIFIED MARGIN SYSTEM v2.0 - Professional spacing across all content types
    Replaces inconsistent margin implementations with standardized system
    ========================================================================== */
 
 /* Design tokens for consistent spacing */
 :root {
-  /* Standardized breakpoints */
-  --breakpoint-mobile: 768px;    /* Mobile: <768px */
+  /* STANDARDIZED BREAKPOINTS - Fixed inconsistencies */
+  --breakpoint-mobile: 768px;    /* Mobile: ≤768px */
   --breakpoint-tablet: 1200px;   /* Tablet: 769px-1200px */
   /* Desktop: >1200px */
 
-  /* Content margins */
-  --content-margin-desktop-left: calc(2rem + 80px); /* 112px - nav space + padding */
+  /* SETTINGS TAB CLEARANCE - Consistent across all pages */
+  --settings-clearance-desktop: 80px;  /* Desktop nav + settings tab */
+  --settings-clearance-tablet: 70px;   /* Tablet settings tab */
+  --settings-clearance-mobile: 35px;   /* Mobile settings tab */
+
+  /* CONTENT MARGINS - Professional spacing with settings clearance */
+  --content-margin-desktop-left: calc(2rem + var(--settings-clearance-desktop));
   --content-margin-desktop-right: auto;
   --content-margin-tablet-left: 1.5rem;
-  --content-margin-tablet-right: 60px; /* Settings tab clearance */
+  --content-margin-tablet-right: var(--settings-clearance-tablet);
   --content-margin-mobile-left: 1rem;
-  --content-margin-mobile-right: 35px; /* Settings tab clearance on mobile */
+  --content-margin-mobile-right: var(--settings-clearance-mobile);
 
-  /* Content padding */
+  /* CONTENT PADDING - Optimized for readability */
   --content-padding-desktop: 2rem 1.5rem;
   --content-padding-tablet: 1.5rem 1.25rem;
   --content-padding-mobile: 1rem 1rem;
 
-  /* Maximum content width */
+  /* MAXIMUM CONTENT WIDTH */
   --content-max-width: 1400px;
+  --content-max-width-blog: 1000px; /* Narrower for blog readability */
 
-  /* Z-index for headers */
+  /* Z-INDEX SYSTEM */
   --header-z-index: 1100;
+  --nav-z-index: 1001;
 }
 
 /* ==========================================================================
@@ -122,7 +129,7 @@ main .container,
 }
 
 /* ==========================================================================
-   MOBILE LAYOUT (<768px)
+   MOBILE LAYOUT (≤768px) - Standardized mobile breakpoint
    ========================================================================== */
 @media (max-width: 768px) {
   .unified-container,
@@ -137,9 +144,10 @@ main .container,
     max-width: calc(100vw - var(--content-margin-mobile-left) - var(--content-margin-mobile-right));
     padding: var(--content-padding-mobile);
     width: auto;
+    box-sizing: border-box;
   }
 
-  /* Grid layouts need full width on mobile */
+  /* Grid layouts get consistent mobile spacing */
   .masonry-grid,
   .projects-grid,
   .services-grid,
@@ -152,14 +160,23 @@ main .container,
     max-width: 100%;
     padding-left: 0;
     padding-right: 0;
+    box-sizing: border-box;
   }
 
-  /* Individual cards get proper spacing */
+  /* Individual cards get consistent spacing */
   .entry-card,
   .project-card,
   .service-card,
   .asset-card {
     margin-bottom: 1.5rem;
+  }
+
+  /* Remove any page-specific mobile overrides */
+  .projects-section,
+  .services-section,
+  .assets-section {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
@@ -299,16 +316,32 @@ main .container,
    OVERRIDE UTILITIES - High specificity to override existing styles
    ========================================================================== */
 
-/* Force override existing margin systems */
+/* Override conflicting page-specific margin rules */
 html body main .unified-container,
 html body main .content-aligned,
 html body main .main-content-wrapper,
 html body main .ct-container,
 html body main section .container,
 html body main .container {
-  /* Tablet overrides */
+  box-sizing: border-box !important;
 }
 
+/* Desktop overrides - ensure consistent desktop spacing */
+@media (min-width: 1201px) {
+  html body main .unified-container,
+  html body main .content-aligned,
+  html body main .main-content-wrapper,
+  html body main .ct-container,
+  html body main section .container,
+  html body main .container {
+    margin-left: var(--content-margin-desktop-left) !important;
+    margin-right: var(--content-margin-desktop-right) !important;
+    max-width: var(--content-max-width) !important;
+    padding: var(--content-padding-desktop) !important;
+  }
+}
+
+/* Tablet overrides - standardized tablet breakpoint */
 @media (min-width: 769px) and (max-width: 1200px) {
   html body main .unified-container,
   html body main .content-aligned,
@@ -323,7 +356,7 @@ html body main .container {
   }
 }
 
-/* Mobile overrides */
+/* Mobile overrides - standardized mobile breakpoint (≤768px) */
 @media (max-width: 768px) {
   html body main .unified-container,
   html body main .content-aligned,
@@ -337,6 +370,33 @@ html body main .container {
     padding: var(--content-padding-mobile) !important;
     width: auto !important;
     box-sizing: border-box !important;
+  }
+
+  /* Override page-specific mobile rules that conflict */
+  .masonry-grid,
+  .projects-grid,
+  .services-grid,
+  .assets-grid {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   BREAKPOINT STANDARDIZATION - Remove conflicting 480px breakpoints
+   ========================================================================== */
+
+/* Override any conflicting 480px breakpoint rules in favor of 768px standard */
+@media (max-width: 480px) {
+  /* Inherit all mobile styles from the 768px breakpoint above */
+  /* This ensures consistency across all mobile devices */
+  .results-nav-tabs,
+  .assets-nav-tabs,
+  .page-nav-pills {
+    /* Use the same mobile styling as 768px breakpoint */
   }
 }
 

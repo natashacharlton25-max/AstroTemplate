@@ -2,7 +2,7 @@
   {
     "title": "Services",
     "description": "Learn more about services",
-    "content": "Our Services 🔍 Business Analysis Comprehensive evaluation of your business processes and systems against industry best practices. Process optimization assessment System efficiency analysis Detailed improvement roadmap Priority-based recommendations Starting at $2,500 Most Popular 🎨 UX/UI Design Review Design consultation focusing on user experience optimization and modern interface patterns. User journey analysis Visual design and branding review Interaction pattern optimization User-centered ",
+    "content": "Services .page-content .page-header",
     "category": "pages",
     "url": "/services",
     "date": "Updated recently",
@@ -15,7 +15,7 @@
   {
     "title": "Sample-blog-post",
     "description": "Learn more about sample-blog-post",
-    "content": "Tutorial Featured 8 min read Getting Started with Web Accessibility Learn the fundamentals of creating accessible websites that work for everyone. Sarah Johnson March 15, 2024 Why Accessibility Matters When we build accessible websites, we're opening our content to a much wider audience. Consider these statistics: Over 1 billion people worldwide have some form of disability 15% of the world's population experiences some form of disability Many accessibility features benefit everyone, not just pe",
+    "content": "Sample Blog Post .page-content .page-header",
     "category": "pages",
     "url": "/sample-blog-post",
     "date": "Updated recently",
@@ -26,24 +26,22 @@
     "type": "page"
   },
   {
-    "title": "Getting Started with Astro",
-    "description": "Learn more about getting started with astro",
-    "content": "Categories Keywords Featured Search in: All Website Pages Blog Projects Resources Popular keywords: about services portfolio contact projects experience skills testimonials blog resources Featured Content About Our Company Most Popular Get In Touch Recommended Our Services Trending Home › Insights › Results All Website Pages Blog Projects Resources about services portfolio contact projects experience skills testimonials blog resources Use the tabs above to explore different ways to find content,",
+    "title": "Results",
+    "description": "Learn more about results",
+    "content": "Results .page-content .page-header",
     "category": "pages",
     "url": "/results",
     "date": "Updated recently",
     "tags": [
-      "Astro",
-      "Static Sites",
-      "JavaScript",
-      "Tutorial"
+      "results",
+      "page"
     ],
     "type": "page"
   },
   {
     "title": "Projects",
     "description": "Learn more about projects",
-    "content": "Our Projects Featured Projects Explore our portfolio of innovative web applications, design systems, and digital solutions that deliver outstanding results. Web Application E-Commerce Platform Transformation Redesigned a major retail platform with modern UX principles, improving navigation flow and user experience while maintaining visual appeal and brand identity. WCAG 2.1 AA E-Commerce Screen Readers View Case Study Government Government Portal Redesign Created an accessible citizen services p",
+    "content": "Projects .page-content .page-header",
     "category": "pages",
     "url": "/projects",
     "date": "Updated recently",
@@ -54,23 +52,22 @@
     "type": "page"
   },
   {
-    "title": "Hello and Welcome to the insights Page",
-    "description": "Learn more about hello and welcome to the insights page",
-    "content": "Insights & Articles Categories Archive Tags Personal Growth (2) Natural Strategies (1) Uncategorized (1) April 2025 (3) March 2025 (0) February 2025 (0) January 2025 (0) mindfulness personal growth natural strategies wellness meditation lifestyle digital detox self care balance productivity habits inspiration ))} ))} Categories Personal Growth (2) Natural Strategies (1) Uncategorized (1) April 2025 (3) March 2025 (0) February 2025 (0) January 2025 (0) mindfulness personal growth natural strategi",
+    "title": "Insights",
+    "description": "Learn more about insights",
+    "content": "Insights Categories Archive Tags .page-content /* Page Header Override */ .page-header /* Protect pill navigation from footer reveal effects */ body.tight .page-nav-pills, body.tight .slide-out-card /* Ensure pinned pills stay visible during footer reveal */ body.tight .slide-out-card.open /* Simple top-right pill buttons */ .page-nav-pills .pill-button /* Hidden extension for better animation connection */ .pill-button::after .pill-text .pill-button:hover .pill-button.active /* Sidebar slides i",
     "category": "pages",
     "url": "/insights",
     "date": "Updated recently",
     "tags": [
-      "welcome",
-      "introduction",
-      "getting-started"
+      "insights",
+      "page"
     ],
     "type": "page"
   },
   {
     "title": "Index",
     "description": "Learn more about index",
-    "content": "",
+    "content": "Home .page-content .page-header",
     "category": "pages",
     "url": "/",
     "date": "Updated recently",
@@ -83,7 +80,7 @@
   {
     "title": "Assets",
     "description": "Learn more about assets",
-    "content": "Download Assets Category Featured Keywords All Assets Templates Checklists Guides Tools Design System Template Most Popular WCAG Checklist Essential Screen Reader Guide New Release ACCESSIBILITY WCAG DESIGN TEMPLATES TESTING MOBILE FORMS COLORS TOOLS GUIDES Template Accessible Design System Template Complete design system with accessibility-first components, color palettes, and typography guidelines. Figma + Sketch 2.4 MB 1,234 downloads Download Preview Checklist WCAG 2.1 AA Compliance Checklis",
+    "content": "Assets .page-content .page-header",
     "category": "pages",
     "url": "/assets",
     "date": "Updated recently",
@@ -96,7 +93,7 @@
   {
     "title": "About",
     "description": "Learn more about about",
-    "content": "About Your Company Our Story Your Company was founded with a simple mission: to deliver exceptional solutions that drive success. We believe that great work isn't just functional—it's strategic, innovative, and designed to help our clients thrive. What We Do We specialize in providing comprehensive business solutions, helping organizations achieve their goals and grow their success. Our services include: Strategic business consulting Custom solution development User experience design and optimiz",
+    "content": "About .page-content .page-header",
     "category": "pages",
     "url": "/about",
     "date": "Updated recently",
