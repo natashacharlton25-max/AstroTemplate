@@ -355,7 +355,7 @@ function formatDate(dateString: string): string {
 
     <!-- Title and Navigation Section -->
     <section class="title-nav-section">
-      <div class="main-content-wrapper content-aligned">
+      <div class="unified-container">
         <div class="title-nav-wrapper">
           <!-- Left side: Title and Breadcrumb -->
           <div class="title-breadcrumb">
@@ -404,7 +404,7 @@ function formatDate(dateString: string): string {
 
     <!-- Content Section - widgets for dropdown functionality only -->
     <section class="content-section">
-      <div class="container content-aligned">
+      <div class="unified-container">
         <!-- Always show content sections for dropdown functionality -->
         <div class="content-sections" style="display: none;">
             <!-- Search Categories -->
@@ -490,7 +490,7 @@ function formatDate(dateString: string): string {
     </section>
 
     <!-- Results Section - Direct to page level, not in containers -->
-    <div class="main-content-wrapper content-aligned" style="padding-top: 0.25rem;">
+    <div class="unified-container results-page" style="padding-top: 0.25rem;">
       {filteredContent.length > 0 ? (
         <div class="entries">
           {filteredContent.map((item) => (

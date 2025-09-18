@@ -1,0 +1,358 @@
+/* ==========================================================================
+   UNIFIED MARGIN SYSTEM - Professional spacing across all content types
+   Replaces inconsistent margin implementations with standardized system
+   ========================================================================== */
+
+/* Design tokens for consistent spacing */
+:root {
+  /* Standardized breakpoints */
+  --breakpoint-mobile: 768px;    /* Mobile: <768px */
+  --breakpoint-tablet: 1200px;   /* Tablet: 769px-1200px */
+  /* Desktop: >1200px */
+
+  /* Content margins */
+  --content-margin-desktop-left: calc(2rem + 80px); /* 112px - nav space + padding */
+  --content-margin-desktop-right: auto;
+  --content-margin-tablet-left: 1.5rem;
+  --content-margin-tablet-right: 60px; /* Settings tab clearance */
+  --content-margin-mobile-left: 1rem;
+  --content-margin-mobile-right: 35px; /* Settings tab clearance on mobile */
+
+  /* Content padding */
+  --content-padding-desktop: 2rem 1.5rem;
+  --content-padding-tablet: 1.5rem 1.25rem;
+  --content-padding-mobile: 1rem 1rem;
+
+  /* Maximum content width */
+  --content-max-width: 1400px;
+
+  /* Z-index for headers */
+  --header-z-index: 1100;
+}
+
+/* ==========================================================================
+   CORE CONTAINER SYSTEM
+   ========================================================================== */
+
+/* Base container class - applies to all content containers */
+.unified-container,
+.content-aligned,
+.main-content-wrapper,
+.ct-container,
+section .container,
+main .container,
+.page-content .container {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ==========================================================================
+   DESKTOP LAYOUT (>1200px)
+   ========================================================================== */
+@media (min-width: 1201px) {
+  .unified-container,
+  .content-aligned,
+  .main-content-wrapper,
+  .ct-container,
+  section .container,
+  main .container,
+  .page-content .container {
+    max-width: var(--content-max-width);
+    margin-left: var(--content-margin-desktop-left);
+    margin-right: var(--content-margin-desktop-right);
+    padding: var(--content-padding-desktop);
+  }
+
+  /* Text content pages (about, services, etc.) */
+  .text-content .unified-container,
+  .text-content .content-aligned,
+  .about-page .container,
+  .services-page .container {
+    padding: var(--content-padding-desktop);
+  }
+
+  /* Card grid pages (projects, assets, etc.) */
+  .card-layout .unified-container,
+  .projects-section .container,
+  .assets-section .container,
+  .masonry-grid,
+  .projects-grid,
+  .services-grid,
+  .assets-grid {
+    padding: var(--content-padding-desktop);
+  }
+
+  /* Blog content - special handling for readability */
+  .blog-content .container,
+  .blog-body .container {
+    max-width: calc(var(--content-max-width) - 200px); /* Narrower for reading */
+    padding: var(--content-padding-desktop);
+  }
+}
+
+/* ==========================================================================
+   TABLET LAYOUT (769px - 1200px)
+   ========================================================================== */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .unified-container,
+  .content-aligned,
+  .main-content-wrapper,
+  .ct-container,
+  section .container,
+  main .container,
+  .page-content .container {
+    margin-left: var(--content-margin-tablet-left);
+    margin-right: var(--content-margin-tablet-right);
+    max-width: calc(100% - var(--content-margin-tablet-left) - var(--content-margin-tablet-right));
+    padding: var(--content-padding-tablet);
+  }
+
+  /* All content types use same spacing on tablet */
+  .masonry-grid,
+  .projects-grid,
+  .services-grid,
+  .assets-grid,
+  .entries,
+  .blog-grid {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* ==========================================================================
+   MOBILE LAYOUT (<768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .unified-container,
+  .content-aligned,
+  .main-content-wrapper,
+  .ct-container,
+  section .container,
+  main .container,
+  .page-content .container {
+    margin-left: var(--content-margin-mobile-left);
+    margin-right: var(--content-margin-mobile-right);
+    max-width: calc(100vw - var(--content-margin-mobile-left) - var(--content-margin-mobile-right));
+    padding: var(--content-padding-mobile);
+    width: auto;
+  }
+
+  /* Grid layouts need full width on mobile */
+  .masonry-grid,
+  .projects-grid,
+  .services-grid,
+  .assets-grid,
+  .entries,
+  .blog-grid,
+  .content-grid {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Individual cards get proper spacing */
+  .entry-card,
+  .project-card,
+  .service-card,
+  .asset-card {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   PAGE HEADERS - Consistent across all pages
+   ========================================================================== */
+.page-header {
+  background: var(--color-primary);
+  color: var(--brand-background);
+  position: sticky;
+  top: 0;
+  z-index: var(--header-z-index);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 0;
+}
+
+/* Desktop header */
+@media (min-width: 1201px) {
+  .page-header {
+    padding: 0.75rem 0;
+  }
+
+  .page-header-content {
+    max-width: var(--content-max-width);
+    margin-left: var(--content-margin-desktop-left);
+    margin-right: var(--content-margin-desktop-right);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header h1 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+    line-height: 1.2;
+  }
+}
+
+/* Tablet header */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .page-header {
+    padding: 0.5rem 0;
+  }
+
+  .page-header-content {
+    margin-left: var(--content-margin-tablet-left);
+    margin-right: var(--content-margin-tablet-right);
+    padding: 0 1.5rem;
+    height: 55px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+    line-height: 1.2;
+  }
+}
+
+/* Mobile header */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 0.25rem 0;
+  }
+
+  .page-header-content {
+    margin-left: var(--content-margin-mobile-left);
+    margin-right: var(--content-margin-mobile-right);
+    padding: 0 1rem;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-size: 1.35rem;
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin: 0;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+/* ==========================================================================
+   CONTENT TYPE SPECIFIC ADJUSTMENTS
+   ========================================================================== */
+
+/* Blog content - optimized for reading */
+.blog-content .unified-container,
+.blog-content .content-aligned {
+  max-width: 1000px; /* Narrower for better readability */
+}
+
+/* Search results - consistent with other card layouts */
+.results-page .entries,
+.search-results .entries {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1201px) {
+  .results-page .entries,
+  .search-results .entries {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .results-page .entries,
+  .search-results .entries {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .results-page .entries,
+  .search-results .entries {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   OVERRIDE UTILITIES - High specificity to override existing styles
+   ========================================================================== */
+
+/* Force override existing margin systems */
+html body main .unified-container,
+html body main .content-aligned,
+html body main .main-content-wrapper,
+html body main .ct-container,
+html body main section .container,
+html body main .container {
+  /* Tablet overrides */
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  html body main .unified-container,
+  html body main .content-aligned,
+  html body main .main-content-wrapper,
+  html body main .ct-container,
+  html body main section .container,
+  html body main .container {
+    margin-left: var(--content-margin-tablet-left) !important;
+    margin-right: var(--content-margin-tablet-right) !important;
+    max-width: calc(100% - var(--content-margin-tablet-left) - var(--content-margin-tablet-right)) !important;
+    padding: var(--content-padding-tablet) !important;
+  }
+}
+
+/* Mobile overrides */
+@media (max-width: 768px) {
+  html body main .unified-container,
+  html body main .content-aligned,
+  html body main .main-content-wrapper,
+  html body main .ct-container,
+  html body main section .container,
+  html body main .container {
+    margin-left: var(--content-margin-mobile-left) !important;
+    margin-right: var(--content-margin-mobile-right) !important;
+    max-width: calc(100vw - var(--content-margin-mobile-left) - var(--content-margin-mobile-right)) !important;
+    padding: var(--content-padding-mobile) !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & PERFORMANCE
+   ========================================================================== */
+
+/* Ensure smooth scrolling with sticky headers */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for sticky header */
+}
+
+/* Prevent layout shifts */
+.unified-container,
+.content-aligned,
+.main-content-wrapper {
+  contain: layout;
+}
